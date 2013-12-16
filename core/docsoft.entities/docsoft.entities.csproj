@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Album.cs" />
+    <Compile Include="Xe.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="User.cs" />

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1F622505-C735-43CB-BFAB-EFA8428028CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft", "core\docsoft\docsoft.csproj", "{57E9EC8D-655E-4BCC-9AFF-A505FAA878CA}"
@@ -35,14 +35,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft.plugin.authenticati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft.plugin.plugManager", "plugin\system\docsoft.plugin.plugManager\docsoft.plugin.plugManager.csproj", "{C9F3A761-A5FE-440E-9905-5599558CB95B}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web", "{CC439979-ED0D-449A-AD83-619426F88FC9}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{CC439979-ED0D-449A-AD83-619426F88FC9}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
 		SccLocalPath = ""
 		SccProvider = ""
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{57E9EC8D-655E-4BCC-9AFF-A505FAA878CA}|docsoft.dll;{081057F3-0D4E-4173-8D9F-2EA8CD9CD0C3}|docsoft.entities.dll;{AA37610E-2E32-44A7-918B-FA11F8DB8028}|linh.dll;{50207108-A4D6-45F1-A6DD-AE2600798C67}|docsoft.hethong.preload.dll;{B73DD6F1-AF34-48A5-80C4-CC9F8B8B10F3}|docsoft.plugin.authentication.dll;{0F7C52AE-C106-48E8-B8AF-2E3465E7C72B}|docsoft.plugin.danhmuc.dll;{7CAA3245-6650-4794-8D47-B8EB8EC4F1A4}|docsoft.plugin.hethong.coquan.dll;{CC520B50-0E12-48BB-AD04-B99C5EFF22B5}|docsoft.plugin.hethong.functions.dll;{2833E2EF-27DF-4292-845B-807828B624FE}|docsoft.plugin.hethong.quanLyQuyen.dll;{A2212480-3C55-4412-B919-6813EA2AF759}|docsoft.plugin.hethong.thanhvien.dll;{9F8E88DA-17D5-42A1-B7E5-71A511608A68}|docsoft.plugin.loaidanhmuc.dll;{C9F3A761-A5FE-440E-9905-5599558CB95B}|docsoft.plugin.plugManager.dll;{5B2E54B7-A83C-4100-8285-A0630E7CED19}|linh.httpModule.dll;{0B57A087-6372-4E87-ADCA-835560208CFB}|docsoft.hethong.DangNhap.dll;{19C0BC4C-034F-42EB-893C-C9FB28A22B01}|docsoft.plugin.UserInfo.dll;{421FA6FA-8004-49A3-8914-05F6EA4B6A94}|docbao.dll;"
+		ProjectReferences = "{57E9EC8D-655E-4BCC-9AFF-A505FAA878CA}|docsoft.dll;{081057F3-0D4E-4173-8D9F-2EA8CD9CD0C3}|docsoft.entities.dll;{AA37610E-2E32-44A7-918B-FA11F8DB8028}|linh.dll;{50207108-A4D6-45F1-A6DD-AE2600798C67}|docsoft.hethong.preload.dll;{B73DD6F1-AF34-48A5-80C4-CC9F8B8B10F3}|docsoft.plugin.authentication.dll;{0F7C52AE-C106-48E8-B8AF-2E3465E7C72B}|docsoft.plugin.danhmuc.dll;{7CAA3245-6650-4794-8D47-B8EB8EC4F1A4}|docsoft.plugin.hethong.coquan.dll;{CC520B50-0E12-48BB-AD04-B99C5EFF22B5}|docsoft.plugin.hethong.functions.dll;{2833E2EF-27DF-4292-845B-807828B624FE}|docsoft.plugin.hethong.quanLyQuyen.dll;{A2212480-3C55-4412-B919-6813EA2AF759}|docsoft.plugin.hethong.thanhvien.dll;{9F8E88DA-17D5-42A1-B7E5-71A511608A68}|docsoft.plugin.loaidanhmuc.dll;{C9F3A761-A5FE-440E-9905-5599558CB95B}|docsoft.plugin.plugManager.dll;{5B2E54B7-A83C-4100-8285-A0630E7CED19}|linh.httpModule.dll;{0B57A087-6372-4E87-ADCA-835560208CFB}|docsoft.hethong.DangNhap.dll;{19C0BC4C-034F-42EB-893C-C9FB28A22B01}|docsoft.plugin.UserInfo.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/web"
 		Debug.AspNetCompiler.PhysicalPath = "web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\web\"
@@ -67,8 +67,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft.hethong.DangNhap", "plugin\system\docsoft.hethong.DangNhap\docsoft.hethong.DangNhap.csproj", "{0B57A087-6372-4E87-ADCA-835560208CFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft.plugin.UserInfo", "plugin\system\docsoft.plugin.UserInfo\docsoft.plugin.UserInfo.csproj", "{19C0BC4C-034F-42EB-893C-C9FB28A22B01}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docbao", "core\docbao\docbao.csproj", "{421FA6FA-8004-49A3-8914-05F6EA4B6A94}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -243,16 +241,6 @@ Global
 		{19C0BC4C-034F-42EB-893C-C9FB28A22B01}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{19C0BC4C-034F-42EB-893C-C9FB28A22B01}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{19C0BC4C-034F-42EB-893C-C9FB28A22B01}.Release|x86.ActiveCfg = Release|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,7 +250,6 @@ Global
 		{081057F3-0D4E-4173-8D9F-2EA8CD9CD0C3} = {1F622505-C735-43CB-BFAB-EFA8428028CD}
 		{AA37610E-2E32-44A7-918B-FA11F8DB8028} = {1F622505-C735-43CB-BFAB-EFA8428028CD}
 		{5B2E54B7-A83C-4100-8285-A0630E7CED19} = {1F622505-C735-43CB-BFAB-EFA8428028CD}
-		{421FA6FA-8004-49A3-8914-05F6EA4B6A94} = {1F622505-C735-43CB-BFAB-EFA8428028CD}
 		{DBF86786-7348-4AFE-966C-3254BC9A40FD} = {B4B3707C-2037-4BCA-86B2-FFEE2B8BB79D}
 		{26C73D81-50AC-4E71-85F7-C233D0AE02AD} = {B4B3707C-2037-4BCA-86B2-FFEE2B8BB79D}
 		{16739D3B-0D87-43DE-BC00-5D1B7E43E9CB} = {B4B3707C-2037-4BCA-86B2-FFEE2B8BB79D}
