@@ -1,11 +1,13 @@
 ﻿@import url(animate-custom.css);
 @import url(../admin/redmond/ui/jquery-ui-1.8.4.custom.css);
+@import url(http://fonts.googleapis.com/css?family=Frijole);
 html, body
 {
     font-size:11px;
     margin:0;
     padding:0;
     font-family: Tahoma;
+    background-color: #63666B;
 }
 a:hover, a:active, a:focus, object, embed  
 {
@@ -126,15 +128,48 @@ ul,li,ol
     margin-top: 10px;
 }
 .navbar-custom {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border: 0px;
 }
 .navbar-custom .navbar-brand {
+
+    padding: 0px;
+}
+
+.navbar-custom .navbar-brand:hover {
+    
 }
 .navbar-custom .search-input {
     background-color: #666;
     border: solid 1px #000;
 }
+.navbar-custom .navbar-brand-logo {
+    background-color: #e50033;
+    color: #FFF;
+    padding: 15px 10px;
+    display: inline-block;
+    font-size: 30px;
+    vertical-align: middle;
+    margin: 0em;
+    font-family: 'Frijole', cursive;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAyCAIAAADa9cwLAAAEKElEQVR42jWVQbYsNwxCAan6JTvK/heV819ZggzcmXhmW0gXwT9//yMKQJIkjp/nQQCCYBDbpZqdqtrdlgoIggCfz8cxwbNHUpDdrSrHomZWZEu0A6BK73kl7Wx12SbY3fdflX76A6B3TUD3u24EbNquapG7G0SS7Zkh2SQTzxypdjeJpOq2dzYUWw0AQVXZVmIEkiQCePohec5LKggp27/vLwDbCRqBk2btLoLZSdDV9nb3zgZ5nsc2SYmtkoLYoiAmfp5OgsXuqkpkkFLNTD/ddqrktR0klM45diSS3J1JSEmsqnNOk9z1bZ9t2whKckKCoEqSvGbxo08jiT2TUsUpFcXdWxggANldkt/BgaynY59zfv76WXvWFM57QAK4ZwKVkDSEnUnSn+d9X9xeAChRFLhrSDNrgFDvBqKo8UrahLHAEHMGAECR3XVFKvDVFidEVSXZxHZ1qfTX50kAMsjTLVWdeGbUfWbHGzAApCQJ/n1fw+eckGdXZ1ckS7v7PE8SkhQlbXB72vV87xMCAAmA499zQJgIeWZsT1Jd7znVBXDsRsleG+qqwHZsJBDUCvJnjqTfOdczPWcpUJozFCnFqS6PjWBTKgiFArC7rVKAAOxKQkCls9tdAAa7mUoh2LikDuA4QFFJji1Kkp3NUkLoeJ2LjMaOWNVrU+p+HG98dgEmqW4HLIGEKHUheGfQWuJ3X4hr91MQVf3n/LIFQKrj7fe8JCHuLqFWG6H0zvTTZ6e6zxmQsJ9+Wl3xl2MjGzOkFGHWQXZOV68N5HePDLAbwmBn1w6IZINsQpBVDigFlFoB3nNmlyC7QE68gCQgEwdY+ureTBu5VUUgSSrMzImhLoI7ZzeqYF3snjVgUVkgC1JCoBCzJsHqriAga3ZaxRgRCZDleDb9FML1gUFFRIIYKrVBCo7jkAAIcXaTkKKYxAFIe7NS4I1JobjIwqrK9X4QRFUgHUOk2AFFRiB019HukEyCFoDdiSTVRb/HJhhHQEAjBSTortm5ONFrUBJIPd24NpBAfLolGdlEqv8dWyFy/fDu3ICjEcETkFW1ZyCqlHXiJIZJyglIqfTp6qYocW10UZxddq0N8Mv/Db+7wuKQ2d1m8bqwe3bvEomziYIEPLu7gzggKQOTmHhnVQKwCasDK188QZJVAaoEJMCuycwMqPXOTEBFsq2SqmwnPrMhS/qOWJqdJFdb20vSXlH5NgBAZrefJ7Ykkgh2FmRXFUAkSShV1U2iUu0uifUiqC4AAToOGFFBkMycqwf4n8VEVTPzTecgJG17rSpRXUXgpn/iIPbewiSJlB0AIGbmzLmRTLKrCd7nEJCcmZbk3SBVJRXweHe9tvtp5tqWvhYAGsmF2fbNKJKqAjDny3nwVSVJ73lBkurqz89Pdz+fD4DEIEHYvqv2Cv4PDeMBML8p1vAAAAAASUVORK5CYII=);
+    background-repeat: repeat-x;
+    width: 120px;
+}
+.navbar-custom .navbar-brand-intro {
+    padding: 15px 0px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0em;
+    font-size: 14px;
+    margin-left: 5px;
+    color: #c9d7f1;
+    padding-right: 15px;
+}
 #search {
-    position: relative;
+    
 }
 #search input::-webkit-input-placeholder
 ,#search input:-moz-placeholder
@@ -144,13 +179,13 @@ ul,li,ol
     color: #000;
 }
 #search input[type="text"] {
-    background: no-repeat 10px 6px #444;
-    border: 1px solid #000;
+    display: inline-block;
+    background: no-repeat 10px 6px #666;
     font: bold 12px Arial,Helvetica,Sans-serif;
-    color: #000;
+    color: #ccc;
     width: 150px;
-    padding: 6px 35px 6px 15px;
-    -webkit-border-radius: 20px;
+    border: solid 1px #333;
+   -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
     text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
@@ -166,13 +201,101 @@ ul,li,ol
 #search input[type="text"]:focus {
     width: 200px;
     background-color: #FFF;
+    color: #000;
+    border: solid 1px #000;
 }
 #search .search-submit {
     background-color: transparent;
     border: 0px;
-    position: absolute;
-    right: 20px;
-    top: 10px;
+    color: #FFF;
 }
 .navbar-text {
+}
+
+.img-avatar-icon-navbar {
+    width: 50px;
+    margin-right: 10px;
+}
+.promotedCars {
+}
+.promotedCars {
+    
+}
+.promotedCars .row {
+    padding: 0px;
+    margin: 0px;
+    background-color: #eee;
+}
+.promotedCars [class^="col-"] {
+    padding: 0px;
+    text-align: center;
+}
+.promotedCars-add {
+    
+}
+.car-promoted-item {
+    position: relative;
+    color: #FFF;
+    overflow: hidden;
+    display: inline-block;
+}
+.car-img {
+    float: left;
+    width: 100%;
+}
+.car-caption {
+    color: #FFF;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 45px;
+    padding: 4px 6px;
+    background: url(data:image/png;base64,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) 0 -1px no-repeat;
+    font: 11px/1.2 sans-serif;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    -ms-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+}
+.car-promoted-item:hover .car-caption {
+    opacity: 1;
+    filter: alpha(opacity=1);
+}
+.car-meta {
+    -webkit-transition: bottom 0.3s ease-in-out;
+    -moz-transition: bottom 0.3s ease-in-out;
+    -o-transition: bottom 0.3s ease-in-out;
+    -ms-transition: bottom 0.3s ease-in-out;
+    transition: bottom 0.3s ease-in-out;
+    position: absolute;
+    right: 0;
+    bottom: -13px;
+    color: #fff;
+    font: bold 10px/12px sans-serif;
+}
+.car-promoted-item:hover .car-meta {
+    bottom: 0px;
+}
+.car-meta-subscribers, .car-meta-views, .car-meta-blogs {
+    float: left;
+    padding: 0 .5em;
+    background: #f03;
+    color: #fff;
+    font: bold 10px/12px sans-serif;
+}
+.car-meta-views {
+    border-left: 1px solid #db5800;
+    background: #f60;
+}
+.car-meta-blogs {
+    background: #707880;
+}
+
+.adv-banner {
+    margin-bottom: 10px;
 }

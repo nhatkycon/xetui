@@ -2,6 +2,9 @@
 
 <%@ Register src="ui/navbar_top.ascx" tagname="navbar_top" tagprefix="uc1" %>
 
+<%@ Register src="ui/userbar.ascx" tagname="userbar" tagprefix="uc2" %>
+<%@ Register src="ui/promotedCars.ascx" tagname="promotedCars" tagprefix="uc2" %>
+<%@ Register src="ui/adv-top.ascx" tagname="banner" tagprefix="adv" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,9 +25,14 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=372490826229164";
     fjs.parentNode.insertBefore(js, fjs);
 } (document, 'script', 'facebook-jssdk'));</script>  
-    <div id="form1" class="container" runat="server">
-        <uc1:navbar_top ID="navbar_top1" runat="server" />        
-        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+    <div id="form1"  runat="server">
+        <uc2:userbar ID="userbar1" runat="server" />        
+        <div class="container">
+            <adv:banner ID="banner" runat="server" />
+            <uc2:promotedCars ID="promotedCars" runat="server" />
+            <uc1:navbar_top ID="navbar_top1" runat="server" />        
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>    
+        </div>
     </div> 
     <script>
         var domain = '<%=domain %>';
