@@ -23,7 +23,7 @@
         </div>        
         <form class="navbar-form navbar-right" action="/search/" id="search" role="search">
             <div class="form-group">
-            <input type="text" class="form-control search-input" placeholder="Tìm kiếm">
+            <input type="text" name="q" class="form-control search-input" placeholder="Tìm kiếm">
             <button type="submit" class="search-submit">
                 <i class="glyphicon glyphicon-search"></i>
             </button>

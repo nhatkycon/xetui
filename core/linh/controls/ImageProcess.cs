@@ -56,6 +56,20 @@ namespace linh.controls
             }
 
         }
+
+
+        public ImageProcess(Bitmap bitmap, string cacheKey)
+        {
+            CacheKey = cacheKey;
+            var ms = new MemoryStream();
+            Mime = getMimeType(bitmap);
+            bitmap.Save(ms, getImageFormat(Mime));
+            Bytes = ms.ToArray();
+            Width = bitmap.Width;
+            Heigth = bitmap.Height;
+            Ext = getExtionsion(Mime);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -153,26 +167,51 @@ namespace linh.controls
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_width"></param>
-        public void Resize(int _width)
+        /// <param name="width"></param>
+        public void Resize(int width)
         {
-            using (Image img = convertFromByte(Bytes))
+            using (var img = convertFromByte(Bytes))
             {
                 Single nPercentW = 0;
-                nPercentW = Convert.ToSingle(_width) / Convert.ToSingle(Width);
-                int _height = Convert.ToInt32(Heigth * nPercentW);
-                using (Bitmap bmp = new Bitmap(_width, _height))
+                nPercentW = Convert.ToSingle(width) / Convert.ToSingle(Width);
+                var height = Convert.ToInt32(Heigth * nPercentW);
+                using (var bmp = new Bitmap(width, height))
                 {
                     bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution);
-                    using (Graphics grp = Graphics.FromImage(bmp))
+                    using (var grp = Graphics.FromImage(bmp))
                     {
                         grp.CompositingMode = CompositingMode.SourceCopy;
                         grp.PixelOffsetMode = PixelOffsetMode.Half;
                         grp.CompositingQuality = CompositingQuality.HighSpeed;
                         grp.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         grp.SmoothingMode = SmoothingMode.HighQuality;
-                        grp.DrawImage(img, new Rectangle(0, 0, _width, _height));
-                        MemoryStream ms = new MemoryStream();
+                        grp.DrawImage(img, new Rectangle(0, 0, width, height));
+                        var ms = new MemoryStream();
+                        bmp.Save(ms, getImageFormat(Mime));
+                        localBytes = ms.ToArray();
+                    }
+                }
+            }
+        }
+        public void ResizeHeight(int height)
+        {
+            using (var img = convertFromByte(Bytes))
+            {
+                Single nPercentH = 0;
+                nPercentH = Convert.ToSingle(height) / Convert.ToSingle(Heigth);
+                var width = Convert.ToInt32(Width * nPercentH);
+                using (var bmp = new Bitmap(width, height))
+                {
+                    bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+                    using (var grp = Graphics.FromImage(bmp))
+                    {
+                        grp.CompositingMode = CompositingMode.SourceCopy;
+                        grp.PixelOffsetMode = PixelOffsetMode.Half;
+                        grp.CompositingQuality = CompositingQuality.HighSpeed;
+                        grp.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        grp.SmoothingMode = SmoothingMode.HighQuality;
+                        grp.DrawImage(img, new Rectangle(0, 0, width, height));
+                        var ms = new MemoryStream();
                         bmp.Save(ms, getImageFormat(Mime));
                         localBytes = ms.ToArray();
                     }

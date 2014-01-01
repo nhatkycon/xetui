@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -483,7 +485,19 @@ namespace linh.common
             #endregion
             return List;
         }
-
+        public static Bitmap CropBitmap(Bitmap bitmap, Rectangle rect)
+        {
+            //var bmp = new Bitmap(rect.Width, rect.Height);
+            //bitmap.SetResolution(bitmap.HorizontalResolution, bitmap.VerticalResolution);
+            //using (var g = Graphics.FromImage(bmp))
+            //{
+            //    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //    g.DrawImage(bitmap, rect);
+            //}
+            //return bmp;
+            var bmpCrop = bitmap.Clone(rect, bitmap.PixelFormat);
+            return bmpCrop;
+        }
         #region Doc Tien
         private static string Chu(string gNumber)
         {

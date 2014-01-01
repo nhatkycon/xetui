@@ -17,21 +17,23 @@
     <link href="/lib/css/web/1.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div id="fb-root"></div>
+<%--<div id="fb-root"></div>
 <script>    (function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=372490826229164";
     fjs.parentNode.insertBefore(js, fjs);
-} (document, 'script', 'facebook-jssdk'));</script>  
+} (document, 'script', 'facebook-jssdk'));</script>  --%>
     <div id="form1"  runat="server">
         <uc2:userbar ID="userbar1" runat="server" />        
         <div class="container">
             <adv:banner ID="banner" runat="server" />
             <uc2:promotedCars ID="promotedCars" runat="server" />
-            <uc1:navbar_top ID="navbar_top1" runat="server" />        
-            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>    
+            <uc1:navbar_top ID="navbar_top1" runat="server" />
+            <div class="main-content">
+                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
         </div>
     </div> 
     <script>
