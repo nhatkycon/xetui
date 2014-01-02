@@ -140,7 +140,6 @@ namespace docsoft.plugin.hethong.thanhvien
                             }
                             memFb.NgayCapNhat = DateTime.Now;
                             memFb.NgayTao = DateTime.Now;
-                            memFb.NgayXacNhan = false;
                             memFb.XacNhan = false;
                             memFb.RowId = Guid.NewGuid();
                             memFb.Email = _Email;

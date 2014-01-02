@@ -48,29 +48,70 @@ namespace docsoft
                 return string.Empty;
             }
         }
+        public static string Ten
+        {
+            get
+            {
+                if (HttpContext.Current.Session[sessionName] != null)
+                {
+                    Member Item = (Member)(HttpContext.Current.Session[sessionName]);
+                    return Item.Ten;
+                }
+                else
+                {
+                    HttpCookie c = HttpContext.Current.Request.Cookies[cookieName];
+                    if (c != null)
+                    {
+                        return c.Values["Ten"].ToString();
+                    }
+                }
+                return string.Empty;
+            }
+        }
+        public static int Id
+        {
+            get
+            {
+                if (HttpContext.Current.Session[sessionName] != null)
+                {
+                    Member Item = (Member)(HttpContext.Current.Session[sessionName]);
+                    return Item.ID;
+                }
+                else
+                {
+                    HttpCookie c = HttpContext.Current.Request.Cookies[cookieName];
+                    if (c != null)
+                    {
+                        return Convert.ToInt32(c.Values["Id"]);
+                    }
+                }
+                return 0;
+            }
+        }
         public static bool Login(string username, string pwd, string ReUser)
         {
             bool isOke = false;
             if (username == null || pwd == null)
             {
-                return isOke;
+                return false;
             }
             HttpContext.Current.Session[sessionName] = null;
-            Member Item = new Member();
-            Item = MemberDal.SelectByUsername(username);
-            HttpCookie c = new HttpCookie(cookieName);
-            Item.Username = username;
+            var item = MemberDal.SelectByUsername(username);
+            var c = new HttpCookie(cookieName);
+            item.Username = username;
             HttpContext.Current.Session[sessionName] = null;
-            string temp = maHoa.MD5Encrypt(pwd);
-            if (Item.Password != null)
+            var temp = maHoa.MD5Encrypt(pwd);
+            if (item.Password != null)
             {
-                if ((Item.Password == maHoa.MD5Encrypt(pwd)) || (maHoa.DecryptString(Item.Password, username) == pwd))
+                if ((item.Password == maHoa.MD5Encrypt(pwd)) || (maHoa.DecryptString(item.Password, username) == pwd))
                 {
-                    HttpContext.Current.Session[sessionName] = Item;
+                    HttpContext.Current.Session[sessionName] = item;
                     isOke = true;
                     if (ReUser.ToLower() == "true")
                     {
                         c.Values.Add("Username", username);
+                        c.Values.Add("Ten", item.Ten);
+                        c.Values.Add("Id", item.ID.ToString());
                         c.Expires = DateTime.Now.AddDays(14);
                         HttpContext.Current.Response.Cookies.Add(c);
                     }
@@ -95,17 +136,19 @@ namespace docsoft
         }
         public static bool Login(string username, string ReUser)
         {
-            bool isOke = false;
+            var isOke = false;
             HttpContext.Current.Session[sessionName] = null;
-            Member Item = new Member();
-            HttpCookie c = new HttpCookie(cookieName);
-            Item.Username = username;
+            var item = MemberDal.SelectByUsername(username);
+            var c = new HttpCookie(cookieName);
+            item.Username = username;
             HttpContext.Current.Session[sessionName] = null;
-            HttpContext.Current.Session[sessionName] = Item;
+            HttpContext.Current.Session[sessionName] = item;
             isOke = true;
             if (ReUser.ToLower() == "true")
             {
                 c.Values.Add("Username", username);
+                c.Values.Add("Ten", item.Ten);
+                c.Values.Add("Id", item.ID.ToString());
                 c.Expires = DateTime.Now.AddDays(14);
                 HttpContext.Current.Response.Cookies.Add(c);
             }

@@ -32,8 +32,9 @@ namespace docsoft.entities
         public Boolean Active { get; set; }
         public Boolean Khoa { get; set; }
         public Boolean XacNhan { get; set; }
-        public Boolean NgayXacNhan { get; set; }
+        public DateTime NgayXacNhan { get; set; }
         public Boolean ChungThuc { get; set; }
+        public DateTime NgayChungThuc { get; set; }
         public Boolean Admin { get; set; }
         public Guid RowId { get; set; }
         public String NguoiTao { get; set; }
@@ -43,7 +44,9 @@ namespace docsoft.entities
         public Int32 SLOnline { get; set; }
         public String Loai_Ten { get; set; }
         public String Phone { get; set; }
-        public Int32 Tinh { get; set; }
+        public Guid Tinh { get; set; }
+        public string Tinh_Ten { get; set; }
+        public String FbId { get; set; }
         
         #endregion
         #region Contructor
@@ -85,7 +88,7 @@ namespace docsoft.entities
         public static Member Insert(Member Inserted)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[26];
+            SqlParameter[] obj = new SqlParameter[28];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -93,15 +96,38 @@ namespace docsoft.entities
             obj[4] = new SqlParameter("MEM_CQ_ID", Inserted.CQ_ID);
             obj[5] = new SqlParameter("MEM_Username", Inserted.Username);
             obj[6] = new SqlParameter("MEM_Password", Inserted.Password);
-            obj[7] = new SqlParameter("MEM_NgayTao", Inserted.NgayTao);
-            obj[8] = new SqlParameter("MEM_NgayCapNhat", Inserted.NgayCapNhat);
+
+            if (Inserted.NgayTao > DateTime.MinValue)
+            {
+                obj[7] = new SqlParameter("MEM_NgayTao", Inserted.NgayTao);
+            }
+            else
+            {
+                obj[7] = new SqlParameter("MEM_NgayTao", DBNull.Value);
+            }
+            if (Inserted.NgayCapNhat > DateTime.MinValue)
+            {
+                obj[8] = new SqlParameter("MEM_NgayCapNhat", Inserted.NgayCapNhat);
+            }
+            else
+            {
+                obj[8] = new SqlParameter("MEM_NgayCapNhat", DBNull.Value);
+            }
+
             obj[9] = new SqlParameter("MEM_Email", Inserted.Email);
             obj[10] = new SqlParameter("MEM_Mobile", Inserted.Mobile);
             obj[11] = new SqlParameter("MEM_DiaChi", Inserted.DiaChi);
             obj[12] = new SqlParameter("MEM_Active", Inserted.Active);
             obj[13] = new SqlParameter("MEM_Khoa", Inserted.Khoa);
             obj[14] = new SqlParameter("MEM_XacNhan", Inserted.XacNhan);
-            obj[15] = new SqlParameter("MEM_NgayXacNhan", Inserted.NgayXacNhan);
+            if (Inserted.NgayXacNhan > DateTime.Now)
+            {
+                obj[15] = new SqlParameter("MEM_NgayXacNhan", Inserted.NgayXacNhan);
+            }
+            else
+            {
+                obj[15] = new SqlParameter("MEM_NgayXacNhan", DBNull.Value);
+            }
             obj[16] = new SqlParameter("MEM_ChungThuc", Inserted.ChungThuc);
             obj[17] = new SqlParameter("MEM_Admin", Inserted.Admin);
             obj[18] = new SqlParameter("MEM_RowId", Inserted.RowId);
@@ -112,6 +138,15 @@ namespace docsoft.entities
             obj[23] = new SqlParameter("MEM_Loai_Ten", Inserted.Loai_Ten);
             obj[24] = new SqlParameter("MEM_Phone", Inserted.Phone);
             obj[25] = new SqlParameter("MEM_Tinh", Inserted.Tinh);
+            obj[26] = new SqlParameter("MEM_FbId", Inserted.FbId);
+            if (Inserted.NgayChungThuc > DateTime.MinValue)
+            {
+                obj[27] = new SqlParameter("MEM_NgayChungThuc", Inserted.NgayChungThuc);
+            }
+            else
+            {
+                obj[27] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -130,7 +165,7 @@ namespace docsoft.entities
         public static Member Insert(Member Inserted, SqlTransaction tran)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[26];
+            SqlParameter[] obj = new SqlParameter[28];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -138,15 +173,37 @@ namespace docsoft.entities
             obj[4] = new SqlParameter("MEM_CQ_ID", Inserted.CQ_ID);
             obj[5] = new SqlParameter("MEM_Username", Inserted.Username);
             obj[6] = new SqlParameter("MEM_Password", Inserted.Password);
-            obj[7] = new SqlParameter("MEM_NgayTao", Inserted.NgayTao);
-            obj[8] = new SqlParameter("MEM_NgayCapNhat", Inserted.NgayCapNhat);
+            if (Inserted.NgayTao > DateTime.MinValue)
+            {
+                obj[7] = new SqlParameter("MEM_NgayTao", Inserted.NgayTao);
+            }
+            else
+            {
+                obj[7] = new SqlParameter("MEM_NgayTao", DBNull.Value);
+            }
+            if (Inserted.NgayCapNhat > DateTime.MinValue)
+            {
+                obj[8] = new SqlParameter("MEM_NgayCapNhat", Inserted.NgayCapNhat);
+            }
+            else
+            {
+                obj[8] = new SqlParameter("MEM_NgayCapNhat", DBNull.Value);
+            }
             obj[9] = new SqlParameter("MEM_Email", Inserted.Email);
             obj[10] = new SqlParameter("MEM_Mobile", Inserted.Mobile);
             obj[11] = new SqlParameter("MEM_DiaChi", Inserted.DiaChi);
             obj[12] = new SqlParameter("MEM_Active", Inserted.Active);
             obj[13] = new SqlParameter("MEM_Khoa", Inserted.Khoa);
             obj[14] = new SqlParameter("MEM_XacNhan", Inserted.XacNhan);
-            obj[15] = new SqlParameter("MEM_NgayXacNhan", Inserted.NgayXacNhan);
+            if (Inserted.NgayXacNhan > DateTime.Now)
+            {
+                obj[15] = new SqlParameter("MEM_NgayXacNhan", Inserted.NgayXacNhan);
+            }
+            else
+            {
+                obj[15] = new SqlParameter("MEM_NgayXacNhan", DBNull.Value);
+            }
+            
             obj[16] = new SqlParameter("MEM_ChungThuc", Inserted.ChungThuc);
             obj[17] = new SqlParameter("MEM_Admin", Inserted.Admin);
             obj[18] = new SqlParameter("MEM_RowId", Inserted.RowId);
@@ -157,6 +214,15 @@ namespace docsoft.entities
             obj[23] = new SqlParameter("MEM_Loai_Ten", Inserted.Loai_Ten);
             obj[24] = new SqlParameter("MEM_Phone", Inserted.Phone);
             obj[25] = new SqlParameter("MEM_Tinh", Inserted.Tinh);
+            obj[26] = new SqlParameter("MEM_FbId", Inserted.FbId);
+            if (Inserted.NgayChungThuc > DateTime.MinValue)
+            {
+                obj[27] = new SqlParameter("MEM_NgayChungThuc", Inserted.NgayChungThuc);
+            }
+            else
+            {
+                obj[27] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(tran, CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -170,7 +236,7 @@ namespace docsoft.entities
         public static Member Update(Member Updated)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[27];
+            SqlParameter[] obj = new SqlParameter[29];
             obj[0] = new SqlParameter("MEM_ID", Updated.ID);
             obj[1] = new SqlParameter("MEM_Ho", Updated.Ho);
             obj[2] = new SqlParameter("MEM_Ten", Updated.Ten);
@@ -186,15 +252,39 @@ namespace docsoft.entities
             {
                 obj[7] = new SqlParameter("MEM_Password", DBNull.Value);                
             }
-            obj[8] = new SqlParameter("MEM_NgayTao", Updated.NgayTao);
-            obj[9] = new SqlParameter("MEM_NgayCapNhat", Updated.NgayCapNhat);
+
+            if (Updated.NgayTao > DateTime.MinValue)
+            {
+                obj[8] = new SqlParameter("MEM_NgayTao", Updated.NgayTao);
+            }
+            else
+            {
+                obj[8] = new SqlParameter("MEM_NgayTao", DBNull.Value);
+            }
+            if (Updated.NgayCapNhat > DateTime.MinValue)
+            {
+                obj[9] = new SqlParameter("MEM_NgayCapNhat", Updated.NgayCapNhat);
+            }
+            else
+            {
+                obj[9] = new SqlParameter("MEM_NgayCapNhat", DBNull.Value);
+            }
+
             obj[10] = new SqlParameter("MEM_Email", Updated.Email);
             obj[11] = new SqlParameter("MEM_Mobile", Updated.Mobile);
             obj[12] = new SqlParameter("MEM_DiaChi", Updated.DiaChi);
             obj[13] = new SqlParameter("MEM_Active", Updated.Active);
             obj[14] = new SqlParameter("MEM_Khoa", Updated.Khoa);
             obj[15] = new SqlParameter("MEM_XacNhan", Updated.XacNhan);
-            obj[16] = new SqlParameter("MEM_NgayXacNhan", Updated.NgayXacNhan);
+            if (Updated.NgayXacNhan > DateTime.Now)
+            {
+                obj[16] = new SqlParameter("MEM_NgayXacNhan", Updated.NgayXacNhan);
+            }
+            else
+            {
+                obj[16] = new SqlParameter("MEM_NgayXacNhan", DBNull.Value);
+            }
+
             obj[17] = new SqlParameter("MEM_ChungThuc", Updated.ChungThuc);
             obj[18] = new SqlParameter("MEM_Admin", Updated.Admin);
             obj[19] = new SqlParameter("MEM_RowId", Updated.RowId);
@@ -205,6 +295,15 @@ namespace docsoft.entities
             obj[24] = new SqlParameter("MEM_Loai_Ten", Updated.Loai_Ten);
             obj[25] = new SqlParameter("MEM_Phone", Updated.Phone);
             obj[26] = new SqlParameter("MEM_Tinh", Updated.Tinh);
+            obj[27] = new SqlParameter("MEM_FbId", Updated.FbId);
+            if (Updated.NgayChungThuc > DateTime.MinValue)
+            {
+                obj[28] = new SqlParameter("MEM_NgayChungThuc", Updated.NgayChungThuc);
+            }
+            else
+            {
+                obj[28] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -248,7 +347,26 @@ namespace docsoft.entities
                 while (rd.Read())
                 {
                     Item = getFromReader(rd);
-                    _cq.Ten = rd["CQ_Ten"].ToString();
+                }
+            }
+            Item._CoQuan = _cq;
+            return Item;
+        }
+        public static Member SelectByEmail(string username)
+        {
+            return SelectByEmail(DAL.con(), username);
+        }
+        public static Member SelectByEmail(SqlConnection con, string Email)
+        {
+            var Item = new Member();
+            var _cq = new CoQuan();
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("Email", Email);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectByEmail_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    Item = getFromReader(rd);
                 }
             }
             Item._CoQuan = _cq;
@@ -488,11 +606,15 @@ namespace docsoft.entities
             }
             if (rd.FieldExists("MEM_NgayXacNhan"))
             {
-                Item.NgayXacNhan = (Boolean)(rd["MEM_NgayXacNhan"]);
+                Item.NgayXacNhan = (DateTime)(rd["MEM_NgayXacNhan"]);
             }
             if (rd.FieldExists("MEM_ChungThuc"))
             {
                 Item.ChungThuc = (Boolean)(rd["MEM_ChungThuc"]);
+            }
+            if (rd.FieldExists("MEM_NgayChungThuc"))
+            {
+                Item.NgayChungThuc = (DateTime)(rd["MEM_NgayChungThuc"]);
             }
             if (rd.FieldExists("MEM_Admin"))
             {
@@ -532,16 +654,24 @@ namespace docsoft.entities
             }
             if (rd.FieldExists("MEM_Tinh"))
             {
-                Item.Tinh = (Int32)(rd["MEM_Tinh"]);
+                Item.Tinh = (Guid)(rd["MEM_Tinh"]);
             }
             if (rd.FieldExists("MEM_Thich"))
             {
                 Item.Thich = (Boolean)(rd["MEM_Thich"]);
             }
+            if (rd.FieldExists("Tinh_Ten"))
+            {
+                Item.Tinh_Ten = (String)(rd["Tinh_Ten"]);
+            }
             CoQuan _CQ = new CoQuan();
             if (rd.FieldExists("CQ_Ten"))
             {
                 _CQ.Ten = (String)(rd["CQ_Ten"]);
+            }
+            if (rd.FieldExists("MEM_FbId"))
+            {
+                Item.FbId = (String)(rd["MEM_FbId"]);
             }
             Item._CoQuan = _CQ;
             return Item;
@@ -674,35 +804,46 @@ namespace docsoft.entities
         }
         public static MemberCollection SelectGianHangUsername()
         {
-            MemberCollection List = new MemberCollection();
+            var list = new MemberCollection();
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure
                 , "sp_tblMember_Select_SelectUsername_SelectGianHang_Hoangda"))
             {
                 while (rd.Read())
                 {
-                    List.Add(getFromReader(rd));
+                    list.Add(getFromReader(rd));
                 }
             }
-            return List;
+            return list;
         }
         public static Member SelectByUsername(string p)
         {
-            Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[1];
+            var item = new Member();
+            var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("MEM_Username", p);
-            Item.Username = p;
-            Item.Password = SqlHelper.ExecuteScalar(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectByUserName_linhnx", obj).ToString();
-            return Item;
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectByUserName_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+
+            return item;
         }
         public static Member SelectAllByUserName(string strMem)
         {
-            Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[1];
+            var item = new Member();
+            var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("MEM_Username", strMem);
-            Item.Username = strMem;
-            Item.Ten = SqlHelper.ExecuteScalar(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_hungpm", obj).ToString();
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
 
-            return Item;
+            return item;
         }
         public static string ValidEmailUsername(string Email, string Username)
         {
@@ -1003,6 +1144,23 @@ namespace docsoft.entities
                 }
             }
             return List;
+        }
+
+        public static Member SelectByFbId(string MEM_FbId)
+        {
+            Member Item = new Member();
+            CoQuan _cq = new CoQuan();
+            SqlParameter[] obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("MEM_FbId", MEM_FbId);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectByFbId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    Item = getFromReader(rd);
+                }
+            }
+            Item._CoQuan = _cq;
+            return Item;
         }
         #endregion
     }

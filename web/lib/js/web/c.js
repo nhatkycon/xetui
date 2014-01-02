@@ -128,7 +128,7 @@ var common = {
         var b = $('#' + _id);
         $('.facebox-footer-close', b).focus();
         if (typeof (fn) == 'function') {
-             fn(b);
+            fn(b);
         }
     },
     fbJquery: function (title, node, _width, _id, fn) {
@@ -180,6 +180,7 @@ var common = {
         }, false, _id);
     },
     setup: function () {
+        return;
         window.defaultOnError = window.onerror;
         window.onerror = function (errorMeaage, fileName, lineNumber) { common.fbMsg('Lỗi ', '00x014 MSG:' + errorMeaage + '<br/>FILE:' + fileName + ' <br/>LINE:<br/>' + lineNumber, null, 'fb-error-msg', function () { }); return true; }
         $.ajaxSetup({
@@ -200,41 +201,6 @@ var common = {
             },
             failure: function (result) { common.fbMsg('Lỗi ajax', result, null, 'fb-error-ajax', function () { }); }
         });
-
-        common.watermarks('.login-input', function (item) { if (!$(item).hasClass('login-input-focus')) $(item).addClass('login-input-focus'); }, function (item) { if ($(item).hasClass('reg-input-focus')) $(item).removeClass('reg-input-focus'); });
-
-        var _trackUrlTimer, _hash = '';
-        var trackUrl = function () {
-            if (_trackUrlTimer) clearInterval(_trackUrlTimer);
-            _trackUrlTimer = setInterval(function () {
-                if (_hash != document.location.hash) {
-                    _hash = document.location.hash;
-                    _hash = _hash.replace('#', '');
-                    console.log(_hash);
-                    common.loading(_hash);
-                    //                    $.ajax({
-                    //                        url: _hash.replace('#', '') + '&',
-                    //                        data: { 'Asyn': '1' },
-                    //                        success: function (dt) {
-                    //                            $('.main').html(dt);
-                    //                        }
-                    //                    });
-                }
-                _hash = document.location.hash;
-                trackUrl();
-            }, 1);
-        }
-        trackUrl();
-
-
-        var regBtn = $('.top-r-register');
-        if ($(regBtn).length > 0) {
-            regBtn.click(function () {
-                common.regPlug(typeof (userFn), 'appStore.authorityStore.userMgr.authentication, appStore.authorityStore.userMgr', function () {
-                    userFn.register();
-                });
-            });
-        }
 
     },
     watermarks: function (el, fn1, fn2) {
