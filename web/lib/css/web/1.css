@@ -363,3 +363,27 @@ h1, h2 {
 .user-avatar-60 .user-avatar-img{
     width: 60px;
 }
+.car-add-upload-box {
+    position: relative;
+}
+.car-multipleUpload-btn {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+}
+
+.car-add-upload-dropzone {
+    margin-top: 20px;
+    border: 1px dashed #CCCCCC;
+    min-height: 100px;
+    padding: 10px;
+}
+.anh-fix {
+    display: none;
+}

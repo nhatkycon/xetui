@@ -61,8 +61,8 @@ namespace linh.controls
         public ImageProcess(Bitmap bitmap, string cacheKey)
         {
             CacheKey = cacheKey;
-            var ms = new MemoryStream();
             Mime = getMimeType(bitmap);
+            var ms = new MemoryStream();
             bitmap.Save(ms, getImageFormat(Mime));
             Bytes = ms.ToArray();
             Width = bitmap.Width;
@@ -80,9 +80,12 @@ namespace linh.controls
             CacheKey = cacheKey;
             using (Image bmp = Bitmap.FromFile(fileName))
             {
+                Mime = getMimeType(bmp);
+                var ms = new MemoryStream();
+                bmp.Save(ms, getImageFormat(Mime));
+                Bytes = ms.ToArray();
                 Width = bmp.Width;
                 Heigth = bmp.Height;
-                Mime = getMimeType(bmp);
                 Ext = getExtionsion(Mime);
             }
         }

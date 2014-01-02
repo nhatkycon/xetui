@@ -62,7 +62,6 @@
                     <p class="alert alert-danger" style="display: none;"></p>
                     <p class="alert alert-success" style="display: none;"></p>
                 </div>
-                
               </div>
             </form>            
         </div>

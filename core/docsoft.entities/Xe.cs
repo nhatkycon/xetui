@@ -41,6 +41,11 @@ namespace docsoft.entities
         public DateTime NgayCapNhat { get; set; }
         public Boolean Khoa { get; set; }
         public Boolean Xoa { get; set; }
+        public Boolean DangLai { get; set; }
+        public Int32 TotalComment { get; set; }
+        public Int32 TotalLike { get; set; }
+        public Int32 TotalBlog { get; set; }
+        public Int32 TotalView { get; set; }
         #endregion
         #region Contructor
         public Xe()
@@ -141,6 +146,8 @@ namespace docsoft.entities
         #endregion
         #region Customs properties
 
+        public string GioiThieu { get; set; }
+        
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -165,8 +172,8 @@ namespace docsoft.entities
         }
         public static Xe Insert(Xe Inserted)
         {
-            var Item = new Xe();
-            var obj = new SqlParameter[25];
+            Xe Item = new Xe();
+            SqlParameter[] obj = new SqlParameter[30];
             obj[0] = new SqlParameter("X_HANG_ID", Inserted.HANG_ID);
             obj[1] = new SqlParameter("X_MODEL_ID", Inserted.MODEL_ID);
             obj[2] = new SqlParameter("X_SubModel", Inserted.SubModel);
@@ -206,6 +213,11 @@ namespace docsoft.entities
             }
             obj[23] = new SqlParameter("X_Khoa", Inserted.Khoa);
             obj[24] = new SqlParameter("X_Xoa", Inserted.Xoa);
+            obj[25] = new SqlParameter("X_DangLai", Inserted.DangLai);
+            obj[26] = new SqlParameter("X_TotalComment", Inserted.TotalComment);
+            obj[27] = new SqlParameter("X_TotalLike", Inserted.TotalLike);
+            obj[28] = new SqlParameter("X_TotalBlog", Inserted.TotalBlog);
+            obj[29] = new SqlParameter("X_TotalView", Inserted.TotalView);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Insert_InsertNormal_linhnx", obj))
             {
@@ -219,8 +231,8 @@ namespace docsoft.entities
 
         public static Xe Update(Xe Updated)
         {
-            var Item = new Xe();
-            var obj = new SqlParameter[26];
+            Xe Item = new Xe();
+            SqlParameter[] obj = new SqlParameter[31];
             obj[0] = new SqlParameter("X_ID", Updated.ID);
             obj[1] = new SqlParameter("X_HANG_ID", Updated.HANG_ID);
             obj[2] = new SqlParameter("X_MODEL_ID", Updated.MODEL_ID);
@@ -261,6 +273,11 @@ namespace docsoft.entities
             }
             obj[24] = new SqlParameter("X_Khoa", Updated.Khoa);
             obj[25] = new SqlParameter("X_Xoa", Updated.Xoa);
+            obj[26] = new SqlParameter("X_DangLai", Updated.DangLai);
+            obj[27] = new SqlParameter("X_TotalComment", Updated.TotalComment);
+            obj[28] = new SqlParameter("X_TotalLike", Updated.TotalLike);
+            obj[29] = new SqlParameter("X_TotalBlog", Updated.TotalBlog);
+            obj[30] = new SqlParameter("X_TotalView", Updated.TotalView);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Update_UpdateNormal_linhnx", obj))
             {
@@ -413,6 +430,26 @@ namespace docsoft.entities
             if (rd.FieldExists("X_Xoa"))
             {
                 Item.Xoa = (Boolean)(rd["X_Xoa"]);
+            }
+            if (rd.FieldExists("X_DangLai"))
+            {
+                Item.DangLai = (Boolean)(rd["X_DangLai"]);
+            }
+            if (rd.FieldExists("X_TotalComment"))
+            {
+                Item.TotalComment = (Int32)(rd["X_TotalComment"]);
+            }
+            if (rd.FieldExists("X_TotalLike"))
+            {
+                Item.TotalLike = (Int32)(rd["X_TotalLike"]);
+            }
+            if (rd.FieldExists("X_TotalBlog"))
+            {
+                Item.TotalBlog = (Int32)(rd["X_TotalBlog"]);
+            }
+            if (rd.FieldExists("X_TotalView"))
+            {
+                Item.TotalView = (Int32)(rd["X_TotalView"]);
             }
             return Item;
         }

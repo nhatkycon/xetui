@@ -8,6 +8,7 @@ var autoFn = {
         autoFn.trackUi();
         autoFn.loginfn.init();
         autoFn.accFn.init();
+        autoFn.carFn.init();
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -20,6 +21,7 @@ var autoFn = {
     , url: {
         login: '/lib/ajax/login/default.aspx'
         , account: '/lib/ajax/account/default.aspx'
+        , car: '/lib/ajax/car/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -135,6 +137,8 @@ var autoFn = {
                     });
                 }, { scope: 'email' });
             });
+
+            if (logged) return;
 
             FB.Event.subscribe('auth.authResponseChange', function (response) {
                 if (response.status === 'connected') {
@@ -343,6 +347,114 @@ var autoFn = {
                    }
                 });
             });
+        }
+    }
+    , carFn: {
+        init:function () {
+            autoFn.carFn.AddCar();
+        }
+        ,AddCar:function () {
+            var pnl = $('.car-add-pnl');
+            if ($(pnl).length < 1) return;
+
+            var HANG_ID = pnl.find('.HANG_ID');
+            var MODEL_ID = pnl.find('.MODEL_ID');
+            var RowId = pnl.find('.RowId');
+            //GetModelByHangXe
+            HANG_ID.change(function () {
+                var id = $(this).val();
+                var data = [];
+                data.push({ name: 'subAct', value: 'GetModelByHangXe' });
+                data.push({ name: 'DM_PID', value: id });
+                MODEL_ID.find('option').remove();
+                MODEL_ID.html('<option>getting...</option>');
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data
+                    , dataType: 'SCRIPT'
+                   , success: function (rs) {
+                       MODEL_ID.find('option').remove();
+                       var models = JSON.parse(rs);
+                       MODEL_ID.find('option').remove();
+                       $.each(models, function(i, item) {
+                           var modelItem = $('#model-item').tmpl(item).prependTo(MODEL_ID);
+                       });
+                   }
+                });
+            });
+
+            autoFn.carFn.XuLyAnh();
+        }
+        ,XuLyAnh:function () {
+            var pnl = $('.car-add-pnl');
+            if ($(pnl).length < 1) return;
+            var viewLarge = pnl.find('.view-large');
+            var RowId = pnl.find('.RowId');
+            
+            $('#fileupload').fileupload({
+                url: autoFn.url.car,
+                dataType: 'json',
+                dropZone: viewLarge,
+                formData: {
+                    'subAct': 'upload'
+                    , 'Id': RowId.val()
+                },
+                done: function (e, data) {
+                    $('#progress').hide();
+                    $.each(data.result.files, function (index, file) {
+                        var anhItem = $('#anh-item').tmpl(file).prependTo(viewLarge);
+                        var windowWidth = $(window).width();
+                        var apply = anhItem.find('.apply');
+                        if (windowWidth > 1280) {
+                            anhItem.find('.anh-img').Jcrop({
+                                onSelect: function (c) {
+                                    autoFn.carFn.XuLyAnhCrop(c, anhItem);
+                                },
+                                bgColor: 'black',
+                                bgOpacity: .4,
+                                //minSize: [480, 270],
+                                setSelect: [0, 0, 480, 270],
+                                aspectRatio: 16 / 9
+                            });
+                            apply.click(function () {
+                                anhItem.find('.anh-fix').show();
+                                anhItem.find('.anh-img').hide();
+                                anhItem.find('.jcrop-holder').hide();
+                                apply.hide();
+                                apply.parent().find('br').hide();
+                            });
+                        } else {
+                            apply.hide();
+                            anhItem.find('.anh-img').hide();
+                            var anhFix = anhItem.find('.anh-fix');
+                            var url = autoFn.url.car + '?subAct=GetImageMobile&Key=' + anhFix.attr('data-key');
+                            anhFix.show();
+                            anhFix.addClass('img-responsive');
+                            anhFix.attr('src', url);
+                            
+                        }
+                    });
+                },
+                progressall: function (e, data) {
+                    $('#progress').show();
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
+                }
+            });
+        }
+        , XuLyAnhCrop: function (c, el) {
+            el.find('.x').val(Math.round(c.x));
+            el.find('.y').val(Math.round(c.y));
+            el.find('.x1').val(c.x2);
+            el.find('.y1').val(c.y2);
+            el.find('.w').val(Math.round(c.w));
+            el.find('.h').val(Math.round(c.h));
+            var data = autoFn.url.car + '?' + el.find(':input').serialize();
+            el.find('.anh-fix').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
         }
     }
 };

@@ -4,6 +4,7 @@
     loadgrid: function () {
         adm.styleButton();
         adm.loading('Đang lấy dữ liệu danh mục');
+        var Lang = 'Vi-vn';
         var LDMID = $('.mdl-head-filterloaidanhmuc');
         $('#danhmucmdl-List').jqGrid({
             url: danhmuc.urlDefault().toString() + '&subAct=get&Lang=' + Lang,
@@ -56,15 +57,6 @@
         });
         adm.watermark(LDMID, 'Gõ tên loại danh mục để lọc', function () {
         });
-        var changeLangBtn = $('#danhMucMdl-changeLangSlt');
-        $(changeLangBtn).find('option').remove();
-        $.each(LangArr, function (i, item) {
-            if (item.Active) {
-                Lang = item.Ma;
-            }
-            $(changeLangBtn).prepend('<option value=\"' + item.Ma + '\">' + item.Ten + '</option>');
-        });
-        $(changeLangBtn).val(Lang);
     },
     edit: function (grid) {
         var s = '';
@@ -459,15 +451,6 @@
         });
 
         $(PID).unbind('click').click(function () { $(PID).autocomplete('search', ''); });
-        var LangSlt = $('.Lang', newDlg);
-        if ($(LangSlt).children().length > 0) { return false; }
-        $(LangSlt).find('option').remove();
-        $.each(LangArr, function (i, item) {
-            if (item.Active) {
-                Lang = item.Ma;
-            }
-            $(LangSlt).prepend('<option value=\"' + item.Ma + '\">' + item.Ten + '</option>');
-        });
         adm.createTinyMce(Description);
         var ulpFn = function () {
             var imgAnh = $('.adm-upload-preview-img', newDlg);
