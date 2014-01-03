@@ -224,31 +224,24 @@ namespace linh.controls
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_width"></param>
-        /// <param name="_height"></param>
-        public void Crop(int _width, int _height)
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void Crop(int width, int height)
         {
             using (Image img = convertFromByte(Bytes))
             {
                 Single nPercent = 0;
                 Single nPercentW = 0;
                 Single nPercentH = 0;
-                nPercentW = Convert.ToSingle(_width) / Convert.ToSingle(Width);
-                nPercentH = Convert.ToSingle(_height) / Convert.ToSingle(Heigth);
-                if (nPercentH < nPercentW)
-                {
-                    nPercent = nPercentW;
-                }
-                else
-                {
-                    nPercent = nPercentH;
-                }
-                int desWidth = Convert.ToInt32(Width * nPercent);
-                int desHeight = Convert.ToInt32(Heigth * nPercent);
-                using (Bitmap bmp = new Bitmap(_width, _height))
+                nPercentW = Convert.ToSingle(width) / Convert.ToSingle(Width);
+                nPercentH = Convert.ToSingle(height) / Convert.ToSingle(Heigth);
+                nPercent = nPercentH < nPercentW ? nPercentW : nPercentH;
+                var desWidth = Convert.ToInt32(Width * nPercent);
+                var desHeight = Convert.ToInt32(Heigth * nPercent);
+                using (var bmp = new Bitmap(width, height))
                 {
                     bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution);
-                    using (Graphics grp = Graphics.FromImage(bmp))
+                    using (var grp = Graphics.FromImage(bmp))
                     {
                         grp.CompositingMode = CompositingMode.SourceCopy;
                         grp.PixelOffsetMode = PixelOffsetMode.Half;
@@ -256,7 +249,7 @@ namespace linh.controls
                         grp.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         grp.SmoothingMode = SmoothingMode.HighQuality;
                         grp.DrawImage(img, new Rectangle(0, 0, desWidth, desHeight));
-                        MemoryStream ms = new MemoryStream();
+                        var ms = new MemoryStream();
                         bmp.Save(ms, getImageFormat(Mime));
                         localBytes = ms.ToArray();
                     }

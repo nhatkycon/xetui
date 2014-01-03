@@ -6,6 +6,7 @@ using docsoft.entities;
 using linh.common;
 using linh.controls;
 using linh.core;
+using linh.core.dal;
 
 public partial class lib_ajax_account_Default : BasedPage
 {
@@ -52,6 +53,11 @@ public partial class lib_ajax_account_Default : BasedPage
                 rendertext("0");
                 break;
                 #endregion
+            case "GetVcard":
+                #region change avatar
+                vcard.Visible = true;
+                break;
+                #endregion
             case "saveInformation":
                 #region Store information
                 if (logged && !string.IsNullOrEmpty(Ten))
@@ -66,6 +72,8 @@ public partial class lib_ajax_account_Default : BasedPage
                     user.Mobile = Mobile;
                     user.NgayCapNhat = DateTime.Now;
                     user = MemberDal.Update(user);
+                    Security.Login(user.Username, "true");
+                    MemberDal.UpdateVcard(DAL.con(), user.Username);
                     rendertext("1");
                 }
                 rendertext("0");

@@ -48,7 +48,7 @@
                         <%}else{ %>
                             <input name="DangLai" checked="checked" class="DangLai" id="Checkbox1" type="checkbox">
                         <%} %>
-                         Hiện tôi không dùng xe này, chỉ đưa lên để nhớ về nó.
+                         Tôi đang sử dụng nó
                     </label>
                 </div>
             </div>
@@ -161,12 +161,16 @@
         </div>
     </form> 
     <div class="car-add-upload">
-        <span class="btn btn-success car-add-upload-box">
-            <i class="glyphicon glyphicon-plus"></i>
-            <span>Chọn ảnh</span>
-            <!-- The file input field used as target for the file upload widget -->
-            <input type="file" multiple="" class="car-multipleUpload-btn" name="files[]" id="fileupload">
-        </span> 
+        <div class="row">
+            <span class="col-sm-offset-2 col-sm-10">
+                <span class="btn btn-success btn-lg car-add-upload-box">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Chọn ảnh</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input type="file" multiple="" class="car-multipleUpload-btn" name="files[]" id="fileupload">
+                </span>
+            </span>    
+        </div>
         <div id="progress" class="progress progress-striped" style="display: none;">
             <div class="bar progress_bar"></div>
         </div>

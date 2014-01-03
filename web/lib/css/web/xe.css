@@ -141,6 +141,9 @@
     clear: right;
     word-wrap: break-word;
 }
+.carcard-buttons {
+    margin-top: 10px;    
+}
 .carcard-info {
     margin: 0 0 2px;
     color: gray;

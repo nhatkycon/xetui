@@ -9,6 +9,7 @@ var autoFn = {
         autoFn.loginfn.init();
         autoFn.accFn.init();
         autoFn.carFn.init();
+        autoFn.binhLuanFn.init();
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -36,6 +37,7 @@ var autoFn = {
         login: '/lib/ajax/login/default.aspx'
         , account: '/lib/ajax/account/default.aspx'
         , car: '/lib/ajax/car/default.aspx'
+        , binhLuan: '/lib/ajax/binhLuan/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -480,7 +482,7 @@ var autoFn = {
                                 bgColor: 'black',
                                 bgOpacity: .4,
                                 //minSize: [480, 270],
-                                setSelect: [0, 0, 480, 270],
+                                setSelect: [0, 0, 960, 540],
                                 aspectRatio: 16 / 9
                             });
                             apply.click(function () {
@@ -515,7 +517,7 @@ var autoFn = {
             var pnl = $('.car-add-pnl');
             if ($(pnl).length < 1) return;
 
-            $('.setBiaBtn').on('click', function () {
+            pnl.on('click','.setBiaBtn', function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var data1 = [];
@@ -530,7 +532,7 @@ var autoFn = {
                 });
             });
 
-            $('.removeBtn').on('click', function () {
+            pnl.on('click','.removeBtn', function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var con = confirm('Xóa bỏ ảnh?');
@@ -557,6 +559,56 @@ var autoFn = {
             el.find('.h').val(Math.round(c.h));
             var data = autoFn.url.car + '?' + el.find(':input').serialize();
             el.find('.anh-fix').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
+        }
+    }
+    , binhLuanFn: {
+        init:function () {
+            autoFn.binhLuanFn.postFn();
+        }
+        , postFn:function () {
+            var pnl = $('.binhLuan-post');
+            if ($(pnl).length < 1) return;
+
+            var btn = pnl.find('.saveBtn');
+            var txt = pnl.find('.txt');
+            
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if(val=='') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+                btn.hide();
+                $.ajax({
+                    url: autoFn.url.binhLuan
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       btn.show();
+                       alertOk.show();
+                       alertOk.html('Gửi thành công');
+                       txt.val('');
+                       setTimeout(function() {
+                           alertOk.hide();
+                       }, 1000);
+                   }
+                   , error: function () {
+                       btn.show();
+                       alertErr.show();
+                       alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
+                   }
+                });
+
+            });
+            
         }
     }
 };

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using linh.common;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -164,6 +165,17 @@ namespace docsoft.entities
         public string NguoiTao_Ten { get; set; }
         public Member Member { get; set; }
         #endregion
+        public string XeUrl
+        {
+            get
+            {
+                return string.Format("/cars/{0}/{1}/{2}/{3}/"
+                 , Lib.Bodau(HANG_Ten)
+                 , Lib.Bodau(MODEL_Ten)
+                 , Lib.Bodau(Ten)
+                 , ID); 
+            }
+        }
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return XeDal.getFromReader(rd);

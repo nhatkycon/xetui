@@ -24,6 +24,8 @@ public partial class html_car_view : BasedPage
                 Item = XeDal.SelectById(con, Convert.ToInt32(Id));
                 Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);
                 Item.Member = MemberDal.SelectByUser(con, Item.NguoiTao);
+                view.Pager = BinhLuanDal.PagerByPRowId(con, "", true, Item.RowId.ToString(), 20);
+
             }
             view.Item = Item;
         }

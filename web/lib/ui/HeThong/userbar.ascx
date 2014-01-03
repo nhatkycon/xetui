@@ -1,6 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="userbar.ascx.cs" Inherits="lib_ui_HeThong_userbar" %>
 <%@ Import Namespace="docsoft" %>
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-0">
@@ -39,11 +41,16 @@
           </li>
           <li class="">
               <a href="javascript:;">
-                  <i class="glyphicon glyphicon-compressed"></i>
+                  <i class="glyphicon glyphicon-comment"></i>
                   Tin nhắn
               </a>
           </li>
-          <li><a href="#">Link</a></li>
+         <li>
+                <a href="/my-cars/">
+                    <i class="glyphicon glyphicon-list"></i>
+                    Danh sách xe
+                </a>
+            </li>
           <li class="dropdown">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-user"></i>
@@ -52,16 +59,13 @@
             <ul class="dropdown-menu">
                 <li>
                     <a href="/user/<%=string.IsNullOrEmpty(User.Username) ? User.ID.ToString() : User.Username %>">
-                        <img class="img-circle img-thumbnail img-avatar-icon-navbar" src="/lib/up/users/<%=User.Anh %>"/><%=Security.Ten %>
+                        <img class="img-circle img-thumbnail img-avatar-icon-navbar" src="/lib/up/users/<%=User.Anh %>"/>
+                        <span class="img-avatar-icon-ten">
+                            <%=Security.Ten %>                            
+                        </span>
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li>
-                    <a href="/my-cars/">
-                        <i class="glyphicon glyphicon-list"></i>
-                        Danh sách xe
-                    </a>
-                </li>
                 <li>
                     <a href="/acc/">
                         <i class="glyphicon glyphicon-cog"></i>
@@ -79,4 +83,6 @@
           </li>
     </ul>      
   </div><!-- /.navbar-collapse -->
+    </div>
+
 </nav>

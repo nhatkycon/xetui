@@ -2,7 +2,7 @@
 <%@ Import Namespace="linh.common" %>
 <div class="carcard carcard-big">
     <div class="carcard-pic">
-        <a href="/cars/<%=Item.HANG_Ten %>/<%=Item.MODEL_Ten %>/<%=Lib.Bodau(Item.SubModel) %>/<%=Item.ID %>/">
+        <a href="<%=Item.XeUrl %>">
             <img src="/lib/up/car/<%=Item.Anh %>" alt=""/>
         </a>
     </div>
@@ -12,7 +12,7 @@
         <span class="carcard-meta-blog" title="Bài nhật ký xe"><%=Item.TotalBlog %></span>
     </div>
     <div class="carcard-caption">
-        <a href="/cars/<%=Item.HANG_Ten %>/<%=Item.MODEL_Ten %>/<%=Lib.Bodau(Item.SubModel) %>/<%=Item.ID %>/">
+        <a href="<%=Item.XeUrl %>">
             <%=Item.Ten %>
         </a>
     </div>

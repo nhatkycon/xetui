@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -47,7 +49,9 @@ namespace docsoft.entities
         public Guid Tinh { get; set; }
         public string Tinh_Ten { get; set; }
         public String FbId { get; set; }
-        
+        public String Vcard { get; set; }
+        public DateTime NgaySinh { get; set; }
+        public DateTime LastLoggedIn { get; set; }
         #endregion
         #region Contructor
         public Member()
@@ -60,6 +64,7 @@ namespace docsoft.entities
         public String GH_Ten { get; set; }
         public Int32 GH_ID { get; set; }
         public bool Thich { get; set; }
+        public Int32 SecondOnline { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -88,7 +93,7 @@ namespace docsoft.entities
         public static Member Insert(Member Inserted)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[28];
+            SqlParameter[] obj = new SqlParameter[31];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -147,6 +152,24 @@ namespace docsoft.entities
             {
                 obj[27] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
             }
+
+            obj[28] = new SqlParameter("MEM_Vcard", Inserted.Vcard);
+            if (Inserted.NgaySinh > DateTime.MinValue)
+            {
+                obj[29] = new SqlParameter("MEM_NgaySinh", Inserted.NgaySinh);
+            }
+            else
+            {
+                obj[29] = new SqlParameter("MEM_NgaySinh", DBNull.Value);
+            }
+            if (Inserted.LastLoggedIn > DateTime.MinValue)
+            {
+                obj[30] = new SqlParameter("MEM_LastLoggedIn", Inserted.LastLoggedIn);
+            }
+            else
+            {
+                obj[30] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -165,7 +188,7 @@ namespace docsoft.entities
         public static Member Insert(Member Inserted, SqlTransaction tran)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[28];
+            SqlParameter[] obj = new SqlParameter[31];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -223,6 +246,23 @@ namespace docsoft.entities
             {
                 obj[27] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
             }
+            obj[28] = new SqlParameter("MEM_Vcard", Inserted.Vcard);
+            if (Inserted.NgaySinh > DateTime.MinValue)
+            {
+                obj[29] = new SqlParameter("MEM_NgaySinh", Inserted.NgaySinh);
+            }
+            else
+            {
+                obj[29] = new SqlParameter("MEM_NgaySinh", DBNull.Value);
+            }
+            if (Inserted.LastLoggedIn > DateTime.MinValue)
+            {
+                obj[30] = new SqlParameter("MEM_LastLoggedIn", Inserted.LastLoggedIn);
+            }
+            else
+            {
+                obj[30] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(tran, CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -236,7 +276,7 @@ namespace docsoft.entities
         public static Member Update(Member Updated)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[29];
+            SqlParameter[] obj = new SqlParameter[32];
             obj[0] = new SqlParameter("MEM_ID", Updated.ID);
             obj[1] = new SqlParameter("MEM_Ho", Updated.Ho);
             obj[2] = new SqlParameter("MEM_Ten", Updated.Ten);
@@ -303,6 +343,23 @@ namespace docsoft.entities
             else
             {
                 obj[28] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
+            }
+            obj[29] = new SqlParameter("MEM_Vcard", Updated.Vcard);
+            if (Updated.NgaySinh > DateTime.MinValue)
+            {
+                obj[30] = new SqlParameter("MEM_NgaySinh", Updated.NgaySinh);
+            }
+            else
+            {
+                obj[30] = new SqlParameter("MEM_NgaySinh", DBNull.Value);
+            }
+            if (Updated.LastLoggedIn > DateTime.MinValue)
+            {
+                obj[31] = new SqlParameter("MEM_LastLoggedIn", Updated.LastLoggedIn);
+            }
+            else
+            {
+                obj[31] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Update_UpdateNormal_linhnx", obj))
             {
@@ -560,6 +617,10 @@ namespace docsoft.entities
             {
                 Item.CQ_ID = (Int32)(rd["MEM_CQ_ID"]);
             }
+            if (rd.FieldExists("SecondOnline"))
+            {
+                Item.SecondOnline = (Int32)(rd["SecondOnline"]);
+            }
             if (rd.FieldExists("MEM_Username"))
             {
                 Item.Username = (String)(rd["MEM_Username"]);
@@ -672,6 +733,18 @@ namespace docsoft.entities
             if (rd.FieldExists("MEM_FbId"))
             {
                 Item.FbId = (String)(rd["MEM_FbId"]);
+            }
+            if (rd.FieldExists("MEM_Vcard"))
+            {
+                Item.Vcard = (String)(rd["MEM_Vcard"]);
+            }
+            if (rd.FieldExists("MEM_NgaySinh"))
+            {
+                Item.NgaySinh = (DateTime)(rd["MEM_NgaySinh"]);
+            }
+            if (rd.FieldExists("MEM_LastLoggedIn"))
+            {
+                Item.LastLoggedIn = (DateTime)(rd["MEM_LastLoggedIn"]);
             }
             Item._CoQuan = _CQ;
             return Item;
@@ -1162,9 +1235,16 @@ namespace docsoft.entities
             Item._CoQuan = _cq;
             return Item;
         }
-        public static void UpdateVcard(string cardStr, string username)
+        public static string UpdateVcard(SqlConnection con, string username)
         {
-            
+            var writer = new StringWriter();
+            HttpContext.Current.Server.Execute(string.Format("~/lib/ajax/account/Default.aspx?user={0}&subAct=GetVcard",username), writer, true);
+            var vcard = writer.ToString();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("Username", username);
+            obj[1] = new SqlParameter("Vcard", vcard);
+            SqlHelper.ExecuteNonQuery(con, CommandType.StoredProcedure, "sp_tblMember_Update_UpdateVcard_linhnx", obj);
+            return vcard;
         }
         #endregion
     }

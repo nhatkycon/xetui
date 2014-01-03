@@ -1,4 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="view.ascx.cs" Inherits="lib_ui_cars_view" %>
+<%@ Import Namespace="linh.common" %>
+<%@ Register Src="~/lib/ui/binhLuan/List.ascx" TagPrefix="binhLuan" TagName="List" %>
+
 <% var i = 0; %>
 <div class="car-view-images">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -34,11 +37,9 @@
     <div class="col-md-6">
         <div class="padding-20">
             <div class="car-view-author-pnl">
-                <a href="/users/<%=Item.NguoiTao %>" class="user-avatar user-avatar-100 pull-left user-avatar-carview">
-                    <img class="user-avatar-img img-thumbnail" src="/lib/up/users/<%=Item.Member.Anh %>" alt="<%=Item.Member.Anh %>" />
-                </a>    
+                <%=Item.Member.Vcard %>
             </div>
-            <h3 class="car-view-intro-title">Giới thiệu xe</h3>
+            <h3 class="car-view-intro-title">Về chiếc xe của tôi</h3>
             <div class="car-view-intro">
                 <%=Item.GioiThieu %>
             </div>
@@ -52,7 +53,6 @@
                   <li><a href="/cars/">Xe</a></li>
                   <li><a href="/cars/<%=Item.HANG_Ten %>/"><%=Item.HANG_Ten %></a></li>
                   <li><a href="/cars/<%=Item.HANG_Ten %>/<%=Item.MODEL_Ten %>/"><%=Item.MODEL_Ten %></a></li>
-                  <li class="active">Data</li>
                 </ol>
             </div>
             <h1 class="car-view-caption">
@@ -72,7 +72,7 @@
                         </span><br/>
                         Thích
                     </div>
-                    <a href="/" class="car-view-stat-item">
+                    <a href="<%=Item.XeUrl %>Blog/" class="car-view-stat-item">
                         <span class="car-view-stat-item-num car-view-stat-item-num-blog">
                             <%=Item.TotalBlog %>
                         </span><br/>
@@ -90,12 +90,15 @@
                     </a>    
                 </div>
                 <a href="javascript:;" class="btn btn-primary linkedBtn">
+                    <i class="glyphicon glyphicon-star"></i>
                     Thích
                 </a>
+                &nbsp;
                 <a href="javascript:;" class="btn btn-warning msgBtn">
                     Nhắn tin
                 </a>                
             </div>
         </div>
+        <binhLuan:List runat="server" ID="BinhLuanList" />
     </div>
 </div>

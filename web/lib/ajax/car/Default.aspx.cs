@@ -224,6 +224,7 @@ public partial class lib_ajax_car_Default : BasedPage
                     {
                         car = XeDal.Update(car);
                     }
+                    MemberDal.UpdateVcard(DAL.con(), Security.Username);
                 }
                 break;
             #endregion
@@ -237,7 +238,8 @@ public partial class lib_ajax_car_Default : BasedPage
                     var cropted = Lib.CropBitmap(src, cropRect);
                     var img = new ImageProcess(cropted, Key);
                     File.Delete(dic + Key);
-                    img.Resize(960);
+                    if (img.Width < 960)
+                        img.Resize(960);
                     Response.ClearContent();
                     Response.ContentType = img.Mime;
                     img.Save(newDic + Key);

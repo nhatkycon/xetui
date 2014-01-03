@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Album.cs" />
     <Compile Include="Anh.cs" />
+    <Compile Include="BinhLuan.cs" />
     <Compile Include="Xe.cs" />
     <Compile Include="SystemMessage.cs" />
     <Compile Include="Resources.cs" />
