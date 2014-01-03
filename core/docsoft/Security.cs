@@ -62,7 +62,7 @@ namespace docsoft
                     HttpCookie c = HttpContext.Current.Request.Cookies[cookieName];
                     if (c != null)
                     {
-                        return c.Values["Ten"].ToString();
+                        return HttpContext.Current.Server.UrlDecode(c.Values["Ten"].ToString());
                     }
                 }
                 return string.Empty;
@@ -110,7 +110,7 @@ namespace docsoft
                     if (ReUser.ToLower() == "true")
                     {
                         c.Values.Add("Username", username);
-                        c.Values.Add("Ten", item.Ten);
+                        c.Values.Add("Ten", HttpContext.Current.Server.UrlEncode(item.Ten));
                         c.Values.Add("Id", item.ID.ToString());
                         c.Expires = DateTime.Now.AddDays(14);
                         HttpContext.Current.Response.Cookies.Add(c);
@@ -147,7 +147,7 @@ namespace docsoft
             if (ReUser.ToLower() == "true")
             {
                 c.Values.Add("Username", username);
-                c.Values.Add("Ten", item.Ten);
+                c.Values.Add("Ten", HttpContext.Current.Server.UrlEncode(item.Ten));
                 c.Values.Add("Id", item.ID.ToString());
                 c.Expires = DateTime.Now.AddDays(14);
                 HttpContext.Current.Response.Cookies.Add(c);

@@ -128,7 +128,7 @@ public partial class lib_ajax_login_Default : BasedPage
                 #endregion
             case "login":
                 #region Login
-                if (!string.IsNullOrEmpty(Email))
+                if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Pwd))
                 {
                     var ok = Security.Login(Email, Pwd, Rem);
                     if(ok)
@@ -143,6 +143,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     }
                     rendertext("0");
                 }
+                rendertext("0");
                 break;
                 #endregion
             case "logout":

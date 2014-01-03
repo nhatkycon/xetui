@@ -46,6 +46,10 @@ namespace docsoft.entities
         public Int32 TotalLike { get; set; }
         public Int32 TotalBlog { get; set; }
         public Int32 TotalView { get; set; }
+        public String Anh { get; set; }
+        public Boolean Duyet { get; set; }
+        public DateTime NgayDuyet { get; set; }
+        public String NguoiDuyet { get; set; }
         #endregion
         #region Contructor
         public Xe()
@@ -147,7 +151,18 @@ namespace docsoft.entities
         #region Customs properties
 
         public string GioiThieu { get; set; }
-        
+        public List<Anh> Anhs { get; set; }
+
+        public string HANG_Ma { get; set; }
+        public string HANG_Ten { get; set; }
+
+        public string MODEL_Ma { get; set; }
+        public string MODEL_Ten { get; set; }
+
+        public string THANHPHO_Ten { get; set; }
+
+        public string NguoiTao_Ten { get; set; }
+        public Member Member { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -173,7 +188,7 @@ namespace docsoft.entities
         public static Xe Insert(Xe Inserted)
         {
             Xe Item = new Xe();
-            SqlParameter[] obj = new SqlParameter[30];
+            SqlParameter[] obj = new SqlParameter[35];
             obj[0] = new SqlParameter("X_HANG_ID", Inserted.HANG_ID);
             obj[1] = new SqlParameter("X_MODEL_ID", Inserted.MODEL_ID);
             obj[2] = new SqlParameter("X_SubModel", Inserted.SubModel);
@@ -219,6 +234,18 @@ namespace docsoft.entities
             obj[28] = new SqlParameter("X_TotalBlog", Inserted.TotalBlog);
             obj[29] = new SqlParameter("X_TotalView", Inserted.TotalView);
 
+            obj[30] = new SqlParameter("X_Anh", Inserted.Anh);
+            if (Inserted.NgayDuyet > DateTime.MinValue)
+            {
+                obj[31] = new SqlParameter("X_NgayDuyet", Inserted.NgayDuyet);
+            }
+            else
+            {
+                obj[31] = new SqlParameter("X_NgayDuyet", DBNull.Value);
+            }
+            obj[32] = new SqlParameter("X_Duyet", Inserted.Duyet);
+            obj[33] = new SqlParameter("X_NguoiDuyet", Inserted.NguoiDuyet);
+            obj[34] = new SqlParameter("X_GioiThieu", Inserted.GioiThieu);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -232,7 +259,7 @@ namespace docsoft.entities
         public static Xe Update(Xe Updated)
         {
             Xe Item = new Xe();
-            SqlParameter[] obj = new SqlParameter[31];
+            SqlParameter[] obj = new SqlParameter[36];
             obj[0] = new SqlParameter("X_ID", Updated.ID);
             obj[1] = new SqlParameter("X_HANG_ID", Updated.HANG_ID);
             obj[2] = new SqlParameter("X_MODEL_ID", Updated.MODEL_ID);
@@ -271,6 +298,7 @@ namespace docsoft.entities
             {
                 obj[23] = new SqlParameter("X_NgayCapNhat", DBNull.Value);
             }
+
             obj[24] = new SqlParameter("X_Khoa", Updated.Khoa);
             obj[25] = new SqlParameter("X_Xoa", Updated.Xoa);
             obj[26] = new SqlParameter("X_DangLai", Updated.DangLai);
@@ -279,6 +307,18 @@ namespace docsoft.entities
             obj[29] = new SqlParameter("X_TotalBlog", Updated.TotalBlog);
             obj[30] = new SqlParameter("X_TotalView", Updated.TotalView);
 
+            if (Updated.NgayDuyet > DateTime.MinValue)
+            {
+                obj[31] = new SqlParameter("X_NgayDuyet", Updated.NgayDuyet);
+            }
+            else
+            {
+                obj[31] = new SqlParameter("X_NgayDuyet", DBNull.Value);
+            }
+            obj[32] = new SqlParameter("X_Duyet", Updated.Duyet);
+            obj[33] = new SqlParameter("X_NguoiDuyet", Updated.NguoiDuyet);
+            obj[34] = new SqlParameter("X_Anh", Updated.Anh);
+            obj[35] = new SqlParameter("X_GioiThieu", Updated.GioiThieu);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -288,13 +328,16 @@ namespace docsoft.entities
             }
             return Item;
         }
-
         public static Xe SelectById(Int64 X_ID)
+        {
+            return SelectById(DAL.con(), X_ID);
+        }
+        public static Xe SelectById(SqlConnection con, Int64 X_ID)
         {
             var Item = new Xe();
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("X_ID", X_ID);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Select_SelectById_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectById_linhnx", obj))
             {
                 while (rd.Read())
                 {
@@ -451,10 +494,89 @@ namespace docsoft.entities
             {
                 Item.TotalView = (Int32)(rd["X_TotalView"]);
             }
+            if (rd.FieldExists("X_NgayDuyet"))
+            {
+                Item.NgayDuyet = (DateTime)(rd["X_NgayDuyet"]);
+            }
+            if (rd.FieldExists("X_Duyet"))
+            {
+                Item.Duyet = (Boolean)(rd["X_Duyet"]);
+            }
+            if (rd.FieldExists("X_NguoiDuyet"))
+            {
+                Item.NguoiDuyet = (String)(rd["X_NguoiDuyet"]);
+            }
+            if (rd.FieldExists("X_Anh"))
+            {
+                Item.Anh = (String)(rd["X_Anh"]);
+            }
+
+            if (rd.FieldExists("HANG_Ten"))
+            {
+                Item.HANG_Ten = (String)(rd["HANG_Ten"]);
+            }
+            if (rd.FieldExists("MODEL_Ten"))
+            {
+                Item.MODEL_Ten = (String)(rd["MODEL_Ten"]);
+            }
+            if (rd.FieldExists("THANHPHO_Ten"))
+            {
+                Item.THANHPHO_Ten = (String)(rd["THANHPHO_Ten"]);
+            }
+            if (rd.FieldExists("NguoiTao_Ten"))
+            {
+                Item.NguoiTao_Ten = (String)(rd["NguoiTao_Ten"]);
+            }
+            if (rd.FieldExists("X_GioiThieu"))
+            {
+                Item.GioiThieu = (String)(rd["X_GioiThieu"]);
+            }
             return Item;
         }
         #endregion
         #region Extend
+        public static Xe SelectByRowId(string RowId)
+        {
+            var Item = new Xe();
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("X_RowID", RowId);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Select_SelectByRowId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    Item = getFromReader(rd);
+                }
+            }
+            return Item;
+        }
+        public static Xe SelectByRowId(Guid RowId)
+        {
+            return SelectByRowId(RowId.ToString());
+        }
+
+        public static XeCollection SelectDuyetByNguoiTao(SqlConnection con, string NguoiTao, int Top, bool? Duyet )
+        {
+            var list = new XeCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("NguoiTao", NguoiTao);
+            obj[1] = new SqlParameter("Top", Top);
+            if (Duyet.HasValue)
+            {
+                obj[2] = new SqlParameter("X_Duyet", Duyet);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("X_Duyet", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectDuyetByNguoiTao_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion

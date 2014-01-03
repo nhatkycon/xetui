@@ -57,7 +57,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="/acc/">
+                    <a href="/my-cars/">
                         <i class="glyphicon glyphicon-list"></i>
                         Danh sách xe
                     </a>

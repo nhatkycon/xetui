@@ -13,7 +13,7 @@ public partial class lib_ui_HeThong_NamSanXuat : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         List=new List<string>();
-        for(var  i = 1980; i <= DateTime.Now.Year; i ++)
+        for (var i = DateTime.Now.Year; i >= 1970; i--)
         {
             List.Add(i.ToString());
         }

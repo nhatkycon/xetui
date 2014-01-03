@@ -77,3 +77,108 @@
 .car-meta-blogs {
     background: #707880;
 }
+
+
+
+.carcard {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    margin: -10px 20px 10px -10px;
+    padding: 10px;
+    font: 12px/14px sans-serif;
+    text-align: left;
+    vertical-align: top;
+    background: rgba(255,255,255,0);
+    -webkit-transition: background-color 0.2s ease-in-out;
+    -moz-transition: background-color 0.2s ease-in-out;
+    -o-transition: background-color 0.2s ease-in-out;
+    -ms-transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.carcard:hover {
+    background: #fff;
+}
+.carcard-group .carcard {
+    margin-right: 0;
+}
+.carcard-pic {
+    width: 120px;
+    height: 68px;
+    margin: 0 0 5px;
+    line-height: 0;
+    background: #ddd;
+}
+.carcard-meta {
+    float: right;
+    position: relative;
+    margin: -17px 0 5px;
+    color: #fff;
+    font: bold 10px/12px sans-serif;
+}
+.carcard-meta-drive, .carcard-meta-overdrive, .carcard-meta-blog {
+    float: left;
+    padding: 0 .5em;
+    background: #f03;
+}
+.carcard-meta {
+    color: #fff;
+    font: bold 10px/12px sans-serif;
+}
+.carcard-meta-overdrive {
+    border-left: 1px solid #db5800;
+    background: #f60;
+}
+.carcard-meta-blog {
+    border-left: 1px solid bubble-shorten(#707880,7%);
+    background: #707880;
+}
+.carcard-caption {
+    margin: 0 0 2px;
+    clear: right;
+    word-wrap: break-word;
+}
+.carcard-info {
+    margin: 0 0 2px;
+    color: gray;
+    font: 10px/13px Tahoma,sans-serif;
+    word-wrap: break-word;
+}
+.carcard-owner {
+    margin: 0 0 2px;
+    font: 10px/13px Tahoma,sans-serif;
+}
+
+.carcard-group .carcard-big {
+    margin-right: 15px;
+}
+.carcard-big {
+    width: 240px;
+    font: 18px/20px sans-serif;
+}
+.carcard-big .carcard-pic {
+    width: 240px;
+    height: 135px;
+    margin: 0 0 6px;
+}
+.carcard-big .carcard-pic img {
+    width: 240px;
+    height: 135px;
+    border: 0px;
+}
+.carcard-big .carcard-meta {
+    margin-top: -25px;
+    font: bold 16px/19px sans-serif;
+}
+.carcard-big .carcard-meta {
+    font: bold 16px/19px sans-serif;
+}
+.carcard-big .carcard-info {
+    font: 11px/13px sans-serif;
+}
+.carcard-big .carcard-owner {
+    font: 11px/13px sans-serif;
+}

@@ -383,7 +383,120 @@ h1, h2 {
     border: 1px dashed #CCCCCC;
     min-height: 100px;
     padding: 10px;
+    background-color: #FFF;
 }
 .anh-fix {
     display: none;
+}
+.tab-content {
+    background-color: #FFF;
+    border: solid 1px #ddd;
+    border-top: 0px;
+    padding: 10px;
+}
+
+.uname {
+    color: #205090;
+    white-space: nowrap;
+}
+
+.car-view-body {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.user-avatar-carview {
+    margin-right: 10px;
+}
+.car-view-author-pnl {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.car-view-intro-title {
+    
+}
+.car-view-infobox {
+    padding: 20px;
+    background-color: #1A1E21;
+    background-image: url(i/car-view-infobox.jpg);
+    background-repeat: repeat-x;
+}
+.car-view-infobox .row 
+{
+}
+.car-view-infobox .breadcrumb {
+    background-color: transparent;
+    border: 0px;
+    padding-left: 0px;
+}
+.car-view-infobox .breadcrumb a {
+    color: #525557;
+    color: rgba(255,255,255,0.25);
+}
+.car-view-caption {
+    color: #fff;
+    font: bold 42px/0.95 sans-serif;
+    letter-spacing: -1px;
+    line-height: 44px;
+    text-shadow: 2px 2px rgba(0,0,0,0.5);
+}
+.car-view-stat {
+    margin-top: 30px;
+}
+.car-view-stat-item {
+    float: left;
+    margin: 0 30px 0 0;
+    color: #fff;
+    font: bold 11px/1.1 sans-serif;
+}
+.car-view-stat-item-num 
+{
+    color: #FFF;
+    display: inline-block;
+    margin: 0 0 4px;
+    padding: 0 9px;
+    font: bold 18px/26px sans-serif;
+    text-shadow: 1px 1px rgba(0,0,0,0.3);
+}
+.car-view-stat-item-num-drive {
+    background: #f03;
+}
+.car-view-stat-item-num-overdrive {
+    background: #f60;
+}
+.car-view-stat-item-num-blog {
+    background: #707880;
+}
+.car-view-summary {
+    font-weight: normal;
+    color: #8f9193;
+    color: rgba(255,255,255,0.5);
+}
+.car-view-buttons {
+    margin-top: 30px;
+}
+.comment-hr {
+    margin-top: 18px;
+    margin-bottom: 15px;
+}
+.hr {
+    position: relative;
+    margin: 20px -10px;
+    height: 2px;
+    clear: both;
+    overflow: hidden;
+}
+.hr:after, .hr:before 
+{
+    content: '';
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 100%;
+    height: 2px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA8AAAAACCAQAAAA9F30yAAAAV0lEQVR4Xu2N4QqAIAwGBWe9Wz2vD1cpxDYZYf+D4O64D4GBUlvqZhte4anFHrbvV1xpYRt2de81J1WsYrmLNrn6epPFcsXKmvkbAAAAZEtf8PwFAAAAbp0xNVG95l8BAAAAAElFTkSuQmCC) no-repeat;    
+}
+.hr:after {
+    left: auto;
+    right: 0;
+    width: 50px;
 }

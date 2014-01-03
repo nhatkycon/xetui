@@ -1162,6 +1162,10 @@ namespace docsoft.entities
             Item._CoQuan = _cq;
             return Item;
         }
+        public static void UpdateVcard(string cardStr, string username)
+        {
+            
+        }
         #endregion
     }
     #endregion

@@ -18,6 +18,20 @@ var autoFn = {
             autoFn.trackUi();
         };
     }
+    , utils: {
+        editor: function (el) {
+            var config = {
+                toolbar:
+		        [
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList'],
+		            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Link', 'Unlink']
+		        ], height: '100px'
+            };
+            var editor = jQuery(el).ckeditor(config, function () {
+                //CKFinder.setupCKEditor(this, '../js/ckfinder/');
+            });
+        }
+    }
     , url: {
         login: '/lib/ajax/login/default.aspx'
         , account: '/lib/ajax/account/default.aspx'
@@ -329,7 +343,7 @@ var autoFn = {
             btn.click(function () {
                 alertErr.hide();
                 alertOk.hide();
-                
+
                 var data = pnl.find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'saveInformation' });
                 $.ajax({
@@ -350,24 +364,32 @@ var autoFn = {
         }
     }
     , carFn: {
-        init:function () {
+        init: function () {
             autoFn.carFn.AddCar();
         }
-        ,AddCar:function () {
+        , AddCar: function () {
             var pnl = $('.car-add-pnl');
             if ($(pnl).length < 1) return;
 
             var HANG_ID = pnl.find('.HANG_ID');
             var MODEL_ID = pnl.find('.MODEL_ID');
             var RowId = pnl.find('.RowId');
+            var GioiThieu = pnl.find('.GioiThieu');
+
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
             //GetModelByHangXe
-            HANG_ID.change(function () {
+            HANG_ID.bind('click', function () {
                 var id = $(this).val();
                 var data = [];
                 data.push({ name: 'subAct', value: 'GetModelByHangXe' });
                 data.push({ name: 'DM_PID', value: id });
                 MODEL_ID.find('option').remove();
-                MODEL_ID.html('<option>getting...</option>');
+                MODEL_ID.html('<option>...</option>');
                 $.ajax({
                     url: autoFn.url.car
                     , type: 'POST'
@@ -377,21 +399,64 @@ var autoFn = {
                        MODEL_ID.find('option').remove();
                        var models = JSON.parse(rs);
                        MODEL_ID.find('option').remove();
-                       $.each(models, function(i, item) {
+                       $.each(models, function (i, item) {
                            var modelItem = $('#model-item').tmpl(item).prependTo(MODEL_ID);
                        });
                    }
                 });
             });
 
+            btn.click(function () {
+                var data = pnl.find('.car-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+                var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
+                if (anh != '') {
+                    data.push({ name: 'Anh', value: anh });
+                }
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           document.location.href = '/my-cars/';
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa xe?');
+                if (!con) return;
+
+                var data = pnl.find('.car-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = '/my-cars/';
+                   }
+                });
+            });
+
+            autoFn.utils.editor(GioiThieu);
+
             autoFn.carFn.XuLyAnh();
+            autoFn.carFn.AnhFn();
         }
-        ,XuLyAnh:function () {
+        , XuLyAnh: function () {
             var pnl = $('.car-add-pnl');
             if ($(pnl).length < 1) return;
             var viewLarge = pnl.find('.view-large');
             var RowId = pnl.find('.RowId');
-            
+
             $('#fileupload').fileupload({
                 url: autoFn.url.car,
                 dataType: 'json',
@@ -404,9 +469,10 @@ var autoFn = {
                     $('#progress').hide();
                     $.each(data.result.files, function (index, file) {
                         var anhItem = $('#anh-item').tmpl(file).prependTo(viewLarge);
-                        var windowWidth = $(window).width();
                         var apply = anhItem.find('.apply');
-                        if (windowWidth > 1280) {
+
+                        var windowWidth = $(window).width();
+                        if (windowWidth > 1024) {
                             anhItem.find('.anh-img').Jcrop({
                                 onSelect: function (c) {
                                     autoFn.carFn.XuLyAnhCrop(c, anhItem);
@@ -422,7 +488,6 @@ var autoFn = {
                                 anhItem.find('.anh-img').hide();
                                 anhItem.find('.jcrop-holder').hide();
                                 apply.hide();
-                                apply.parent().find('br').hide();
                             });
                         } else {
                             apply.hide();
@@ -432,7 +497,7 @@ var autoFn = {
                             anhFix.show();
                             anhFix.addClass('img-responsive');
                             anhFix.attr('src', url);
-                            
+
                         }
                     });
                 },
@@ -444,6 +509,43 @@ var autoFn = {
                     progress + '%'
                 );
                 }
+            });
+        }
+        , AnhFn: function () {
+            var pnl = $('.car-add-pnl');
+            if ($(pnl).length < 1) return;
+
+            $('.setBiaBtn').on('click', function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'SetAnhChinh' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data1
+                    , success: function (rs) {
+                    }
+                });
+            });
+
+            $('.removeBtn').on('click', function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var con = confirm('Xóa bỏ ảnh?');
+                if (!con) return;
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'RemoveImage' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data1
+                    , success: function (rs) {
+                        item.parent().parent().remove();
+                    }
+                });
             });
         }
         , XuLyAnhCrop: function (c, el) {

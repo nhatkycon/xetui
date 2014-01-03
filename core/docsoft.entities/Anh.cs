@@ -25,6 +25,7 @@ namespace docsoft.entities
         public Int32 LuotXem { get; set; }
         public Int32 LuotBinhLuan { get; set; }
         public DateTime NgayTao { get; set; }
+        public Boolean AnhBia { get; set; }
         #endregion
         #region Contructor
         public Anh()
@@ -58,7 +59,7 @@ namespace docsoft.entities
         public static Anh Insert(Anh item)
         {
             var Item = new Anh();
-            var obj = new SqlParameter[10];
+            var obj = new SqlParameter[11];
             obj[0] = new SqlParameter("A_ID", item.ID);
             obj[1] = new SqlParameter("A_AB_ID", item.AB_ID);
             obj[2] = new SqlParameter("A_P_ID", item.P_ID);
@@ -68,6 +69,7 @@ namespace docsoft.entities
             obj[6] = new SqlParameter("A_LuotThich", item.LuotThich);
             obj[7] = new SqlParameter("A_LuotXem", item.LuotXem);
             obj[8] = new SqlParameter("A_LuotBinhLuan", item.LuotBinhLuan);
+
             if (item.NgayTao > DateTime.MinValue)
             {
                 obj[9] = new SqlParameter("A_NgayTao", item.NgayTao);
@@ -76,7 +78,7 @@ namespace docsoft.entities
             {
                 obj[9] = new SqlParameter("A_NgayTao", DBNull.Value);
             }
-
+            obj[10] = new SqlParameter("A_AnhBia", item.AnhBia);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblAnh_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -108,7 +110,7 @@ namespace docsoft.entities
             {
                 obj[9] = new SqlParameter("A_NgayTao", DBNull.Value);
             }
-
+            obj[10] = new SqlParameter("A_AnhBia", item.AnhBia);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblAnh_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -208,6 +210,10 @@ namespace docsoft.entities
             {
                 Item.NgayTao = (DateTime)(rd["A_NgayTao"]);
             }
+            if (rd.FieldExists("A_AnhBia"))
+            {
+                Item.AnhBia = (Boolean)(rd["A_AnhBia"]);
+            }
             return Item;
         }
         #endregion
@@ -234,6 +240,27 @@ namespace docsoft.entities
             obj[0] = new SqlParameter("AB_ID", AB_ID);
             obj[1] = new SqlParameter("Top", Top);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblAnh_Select_SelectByAbId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    List.Add(getFromReader(rd));
+                }
+            }
+            return List;
+        }
+        public static void UpdateAnhBia(Guid A_ID)
+        {
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("A_ID", A_ID);
+            SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblAnh_Delete_UpdateAnhBia_linhnx", obj);
+        }
+        public static AnhCollection SelectByPId(SqlConnection con, string P_ID, int Top)
+        {
+            var List = new AnhCollection();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("P_ID", P_ID);
+            obj[1] = new SqlParameter("Top", Top);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblAnh_Select_SelectByPId_linhnx", obj))
             {
                 while (rd.Read())
                 {
