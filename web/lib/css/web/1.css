@@ -9,7 +9,7 @@ html, body
     font-family: Tahoma;
     background-color: #63666B;
 }
-body {
+body.loggedIn {
     padding-top: 70px;
 }
 a:hover, a:active, a:focus, object, embed  
@@ -444,6 +444,10 @@ h1, h2 {
     color: #525557;
     color: rgba(255,255,255,0.25);
 }
+.car-view-infobox .breadcrumb > li + li:before {
+    color: #525557;
+    color: rgba(255,255,255,0.25);
+}
 .car-view-caption {
     color: #fff;
     font: bold 42px/0.95 sans-serif;
@@ -518,24 +522,24 @@ h1, h2 {
     overflow: hidden;
     max-width: 480px;
 }
-.vcard-pic {
+.vcard .vcard-pic {
     float: left;
     width: 100px;
     height: 100px;
     background: #ddd;
     line-height: 0;
 }
-.vcard-info {
+.vcard .vcard-info {
     margin: 0 0 0 110px;
     word-wrap: break-word;
 }
-.vcard-username {
+.vcard .vcard-username {
     font: bold 17px/1 sans-serif;
 }
-.vcard-username {
+.vcard .vcard-username {
     font: bold 17px/1 sans-serif;
 }
-.vcard-status {
+.vcard .vcard-status {
     position: relative;
     top: -2px;
     margin: 0 5px;
@@ -545,13 +549,87 @@ h1, h2 {
     background: #e0e2e2;
     white-space: nowrap;
 }
-.vcard-note {
+.vcard .vcard-note {
     margin: 5px 0 0;
     color: gray;
     font: 11px/14px sans-serif;
 }
+
+
+.vcard-nano {
+    overflow: hidden;
+    max-width: 480px;
+}
+.vcard-nano .vcard-pic {
+    float: left;
+    width: 50px;
+    height: 50px;
+    background: #ddd;
+    line-height: 0;
+}
+.vcard-nano .vcard-pic img {
+    width: 50px;
+    height: 50px;
+}
+.vcard-nano .vcard-info {
+    margin: 0 0 0 60px;
+    word-wrap: break-word;
+}
+.vcard-nano .vcard-username {
+    font: bold 17px/1 sans-serif;
+}
+.vcard-nano .vcard-username {
+    font: bold 17px/1 sans-serif;
+}
+.vcard-nano .vcard-status {
+    display: none;
+}
+.vcard-nano .vcard-note {
+    display: none;
+}
+
+
 .binhLuan-post-btn {
     margin-top: 10px;
     margin-bottom: 10px;
     overflow: hidden;
+}
+
+.binhLuan-item {
+    
+}
+.binhLuan-item-user {
+    
+}
+.binhLuan-item-body 
+{
+    margin-top: 10px;
+    font: 14px/1.4 sans-serif;
+    word-wrap: break-word;
+}
+.binhLuan-item-footer {
+    font: 11px/14px sans-serif;
+    margin-bottom: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.binhLuan-item-date {
+    color: gray;
+}
+.binhLuanReplyBox {
+    display: none;
+}
+.binhLuan-item-reply {
+    margin-left: 45px;
+}
+.binhLuanReplyBox {
+    margin-left: 45px;
+}
+.binhLuan-item-text {
+    font: 14px/1.4 sans-serif;
+}
+.binhLuan-item-text.own 
+{
+    background-color: #FFF;
+    
 }

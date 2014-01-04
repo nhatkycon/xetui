@@ -34,6 +34,7 @@ namespace docsoft.entities
         #endregion
         #region Customs properties
         public Member Member { get; set; }
+        public string X_NguoiTao { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -215,6 +216,15 @@ namespace docsoft.entities
             {
                 mem.Vcard = (String)(rd["MEM_Vcard"]);
             }
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+            if (rd.FieldExists("X_NguoiTao"))
+            {
+                item.X_NguoiTao = (String)(rd["X_NguoiTao"]);
+            }
+            
             item.Member = mem;
             return item;
         }

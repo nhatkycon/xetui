@@ -1,7 +1,7 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="html_MasterPage" %>
 <%@ Import Namespace="docsoft" %>
 
-<%@ Register src="ui/navbar_top.ascx" tagname="navbar_top" tagprefix="uc1" %>
+<%@ Register src="~/lib/ui/HeThong/AlertModal.ascx" tagname="AlertModal" tagprefix="hethong" %>
 
 <%@ Register src="~/lib/ui/HeThong/userbar.ascx" tagname="userbar" tagprefix="hethong" %>
 <%@ Register src="ui/promotedCars.ascx" tagname="promotedCars" tagprefix="uc2" %>
@@ -34,9 +34,10 @@
 
     </script>
 </head>
-<body>
+<body class="<%=Security.IsAuthenticated() ? "loggedIn" : "" %>">
     <div id="fb-root"></div>
     <div id="form1"  runat="server">
+        <hethong:AlertModal ID="AlertModal" runat="server"/>
         <hethong:userbar ID="userbar1" runat="server" />        
         <div class="container">
             <adv:homeTop1000 runat="server" ID="homeTop1000" />

@@ -25,6 +25,8 @@ namespace docsoft.entities
         public String Url { get; set; }
         public Int32 Loai { get; set; }
         public DateTime NgayTao { get; set; }
+        public Guid PRowId { get; set; }
+        public String Username { get; set; }
         #endregion
         #region Contructor
         public systemMessage()
@@ -58,7 +60,7 @@ namespace docsoft.entities
         public static systemMessage Insert(systemMessage item)
         {
             var Item = new systemMessage();
-            var obj = new SqlParameter[10];
+            var obj = new SqlParameter[12];
             obj[0] = new SqlParameter("SM_ID", item.ID);
             obj[1] = new SqlParameter("SM_Ten", item.Ten);
             obj[2] = new SqlParameter("SM_NoiDung", item.NoiDung);
@@ -76,6 +78,8 @@ namespace docsoft.entities
             {
                 obj[9] = new SqlParameter("SM_NgayTao", DBNull.Value);
             }
+            obj[10] = new SqlParameter("SM_PRowId", item.PRowId);
+            obj[11] = new SqlParameter("SM_Username", item.Username);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblsystemMessage_Insert_InsertNormal_linhnx", obj))
             {
@@ -90,7 +94,7 @@ namespace docsoft.entities
         public static systemMessage Update(systemMessage item)
         {
             var Item = new systemMessage();
-            var obj = new SqlParameter[10];
+            var obj = new SqlParameter[12];
             obj[0] = new SqlParameter("SM_ID", item.ID);
             obj[1] = new SqlParameter("SM_Ten", item.Ten);
             obj[2] = new SqlParameter("SM_NoiDung", item.NoiDung);
@@ -108,6 +112,8 @@ namespace docsoft.entities
             {
                 obj[9] = new SqlParameter("SM_NgayTao", DBNull.Value);
             }
+            obj[10] = new SqlParameter("SM_PRowId", item.PRowId);
+            obj[11] = new SqlParameter("SM_Username", item.Username);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblsystemMessage_Update_UpdateNormal_linhnx", obj))
             {
@@ -207,6 +213,14 @@ namespace docsoft.entities
             if (rd.FieldExists("SM_NgayTao"))
             {
                 Item.NgayTao = (DateTime)(rd["SM_NgayTao"]);
+            }
+            if (rd.FieldExists("SM_PRowId"))
+            {
+                Item.PRowId = (Guid)(rd["SM_PRowId"]);
+            }
+            if (rd.FieldExists("SM_Username"))
+            {
+                Item.Username = (String)(rd["SM_Username"]);
             }
             return Item;
         }

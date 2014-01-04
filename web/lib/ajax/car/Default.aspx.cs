@@ -214,6 +214,35 @@ public partial class lib_ajax_car_Default : BasedPage
                             car.NgayTao = DateTime.Now;
                             car.NguoiTao = Security.Username;
                             car = XeDal.Insert(car);
+
+                            ObjMemberDal.Insert(new ObjMember()
+                            {
+                                PRowId = car.RowId
+                                ,
+                                Username = Security.Username
+                                ,
+                                Owner = true
+                                ,
+                                NgayTao = DateTime.Now
+                                ,
+                                RowId = Guid.NewGuid()
+                            });
+                            var obj = ObjDal.Insert(new Obj()
+                            {
+                                ID = Guid.NewGuid()
+                                ,
+                                Kieu = typeof(Xe).FullName
+                                ,
+                                NgayTao = DateTime.Now
+                                ,
+                                RowId = car.RowId
+                                ,
+                                Url = car.XeUrl
+                                ,
+                                Username = Security.Username
+                                ,
+                                Ten = car.Ten
+                            });
                         }
                         else
                         {
@@ -255,6 +284,9 @@ public partial class lib_ajax_car_Default : BasedPage
                     var xe = XeDal.SelectById(Convert.ToInt64(Id));
                     if(xe.NguoiTao != Security.Username)
                         return;
+                    XeDal.DeleteById(xe.ID);
+                    ObjDal.DeleteByRowId(xe.RowId);
+                    ObjMemberDal.DeleteByPRowId(xe.RowId.ToString());
                     foreach (var item in AnhDal.SelectByPId(DAL.con(), xe.RowId.ToString(),50))
                     {
                         var file = newDic + item.FileAnh;

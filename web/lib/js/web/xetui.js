@@ -32,6 +32,20 @@ var autoFn = {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
             });
         }
+        , msg: function (tit, txt, fn, time) {
+            var body = $('#AlertModal').find('.modal-body');
+            var title = $('#AlertModal').find('.modal-title');
+            body.html('');
+            title.html('');
+            if (tit == '') tit = 'Thông báo';
+            title.html(tit);
+            body.html(txt);
+            $('#AlertModal').modal('show');
+            if (time == null) time = 2000;
+            setTimeout(function () {
+                $('#AlertModal').modal('hide');
+            }, time);
+        }
     }
     , url: {
         login: '/lib/ajax/login/default.aspx'
@@ -517,7 +531,7 @@ var autoFn = {
             var pnl = $('.car-add-pnl');
             if ($(pnl).length < 1) return;
 
-            pnl.on('click','.setBiaBtn', function () {
+            pnl.on('click', '.setBiaBtn', function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var data1 = [];
@@ -532,7 +546,7 @@ var autoFn = {
                 });
             });
 
-            pnl.on('click','.removeBtn', function () {
+            pnl.on('click', '.removeBtn', function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var con = confirm('Xóa bỏ ảnh?');
@@ -562,16 +576,17 @@ var autoFn = {
         }
     }
     , binhLuanFn: {
-        init:function () {
+        init: function () {
             autoFn.binhLuanFn.postFn();
+            autoFn.binhLuanFn.replyFn();
         }
-        , postFn:function () {
-            var pnl = $('.binhLuan-post');
+        , postFn: function () {
+            var pnl = $('.binhLuanPostBox');
             if ($(pnl).length < 1) return;
-
+            var binhLuanItems = $('.binhLuan-Items');
             var btn = pnl.find('.saveBtn');
             var txt = pnl.find('.txt');
-            
+
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
 
@@ -579,13 +594,14 @@ var autoFn = {
                 alertErr.hide();
                 alertOk.hide();
                 var val = txt.val();
-                if(val=='') {
+                if (val == '') {
                     alertErr.show();
                     alertErr.html('Nhập nội dung bạn ơi');
                     return;
                 }
                 var data = pnl.find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
+                data.push({ name: 'cUrl', value: document.location.href });
                 btn.hide();
                 $.ajax({
                     url: autoFn.url.binhLuan
@@ -593,11 +609,11 @@ var autoFn = {
                     , data: data
                    , success: function (rs) {
                        btn.show();
-                       alertOk.show();
-                       alertOk.html('Gửi thành công');
                        txt.val('');
-                       setTimeout(function() {
-                           alertOk.hide();
+                       var newItem = $(rs).prependTo(binhLuanItems);
+                       newItem.addClass('animated bounceInDown');
+                       setTimeout(function () {
+                           newItem.removeClass('animated bounceInDown');
                        }, 1000);
                    }
                    , error: function () {
@@ -608,7 +624,91 @@ var autoFn = {
                 });
 
             });
-            
+
+        }
+        , replyFn: function () {
+            var pnl = $('.binhLuan-ListBox');
+            if ($(pnl).length < 1) return;
+            var replyPnl = $('.binhLuanReplyBox');
+
+            pnl.on('click', '.replyBtn', function () {
+                var item = $(this);
+                var footer = item.parent().parent();
+                var binhLuanItem = footer.parent();
+
+                var pRowId = item.attr('data-pRowId');
+                var pid = item.attr('data-pid');
+                var newReplyPnl = binhLuanItem.find('.binhLuanReplyBox');
+                if ($(newReplyPnl).length < 1) {
+                    newReplyPnl = replyPnl.clone().insertAfter(footer);
+                }
+                newReplyPnl.show();
+                newReplyPnl.find('.PBL_ID').val(pid);
+
+                var txt = newReplyPnl.find('.txt');
+                var btn = newReplyPnl.find('.replySaveBtn');
+                btn.click(function () {
+                    var val = txt.val();
+                    if (val == '') {
+                        autoFn.utils.msg('Thông báo', 'Nhập nội dung bình luận nhé');
+                        return;
+                    }
+
+                    var data = newReplyPnl.find(':input').serializeArray();
+                    data.push({ name: 'subAct', value: 'save' });
+                    data.push({ name: 'cUrl', value: document.location.href });
+                    btn.hide();
+                    $.ajax({
+                        url: autoFn.url.binhLuan
+                        , type: 'POST'
+                        , data: data
+                       , success: function (rs) {
+                           btn.show();
+                           //autoFn.utils.msg('Thành công', 'Bình luận đã được gửi thành công',null,100);
+                           txt.val('');
+                           var newItem = $(rs).insertAfter(newReplyPnl);
+                           newItem.addClass('animated bounceInDown');
+                           setTimeout(function () {
+                               newItem.removeClass('animated bounceInDown');
+                           }, 1000);
+                           newReplyPnl.remove();
+                       }
+                       , error: function () {
+                           btn.show();
+                           autoFn.utils.msg('Thông báo', 'Đang lỗi, vui lòng thử lại sau ít phút');
+                       }
+                    });
+                });
+
+            });
+
+            pnl.on('click', '.removeBlBtn', function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var con = confirm('Bạn muốn xóa bỏ bình luận này?');
+                if (!con) return;
+
+                var data = [];
+                data.push({ name: 'subAct', value: 'remove' });
+                data.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.binhLuan
+                        , type: 'POST'
+                        , data: data
+                       , success: function (rs) {
+                           var binhLuanItem = item.parent().parent().parent();
+                           binhLuanItem.addClass('animated bounceOutRight');
+                           setTimeout(function () {
+                               binhLuanItem.remove();
+                           }, 500);
+                       }
+                       , error: function () {
+                           autoFn.utils.msg('Thông báo', 'Đang lỗi, vui lòng thử lại sau ít phút');
+                       }
+                });
+
+
+            });
         }
     }
 };

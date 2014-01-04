@@ -15,7 +15,8 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
         var txt = Request["txt"];
         var PRowId = Request["PRowId"];
         var Id = Request["Id"];
-        var PBL_ID = Request["P_Id"];
+        var PBL_ID = Request["PBL_ID"];
+        var cUrl = Request["cUrl"];
         var logged = Security.IsAuthenticated();
         var idNull = string.IsNullOrEmpty(Id);
         switch (subAct)
@@ -39,8 +40,63 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                         {
                             item.P_RowId = new Guid(PRowId);
                         }
+                        item.Url = cUrl;
                         item.RowId = Guid.NewGuid();
                         item = BinhLuanDal.Insert(item);
+                        ObjMemberDal.Insert(new ObjMember()
+                                                {
+                                                    PRowId = item.P_RowId
+                                                    ,
+                                                    Username = Security.Username
+                                                    ,
+                                                    Owner = false
+                                                    ,
+                                                    NgayTao = DateTime.Now
+                                                    ,
+                                                    RowId = Guid.NewGuid()
+                                                });
+                        ObjMemberDal.Insert(new ObjMember()
+                        {
+                            PRowId = item.RowId
+                            ,
+                            Username = Security.Username
+                            ,
+                            Owner = true
+                            ,
+                            RowId = Guid.NewGuid()
+                        });
+                        var obj = ObjDal.Insert(new Obj()
+                        {
+                            ID = Guid.NewGuid()
+                            ,
+                            Kieu = typeof(BinhLuan).FullName
+                            ,
+                            NgayTao = DateTime.Now
+                            ,
+                            RowId = item.RowId
+                            ,
+                            Url = cUrl
+                            ,
+                            Username = Security.Username
+                        });
+
+                        systemMessageDal.Insert(new systemMessage()
+                                                    {
+                                                        NoiDung = string.Format("{0} bình luận",item.Member.Ten)
+                                                        , HeThong = false
+                                                        , ID = Guid.NewGuid()
+                                                        , PRowId = item.P_RowId
+                                                        , NgayTao = DateTime.Now
+                                                        , Active = true
+                                                        , Loai = 1
+                                                        , Url = cUrl
+                                                        , Ten = string.Empty
+                                                        , ThanhVienMoi = false
+                                                        , Username = Security.Username
+                                                        , ThuTu =  0                                                        
+                                                    });
+
+                        
                     }
                     else
                     {
