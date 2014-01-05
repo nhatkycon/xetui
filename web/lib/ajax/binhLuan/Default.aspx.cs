@@ -75,21 +75,21 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                             ,
                             RowId = item.RowId
                             ,
-                            Url = cUrl
+                            Url = string.Format("{0}#{1}", cUrl, item.ID)
                             ,
                             Username = Security.Username
                         });
 
                         systemMessageDal.Insert(new systemMessage()
                                                     {
-                                                        NoiDung = string.Format("{0} bình luận",item.Member.Ten)
+                                                        NoiDung = string.Format("<strong>{0}</strong> bình luận",item.Member.Ten)
                                                         , HeThong = false
                                                         , ID = Guid.NewGuid()
                                                         , PRowId = item.P_RowId
                                                         , NgayTao = DateTime.Now
                                                         , Active = true
                                                         , Loai = 1
-                                                        , Url = cUrl
+                                                        , Url = string.Format("{0}#{1}", cUrl,item.ID)
                                                         , Ten = string.Empty
                                                         , ThanhVienMoi = false
                                                         , Username = Security.Username

@@ -33,16 +33,21 @@
       </li>
     </ul>--%>
     <ul class="nav navbar-nav navbar-right">
-      <li class="">
-              <a href="javascript:;">
+        <li class="notification notibox">
+              <a href="/" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-bell"></i>
                   Thông báo
+                  <span class="notificationBubble" data-total="0"></span>
               </a>
+            <ul class="dropdown-menu noti-items">
+                
+            </ul>
           </li>
-          <li class="">
-              <a href="javascript:;">
+          <li class="notification msgbox">
+              <a href="/pm/">
                   <i class="glyphicon glyphicon-comment"></i>
                   Tin nhắn
+                  <span class="notificationBubble" data-total="0"></span>
               </a>
           </li>
          <li>
@@ -52,7 +57,7 @@
                 </a>
             </li>
           <li class="dropdown">
-            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="/" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-user"></i>
                 Cá nhân <b class="caret"></b>
             </a>

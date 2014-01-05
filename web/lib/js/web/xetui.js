@@ -1,4 +1,6 @@
-﻿jQuery(function () {
+﻿var pmLatestLoadedTimer;
+var pmLatestLoadedTimeOut = 10000;
+jQuery(function () {
     $('#__VIEWSTATE').remove();
     autoFn.ini();
 });
@@ -10,6 +12,9 @@ var autoFn = {
         autoFn.accFn.init();
         autoFn.carFn.init();
         autoFn.binhLuanFn.init();
+        autoFn.connect.init();
+        autoFn.pmFn.init();
+        autoFn.likeFn.init();
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -52,6 +57,8 @@ var autoFn = {
         , account: '/lib/ajax/account/default.aspx'
         , car: '/lib/ajax/car/default.aspx'
         , binhLuan: '/lib/ajax/binhLuan/default.aspx'
+        , thongBao: '/lib/ajax/thongBao/default.aspx'
+        , pm: '/lib/ajax/Pm/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -709,6 +716,336 @@ var autoFn = {
 
 
             });
+        }
+    }
+    ,pmFn: {
+        init:function () {
+            autoFn.pmFn.addFn();
+            autoFn.pmFn.manageFn();
+        }
+        ,addFn:function () {
+            $(document).on('click', '.pmBtn', function () {
+                var item = $(this);
+                var toUser = item.attr('data-user');
+                var pnl = $('#pmPostBoxModal');
+                if ($(pnl).length < 1) return;
+
+                var btn = pnl.find('.saveBtn');
+                var txt = pnl.find('.txt');
+                var toUserEl = pnl.find('.toUser');
+                toUserEl.val(toUser);
+                
+                $('#pmPostBoxModal').modal('show');
+                
+                var alertErr = pnl.find('.alert-danger');
+                var alertOk = pnl.find('.alert-success');
+
+                btn.unbind('click').click(function () {
+                    alertErr.hide();
+                    alertOk.hide();
+                    var val = txt.val();
+                    if (val == '') {
+                        alertErr.show();
+                        alertErr.html('Nhập nội dung bạn ơi');
+                        return;
+                    }
+                    var data = pnl.find(':input').serializeArray();
+                    data.push({ name: 'subAct', value: 'add' });
+                    data.push({ name: 'cUrl', value: document.location.href });
+                    btn.hide();
+                    $.ajax({
+                        url: autoFn.url.pm
+                        , type: 'POST'
+                        , data: data
+                       , success: function (rs) {
+                           btn.show();
+                           txt.val('');
+                           $('#pmPostBoxModal').modal('hide');
+                           autoFn.utils.msg('Thành công', 'Bạn đã gửi tin nhắn thành công', null, 1000);
+                       }
+                       , error: function () {
+                           btn.show();
+                           alertErr.show();
+                           alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
+                       }
+                    });
+
+                });
+
+            });
+
+        }
+        , manageFn:function () {
+            var pnl = $('.PmRooms');
+            if ($(pnl).length < 1) return;
+            var pmContainer = $('.PmContainer');
+            pnl.find('.PmRoom-Item').click(function() {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var data = [];
+                data.push({ name: 'subAct', value: 'getPmBox' });
+                data.push({ name: 'Id', value: id });
+                pmContainer.html('Nạp...');
+                $.ajax({
+                    url: autoFn.url.pm
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       pmContainer.html(rs);
+                       var pmList = pmContainer.find('.PmList');
+                       var bottom = pmList.find('.PmList-bottom');
+                       pmList.scrollTo(bottom);
+                   }
+                });
+                autoFn.pmFn.getNewest();
+            });
+
+            $(pmContainer).on('click', '.btnSendPm', function () {
+                var item = $(this);
+                var pmPost = item.parent().parent().parent();
+                var toUser = item.attr('data-toUser');
+                var id = item.attr('data-id');
+                var txt = pmPost.find('.txt');
+                
+                var val = txt.val();
+                if (val == '') {
+                    return;
+                }
+                var data = pmPost.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'add' });
+                data.push({ name: 'toUser', value: toUser });
+                data.push({ name: 'cUrl', value: document.location.href });
+                item.hide();
+                $.ajax({
+                    url: autoFn.url.pm
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       item.show();
+                       txt.val('');
+                       if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
+                       autoFn.pmFn.getNewest();
+                   }
+                   , error: function () {
+                       if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
+                       autoFn.pmFn.getNewest();
+                       item.show();
+                       autoFn.utils.msg('Lỗi gì đó', 'Lỗi gì đó, thử lại sau bạn nhé', null, 1000);
+                   }
+                });
+            });
+
+            
+            $(pmContainer).on('click', '.pm-item-more', function () {
+                var item = $(this);
+                var roomId = item.attr('data-roomId');
+                var id = item.attr('data-id');
+                item.remove();
+                var data = [];
+                data.push({ name: 'subAct', value: 'getPmList-More' });
+                data.push({ name: 'Id', value: roomId });
+                data.push({ name: 'fromId', value: id });
+                $.ajax({
+                    url: autoFn.url.pm
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       var pmList = pmContainer.find('.PmList');
+                       $(rs).prependTo(pmList);
+                       pmList.scrollTo(0);
+                   }
+                   , error: function () {
+                       
+                   }
+                });
+            });
+
+        }
+        , getNewest:function () {
+            var item = $('.pm-item-lastest');
+            if ($(item).length < 1) {
+                if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
+                pmLatestLoadedTimer =setTimeout(function () {
+                    autoFn.pmFn.getNewest();
+                }, pmLatestLoadedTimeOut);
+                return;
+            };
+
+            var roomId = item.attr('data-roomId');
+            var id = item.attr('data-id');
+            item.remove();
+            var pmList = $('.PmList');
+            var data = [];
+            data.push({ name: 'subAct', value: 'getPmList-Latest' });
+            data.push({ name: 'Id', value: roomId });
+            data.push({ name: 'fromId', value: id });
+            $.ajax({
+                url: autoFn.url.pm
+                , type: 'POST'
+                , data: data
+               , success: function (rs) {
+                   $(rs).appendTo(pmList);
+                   var bottom = pmList.find('.PmList-bottom');
+                   pmList.scrollTo(bottom);
+                   if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
+                   pmLatestLoadedTimer = setTimeout(function () {
+                       autoFn.pmFn.getNewest();
+                   }, pmLatestLoadedTimeOut);
+               }
+               ,error:function () {
+                   if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
+                   pmLatestLoadedTimer = setTimeout(function () {
+                       autoFn.pmFn.getNewest();
+                   }, pmLatestLoadedTimeOut);
+               }
+            });
+        }
+    }
+    ,connect: {
+        init: function () {
+            if (!logged) return;
+            autoFn.connect.notifications();
+            autoFn.connect.messages();
+        }
+        , notifications: function () {
+            var notibox = $('.notibox');
+            var msgbox = $('.msgbox');
+            
+            var data = [];
+            data.push({ name: 'subAct', value: 'notifications' });
+            $.ajax({
+                url: autoFn.url.thongBao
+                , type: 'POST'
+                , data: data
+                , dataType: 'SCRIPT'
+               , success: function (rs) {
+                   var counts = eval(rs);
+                   var totalNoti = parseInt(counts[0]);
+                   var totalMsg = parseInt(counts[1]);
+                   
+                   if (totalNoti > 0) {
+                       var bubble = notibox.find('.notificationBubble');
+                       notibox.addClass('notification-active');
+                       bubble.html(totalNoti);
+                       var oldTotal = parseInt(bubble.attr('data-total'));
+
+                       bubble.attr('data-total', totalNoti);
+                       if (totalNoti != oldTotal) {
+                           bubble.addClass('animated bounceInDown');
+                           setTimeout(function () {
+                               bubble.removeClass('animated bounceInDown');
+                           }, 10000);
+                       }
+
+                   } else {
+                       notibox.removeClass('notification-active');
+                   }
+                   
+
+                   if (totalMsg > 0) {
+                       var bubbleMsg = msgbox.find('.notificationBubble');
+                       msgbox.addClass('notification-active');
+                       bubbleMsg.html(totalMsg);
+                       var oldTotalMsg = parseInt(bubbleMsg.attr('data-total'));
+
+                       bubbleMsg.attr('data-total', totalMsg);
+                       if (totalMsg != oldTotalMsg) {
+                           bubbleMsg.addClass('animated bounceInDown');
+                           setTimeout(function () {
+                               bubbleMsg.removeClass('animated bounceInDown');
+                           }, 10000);
+                       }
+
+                   } else {
+                       msgbox.removeClass('notification-active');
+                   }
+
+                   setTimeout(function() {
+                       autoFn.connect.notifications();
+                   }, 10000);
+               }
+               ,error:function () {
+                   setTimeout(function () {
+                       autoFn.connect.notifications();
+                   }, 10000);
+               }
+            });
+
+            notibox.find('a.dropdown-toggle').unbind('click').click(function () {
+                var items = notibox.find('.dropdown-menu');
+                items.html('Đang nạp');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'notifications-get' });
+                $.ajax({
+                    url: autoFn.url.thongBao
+                    , type: 'POST'
+                    , data: data1
+                   , success: function (rs) {
+                       items.html(rs);
+                   }
+                   , error: function () {
+
+                   }
+                });
+            });
+
+        }
+        , messages: function () {
+        }
+    }
+    , likeFn: {
+        init:function() {
+            autoFn.likeFn.likeXeFn();
+            autoFn.likeFn.likeOtherFn();
+        }
+        , likeXeFn:function () {
+            $(document).on('click', '.xeLikedBtn', function() {
+                var item = $(this);
+                var id = item.attr('data-id');
+                if (!logged)
+                    return;
+                item.unbind('click');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'likeXe' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data1
+                   , success: function (rs) {
+                       item.removeClass('btn-primary');
+                       item.addClass('btn-default');
+                   }
+                   , error: function () {
+
+                   }
+                });
+            });
+            $(document).on('click', '.xeUnLikedBtn', function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                if (!logged)
+                    return;
+                item.unbind('click');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'unLikeXe' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data1
+                   , success: function (rs) {
+                       item.removeClass('btn-default');
+                       item.addClass('btn-primary');
+                   }
+                   , error: function () {
+
+                   }
+                });
+            });
+        }
+        , likeOtherFn:function () {
+            
         }
     }
 };

@@ -32,6 +32,34 @@ namespace linh.common
         //    }
             
         //}
+        public static string TimeDiff(DateTime date)
+        {
+            var dt = DateTime.Now;
+            var timespan = dt - date;
+            if(timespan.TotalSeconds  < 10)
+            {
+                return "vừa xong";
+            }
+            if (timespan.TotalSeconds < 60)
+            {
+                return string.Format("{0} giây trước", Math.Floor(timespan.TotalSeconds));
+            }
+            if (timespan.TotalMinutes < 60)
+            {
+                return string.Format("{0} phút trước", Math.Floor(timespan.TotalMinutes));
+            }
+
+            if (timespan.TotalHours < 24)
+            {
+                return string.Format("{0} giờ trước", Math.Floor(timespan.TotalHours));
+            }
+
+            if (timespan.TotalDays < 7)
+            {
+                return string.Format("{0} ngày trước", Math.Floor(timespan.TotalDays));
+            }
+            return date.ToString("dd/MM/yyyy");
+        }
         public static string TinhTuoi(bool MangThai, DateTime dob)
         {
             var dt = DateTime.Now;

@@ -5,6 +5,7 @@ using docsoft.entities;
 using linh.common;
 using linh.controls;
 using linh.core;
+using linh.core.dal;
 
 public partial class lib_ajax_login_Default : BasedPage
 {
@@ -67,9 +68,11 @@ public partial class lib_ajax_login_Default : BasedPage
                         userFb.ChungThuc = false;
                         userFb.Email = email;
                         userFb.FbId = id;
+                        userFb.Active = true;
                         userFb = MemberDal.Insert(userFb);
                         var saveAvatar = new SaveAvatarDelegate(SaveAvatar);
                         saveAvatar.BeginInvoke(userFb.ID, id, dic, null, null);
+                        MemberDal.UpdateVcard(DAL.con(), userFb.Username);
                         Security.Login(username, "true");
                         rendertext("1");
                     }
@@ -119,7 +122,9 @@ public partial class lib_ajax_login_Default : BasedPage
                     user.XacNhan = false;
                     user.ChungThuc = false;
                     user.Email = Email;
+                    user.Active = true;
                     MemberDal.Insert(user);
+                    MemberDal.UpdateVcard(DAL.con(), user.Username);
                     Security.Login(username, "true");
                     rendertext("1");
                 }

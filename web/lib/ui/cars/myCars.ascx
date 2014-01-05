@@ -1,6 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="myCars.ascx.cs" Inherits="lib_ui_cars_myCars" %>
 <%@ Register src="~/lib/ui/cars/templates/carcard-item.ascx" tagPrefix="temp" tagName="carCardItem" %>
 <%@ Register Src="~/lib/ui/cars/templates/myCar-item.ascx" TagPrefix="temp" TagName="myCaritem" %>
+<%@ Register Src="~/lib/ui/cars/templates/myCarLiked-item.ascx" TagPrefix="temp" TagName="myCarLikeditem" %>
+
 
 <div class="padding-20">    
     <ul class="nav nav-tabs">
@@ -32,7 +34,7 @@
       <div class="tab-pane" id="liked-cars">
         <asp:Repeater runat="server" ID="likedCars">
             <ItemTemplate>
-                <temp:myCaritem runat="server" ID="myCaritem" Item='<%# Container.DataItem %>' />
+                <temp:myCarLikeditem runat="server" ID="myCarLikeditem" Item='<%# Container.DataItem %>' />
             </ItemTemplate>
         </asp:Repeater>   
       </div>

@@ -86,15 +86,22 @@
             <div class="car-view-buttons">
                 <div class="pull-right">
                     <a href="javascript:;" class="btn btn-link reportBtn">
-                        Xe đểu
+                        Báo xe đểu
                     </a>    
                 </div>
-                <a href="javascript:;" class="btn btn-primary linkedBtn">
-                    <i class="glyphicon glyphicon-star"></i>
+                <%if(!Item.Liked){ %>
+                <a href="javascript:;" data-id="<%=Item.ID %>" class="btn btn-primary xeLikedBtn">
+                    <i class="glyphicon glyphicon-star-empty"></i>
                     Thích
                 </a>
+                <%}else{ %>
+                <a href="javascript:;" data-id="<%=Item.ID %>" class="btn btn-default xeUnLikedBtn">
+                    <i class="glyphicon glyphicon-star-empty"></i>
+                    Đã thích
+                </a>
+                <%} %>
                 &nbsp;
-                <a href="javascript:;" class="btn btn-warning msgBtn">
+                <a href="javascript:;" data-user="<%=Item.NguoiTao %>" class="btn btn-warning pmBtn">
                     Nhắn tin
                 </a>                
             </div>

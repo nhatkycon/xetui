@@ -136,14 +136,12 @@ namespace docsoft
         }
         public static bool Login(string username, string ReUser)
         {
-            var isOke = false;
             HttpContext.Current.Session[sessionName] = null;
             var item = MemberDal.SelectByUsername(username);
             var c = new HttpCookie(cookieName);
             item.Username = username;
             HttpContext.Current.Session[sessionName] = null;
             HttpContext.Current.Session[sessionName] = item;
-            isOke = true;
             if (ReUser.ToLower() == "true")
             {
                 c.Values.Add("Username", username);
@@ -157,7 +155,7 @@ namespace docsoft
                 c.Expires = DateTime.Now.AddDays(-1);
                 HttpContext.Current.Response.Cookies.Add(c);
             }
-            return isOke;
+            return true;
         }
         public static void LogOut()
         {

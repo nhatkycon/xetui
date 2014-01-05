@@ -2,6 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Frijole);
 @import url(fonts.css);
 @import url(xe.css);
+@import url(chat.css);
 html, body
 {
     margin:0;
@@ -632,4 +633,106 @@ h1, h2 {
 {
     background-color: #FFF;
     
+}
+.notification {
+    position: relative;
+}
+.notification i {
+    color: #ccc;
+}
+.notification .notificationBubble {
+    background-color: #FF0000;
+    border-radius: 30px;
+    box-shadow: 1px 1px 1px #808080;
+    color: #FFFFFF;
+    font-size: 0.55em;
+    font-weight: bold;
+    padding: 1px 8px;
+    position: absolute;
+    right: -3px;
+    top: 2px;
+    display: none;
+}
+.notification-active i {
+    color: #333;
+}
+.notification-active .notificationBubble {
+    display: block;
+}
+.noti-items > li {
+    border-bottom: solid 1px #ccc;
+}
+.noti-items > li > a.noti-item {
+    display: block;
+    width: 280px;
+    overflow: hidden;
+    padding: 10px;
+}
+.noti-items > li:last-child {
+    border-bottom: 0px;
+}
+.noti-item {
+    display: block;
+    font: 11px/14px sans-serif;
+}
+.noti-item-user {
+    float: left;
+}
+.noti-item-avatar {
+    width: 50px;
+    height: 50px;
+}
+.noti-item-body {
+    padding-left: 60px;
+    display: block;
+}
+.noti-item-text {
+    display: block;
+}
+.noti-item-date {
+    display: block;
+    margin-top: 10px;
+    color: #808080;
+}
+
+.PmRoom-Item {
+    padding: 10px;
+    overflow: hidden;
+    border-bottom: solid 1px #ccc;
+    cursor: pointer;
+}
+.PmRooms .list-group-item:last-child {
+    border-bottom: 0px;
+}
+.PmRoom-Item-User {
+    float: left;
+}
+.PmRoom-Item-Avatar {
+    width: 50px;
+    height: 50px;
+    border: 0px;
+}
+.PmRoom-Item-Body {
+    padding-left: 60px;
+}
+.PmList {
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+.PmPost {
+    
+}
+.PmPost-Buttons {
+    margin-top: 10px;
+}
+.pm-item-lastest {
+    display: none;
+}
+.pm-item-more {
+    cursor: pointer;
+}
+.pm-item-older {
+    text-align: center;
 }

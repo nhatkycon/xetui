@@ -34,6 +34,7 @@ namespace docsoft.entities
         #endregion
         #region Customs properties
 
+        public Member Member { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -222,11 +223,53 @@ namespace docsoft.entities
             {
                 Item.Username = (String)(rd["SM_Username"]);
             }
+            var mem = new Member();
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+            if (rd.FieldExists("MEM_Anh"))
+            {
+                mem.Anh = (String)(rd["MEM_Anh"]);
+            }
+            Item.Member = mem;
             return Item;
         }
         #endregion
 
         #region Extend
+        public static systemMessageCollection SelectByUser(string username, int Top, bool? Doc)
+        {
+            var list = new systemMessageCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("username", username);
+            obj[1] = new SqlParameter("Top", Top);
+            if (Doc.HasValue)
+            {
+                obj[2] = new SqlParameter("Doc", Doc.Value);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("Doc", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblsystemMessage_Select_SelectByUser_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static Int32 NewByUser(string username)
+        {
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("username", username);
+            return
+                Convert.ToInt32(
+                    SqlHelper.ExecuteScalar(DAL.con(), CommandType.StoredProcedure,
+                                            "sp_tblsystemMessage_Select_NewByUser_linhnx", obj).ToString());
+        }
         #endregion
     }
     #endregion
@@ -423,6 +466,7 @@ namespace docsoft.entities
         #endregion
 
         #region Extend
+        
         #endregion
     }
     #endregion

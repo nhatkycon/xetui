@@ -164,6 +164,7 @@ namespace docsoft.entities
 
         public string NguoiTao_Ten { get; set; }
         public Member Member { get; set; }
+        public bool Liked { get; set; }
         #endregion
         public string XeUrl
         {
@@ -358,6 +359,28 @@ namespace docsoft.entities
             }
             return Item;
         }
+        public static Xe SelectByIdUsername(SqlConnection con, Int64 X_ID, string username)
+        {
+            var item = new Xe();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("X_ID", X_ID);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectByIdUsername_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         public static XeCollection SelectAll()
         {
             var List = new XeCollection();
@@ -542,6 +565,10 @@ namespace docsoft.entities
             if (rd.FieldExists("X_GioiThieu"))
             {
                 Item.GioiThieu = (String)(rd["X_GioiThieu"]);
+            }
+            if (rd.FieldExists("X_Liked"))
+            {
+                Item.Liked = (Boolean)(rd["X_Liked"]);
             }
             return Item;
         }

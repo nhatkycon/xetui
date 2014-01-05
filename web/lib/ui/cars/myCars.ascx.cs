@@ -5,11 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using docsoft.entities;
+using linh.controls;
 
 public partial class lib_ui_cars_myCars : System.Web.UI.UserControl
 {
     public List<Xe> MyCarsList { get; set; }
-    public List<Xe> LikedCarsList { get; set; }
+    public Pager<XeYeuThich> LikedCarsPager { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         if(MyCarsList!=null)
@@ -26,9 +27,9 @@ public partial class lib_ui_cars_myCars : System.Web.UI.UserControl
             formerCars.DataSource = formerCarsList;
             formerCars.DataBind();
         }
-        if(LikedCarsList!=null)
+        if (LikedCarsPager != null)
         {
-            likedCars.DataSource = LikedCarsList;
+            likedCars.DataSource = LikedCarsPager.List;
             likedCars.DataBind();
         }
     }
