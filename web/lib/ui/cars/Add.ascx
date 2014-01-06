@@ -5,7 +5,7 @@
 <div class="padding-20 car-add-pnl">
     <form class="form-horizontal car-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
-        <input type="hidden" name="RowId" class="RowId"  value="<%=Item.ID == 0 ? Guid.NewGuid() : Item.RowId %>"/>
+        <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
         <div class="form-group">
             <label for="HANG_ID" class="col-sm-2 col-md-2 control-label">Hãng</label>
             <div class="col-sm-4 col-md-4">
@@ -160,7 +160,7 @@
             </div>
         </div>
     </form> 
-    <div class="car-add-upload">
+    <div class="car-add-upload upload-anh-box" data-id="<%=Item.RowId %>">
         <div class="row">
             <span class="col-sm-offset-2 col-sm-10">
                 <span class="btn btn-success btn-lg car-add-upload-box">
@@ -171,8 +171,8 @@
                 </span>
             </span>    
         </div>
-        <div id="progress" class="progress progress-striped" style="display: none;">
-            <div class="bar progress_bar"></div>
+        <div id="progress" class="progress" style="display: none;">
+            <div class="progress-bar progress-bar-success"></div>
         </div>
         <div class="well well-lg view-large car-add-upload-dropzone">
             <asp:Repeater runat="server" ID="AnhList" Visible="False">

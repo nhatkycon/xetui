@@ -15,6 +15,8 @@ var autoFn = {
         autoFn.connect.init();
         autoFn.pmFn.init();
         autoFn.likeFn.init();
+        autoFn.XuLyAnhFn.init();
+        autoFn.blogFn.init();
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -32,6 +34,18 @@ var autoFn = {
 			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList'],
 		            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Link', 'Unlink']
 		        ], height: '100px'
+            };
+            var editor = jQuery(el).ckeditor(config, function () {
+                //CKFinder.setupCKEditor(this, '../js/ckfinder/');
+            });
+        }
+        , editorLarge: function (el) {
+            var config = {
+                toolbar:
+		        [
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList'],
+		            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Link', 'Unlink']
+		        ], height: '400px'
             };
             var editor = jQuery(el).ckeditor(config, function () {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
@@ -60,6 +74,8 @@ var autoFn = {
         , thongBao: '/lib/ajax/thongBao/default.aspx'
         , pm: '/lib/ajax/Pm/default.aspx'
         , thich: '/lib/ajax/thich/default.aspx'
+        , upload: '/lib/ajax/upload/default.aspx'
+        , blog: '/lib/ajax/blog/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -526,7 +542,6 @@ var autoFn = {
 
             var HANG_ID = pnl.find('.HANG_ID');
             var MODEL_ID = pnl.find('.MODEL_ID');
-            var RowId = pnl.find('.RowId');
             var GioiThieu = pnl.find('.GioiThieu');
 
             var btn = pnl.find('.saveBtn');
@@ -601,22 +616,96 @@ var autoFn = {
 
             autoFn.utils.editor(GioiThieu);
 
-            autoFn.carFn.XuLyAnh();
-            autoFn.carFn.AnhFn();
+        }
+        
+    }
+    , blogFn: {
+        init:function () {
+            autoFn.blogFn.Add();
+            autoFn.blogFn.CommonFn();
+        }
+        , Add:function () {
+            var pnl = $('.blog-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var txt = pnl.find('.Ten');
+            var noiDung = pnl.find('.NoiDung');
+            
+            autoFn.utils.editorLarge(noiDung);
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+            var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
+            if (anh != '') {
+                data.push({ name: 'Anh', value: anh });
+            }
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+                var data = pnl.find('.blog-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+                $.ajax({
+                    url: autoFn.url.blog
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           //document.location.href = '/my-cars/';
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa xe?');
+                if (!con) return;
+
+                var data = pnl.find('.blog-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: autoFn.url.blog
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = '/my-cars/';
+                   }
+                });
+            });
+        }
+        , CommonFn:function () {
+            
+        }
+    }
+    , XuLyAnhFn: {
+        init: function name() {
+            autoFn.XuLyAnhFn.XuLyAnh();
+            autoFn.XuLyAnhFn.AnhFn();
         }
         , XuLyAnh: function () {
-            var pnl = $('.car-add-pnl');
+            var pnl = $('.upload-anh-box');
             if ($(pnl).length < 1) return;
             var viewLarge = pnl.find('.view-large');
-            var RowId = pnl.find('.RowId');
+            var rowId = pnl.attr('data-id');
 
             $('#fileupload').fileupload({
-                url: autoFn.url.car,
+                url: autoFn.url.upload,
                 dataType: 'json',
                 dropZone: viewLarge,
                 formData: {
                     'subAct': 'upload'
-                    , 'Id': RowId.val()
+                    , 'Id': rowId
                 },
                 done: function (e, data) {
                     $('#progress').hide();
@@ -628,7 +717,7 @@ var autoFn = {
                         if (windowWidth > 1024) {
                             anhItem.find('.anh-img').Jcrop({
                                 onSelect: function (c) {
-                                    autoFn.carFn.XuLyAnhCrop(c, anhItem);
+                                    autoFn.XuLyAnhFn.XuLyAnhCrop(c, anhItem);
                                 },
                                 bgColor: 'black',
                                 bgOpacity: .4,
@@ -646,7 +735,7 @@ var autoFn = {
                             apply.hide();
                             anhItem.find('.anh-img').hide();
                             var anhFix = anhItem.find('.anh-fix');
-                            var url = autoFn.url.car + '?subAct=GetImageMobile&Key=' + anhFix.attr('data-key');
+                            var url = autoFn.url.upload + '?subAct=GetImageMobile&Key=' + anhFix.attr('data-key');
                             anhFix.show();
                             anhFix.addClass('img-responsive');
                             anhFix.attr('src', url);
@@ -657,7 +746,7 @@ var autoFn = {
                 progressall: function (e, data) {
                     $('#progress').show();
                     var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .bar').css(
+                    $('#progress').find('.progress-bar').css(
                     'width',
                     progress + '%'
                 );
@@ -665,7 +754,7 @@ var autoFn = {
             });
         }
         , AnhFn: function () {
-            var pnl = $('.car-add-pnl');
+            var pnl = $('.upload-anh-box');
             if ($(pnl).length < 1) return;
 
             pnl.on('click', '.setBiaBtn', function () {
@@ -675,7 +764,7 @@ var autoFn = {
                 data1.push({ name: 'subAct', value: 'SetAnhChinh' });
                 data1.push({ name: 'Id', value: id });
                 $.ajax({
-                    url: autoFn.url.car
+                    url: autoFn.url.upload
                     , type: 'POST'
                     , data: data1
                     , success: function (rs) {
@@ -692,7 +781,7 @@ var autoFn = {
                 data1.push({ name: 'subAct', value: 'RemoveImage' });
                 data1.push({ name: 'Id', value: id });
                 $.ajax({
-                    url: autoFn.url.car
+                    url: autoFn.url.upload
                     , type: 'POST'
                     , data: data1
                     , success: function (rs) {
@@ -708,7 +797,7 @@ var autoFn = {
             el.find('.y1').val(c.y2);
             el.find('.w').val(Math.round(c.w));
             el.find('.h').val(Math.round(c.h));
-            var data = autoFn.url.car + '?' + el.find(':input').serialize();
+            var data = autoFn.url.upload + '?' + el.find(':input').serialize();
             el.find('.anh-fix').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
         }
     }

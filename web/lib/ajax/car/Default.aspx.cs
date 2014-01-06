@@ -73,50 +73,8 @@ public partial class lib_ajax_car_Default : BasedPage
                 }
                 break;
             #endregion
-            case "upload":
-                #region upload image
-                Response.ContentType = "text/plain";//"application/json";
-                var r = new List<ViewDataUploadFilesResult>();
-                foreach (string file in Request.Files)
-                {
-
-                    var hpf = Request.Files[file] as HttpPostedFile;
-                    var key = Guid.NewGuid().ToString();
-                    var img = new ImageProcess(hpf.InputStream, key);
-                    var fileName = key + img.Ext;
-                    img.Resize(960);
-                    img.Save(dic + key + "full" + img.Ext);
-                    img.Save(dic + key + img.Ext);
-
-                    var anh = new Anh()
-                                  {
-                                      ID = Guid.NewGuid()
-                                      ,
-                                      P_ID = new Guid(Id)
-                                      ,
-                                      FileAnh = fileName
-                                      , NgayTao = DateTime.Now                                      
-                                  };
-                    anh = AnhDal.Insert(anh);
-                    r.Add(new ViewDataUploadFilesResult()
-                    {
-                        Id = anh.ID.ToString(),
-                        Thumbnail_url = key + img.Ext,
-                        Name = key + "full" + img.Ext,
-                        Length = hpf.ContentLength,
-                        Type = hpf.ContentType
-                    });
-                    var uploadedFiles = new
-                    {
-                        files = r.ToArray()
-                    };
-                    var jsonObj = js.Serialize(uploadedFiles);
-                    Response.Write(jsonObj);
-                }
-                break;
-                #endregion
             case "save":
-            #region Save anh
+            #region Save
                 if (logged)
                 {
                     RaoBan = !string.IsNullOrEmpty(RaoBan) ? "true" : "false";
@@ -257,26 +215,6 @@ public partial class lib_ajax_car_Default : BasedPage
                 }
                 break;
             #endregion
-            case "GetImage":
-                #region get image
-                if (Key != null)
-                {
-                    var fileName = dic + Lib.imgSize(Key, "full");
-                    var src = new Bitmap(fileName);
-                    var cropRect = new Rectangle(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(w), Convert.ToInt32(h));
-                    var cropted = Lib.CropBitmap(src, cropRect);
-                    var img = new ImageProcess(cropted, Key);
-                    File.Delete(dic + Key);
-                    if (img.Width < 960)
-                        img.Resize(960);
-                    Response.ClearContent();
-                    Response.ContentType = img.Mime;
-                    img.Save(newDic + Key);
-                    img.Save();
-                    Response.End();
-                }
-                break;
-                #endregion
             case "remove":
                 #region remove car
                 if (Id != null && logged)
@@ -299,53 +237,8 @@ public partial class lib_ajax_car_Default : BasedPage
                 }
                 break;
                 #endregion
-            case "RemoveImage":
-                #region remove image
-                if (Id != null)
-                {
-                    var item = AnhDal.SelectById(new Guid(Id));
-                    var file = newDic + item.FileAnh;
-                    if(File.Exists(file))
-                    {
-                        File.Delete(newDic + item.FileAnh);                        
-                    }
-                    AnhDal.DeleteById(item.ID);
-                }
-                break;
-                #endregion
-            case "SetAnhChinh":
-                #region Set Anh Chinh
-                if (Id != null)
-                {
-                    var item = AnhDal.SelectById(new Guid(Id));                    
-                    var xe = XeDal.SelectByRowId(item.P_ID);
-                    AnhDal.UpdateAnhBia(item.ID);
-                    if(xe.ID!=0)
-                    {
-                        xe.Anh = item.FileAnh;
-                        XeDal.Update(xe);    
-                    }
-                }
-                break;
-                #endregion
-            case "GetImageMobile":
-                #region get image in mobile
-                if (Key != null)
-                {
-                    var fileName = dic + Lib.imgSize(Key, "full");
-                    var img = new ImageProcess(fileName, Key);
-                    File.Delete(dic + Key);
-                    if(img.Heigth < 540)
-                        img.ResizeHeight(540);
-                    img.Crop(960, 540);
-                    Response.ClearContent();
-                    Response.ContentType = img.Mime;
-                    img.Save(newDic + Key);
-                    img.Save();
-                    Response.End();
-                }
-                break;
-                #endregion
+            
+            
         }
     }
 }

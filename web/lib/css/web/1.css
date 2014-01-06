@@ -848,3 +848,29 @@ h1, h2 {
     padding: 0px;
     margin: 0px;
 }
+h3.profile-info-header {
+    margin: 0 0 15px;
+    font: 20px/1 sans-serif;
+    text-shadow: 1px 1px #dadada;
+    text-rendering: optimizeLegibility;
+}
+.profile-info-about {
+    position: relative;
+    font: 12px/1.4 sans-serif;
+    word-wrap: break-word;
+    color: #333;
+}
+.profile-info ul {
+    margin: 0 0 20px;
+}
+.profile-info ul li {
+    margin: 0 0 8px;
+    font: 12px/1.4 sans-serif;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.profile-info ul li a {
+    color: #205090;
+    text-decoration: none;
+    font: 12px/1.4 sans-serif;
+}

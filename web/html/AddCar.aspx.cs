@@ -13,7 +13,10 @@ public partial class html_AddCar : System.Web.UI.Page
     {
         var Id = Request["ID"];
         var idNull = string.IsNullOrEmpty(Id);
-        var Item = new Xe();
+        var Item = new Xe()
+                       {
+                           RowId = Guid.NewGuid()
+                       };
 
         using (var con = DAL.con())
         {

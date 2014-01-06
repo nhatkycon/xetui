@@ -111,10 +111,6 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                 #region remove comment
                 break;
                 #endregion
-            case "getById":
-                #region get comment by id
-                break;
-                #endregion
         }
     }
 }

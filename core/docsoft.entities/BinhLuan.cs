@@ -59,7 +59,7 @@ namespace docsoft.entities
         }
         public static BinhLuan Insert(BinhLuan Inserted)
         {
-            var Item = new BinhLuan();
+            var item = new BinhLuan();
             var obj = new SqlParameter[11];
             obj[0] = new SqlParameter("BL_P_RowId", Inserted.P_RowId);
             obj[1] = new SqlParameter("BL_PBL_ID", Inserted.PBL_ID);
@@ -85,10 +85,10 @@ namespace docsoft.entities
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
 
         public static BinhLuan Update(BinhLuan Updated)

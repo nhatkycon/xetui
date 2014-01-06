@@ -62,3 +62,28 @@
         </div>
     </div>
 </div>
+<div class="padding-20">
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4 profile-info">
+            <h3 class="profile-info-header">
+                Về tôi
+            </h3>
+            <h3 class="profile-info-about">
+                <%=Item.Mota %>
+            </h3>
+            <hr class="hr comment-hr"/>
+            <h3 class="profile-info-header">
+                Cộng đồng
+            </h3>
+            <ul>
+                <li>
+                    <a href="/communities/">Audi</a>
+                </li>
+                <li>
+                    <a href="/communities/">Xe nhật</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
