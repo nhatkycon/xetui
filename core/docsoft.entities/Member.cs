@@ -52,6 +52,10 @@ namespace docsoft.entities
         public String Vcard { get; set; }
         public DateTime NgaySinh { get; set; }
         public DateTime LastLoggedIn { get; set; }
+        public Int32 TotalLiked { get; set; }
+        public Int32 TotalComment { get; set; }
+        public Int32 TotalBlog { get; set; }
+        public Int32 TotalXe { get; set; }
         #endregion
         #region Contructor
         public Member()
@@ -92,8 +96,8 @@ namespace docsoft.entities
 
         public static Member Insert(Member Inserted)
         {
-            Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[31];
+            var item = new Member();
+            var obj = new SqlParameter[35];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -170,14 +174,18 @@ namespace docsoft.entities
             {
                 obj[30] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
             }
+            obj[31] = new SqlParameter("MEM_TotalLiked", Inserted.TotalLiked);
+            obj[32] = new SqlParameter("MEM_TotalComment", Inserted.TotalComment);
+            obj[33] = new SqlParameter("MEM_TotalBlog", Inserted.TotalBlog);
+            obj[34] = new SqlParameter("MEM_TotalXe", Inserted.TotalXe);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
         /// <summary>
         /// ham nay dung de chuyen du lieu Duc viet
@@ -187,8 +195,8 @@ namespace docsoft.entities
         /// <returns></returns>
         public static Member Insert(Member Inserted, SqlTransaction tran)
         {
-            Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[31];
+            var item = new Member();
+            var obj = new SqlParameter[35];
             obj[0] = new SqlParameter("MEM_Ho", Inserted.Ho);
             obj[1] = new SqlParameter("MEM_Ten", Inserted.Ten);
             obj[2] = new SqlParameter("MEM_Mota", Inserted.Mota);
@@ -263,20 +271,24 @@ namespace docsoft.entities
             {
                 obj[30] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
             }
+            obj[31] = new SqlParameter("MEM_TotalLiked", Inserted.TotalLiked);
+            obj[32] = new SqlParameter("MEM_TotalComment", Inserted.TotalComment);
+            obj[33] = new SqlParameter("MEM_TotalBlog", Inserted.TotalBlog);
+            obj[34] = new SqlParameter("MEM_TotalXe", Inserted.TotalXe);
             using (IDataReader rd = SqlHelper.ExecuteReader(tran, CommandType.StoredProcedure, "sp_tblMember_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
 
         public static Member Update(Member Updated)
         {
             Member Item = new Member();
-            SqlParameter[] obj = new SqlParameter[32];
+            SqlParameter[] obj = new SqlParameter[36];
             obj[0] = new SqlParameter("MEM_ID", Updated.ID);
             obj[1] = new SqlParameter("MEM_Ho", Updated.Ho);
             obj[2] = new SqlParameter("MEM_Ten", Updated.Ten);
@@ -361,6 +373,11 @@ namespace docsoft.entities
             {
                 obj[31] = new SqlParameter("MEM_LastLoggedIn", DBNull.Value);
             }
+            obj[32] = new SqlParameter("MEM_TotalComment", Updated.TotalComment);
+            obj[33] = new SqlParameter("MEM_TotalBlog", Updated.TotalBlog);
+            obj[34] = new SqlParameter("MEM_TotalLiked", Updated.TotalLiked);
+            obj[35] = new SqlParameter("MEM_TotalXe", Updated.TotalXe);
+
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -713,6 +730,22 @@ namespace docsoft.entities
             {
                 Item.GH_ID = (Int32)(rd["GH_ID"]);
             }
+            if (rd.FieldExists("MEM_TotalLiked"))
+            {
+                Item.TotalLiked = (Int32)(rd["MEM_TotalLiked"]);
+            }
+            if (rd.FieldExists("MEM_TotalComment"))
+            {
+                Item.TotalComment = (Int32)(rd["MEM_TotalComment"]);
+            }
+            if (rd.FieldExists("MEM_TotalBlog"))
+            {
+                Item.TotalBlog = (Int32)(rd["MEM_TotalBlog"]);
+            }
+            if (rd.FieldExists("MEM_TotalXe"))
+            {
+                Item.TotalXe = (Int32)(rd["MEM_TotalXe"]);
+            }
             if (rd.FieldExists("MEM_Tinh"))
             {
                 Item.Tinh = (Guid)(rd["MEM_Tinh"]);
@@ -905,10 +938,14 @@ namespace docsoft.entities
         }
         public static Member SelectAllByUserName(string strMem)
         {
+            return SelectAllByUserName(DAL.con(), strMem);
+        }
+        public static Member SelectAllByUserName(SqlConnection con, string strMem)
+        {
             var item = new Member();
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("MEM_Username", strMem);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_linhnx", obj))
             {
                 while (rd.Read())
                 {

@@ -90,14 +90,18 @@
                     </a>    
                 </div>
                 <%if(!Item.Liked){ %>
-                <a href="javascript:;" data-id="<%=Item.ID %>" class="btn btn-primary xeLikedBtn">
+                <a href="javascript:;" data-id="<%=Item.RowId %>" data-loai="1" class="btn btn-primary likeBtn">
                     <i class="glyphicon glyphicon-star-empty"></i>
-                    Thích
+                    <span>
+                    Thích                        
+                    </span>
                 </a>
                 <%}else{ %>
-                <a href="javascript:;" data-id="<%=Item.ID %>" class="btn btn-default xeUnLikedBtn">
-                    <i class="glyphicon glyphicon-star-empty"></i>
+                <a href="javascript:;" data-id="<%=Item.RowId %>" data-loai="1" class="btn btn-default liked likeBtn">
+                    <i class="glyphicon glyphicon-star"></i>
+                    <span>
                     Đã thích
+                    </span>
                 </a>
                 <%} %>
                 &nbsp;

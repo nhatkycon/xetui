@@ -59,6 +59,7 @@ var autoFn = {
         , binhLuan: '/lib/ajax/binhLuan/default.aspx'
         , thongBao: '/lib/ajax/thongBao/default.aspx'
         , pm: '/lib/ajax/Pm/default.aspx'
+        , thich: '/lib/ajax/thich/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -66,6 +67,9 @@ var autoFn = {
             autoFn.loginfn.registerAc();
             autoFn.loginfn.common();
             autoFn.loginfn.loginModal();
+            autoFn.loginfn.resendActive();
+            autoFn.loginfn.recoverFn();
+            autoFn.loginfn.recreatingPasswordFn();
         }
         , common: function () {
 
@@ -82,10 +86,12 @@ var autoFn = {
                             FB.logout(function () { document.location.reload(); });
                         }
                         catch (err) {
-                            document.location.reload();
+                            //document.location.reload();
                         }
                         finally {
-                            document.location.reload();
+                            setTimeout(function () {
+                                document.location.reload();
+                            }, 1000);
                         }
                         setTimeout(function () {
                             document.location.reload();
@@ -192,7 +198,7 @@ var autoFn = {
                                 if (rs == "0") {
                                     autoFn.loginfn.registerFbAc(res);
                                 } else {
-                                    document.location.reload();
+                                    document.location.href = '/acc/';
                                 }
                             }
                         });
@@ -258,7 +264,7 @@ var autoFn = {
                             alertMsg.fadeIn();
                             alertMsg.html('Facebook này đã tạo tài khoản rồi');
                         } else {
-                            document.location.reload();
+                            document.location.href = '/Register-Success/';
                         }
                     }
                 });
@@ -299,14 +305,138 @@ var autoFn = {
                            alertMsg.fadeIn();
                            alertMsg.html('Nhập đủ tên, e-mail xịn và mật khẩu nhé');
                        } else {
-                           document.location.reload();
+                           document.location.href = '/Register-Success/';
                        }
+                   }
+                   , error: function () {
+                       alertMsg.fadeIn();
+                       alertMsg.html('Có lỗi, vui lòng thử lại sau nhé');
                    }
                 });
 
             });
 
 
+        }
+        , resendActive: function () {
+            var btn = $('.btnResendEmail');
+            if ($(btn).length < 1) return;
+
+            btn.click(function () {
+                var data = {
+                    subAct: 'reSendActive'
+                };
+                $.ajax({
+                    url: autoFn.url.login
+                    , data: data
+                    , type: 'POST'
+                    , success: function (rs) {
+                        autoFn.utils.msg('Gửi xác nhận thành công', 'Bạn vui lòng kiểm tra lại hòm thư sau vài phút', null, 3000);
+                    }
+                });
+            });
+        }
+        , recoverFn: function () {
+            var pnl = $('.recoverPasswordPnl');
+            if ($(pnl).length < 1) return;
+
+            var btn = pnl.find('.saveBtn');
+            var txt = pnl.find('.Email');
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập E-mail');
+                    return;
+                }
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'recover-sendEmail' });
+                data.push({ name: 'cUrl', value: document.location.href });
+                btn.hide();
+                $.ajax({
+                    url: autoFn.url.login
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       btn.show();
+                       if (rs == '0') {
+                           alertErr.show();
+                           alertErr.html('E-mail không tồn tại trên Xetui.vn');
+                       } else if (rs == '2') {
+                           alertErr.show();
+                           alertErr.html('Tài khoản này chưa xác nhận E-mail nên chúng tôi không thể giúp bạn khôi phục mật khẩu');
+                       }
+                       else {
+                           alertOk.show();
+                           alertOk.html('Kiểm tra E-mail của bạn để khôi phục lại mật khẩu');
+                       }
+                       txt.val('');
+                   }
+                   , error: function () {
+                       btn.show();
+                       alertErr.show();
+                       alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
+                   }
+                });
+            });
+        }, recreatingPasswordFn: function () {
+            var pnl = $('.recoverSavePasswordPnl');
+            if ($(pnl).length < 1) return;
+
+            var btn = pnl.find('.savePwdBtn');
+            var txt = pnl.find('.Pwd');
+            var id = btn.attr('data-id');
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập E-mail');
+                    return;
+                }
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'recover-newPassword' });
+                data.push({ name: 'id', value: id });
+                data.push({ name: 'cUrl', value: document.location.href });
+                btn.hide();
+                $.ajax({
+                    url: autoFn.url.login
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       btn.show();
+                       if (rs == '0') {
+                           alertErr.show();
+                           alertErr.html('E-mail không tồn tại trên Xetui.vn');
+                       } else if (rs == '2') {
+                           alertErr.show();
+                           alertErr.html('Tài khoản này chưa xác nhận E-mail nên chúng tôi không thể giúp bạn khôi phục mật khẩu');
+                       }
+                       else {
+                           alertOk.show();
+                           alertOk.html('Khôi phục mật khẩu thành công');
+                           setTimeout(function () {
+                               document.location.href = '/acc/';
+                           }, 2000);
+                       }
+                       txt.val('');
+                   }
+                   , error: function () {
+                       btn.show();
+                       alertErr.show();
+                       alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
+                   }
+                });
+            });
         }
     }
     , accFn: {
@@ -629,7 +759,6 @@ var autoFn = {
                        alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
                    }
                 });
-
             });
 
         }
@@ -718,12 +847,12 @@ var autoFn = {
             });
         }
     }
-    ,pmFn: {
-        init:function () {
+    , pmFn: {
+        init: function () {
             autoFn.pmFn.addFn();
             autoFn.pmFn.manageFn();
         }
-        ,addFn:function () {
+        , addFn: function () {
             $(document).on('click', '.pmBtn', function () {
                 var item = $(this);
                 var toUser = item.attr('data-user');
@@ -734,9 +863,9 @@ var autoFn = {
                 var txt = pnl.find('.txt');
                 var toUserEl = pnl.find('.toUser');
                 toUserEl.val(toUser);
-                
+
                 $('#pmPostBoxModal').modal('show');
-                
+
                 var alertErr = pnl.find('.alert-danger');
                 var alertOk = pnl.find('.alert-success');
 
@@ -775,11 +904,11 @@ var autoFn = {
             });
 
         }
-        , manageFn:function () {
+        , manageFn: function () {
             var pnl = $('.PmRooms');
             if ($(pnl).length < 1) return;
             var pmContainer = $('.PmContainer');
-            pnl.find('.PmRoom-Item').click(function() {
+            pnl.find('.PmRoom-Item').click(function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var data = [];
@@ -806,7 +935,7 @@ var autoFn = {
                 var toUser = item.attr('data-toUser');
                 var id = item.attr('data-id');
                 var txt = pmPost.find('.txt');
-                
+
                 var val = txt.val();
                 if (val == '') {
                     return;
@@ -835,7 +964,7 @@ var autoFn = {
                 });
             });
 
-            
+
             $(pmContainer).on('click', '.pm-item-more', function () {
                 var item = $(this);
                 var roomId = item.attr('data-roomId');
@@ -855,17 +984,17 @@ var autoFn = {
                        pmList.scrollTo(0);
                    }
                    , error: function () {
-                       
+
                    }
                 });
             });
 
         }
-        , getNewest:function () {
+        , getNewest: function () {
             var item = $('.pm-item-lastest');
             if ($(item).length < 1) {
                 if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
-                pmLatestLoadedTimer =setTimeout(function () {
+                pmLatestLoadedTimer = setTimeout(function () {
                     autoFn.pmFn.getNewest();
                 }, pmLatestLoadedTimeOut);
                 return;
@@ -892,7 +1021,7 @@ var autoFn = {
                        autoFn.pmFn.getNewest();
                    }, pmLatestLoadedTimeOut);
                }
-               ,error:function () {
+               , error: function () {
                    if (pmLatestLoadedTimer) clearTimeout(pmLatestLoadedTimer);
                    pmLatestLoadedTimer = setTimeout(function () {
                        autoFn.pmFn.getNewest();
@@ -901,7 +1030,7 @@ var autoFn = {
             });
         }
     }
-    ,connect: {
+    , connect: {
         init: function () {
             if (!logged) return;
             autoFn.connect.notifications();
@@ -910,7 +1039,8 @@ var autoFn = {
         , notifications: function () {
             var notibox = $('.notibox');
             var msgbox = $('.msgbox');
-            
+            if (!logged)
+                return;
             var data = [];
             data.push({ name: 'subAct', value: 'notifications' });
             $.ajax({
@@ -922,7 +1052,7 @@ var autoFn = {
                    var counts = eval(rs);
                    var totalNoti = parseInt(counts[0]);
                    var totalMsg = parseInt(counts[1]);
-                   
+
                    if (totalNoti > 0) {
                        var bubble = notibox.find('.notificationBubble');
                        notibox.addClass('notification-active');
@@ -940,7 +1070,7 @@ var autoFn = {
                    } else {
                        notibox.removeClass('notification-active');
                    }
-                   
+
 
                    if (totalMsg > 0) {
                        var bubbleMsg = msgbox.find('.notificationBubble');
@@ -960,11 +1090,11 @@ var autoFn = {
                        msgbox.removeClass('notification-active');
                    }
 
-                   setTimeout(function() {
+                   setTimeout(function () {
                        autoFn.connect.notifications();
                    }, 10000);
                }
-               ,error:function () {
+               , error: function () {
                    setTimeout(function () {
                        autoFn.connect.notifications();
                    }, 10000);
@@ -994,58 +1124,48 @@ var autoFn = {
         }
     }
     , likeFn: {
-        init:function() {
+        init: function () {
             autoFn.likeFn.likeXeFn();
             autoFn.likeFn.likeOtherFn();
         }
-        , likeXeFn:function () {
-            $(document).on('click', '.xeLikedBtn', function() {
-                var item = $(this);
-                var id = item.attr('data-id');
+        , likeXeFn: function () {
+
+            $(document).on('click', '.likeBtn', function () {
                 if (!logged)
                     return;
-                item.unbind('click');
-                var data1 = [];
-                data1.push({ name: 'subAct', value: 'likeXe' });
-                data1.push({ name: 'Id', value: id });
-                $.ajax({
-                    url: autoFn.url.car
-                    , type: 'POST'
-                    , data: data1
-                   , success: function (rs) {
-                       item.removeClass('btn-primary');
-                       item.addClass('btn-default');
-                   }
-                   , error: function () {
-
-                   }
-                });
-            });
-            $(document).on('click', '.xeUnLikedBtn', function () {
                 var item = $(this);
                 var id = item.attr('data-id');
-                if (!logged)
-                    return;
-                item.unbind('click');
-                var data1 = [];
-                data1.push({ name: 'subAct', value: 'unLikeXe' });
-                data1.push({ name: 'Id', value: id });
-                $.ajax({
-                    url: autoFn.url.car
-                    , type: 'POST'
-                    , data: data1
-                   , success: function (rs) {
-                       item.removeClass('btn-default');
-                       item.addClass('btn-primary');
-                   }
-                   , error: function () {
+                var loai = item.attr('data-loai');
+                var liked = item.hasClass('liked');
 
-                   }
+                if (liked) {
+                    item.removeClass('liked');
+                    item.find('i').removeClass('glyphicon-star');
+                    item.find('i').addClass('glyphicon-star-empty');
+                    item.find('span').html('Thích');
+
+                } else {
+                    item.addClass('liked');
+                    item.find('i').removeClass('glyphicon-star-empty');
+                    item.find('i').addClass('glyphicon-star');
+                    item.find('span').html('Đã thích');
+                }
+                $.ajax({
+                    url: autoFn.url.thich
+                    , data: {
+                        subAct: 'like',
+                        ID: id,
+                        Liked: liked,
+                        Loai: loai
+                    },
+                    success: function () {
+
+                    }
                 });
             });
         }
-        , likeOtherFn:function () {
-            
+        , likeOtherFn: function () {
+
         }
     }
 };

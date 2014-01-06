@@ -10,7 +10,7 @@ using linh.controls;
 public partial class lib_ui_cars_myCars : System.Web.UI.UserControl
 {
     public List<Xe> MyCarsList { get; set; }
-    public Pager<XeYeuThich> LikedCarsPager { get; set; }
+    public Pager<Xe> LikedCarsPager { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         if(MyCarsList!=null)

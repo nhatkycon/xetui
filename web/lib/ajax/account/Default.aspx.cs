@@ -10,6 +10,7 @@ using linh.core.dal;
 
 public partial class lib_ajax_account_Default : BasedPage
 {
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         var logged = Security.IsAuthenticated();

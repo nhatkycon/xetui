@@ -299,29 +299,6 @@ public partial class lib_ajax_car_Default : BasedPage
                 }
                 break;
                 #endregion
-            case "likeXe":
-                #region like car
-                if (Id != null && logged)
-                {
-                    var xe = XeDal.SelectById(Convert.ToInt64(Id));
-                    XeYeuThichDal.Insert(new XeYeuThich()
-                                             {
-                                                 NgayTao = DateTime.Now
-                                                 , Username = Security.Username
-                                                 ,
-                                                 X_ID = xe.ID
-                                             });
-                }
-                break;
-                #endregion
-            case "unLikeXe":
-                #region lunike car
-                if (Id != null && logged)
-                {
-                    XeYeuThichDal.DeleteByUserXid(Security.Username, Id);
-                }
-                break;
-                #endregion
             case "RemoveImage":
                 #region remove image
                 if (Id != null)

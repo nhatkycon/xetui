@@ -53,7 +53,7 @@
     <Compile Include="Album.cs" />
     <Compile Include="Anh.cs" />
     <Compile Include="BinhLuan.cs" />
-    <Compile Include="XeYeuThich.cs" />
+    <Compile Include="Thich.cs" />
     <Compile Include="PmRoom.cs" />
     <Compile Include="PM.cs" />
     <Compile Include="Obj.cs" />

@@ -23,6 +23,8 @@ using System.Reflection;
 [assembly: WebResource("docsoft.plugin.hethong.thanhvien.thongTin.htm", "text/html", PerformSubstitution = true)]
 [assembly: WebResource("docsoft.plugin.hethong.thanhvien.trangThai.htm", "text/html", PerformSubstitution = true)]
 [assembly: WebResource("docsoft.plugin.hethong.thanhvien.thongTinCaNhan.htm", "text/html", PerformSubstitution = true)]
+[assembly: WebResource("docsoft.plugin.hethong.thanhvien.Xetui-email-welcome.html", "text/html", PerformSubstitution = true)]
+[assembly: WebResource("docsoft.plugin.hethong.thanhvien.Lay-lai-mat-khau.html", "text/html", PerformSubstitution = true)]
 namespace docsoft.plugin.hethong.thanhvien
 {
     public class Class1:docPlugUI

@@ -616,6 +616,15 @@ namespace docsoft.entities
             }
             return list;
         }
+
+        public static Pager<Xe> PagerXeYeuThichByUsername(SqlConnection con, string url, bool rewrite, string sort, string username)
+        {
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("Sort", sort);
+            obj[1] = new SqlParameter("username", username);
+            var pg = new Pager<Xe>(con, "sp_tblXe_Pager_pagerXeYeuThichByUsername_linhnx", "q", 20, 10, rewrite, url, obj);
+            return pg;
+        }
         #endregion
     }
     #endregion

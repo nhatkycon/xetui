@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using docsoft;
 using docsoft.entities;
 using linh.common;
 using linh.controls;
 using linh.core;
 using linh.core.dal;
-
+using docsoft.plugin.hethong.thanhvien;
 public partial class lib_ajax_login_Default : BasedPage
 {
     public delegate void SaveAvatarDelegate(int id, string fbid, string dic);
+    public delegate void SendEmailDelegate(string email, string title, string body);
+    public void SendMailSingle(string email, string title, string body)
+    {
+        omail.Send(email, "Xetui.vn", title, body, "gigawebhome@gmail.com", "Xetui.vn", "25111987");
+    }
     const string uAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; vi; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3";
     void SaveAvatar(int id, string fbid, string dic)
     {
@@ -123,12 +129,76 @@ public partial class lib_ajax_login_Default : BasedPage
                     user.ChungThuc = false;
                     user.Email = Email;
                     user.Active = true;
-                    MemberDal.Insert(user);
+                    user.DiaChi = CaptchaImage.GenerateRandomCode(CaptchaType.Numeric, 6);
+                    user = MemberDal.Insert(user);
                     MemberDal.UpdateVcard(DAL.con(), user.Username);
-                    Security.Login(username, "true");
+                    Security.Login(user.Username, Pwd, "true");
+
+                    var dele = new SendEmailDelegate(SendMailSingle);
+                    var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Xetui-email-welcome.html");
+                    dele.BeginInvoke(user.Email, "Xetui.vn - Xac nhan tai khoan"
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , null, null);
+
                     rendertext("1");
                 }
                 rendertext("3");
+                break;
+                #endregion
+            case "reSendActive":
+                #region reSend Active
+                if (Security.IsAuthenticated())
+                {
+                    var user = MemberDal.SelectAllByUserName(Security.Username);
+                    user.DiaChi = CaptchaImage.GenerateRandomCode(CaptchaType.Numeric, 6);
+                    user = MemberDal.Update(user);
+                    var dele = new SendEmailDelegate(SendMailSingle);
+                    var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Xetui-email-welcome.html");
+                    dele.BeginInvoke(user.Email, "Xetui.vn - Xac nhan tai khoan"
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , null, null);
+                    rendertext("1");
+                }
+                rendertext("0");
+                break;
+                #endregion
+            case "recover-sendEmail":
+                #region recover sendEmail
+                if (!string.IsNullOrEmpty(Email))
+                {
+                    var user = MemberDal.SelectAllByUserName(Email);
+                    if(user.ID==0)
+                        rendertext("0");
+                    if (!user.XacNhan)
+                        rendertext("2");
+                    user.DiaChi = CaptchaImage.GenerateRandomCode(CaptchaType.Numeric, 6);
+                    user = MemberDal.Update(user);
+                    var dele = new SendEmailDelegate(SendMailSingle);
+                    var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Lay-lai-mat-khau.html");
+                    dele.BeginInvoke(user.Email, "Xetui.vn - Lay lai mat khau"
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , null, null);
+                    rendertext("1");
+                }
+                rendertext("0");
+                break;
+                #endregion
+            case "recover-newPassword":
+                #region recover newPassword
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var user = MemberDal.SelectById(Convert.ToInt32(id));
+                    if (user.ID == 0)
+                        rendertext("0");
+                    if (!user.XacNhan)
+                        rendertext("2");
+                    user.DiaChi = string.Empty;
+                    user.Password = maHoa.EncryptString(Pwd, user.Username);
+                    user = MemberDal.Update(user);
+                    Security.Login(user.Username, "true");
+                    rendertext("1");
+                }
+                rendertext("0");
                 break;
                 #endregion
             case "login":

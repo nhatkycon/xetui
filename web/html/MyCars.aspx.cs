@@ -15,7 +15,7 @@ public partial class html_MyCars : System.Web.UI.Page
         using(var con = DAL.con())
         {
             myCars.MyCarsList = XeDal.SelectDuyetByNguoiTao(con, Security.Username, 20, null);
-            var pg = XeYeuThichDal.PagerByUsername(con, string.Empty, true, null, Security.Username);
+            var pg = XeDal.PagerXeYeuThichByUsername(con, string.Empty, true, null, Security.Username);
             myCars.LikedCarsPager = pg;
         }
     }

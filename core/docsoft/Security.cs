@@ -90,7 +90,7 @@ namespace docsoft
         }
         public static bool Login(string username, string pwd, string ReUser)
         {
-            bool isOke = false;
+            var isOke = false;
             if (username == null || pwd == null)
             {
                 return false;
@@ -100,7 +100,6 @@ namespace docsoft
             var c = new HttpCookie(cookieName);
             item.Username = username;
             HttpContext.Current.Session[sessionName] = null;
-            var temp = maHoa.MD5Encrypt(pwd);
             if (item.Password != null)
             {
                 if ((item.Password == maHoa.MD5Encrypt(pwd)) || (maHoa.DecryptString(item.Password, username) == pwd))

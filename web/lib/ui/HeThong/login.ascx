@@ -38,7 +38,7 @@
                         <button type="button" class="btn btn-primary loginBtn">Đăng nhập</button>
                         <a type="button" class="btn btn-success">Đăng ký</a>
                         <p>
-                            <a href="/" class="btn btn-link">Quên mật khẩu</a>
+                            <a href="/Recover/" class="btn btn-link">Quên mật khẩu</a>
                         </p>
                     </div>
                     <br/><br/>
