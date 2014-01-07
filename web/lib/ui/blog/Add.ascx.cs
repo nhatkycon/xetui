@@ -14,6 +14,12 @@ public partial class lib_ui_blog_Add : System.Web.UI.UserControl
     public string Loai { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        Id = Request["ID"];
+        if (Id != null)
+        {
+            AnhList.Visible = true;
+            AnhList.DataSource = Item.Anhs;
+            AnhList.DataBind();
+        }
     }
 }

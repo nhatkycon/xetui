@@ -19,11 +19,12 @@ public partial class lib_ajax_blog_Default : BasedPage
         var cUrl = Request["cUrl"];
         var noiDung = Request["NoiDung"];
         var logged = Security.IsAuthenticated();
-        var idNull = string.IsNullOrEmpty(Id);
+        var idNull = string.IsNullOrEmpty(Id) || Id == "0";
+
         switch (subAct)
         {
             case "save":
-                #region save comment
+                #region save blog
                 if (logged && !string.IsNullOrEmpty(PID_ID) && !string.IsNullOrEmpty(Loai))
                 {
                     var item = idNull ? new Blog() : BlogDal.SelectById(Convert.ToInt64(Id));
@@ -70,18 +71,40 @@ public partial class lib_ajax_blog_Default : BasedPage
                             ,
                             Username = Security.Username
                         });
-
-
                     }
                     else
                     {
                         item = BlogDal.Update(item);
                     }
+                    switch (item.Loai)
+                    {
+                        case 1:
+                            item.Profile = MemberDal.SelectByRowId(item.PID_ID);
+                            break;
+                        case 2:
+                            item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                            break;
+                        case 3:
+
+                            break;
+                    }
+                    rendertext(item.Url);
                 }
+                rendertext("0");
                 break;
                 #endregion
             case "remove":
-                #region remove comment
+                #region remove blog
+                if(!string.IsNullOrEmpty(Id) && logged)
+                {
+                    var item = BlogDal.SelectById(Convert.ToInt64(Id));
+                    if(item.NguoiTao==Security.Username)
+                    {
+                        ObjDal.DeleteByRowId(item.RowId);
+                        ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
+                        ThichDal.DeleteByPId(item.RowId);
+                    }
+                }
                 break;
                 #endregion
             case "getById":

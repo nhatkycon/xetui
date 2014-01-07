@@ -109,6 +109,16 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                 #endregion
             case "remove":
                 #region remove comment
+                if(!string.IsNullOrEmpty(Id))
+                {
+                    var item = BinhLuanDal.SelectById(Convert.ToInt64(Id));
+                    if(item.Username== Security.Username || item.X_NguoiTao == Security.Username)
+                    {
+                        ObjMemberDal.DeleteByPRowIdUsername(item.RowId.ToString(), Security.Username);
+                        ObjDal.DeleteByRowId(item.RowId);
+                        BinhLuanDal.DeleteById(item.ID);
+                    }
+                }
                 break;
                 #endregion
         }

@@ -12,6 +12,7 @@ public partial class lib_ui_account_vcard : System.Web.UI.UserControl
     public Member Item { get; set; }
     public List<Xe> XeDangLai { get; set; }
     public List<Xe> XeCu { get; set; }
+    public List<Xe> Xes { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         var user = Request["user"];
@@ -19,6 +20,7 @@ public partial class lib_ui_account_vcard : System.Web.UI.UserControl
         {
             Item = MemberDal.SelectByUser(user);
             var listCar = XeDal.SelectDuyetByNguoiTao(con, user, 20, true);
+            Xes = listCar;
             XeDangLai = (from p in listCar
                          where p.DangLai
                          select p).ToList();

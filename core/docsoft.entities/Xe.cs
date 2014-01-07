@@ -574,11 +574,34 @@ namespace docsoft.entities
         }
         #endregion
         #region Extend
+        public static Xe SelectByRowIdUsername(SqlConnection con, Guid RowId, string username)
+        {
+            var Item = new Xe();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("X_RowID", RowId);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectByRowId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    Item = getFromReader(rd);
+                }
+            }
+            return Item;
+        }
         public static Xe SelectByRowId(string RowId)
         {
             var Item = new Xe();
-            var obj = new SqlParameter[1];
+            var obj = new SqlParameter[2];
             obj[0] = new SqlParameter("X_RowID", RowId);
+            obj[1] = new SqlParameter("username", DBNull.Value);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Select_SelectByRowId_linhnx", obj))
             {
                 while (rd.Read())

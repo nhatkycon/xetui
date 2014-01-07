@@ -22,15 +22,28 @@ public partial class html_BlogAdd : System.Web.UI.Page
 
         using (var con = DAL.con())
         {
+            
             if (!idNull)
             {
                 item = BlogDal.SelectById(con, Convert.ToInt32(Id));
                 item.Anhs = AnhDal.SelectByPId(con, item.RowId.ToString(), 20);
+                
             }
-            else
+            item.Loai = Convert.ToInt32(Loai);
+            switch (item.Loai)
             {
-                item.PID_ID = new Guid(PID_ID);
-                item.Loai = Convert.ToInt32(Loai);
+                case 1: // Profile
+                    var mem = MemberDal.SelectAllByUserName(con, PID_ID);
+                    item.PID_ID = mem.RowId;
+                    item.Profile = mem;
+                    break;
+                case 2: // Xe
+                    var xe = XeDal.SelectById(con, Convert.ToInt64(PID_ID));
+                    item.PID_ID = xe.RowId;
+                    item.Xe = xe;
+                    break;
+                case 3: // Community
+                    break;
             }
             Add.Id = Id;
             Add.PID_ID = PID_ID;

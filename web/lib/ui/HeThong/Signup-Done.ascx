@@ -16,6 +16,15 @@
     <h3>Tiếp theo</h3>
     <hr class="hr comment-hr"/>
     <div class="row">
+        <div class="col-md-12">
+            <h3>Đổi ảnh đại diện</h3>
+            <div class="user-avatar user-avatar-180 myAccount-avatar">
+                <img class="user-avatar-img img-thumbnail" src="/lib/up/users/<%=Item.Anh %>" alt="<%=Item.Anh %>" />
+                <div class="changeBtn-box">
+                    <a href="javascript:;" class="btn btn-success changeBtn">Đổi ảnh</a>                            
+                </div>
+            </div>
+        </div>
         <div class="col-md-3 col-md-offset-1">
             <a href="/cars/add/" class="btn btn-success btn-lg" >1. Đăng ký xe</a>
             <p class="help-block">

@@ -13,7 +13,7 @@
         </label>
     </div>    
     <div class="anh-img-box img-thumbnail">
-        <img src="/lib/up/car/<%=Item.FileAnh %>" class="anh-img img-responsive"/>        
+        <img src="/lib/up/car/<%=Item.FileAnh %>" class="anh-img img-responsive"/>
     </div>
 <hr/>
 </div>

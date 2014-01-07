@@ -1,0 +1,32 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="view-car-slider.ascx.cs" Inherits="lib_ui_cars_view_car_slider" %>
+<% var i = 0; %>
+<div class="car-view-images">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <% foreach (var item in Item.Anhs)
+           {%>
+            <li data-target="#carousel-example-generic" data-slide-to="<%=i %>" class="<%=i==0 ? "active" : "" %>"></li>  
+            <% i++; %>
+        <% } %>           
+      </ol>
+      <!-- Wrapper for slides -->
+      <% i = 0; %>
+      <div class="carousel-inner">
+        <% foreach (var item in Item.Anhs)
+           {%>
+            <div class="item <%=i==0 ? "active" : "" %>">
+                <img width="100%" src="/lib/up/car/<%=item.FileAnh %>" alt=""/>
+            </div>
+            <% i++; %>
+        <% } %>
+      </div>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+</div>

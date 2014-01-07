@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Activities.Expressions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
 using linh.core;
@@ -26,6 +20,10 @@ public partial class html_car_view : BasedPage
                 Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);
                 Item.Member = MemberDal.SelectByUser(con, Item.NguoiTao);
                 view.Pager = BinhLuanDal.PagerByPRowId(con, "", true, Item.RowId.ToString(), 20);
+                var pagerBlog = BlogDal.PagerByPRowId(string.Empty, false, null, Item.RowId.ToString(),
+                                                      Security.Username);
+                view.PagerBlog = pagerBlog;
+
 
             }
             view.Item = Item;

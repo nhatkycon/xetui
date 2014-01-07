@@ -54,6 +54,8 @@
     <Compile Include="Anh.cs" />
     <Compile Include="BinhLuan.cs" />
     <Compile Include="Blog.cs" />
+    <Compile Include="Nhom.cs" />
+    <Compile Include="NhomThanhVien.cs" />
     <Compile Include="Thich.cs" />
     <Compile Include="PmRoom.cs" />
     <Compile Include="PM.cs" />

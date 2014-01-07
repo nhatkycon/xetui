@@ -56,6 +56,7 @@ namespace docsoft.entities
         public Int32 TotalComment { get; set; }
         public Int32 TotalBlog { get; set; }
         public Int32 TotalXe { get; set; }
+        public bool Liked { get; set; }
         #endregion
         #region Contructor
         public Member()
@@ -69,6 +70,10 @@ namespace docsoft.entities
         public Int32 GH_ID { get; set; }
         public bool Thich { get; set; }
         public Int32 SecondOnline { get; set; }
+        public string Url
+        {
+            get { return string.Format("/user/{0}",Username); }
+        }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -492,23 +497,52 @@ namespace docsoft.entities
         {
             return MemberDal.SelectByUsername(Username).ChungThuc;
         }
-
-        public static Member SelectByRowId(String MEM_RowId)
+        public static Member SelectByRowId(string memRowId)
         {
-            Member Item = new Member();
-            CoQuan _cq = new CoQuan();
-            SqlParameter[] obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("MEM_RowId", MEM_RowId);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Select_SelectByRowId_linhnx", obj))
+            return SelectByRowId(new Guid(memRowId));
+        }
+        public static Member SelectByRowId(Guid memRowId)
+        {
+            return SelectByRowId(DAL.con(), memRowId);
+        }
+        public static Member SelectByRowId(SqlConnection con, Guid memRowId)
+        {
+            var item = new Member();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("MEM_RowId", memRowId);
+            obj[1] = new SqlParameter("username", DBNull.Value);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectByRowId_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
-        
+        public static Member SelectByRowId(SqlConnection con, Guid memRowId, string username)
+        {
+            var item = new Member();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("MEM_RowId", memRowId);
+            if (!string.IsNullOrEmpty(username))
+            {
+
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectByRowId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
 
         public static MemberCollection SelectAll()
         {
@@ -780,6 +814,11 @@ namespace docsoft.entities
                 Item.LastLoggedIn = (DateTime)(rd["MEM_LastLoggedIn"]);
             }
             Item._CoQuan = _CQ;
+
+            if (rd.FieldExists("Liked"))
+            {
+                Item.Liked = (Boolean)(rd["Liked"]);
+            }
             return Item;
         }
         #endregion
@@ -943,8 +982,33 @@ namespace docsoft.entities
         public static Member SelectAllByUserName(SqlConnection con, string strMem)
         {
             var item = new Member();
-            var obj = new SqlParameter[1];
+            var obj = new SqlParameter[2];
             obj[0] = new SqlParameter("MEM_Username", strMem);
+            obj[1] = new SqlParameter("username", DBNull.Value);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+
+            return item;
+        }
+        public static Member SelectAllByUserName(SqlConnection con, string strMem, string username)
+        {
+            var item = new Member();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("MEM_Username", strMem);
+            if(!string.IsNullOrEmpty(username))
+            {
+
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
             using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectAllByUserName_linhnx", obj))
             {
                 while (rd.Read())
@@ -1282,6 +1346,42 @@ namespace docsoft.entities
             obj[1] = new SqlParameter("Vcard", vcard);
             SqlHelper.ExecuteNonQuery(con, CommandType.StoredProcedure, "sp_tblMember_Update_UpdateVcard_linhnx", obj);
             return vcard;
+        }
+        public static Pager<Member> PagerFanByRowId(string url, bool rewrite, string sort, string rowId, string refUser)
+        {
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Sort", sort);
+            obj[1] = new SqlParameter("rowId", rowId);
+            if (!string.IsNullOrEmpty(refUser))
+            {
+                obj[2] = new SqlParameter("refUser", refUser);
+
+            }
+            else
+            {
+
+                obj[2] = new SqlParameter("refUser", DBNull.Value);
+            }
+            var pg = new Pager<Member>("sp_tblMember_Pager_PagerFanByRowId_linhnx", "q", 20, 10, rewrite, url, obj);
+            return pg;
+        }
+        public static Pager<Member> PagerMemberLikedByUsername(string url, bool rewrite, string sort, string username, string refUser)
+        {
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("Sort", sort);
+            obj[1] = new SqlParameter("username", username);
+            if (!string.IsNullOrEmpty(refUser))
+            {
+                obj[2] = new SqlParameter("refUser", refUser);
+
+            }
+            else
+            {
+
+                obj[2] = new SqlParameter("refUser", DBNull.Value);
+            }
+            var pg = new Pager<Member>("sp_tblMember_Pager_PagerMemberLikedByUsername_linhnx", "q", 20, 10, rewrite, url, obj);
+            return pg;
         }
         #endregion
     }

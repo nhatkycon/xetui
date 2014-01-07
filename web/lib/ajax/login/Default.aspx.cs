@@ -74,6 +74,7 @@ public partial class lib_ajax_login_Default : BasedPage
                         userFb.ChungThuc = false;
                         userFb.Email = email;
                         userFb.FbId = id;
+                        userFb.RowId = Guid.NewGuid();
                         userFb.Active = true;
                         userFb = MemberDal.Insert(userFb);
                         var saveAvatar = new SaveAvatarDelegate(SaveAvatar);
@@ -129,6 +130,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     user.ChungThuc = false;
                     user.Email = Email;
                     user.Active = true;
+                    user.RowId = Guid.NewGuid();
                     user.DiaChi = CaptchaImage.GenerateRandomCode(CaptchaType.Numeric, 6);
                     user = MemberDal.Insert(user);
                     MemberDal.UpdateVcard(DAL.con(), user.Username);

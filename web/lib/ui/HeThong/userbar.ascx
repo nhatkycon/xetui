@@ -108,7 +108,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="/user/<%=string.IsNullOrEmpty(User.Username) ? User.ID.ToString() : User.Username %>">
+                    <a href="<%=User.Url %>">
                         <img class="img-circle img-thumbnail img-avatar-icon-navbar" src="/lib/up/users/<%=User.Anh %>"/>
                         <span class="img-avatar-icon-ten">
                             <%=Security.Ten %>                            

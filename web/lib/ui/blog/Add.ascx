@@ -1,6 +1,30 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Add.ascx.cs" Inherits="lib_ui_blog_Add" %>
 <%@ Register src="~/lib/ui/cars/templates/anh-item.ascx" tagPrefix="temp" tagName="anhItem" %>
 <div class="padding-20 blog-add-pnl">
+    <% switch (Item.Loai)
+       {%>
+    <%case 1: %>
+    <div class="h3-subtitle">
+        <a href="<%=Item.Profile.Url %>/blogs/">
+            <%=Item.Profile.Ten %>
+        </a>
+    </div>
+    <% break; %>
+    
+    <%case 2: %>
+    <div class="h3-subtitle">
+        <a href="<%=Item.Xe.XeUrl %>blogs/">
+            Nhật ký hành trình
+        </a>
+    </div>
+    <% break; %>
+    
+    <%case 3: %>
+    
+    <% break; %>
+
+    <% } %>
+    <hr class="hr comment-hr"/>
     <form class="form-horizontal blog-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
         <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>

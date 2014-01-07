@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BlogAnh-Item.ascx.cs" Inherits="lib_ui_blog_templates_BlogAnh_Item" %>
+<img alt="image at <%=Item.FileAnh %>" src="/lib/up/car/<%=Item.FileAnh %>" class="blog-item-pics-img img-responsive"/>

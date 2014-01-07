@@ -41,9 +41,74 @@ namespace docsoft.entities
         #region Customs properties
 
         public Member MemberNguoiTao { get; set; }
-        public Member MemberProfile { get; set; }
+        public Member Profile { get; set; }
         public Xe Xe { get; set; }
         public List<Anh> Anhs { get; set; }
+        public string AnhStr { get; set; }
+        public string Url
+        {
+            get
+            {
+                switch (Loai)
+                {
+                    case 1: // Profile
+                        if (Profile != null)
+                        {
+                            return string.Format("{0}/blogs/{1}/", Profile.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 2: // Xe
+                        if (Xe != null)
+                        {
+                            return string.Format("{0}blogs/{1}/", Xe.XeUrl, ID);                            
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 3: // Community
+                        break;
+                }
+                return string.Empty;
+            }
+        }
+        public string UrlEdit
+        {
+            get
+            {
+                switch (Loai)
+                {
+                    case 1: // Profile
+                        if (Profile != null)
+                        {
+                            return string.Format("{0}/blogs/edit/{1}/", Profile.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/edit/{0}/", ID);
+                        }
+                        break;
+                    case 2: // Xe
+                        if (Xe != null)
+                        {
+                            return string.Format("{0}blogs/edit/{1}/", Xe.XeUrl, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/edit/{0}/", ID);
+                        }
+                        break;
+                    case 3: // Community
+                        break;
+                }
+                return string.Empty;
+            }
+        }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -162,6 +227,28 @@ namespace docsoft.entities
             }
             return Item;
         }
+        public static Blog SelectById(SqlConnection con, Int64 BLOG_ID, string username)
+        {
+            var item = new Blog();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblBlog_Select_SelectById_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         public static BlogCollection SelectAll()
         {
             BlogCollection List = new BlogCollection();
@@ -258,11 +345,29 @@ namespace docsoft.entities
             {
                 Item.Liked = (Boolean)(rd["BLOG_Liked"]);
             }
+            var mem = new Member();
+            if (rd.FieldExists("MEM_Vcard"))
+            {
+                mem.Vcard = (String)(rd["MEM_Vcard"]);
+            }
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+            if (rd.FieldExists("MEM_Anh"))
+            {
+                mem.Anh = (String)(rd["MEM_Anh"]);
+            }
+            Item.MemberNguoiTao = mem;
             return Item;
         }
         #endregion
         #region Extend
         public static Pager<Blog> PagerByPRowId(string url, bool rewrite, string sort, string pRowId, string username)
+        {
+            return PagerByPRowId(DAL.con(), url, rewrite, sort, pRowId, username);
+        }
+        public static Pager<Blog> PagerByPRowId(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username)
         {
             var obj = new SqlParameter[3];
             obj[0] = new SqlParameter("Sort", sort);
@@ -275,12 +380,28 @@ namespace docsoft.entities
             {
                 obj[2] = new SqlParameter("username", username);
             }
-            var pg = new Pager<Blog>("sp_tblBlog_Pager_PagerByPRowId_linhnx", "q", 20, 10, rewrite, url, obj);
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowId_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
         public static Blog SelectByRowId(Guid RowId)
         {
             return SelectByRowId(RowId.ToString());
+        }
+        public static Pager<Blog> PagerByPRowIdFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username)
+        {
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Sort", sort);
+            obj[1] = new SqlParameter("pRowId", pRowId);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdFull_linhnx", "q", 20, 10, rewrite, url, obj);
+            return pg;
         }
         public static Blog SelectByRowId(string RowId)
         {

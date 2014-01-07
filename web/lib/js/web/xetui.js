@@ -617,29 +617,26 @@ var autoFn = {
             autoFn.utils.editor(GioiThieu);
 
         }
-        
+
     }
     , blogFn: {
-        init:function () {
+        init: function () {
             autoFn.blogFn.Add();
             autoFn.blogFn.CommonFn();
         }
-        , Add:function () {
+        , Add: function () {
             var pnl = $('.blog-add-pnl');
             if ($(pnl).length < 1) return;
             var btn = pnl.find('.saveBtn');
             var xoaBtn = pnl.find('.xoaBtn');
             var txt = pnl.find('.Ten');
             var noiDung = pnl.find('.NoiDung');
-            
+
             autoFn.utils.editorLarge(noiDung);
 
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
-            var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
-            if (anh != '') {
-                data.push({ name: 'Anh', value: anh });
-            }
+
             btn.click(function () {
                 alertErr.hide();
                 alertOk.hide();
@@ -651,6 +648,10 @@ var autoFn = {
                 }
                 var data = pnl.find('.blog-add-form').find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
+                var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
+                if (anh != '') {
+                    data.push({ name: 'Anh', value: anh });
+                }
                 $.ajax({
                     url: autoFn.url.blog
                     , type: 'POST'
@@ -662,7 +663,9 @@ var autoFn = {
                        } else {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
-                           //document.location.href = '/my-cars/';
+                           setTimeout(function() {
+                               document.location.href = rs;
+                           }, 1000);
                        }
                    }
                 });
@@ -684,8 +687,9 @@ var autoFn = {
                 });
             });
         }
-        , CommonFn:function () {
-            
+        , CommonFn: function () {
+            var ref = document.referrer;
+            console.log(ref);
         }
     }
     , XuLyAnhFn: {
@@ -1229,12 +1233,16 @@ var autoFn = {
 
                 if (liked) {
                     item.removeClass('liked');
+                    item.removeClass('btn-default');
+                    item.addClass('btn-primary');
                     item.find('i').removeClass('glyphicon-star');
                     item.find('i').addClass('glyphicon-star-empty');
                     item.find('span').html('Thích');
 
                 } else {
                     item.addClass('liked');
+                    item.removeClass('btn-primary');
+                    item.addClass('btn-default');
                     item.find('i').removeClass('glyphicon-star-empty');
                     item.find('i').addClass('glyphicon-star');
                     item.find('span').html('Đã thích');

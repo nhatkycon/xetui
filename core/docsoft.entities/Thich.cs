@@ -183,6 +183,12 @@ namespace docsoft.entities
             obj[1] = new SqlParameter("Username", Username);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblThich_Delete_DeleteByPIdUsername_linhnx", obj);
         }
+        public static void DeleteByPId(Guid P_ID)
+        {
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("P_ID", P_ID);
+            SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblThich_Delete_DeleteByPId_linhnx", obj);
+        }
         #endregion
     }
     #endregion
