@@ -570,6 +570,20 @@ namespace docsoft.entities
             {
                 Item.Liked = (Boolean)(rd["X_Liked"]);
             }
+            var mem = new Member();
+            if (rd.FieldExists("MEM_Vcard"))
+            {
+                mem.Vcard = (String)(rd["MEM_Vcard"]);
+            }
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+            if (rd.FieldExists("MEM_Anh"))
+            {
+                mem.Anh = (String)(rd["MEM_Anh"]);
+            }
+            Item.Member = mem;
             return Item;
         }
         #endregion
@@ -642,9 +656,23 @@ namespace docsoft.entities
 
         public static Pager<Xe> PagerXeYeuThichByUsername(SqlConnection con, string url, bool rewrite, string sort, string username)
         {
-            var obj = new SqlParameter[2];
+            return PagerXeYeuThichByUsername(con, url, false, sort, username, null);
+        }
+        public static Pager<Xe> PagerXeYeuThichByUsername(SqlConnection con, string url, bool rewrite, string sort, string username, string refUser)
+        {
+            var obj = new SqlParameter[3];
             obj[0] = new SqlParameter("Sort", sort);
             obj[1] = new SqlParameter("username", username);
+            if (!string.IsNullOrEmpty(refUser))
+            {
+                obj[2] = new SqlParameter("refUser", refUser);
+
+            }
+            else
+            {
+
+                obj[2] = new SqlParameter("refUser", DBNull.Value);
+            }
             var pg = new Pager<Xe>(con, "sp_tblXe_Pager_pagerXeYeuThichByUsername_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
