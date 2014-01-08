@@ -2,7 +2,7 @@
 <%@ Register src="templates/ForCar-Item.ascx" tagname="ForCar" tagprefix="uc1" %>
 <hr class="hr comment-hr"/>
 <h3 class="h3-subtitle">
-    <a href="<%=Item.XeUrl %>/blogs/">
+    <a href="<%=Item.XeUrl %>blogs/">
         Nhật ký hành trình
     </a>
     <%if(Pager!=null && Pager.Total > 0){ %>

@@ -21,6 +21,7 @@ public partial class html_car_blog : System.Web.UI.Page
             if (!idNull)
             {
                 Item = XeDal.SelectByIdUsername(con, Convert.ToInt32(Id), Security.Username);
+                Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);
                 Item.Member = MemberDal.SelectByUser(con, Item.NguoiTao);
                 var pagerBlog = BlogDal.PagerByPRowIdFull(con, string.Empty, false, null, Item.RowId.ToString(),
                                                       Security.Username);

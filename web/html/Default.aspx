@@ -2,31 +2,34 @@
 
 <%@ Register src="ui/left-navigation.ascx" tagname="left" tagprefix="uc1" %>
 <%@ Register Src="~/lib/ui/account/HomeCars.ascx" TagPrefix="uc1" TagName="HomeCars" %>
+<%@ Register Src="~/lib/ui/account/HomeList.ascx" TagPrefix="uc1" TagName="HomeList" %>
+
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <div class="row">
-        <div class="col-md-6">
-            <img class="img-responsive" src="/html/img/car/8.jpg" />
+    <div class="cars-home-group">
+        <div class="x-col left-menu-list">
+            <uc1:left ID="left1" runat="server" />        
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                </div>
-                <div class="col-md-3">
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                    <img class="img-responsive" src="/html/img/car/8.jpg" />
-                </div>
-            </div>        
+        <div class="x-col x4 cars-home-1st-list">
+            <img src="/html/img/car/8.jpg" />
+        </div>
+        <div class="x-col x2 cars-home-2nd-list">
+            <img src="/html/img/car/8.jpg" />
+            <img src="/html/img/car/8.jpg" />
+        </div>
+        <div class="x-col x1 cars-home-3rd-list">
+            <img src="/html/img/car/8.jpg" />
+            <img src="/html/img/car/8.jpg" />
+            <img src="/html/img/car/8.jpg" />
+            <img src="/html/img/car/8.jpg" />
+        </div>
+        <div class="x-col x10">
+            <uc1:HomeList runat="server" ID="UserHomeList" />            
         </div>
     </div>
-    <uc1:left ID="left1" runat="server" />
-    <uc1:HomeCars runat="server" ID="HomeCars" />
+    <%--<uc1:HomeCars runat="server" ID="HomeCars" />--%>
 </asp:Content>
 
