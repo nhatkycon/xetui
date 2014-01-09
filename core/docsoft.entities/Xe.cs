@@ -700,6 +700,51 @@ namespace docsoft.entities
             }
             return list;
         }
+
+        public static XeCollection SelectTopCar(SqlConnection con, int top, string username)
+        {
+            var list = new XeCollection();
+            var obj = new SqlParameter[3];
+            obj[1] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", DBNull.Value);
+            }
+            using (var rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectTopCar_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static XeCollection SelectNewestCar(SqlConnection con, int top, string username)
+        {
+            var list = new XeCollection();
+            var obj = new SqlParameter[3];
+            obj[1] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", DBNull.Value);
+            }
+            using (var rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectNewestCar_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion

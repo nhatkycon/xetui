@@ -9,6 +9,7 @@
 <%@ Register src="~/lib/ui/adv/homeTop1000.ascx" tagname="homeTop1000" tagprefix="adv" %>
 <%@ Register src="~/lib/ui/HeThong/login.ascx" tagname="login" tagprefix="hethong" %>
 <%@ Register Src="~/lib/ui/HeThong/pmPostBox.ascx" TagPrefix="hethong" TagName="pmPostBox" %>
+<%@ Register Src="~/lib/ui/HeThong/footer.ascx" TagPrefix="hethong" TagName="footer" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -50,6 +51,7 @@
             <div class="main-content">
                 <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
             </div>
+            <hethong:footer ID="footer" runat="server"/>
         </div>
     </div> 
     <hethong:pmPostBox runat="server" ID="pmPostBox" />

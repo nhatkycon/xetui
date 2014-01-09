@@ -3,8 +3,8 @@
 <%@ Register src="ui/left-navigation.ascx" tagname="left" tagprefix="uc1" %>
 <%@ Register Src="~/lib/ui/account/HomeCars.ascx" TagPrefix="uc1" TagName="HomeCars" %>
 <%@ Register Src="~/lib/ui/account/HomeList.ascx" TagPrefix="uc1" TagName="HomeList" %>
-
-
+<%@ Register Src="~/lib/ui/blog/HomeList.ascx" TagPrefix="blog" TagName="HomeList" %>
+<%@ Register src="~/lib/ui/cars/homeSmallList.ascx" tagPrefix="cars" tagName="homeSmallList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -28,6 +28,23 @@
         </div>
         <div class="x-col x10">
             <uc1:HomeList runat="server" ID="UserHomeList" />            
+        </div>
+        <div class="x-col x10">
+            <uc1:HomeList runat="server" ID="HomeList1" />            
+        </div>
+        <div class="x-col x10 home-blogs-box">
+            <div class="row">
+                <div class="col-md-8">
+                    <blog:HomeList ID="nhatKyXeTop" runat="server" Title="Nhật ký xe mới"/>
+                    <hr class="hr comment-hr"/>
+                    <blog:HomeList ID="blogTop" runat="server" Title="Blog mới"/>
+                </div>
+                <div class="col-md-4">
+                    <cars:homeSmallList Title="Top xe" runat="server" ID="topCarsList"/>
+                    <hr class="hr comment-hr"/>
+                    <cars:homeSmallList Title="Xe mới" runat="server" ID="newestCarsList"/>
+                </div>
+            </div>
         </div>
     </div>
     <%--<uc1:HomeCars runat="server" ID="HomeCars" />--%>

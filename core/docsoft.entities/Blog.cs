@@ -417,6 +417,30 @@ namespace docsoft.entities
             }
             return item;
         }
+
+        public static BlogCollection SelectTopBlogByLoai(SqlConnection con, int top, int loai, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Top", top);
+            obj[1] = new SqlParameter("Loai", loai);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogByLoai_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion
