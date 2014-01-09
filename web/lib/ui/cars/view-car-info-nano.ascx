@@ -37,13 +37,11 @@
         <%=Item.TotalView %> người thăm
     </p>
 <div class="car-view-buttons">    
-    <heThong:likeBtn Loai="1" ID="likeBtn" runat="server"/>
-    <br/><br/>
-    <a href="javascript:;" data-user="<%=Item.NguoiTao %>" class="btn btn-warning pmBtn">
+    <heThong:likeBtn Loai="1" ID="likeBtn" runat="server" Css=" btn-block"/>
+    <a href="javascript:;" data-user="<%=Item.NguoiTao %>" class="btn btn-warning btn-block pmBtn">
         Nhắn tin
     </a>
-    <br/><br/>
-    <a href="javascript:;" class="btn btn-link reportBtn">
+    <a href="javascript:;" class="btn btn-link  btn-block reportBtn">
             Báo xe đểu
     </a>                
 </div>

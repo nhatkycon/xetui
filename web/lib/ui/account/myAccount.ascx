@@ -13,6 +13,7 @@
                 </div>
             </div>
         </div>
+        <hr class="hr comment-hr visible-xs visible-sm"/>
         <div class="col-md-8">
             <form class="form-horizontal myAccount-form" role="form">
               <div class="form-group">

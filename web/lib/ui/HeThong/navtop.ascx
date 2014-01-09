@@ -13,7 +13,7 @@
     </button>
     <a class="navbar-brand" href="/">
         <span class="navbar-brand-logo"></span>
-        <span class="navbar-brand-intro">Cộng đồng xe & tài</span>
+        <span class="navbar-brand-intro">Xe và xế</span>
     </a>        
   </div>
   <!-- Collect the nav links, forms, and other content for toggling -->

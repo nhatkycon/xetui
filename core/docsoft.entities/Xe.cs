@@ -676,6 +676,30 @@ namespace docsoft.entities
             var pg = new Pager<Xe>(con, "sp_tblXe_Pager_pagerXeYeuThichByUsername_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
+
+
+        public static XeCollection SelectPromoted(SqlConnection con, int Top, string username)
+        {
+            var list = new XeCollection();
+            var obj = new SqlParameter[3];
+            obj[1] = new SqlParameter("Top", Top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", DBNull.Value);
+            }
+            using (var rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectPromoted_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion

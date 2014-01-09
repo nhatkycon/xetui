@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="profile-about.ascx.cs" Inherits="lib_ui_account_profile_about" %>
+<hr class="hr comment-hr visible-xs visible-sm"/>
 <h3 class="profile-info-header">
     Về tôi
 </h3>
