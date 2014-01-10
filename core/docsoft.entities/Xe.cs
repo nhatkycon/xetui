@@ -393,11 +393,70 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<Xe> pagerNormal(string url, bool rewrite, string sort)
+        public static Pager<Xe> PagerNormal(SqlConnection con, string url, bool rewrite, string sort
+            , string q, bool? Duyet, string HANG_ID, string TuNgay, string DenNgay
+            , string Id, string username)
         {
-            var obj = new SqlParameter[1];
+            var obj = new SqlParameter[8];
             obj[0] = new SqlParameter("Sort", sort);
-            var pg = new Pager<Xe>("sp_tblXe_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[2] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("q", DBNull.Value);
+            }
+            if (Duyet.HasValue)
+            {
+                obj[3] = new SqlParameter("Duyet", Duyet.Value);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("Duyet", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(HANG_ID))
+            {
+                obj[4] = new SqlParameter("HANG_ID", HANG_ID);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("HANG_ID", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(TuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", TuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(DenNgay))
+            {
+                obj[6] = new SqlParameter("DenNgay", DenNgay);
+            }
+            else
+            {
+                obj[6] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(Id))
+            {
+                obj[7] = new SqlParameter("Id", Id);
+            }
+            else
+            {
+                obj[7] = new SqlParameter("Id", DBNull.Value);
+            }
+            var pg = new Pager<Xe>(con, "sp_tblXe_Pager_Normal_linhnx", "p", 20, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
