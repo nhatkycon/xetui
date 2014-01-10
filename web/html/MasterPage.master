@@ -29,6 +29,8 @@
     <script>
         var src = '<%=Request.Url.PathAndQuery %>';
         var logged = <%=Security.IsAuthenticated().ToString().ToLower()%>;
+        var admMode = false;
+        var admKey = '';
         FB.init({
             appId: '372490826229164',
             status: true, // check login status

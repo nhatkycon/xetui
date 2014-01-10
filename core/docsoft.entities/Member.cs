@@ -1383,6 +1383,50 @@ namespace docsoft.entities
             var pg = new Pager<Member>("sp_tblMember_Pager_PagerMemberLikedByUsername_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
+
+        public static Pager<Member> PagerAll(SqlConnection con, string url, bool rewrite, string sort
+            , int size
+            , string q, string XacNhan, string TuNgay, string DenNgay)
+        {
+            var obj = new SqlParameter[8];
+            obj[0] = new SqlParameter("Sort", sort);
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[2] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("q", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(XacNhan))
+            {
+                obj[3] = new SqlParameter("XacNhan", XacNhan);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("XacNhan", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(TuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", TuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(DenNgay))
+            {
+                obj[6] = new SqlParameter("DenNgay", DenNgay);
+            }
+            else
+            {
+                obj[6] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            var pg = new Pager<Member>(con, "sp_tblMember_Pager_All_linhnx", "p", size, 10, rewrite, url, obj);
+            return pg;
+        }
+
         #endregion
     }
     #endregion

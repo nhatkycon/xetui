@@ -67,7 +67,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                             ,
                             RowId = item.RowId
                             ,
-                            Url = string.Format("{0}#{1}", cUrl, item.ID)
+                            Url = string.Format("{0}", item.Url)
                             ,
                             Username = Security.Username
                         });
@@ -85,7 +85,6 @@ public partial class lib_ajax_blog_Default : BasedPage
                             item.Xe = XeDal.SelectByRowId(item.PID_ID);
                             break;
                         case 3:
-
                             break;
                     }
                     rendertext(item.Url);

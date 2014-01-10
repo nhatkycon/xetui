@@ -31,6 +31,7 @@ public partial class lib_ajax_car_Default : BasedPage
         var logged = Security.IsAuthenticated();
         var js = new JavaScriptSerializer();
 
+        var adminKey = Request["AdminKey"];
 
         var DangLai = Request["DangLai"];
         var Gia = Request["Gia"];
@@ -52,6 +53,7 @@ public partial class lib_ajax_car_Default : BasedPage
         var NHIENLIEU_ID = Request["NHIENLIEU_ID"];
         var THANHPHO_ID = Request["THANHPHO_ID"];
         var Anh = Request["Anh"];
+        var Duyet = Request["Duyet"];
         switch (subAct)
         {
             case "GetModelByHangXe":
@@ -107,6 +109,13 @@ public partial class lib_ajax_car_Default : BasedPage
 
                     car.Ten = Ten;
                     car.DangLai = Convert.ToBoolean(DangLai);
+                    if (!string.IsNullOrEmpty(Duyet))
+                    {
+                        Duyet = !string.IsNullOrEmpty(Duyet) ? "true" : "false";
+                        car.Duyet = Convert.ToBoolean(Duyet);
+                        car.NguoiDuyet = Security.Username;
+                        car.NgayDuyet = DateTime.Now;
+                    }
                     car.GioiThieu = GioiThieu;
                     car.Gia = Convert.ToInt32(Gia);
                     if(!string.IsNullOrEmpty(HANG_ID))
@@ -220,7 +229,7 @@ public partial class lib_ajax_car_Default : BasedPage
                 if (Id != null && logged)
                 {
                     var xe = XeDal.SelectById(Convert.ToInt64(Id));
-                    if(xe.NguoiTao != Security.Username)
+                    if (xe.NguoiTao != Security.Username && string.IsNullOrEmpty(adminKey))
                         return;
                     XeDal.DeleteById(xe.ID);
                     ObjDal.DeleteByRowId(xe.RowId);

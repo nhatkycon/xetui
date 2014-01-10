@@ -592,7 +592,11 @@ var autoFn = {
                        } else {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
-                           document.location.href = '/my-cars/';
+                           if (admMode) {
+                           } else {
+                               document.location.href = '/my-cars/';
+                               
+                           }
                        }
                    }
                 });
@@ -609,15 +613,18 @@ var autoFn = {
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
-                       document.location.href = '/my-cars/';
+                       if (admMode) {
+                           document.location.href = '/lib/mod/cars/';
+                       } else {
+                           document.location.href = '/my-cars/';                           
+                       }
                    }
                 });
             });
 
             autoFn.utils.editor(GioiThieu);
 
-        }
-
+        }        
     }
     , blogFn: {
         init: function () {
@@ -1125,7 +1132,7 @@ var autoFn = {
     }
     , connect: {
         init: function () {
-            if (!logged) return;
+            if (!logged || admMode) return;
             autoFn.connect.notifications();
             autoFn.connect.messages();
         }

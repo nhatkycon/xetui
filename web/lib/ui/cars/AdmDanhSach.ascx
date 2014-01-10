@@ -25,6 +25,15 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
+                            <select name="Duyet">
+                                <option value="">Trạng thái</option>
+                                <option value="false">Chưa duyệt</option>
+                                <option value="true">Duyệt</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
                             <uc1:DanhMucListByLdmMa runat="server" ControlName="HANG_ID" ID="HANG_ID" />
                         </div>
                     </div>
@@ -81,6 +90,9 @@
             <th class="">
                 #
             </th>
+            <th class="hidden-xs">
+                Ảnh
+            </th>
             <th class="">
                 Tên
             </th>
@@ -103,7 +115,9 @@
             <uc1:AdmItem runat="server" ID="AdmItem" Item='<%# Container.DataItem %>' />
         </ItemTemplate>
     </asp:Repeater>   
-    <% if(Pager!= null){ %> 
-    <%=Pager.Paging %>    
-    <%} %>
 </table>   
+<% if(Pager!= null){ %> 
+<ul class="pagination">
+    <%=Pager.Paging %>    
+</ul>
+<%} %>

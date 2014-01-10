@@ -40,6 +40,9 @@ namespace docsoft.entities
         public String Admin { get; set; }
         public Guid RowId { get; set; }
         public Int32 ThuTu { get; set; }
+        public Boolean Duyet { get; set; }
+        public DateTime NgayDuyet { get; set; }
+        public String NguoiDuyet { get; set; }
         #endregion
         #region Contructor
         public Nhom()
@@ -73,7 +76,7 @@ namespace docsoft.entities
         public static Nhom Insert(Nhom item)
         {
             var Item = new Nhom();
-            var obj = new SqlParameter[25];
+            var obj = new SqlParameter[28];
             obj[0] = new SqlParameter("G_ID", item.ID);
             obj[1] = new SqlParameter("G_Ten", item.Ten);
             obj[2] = new SqlParameter("G_Alias", item.Alias);
@@ -113,6 +116,16 @@ namespace docsoft.entities
             obj[22] = new SqlParameter("G_Admin", item.Admin);
             obj[23] = new SqlParameter("G_RowId", item.RowId);
             obj[24] = new SqlParameter("G_ThuTu", item.ThuTu);
+            obj[25] = new SqlParameter("G_Duyet", item.Duyet);
+            if (item.NgayDuyet > DateTime.MinValue)
+            {
+                obj[26] = new SqlParameter("G_NgayDuyet", item.NgayDuyet);
+            }
+            else
+            {
+                obj[26] = new SqlParameter("G_NgayDuyet", DBNull.Value);
+            }
+            obj[27] = new SqlParameter("G_NguoiDuyet", item.NguoiDuyet);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Insert_InsertNormal_linhnx", obj))
             {
@@ -127,7 +140,7 @@ namespace docsoft.entities
         public static Nhom Update(Nhom item)
         {
             var Item = new Nhom();
-            var obj = new SqlParameter[25];
+            var obj = new SqlParameter[28];
             obj[0] = new SqlParameter("G_ID", item.ID);
             obj[1] = new SqlParameter("G_Ten", item.Ten);
             obj[2] = new SqlParameter("G_Alias", item.Alias);
@@ -167,6 +180,16 @@ namespace docsoft.entities
             obj[22] = new SqlParameter("G_Admin", item.Admin);
             obj[23] = new SqlParameter("G_RowId", item.RowId);
             obj[24] = new SqlParameter("G_ThuTu", item.ThuTu);
+            obj[25] = new SqlParameter("G_Duyet", item.Duyet);
+            if (item.NgayDuyet > DateTime.MinValue)
+            {
+                obj[26] = new SqlParameter("G_NgayDuyet", item.NgayDuyet);
+            }
+            else
+            {
+                obj[26] = new SqlParameter("G_NgayDuyet", DBNull.Value);
+            }
+            obj[27] = new SqlParameter("G_NguoiDuyet", item.NguoiDuyet);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Update_UpdateNormal_linhnx", obj))
             {
@@ -327,6 +350,18 @@ namespace docsoft.entities
             {
                 Item.ThuTu = (Int32)(rd["G_ThuTu"]);
             }
+            if (rd.FieldExists("G_Duyet"))
+            {
+                Item.Duyet = (Boolean)(rd["G_Duyet"]);
+            }
+            if (rd.FieldExists("G_NgayDuyet"))
+            {
+                Item.NgayDuyet = (DateTime)(rd["G_NgayDuyet"]);
+            }
+            if (rd.FieldExists("G_NguoiDuyet"))
+            {
+                Item.NguoiDuyet = (String)(rd["G_NguoiDuyet"]);
+            }
             return Item;
         }
         #endregion
@@ -360,7 +395,6 @@ namespace docsoft.entities
     #endregion
 
     #endregion
-    
 }
 
 

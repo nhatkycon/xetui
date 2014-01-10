@@ -394,7 +394,8 @@ namespace docsoft.entities
             return List;
         }
         public static Pager<Xe> PagerNormal(SqlConnection con, string url, bool rewrite, string sort
-            , string q, bool? Duyet, string HANG_ID, string TuNgay, string DenNgay
+            , int size
+            , string q, string Duyet, string HANG_ID, string TuNgay, string DenNgay
             , string Id, string username)
         {
             var obj = new SqlParameter[8];
@@ -416,9 +417,9 @@ namespace docsoft.entities
             {
                 obj[2] = new SqlParameter("q", DBNull.Value);
             }
-            if (Duyet.HasValue)
+            if (!string.IsNullOrEmpty(Duyet))
             {
-                obj[3] = new SqlParameter("Duyet", Duyet.Value);
+                obj[3] = new SqlParameter("Duyet", Duyet);
             }
             else
             {
@@ -456,7 +457,7 @@ namespace docsoft.entities
             {
                 obj[7] = new SqlParameter("Id", DBNull.Value);
             }
-            var pg = new Pager<Xe>(con, "sp_tblXe_Pager_Normal_linhnx", "p", 20, 10, rewrite, url, obj);
+            var pg = new Pager<Xe>(con, "sp_tblXe_Pager_Normal_linhnx", "p", size, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
