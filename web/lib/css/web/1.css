@@ -328,10 +328,8 @@ h1, h2 {
     border-bottom: solid 1px #B2B2B2;
 }
 .user-avatar {
-    background-image: url(i/no-image.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
     position: relative;
+    
 }
 .user-avatar .user-avatar-img {
     border: 0px;
@@ -350,6 +348,10 @@ h1, h2 {
 }
 .user-avatar-180 .user-avatar-img{
     width: 180px;
+    height: 180px;
+    background-image: url(i/no-image.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .user-avatar-100 {
@@ -1195,7 +1197,7 @@ h3.profile-info-header {
     clear: both;
 }
 .carsHomeSmall-item:hover {
-    background-color: #F2F2F2;
+    background-color: #FFF;
 }
 .carsHomeSmall-item-imgBox {
     float: left;
@@ -1224,4 +1226,63 @@ h3.profile-info-header {
     margin: 0 0 0 90px;
     font: 10px/1.3 Tahoma,sans-serif;
     word-wrap: break-word;
+}
+
+.nhomList-header {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.nhomList-box {
+    
+}
+.nhom-itemInList-sort {
+    display: none;
+}
+.nhom-itemInList-members {
+    text-align: right;
+}
+.nhomList-box .table > tbody > tr > td {
+    border-top: 0px;
+}
+.nhomItem-infoBox {
+    
+}
+.nhomItem-infoBox-avatar {
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 0 0 10px;
+    background: #ddd;
+    line-height: 0;
+}
+.nhomItem-infoBox-avatar img {
+    height: 100px;
+    width: 100px;
+    background-image: url(i/no-image.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.nhomItem-infoBox-note {
+    margin: 0 0 10px 110px;
+    font: 11px/1.4 sans-serif;
+}
+.nhomItem-infoBox-note a {
+    color: #205090;
+    text-decoration: none;
+    font: 11px/1.4 sans-serif;
+}
+.nhomItem-infoBox-rules-header {
+    margin: 0 0 15px;
+    font: 20px/1 sans-serif;
+    text-shadow: 1px 1px #dadada;
+}
+.nhomItem-infoBox-rules {
+    clear: left;
+    margin: 0 0 20px;
+    font: 13px/1.3 sans-serif;
+    word-wrap: break-word;
+}
+.nhomitem-infoBox-buttons {
+    clear: left;
+    margin: 0 0 20px;
 }

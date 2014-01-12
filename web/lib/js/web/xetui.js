@@ -17,6 +17,7 @@ var autoFn = {
         autoFn.likeFn.init();
         autoFn.XuLyAnhFn.init();
         autoFn.blogFn.init();
+        autoFn.nhomFn.init();
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -76,6 +77,7 @@ var autoFn = {
         , thich: '/lib/ajax/thich/default.aspx'
         , upload: '/lib/ajax/upload/default.aspx'
         , blog: '/lib/ajax/blog/default.aspx'
+        , nhom: '/lib/ajax/nhom/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -481,15 +483,7 @@ var autoFn = {
                     ;
                 },
                 onComplete: function (file, response) {
-                    if (response == '400') {
-                        common.fbMsg('Ảnh rộng quá 400px', 'Bạn chọn cái ảnh khác nhỏ hơn 400px bạn nhé...', 200, 'msg-portal-pop-processing', function () {
-                            setTimeout(function () {
-                                $(document).trigger('close.facebox', 'msg-portal-pop');
-                            }, 1000);
-                        });
-                    } else {
-                        img.attr('src', '/lib/up/users/' + response + '?ref=' + Math.random());
-                    }
+                    img.attr('src', '/lib/up/users/' + response + '?ref=' + Math.random());
                     try {
                         jQuery.each(jQuery.browser, function (i, val) {
                             if (i == "mozilla" && jQuery.browser.version.substr(0, 3) == "1.9")
@@ -697,6 +691,147 @@ var autoFn = {
         , CommonFn: function () {
             var ref = document.referrer;
             console.log(ref);
+        }
+    }
+    , nhomFn: {
+        init:function () {
+            autoFn.nhomFn.addFn();
+            autoFn.nhomFn.CommonFn();
+        }
+        ,addFn:function() {
+            var pnl = $('.nhom-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var txt = pnl.find('.Ten');
+            var moTa = pnl.find('.MoTa');
+            var gioiThieu = pnl.find('.GioiThieu');
+
+            autoFn.utils.editorLarge(gioiThieu);
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+            
+
+
+
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+                
+                var dongY = pnl.find('#dongY').is(':checked');
+                if (!dongY) {
+                    alertErr.fadeIn();
+                    alertErr.html('Bạn vui lòng đồng ý với các điều khoản trước khi tạo nhóm');
+                    return;
+                }
+
+
+                var data = pnl.find('.nhom-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+                
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           if (admMode) {
+                           } else {
+                               setTimeout(function () {
+                                   //document.location.href = rs;
+                               }, 1000);
+                           }
+                       }
+                   }
+                });
+            });
+            
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa nhóm?');
+                if (!con) return;
+
+                var data = pnl.find('.nhom-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       //document.location.href = '/my-cars/';
+                       if (admMode) {
+                       } else {
+                           setTimeout(function () {
+                               //document.location.href = rs;
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+            var nhomAvatar = pnl.find('.nhom-avatar');
+            if ($(nhomAvatar).length < 1) return;
+            var img = pnl.find('img');
+            var imgBtn = pnl.find('.changeBtn-box');
+            var anh = pnl.find('.Anh');
+            var param = { 'subAct': 'changeAvatar' };
+            //return false;
+            new Ajax_upload(jQuery(imgBtn), {
+                action: autoFn.url.nhom,
+                name: 'anh',
+                data: param,
+                onSubmit: function (file, ext) {
+                    if (!(ext && /^(jpg|png|jpeg|gif)$/.test(ext))) {
+                        // extension is not allowed
+                        alert('Lỗi:\n Kiểu File không Hợp lệ');
+                        // cancel upload
+                        return false;
+                    };
+                    return true;
+                },
+                onComplete: function (file, response) {
+                    anh.val(response);
+                    img.attr('src', '/lib/up/nhom/' + response + '?ref=' + Math.random());
+                    try {
+                        jQuery.each(jQuery.browser, function (i, val) {
+                            if (i == "mozilla" && jQuery.browser.version.substr(0, 3) == "1.9")
+                                gBrowser.selectedBrowser.markupDocumentViewer.fullZoom = 1;
+                        });
+                    }
+                    catch (err) {
+                        //Handle errors here
+                    }
+                }
+            });
+
+        }
+        ,CommonFn:function() {
+            var pnl = $('.nhomList-box');
+            if ($(pnl).length < 1) return;
+            var header = $('.nhomList-header');
+            var tbl = pnl.find('table');
+            tbl.tablesorter();
+            header.find('.btn-sort').click(function () {
+                var item = $(this);
+                console.log(item);
+                var index = parseInt(item.attr('data-sort'));
+                console.log(index);
+                var sorting = [[1, 1]];
+                // sort on the first column
+                tbl.trigger("sorton", [sorting]);
+                // return false to stop default link action
+            });
         }
     }
     , XuLyAnhFn: {
@@ -1269,7 +1404,6 @@ var autoFn = {
             });
         }
         , likeOtherFn: function () {
-
         }
     }
 };

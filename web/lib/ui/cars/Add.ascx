@@ -151,7 +151,7 @@
         </div>
         <%if(IsAdmin){ %>
         <div class="form-group">
-            <label for="RaoBan" class="col-sm-2 col-md-2 control-label">Trạng thái</label>
+            <label for="Duyet" class="col-sm-2 col-md-2 control-label">Trạng thái</label>
             <div class="col-sm-4 col-md-4">
                 <div class="checkbox">
                     <label>

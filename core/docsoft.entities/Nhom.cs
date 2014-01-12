@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using linh.common;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -49,7 +50,16 @@ namespace docsoft.entities
         { }
         #endregion
         #region Customs properties
+        public string Url
+        {
+            get
+            {
+                return string.Format("/group/{0}/{1}/",Lib.Bodau(Ten),ID);
+            }
+        }
 
+        public Member Member { get; set; }
+        public Int64 Index { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -200,22 +210,46 @@ namespace docsoft.entities
             }
             return Item;
         }
-
         public static Nhom SelectById(Int32 G_ID)
         {
-            var Item = new Nhom();
+            return SelectById(DAL.con(), G_ID);
+        }
+        public static Nhom SelectById(SqlConnection con, Int32 gId)
+        {
+            var item = new Nhom();
             var obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("G_ID", G_ID);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Select_SelectById_linhnx", obj))
+            obj[0] = new SqlParameter("G_ID", gId);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhom_Select_SelectById_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
-
+        public static Nhom SelectById(SqlConnection con, Int32 gId, string username)
+        {
+            var item = new Nhom();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("G_ID", gId);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhom_Select_SelectById_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         public static NhomCollection SelectAll()
         {
             var List = new NhomCollection();
@@ -228,9 +262,11 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<Nhom> pagerNormal(string url, bool rewrite, string sort, string q, int size)
+        public static Pager<Nhom> PagerNormal(SqlConnection con, string url, bool rewrite, string sort
+            , string q, int size, string username
+            , string duyet, string tuNgay, string denNgay)
         {
-            var obj = new SqlParameter[2];
+            var obj = new SqlParameter[6];
             obj[0] = new SqlParameter("Sort", sort);
             if (!string.IsNullOrEmpty(q))
             {
@@ -240,8 +276,39 @@ namespace docsoft.entities
             {
                 obj[1] = new SqlParameter("q", DBNull.Value);
             }
-
-            var pg = new Pager<Nhom>("sp_tblNhom_Pager_Normal_linhnx", "page", size, 10, rewrite, url, obj);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(duyet))
+            {
+                obj[3] = new SqlParameter("Duyet", duyet);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("Duyet", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(denNgay))
+            {
+                obj[4] = new SqlParameter("DenNgay", denNgay);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(tuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", tuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            var pg = new Pager<Nhom>(con, "sp_tblNhom_Pager_Normal_linhnx", "page", size, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
@@ -362,6 +429,20 @@ namespace docsoft.entities
             {
                 Item.NguoiDuyet = (String)(rd["G_NguoiDuyet"]);
             }
+            if (rd.FieldExists("Index"))
+            {
+                Item.Index = (Int64)(rd["Index"]);
+            }
+            var mem = new Member();
+            if (rd.FieldExists("MEM_Vcard"))
+            {
+                mem.Vcard = (String)(rd["MEM_Vcard"]);
+            }
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+            Item.Member = mem;
             return Item;
         }
         #endregion
@@ -382,6 +463,29 @@ namespace docsoft.entities
                 obj[2] = new SqlParameter("TV_Approved", DBNull.Value);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Select_SelectByUser_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static NhomCollection SelectDuyet(string username, int top, string duyet)
+        {
+            var list = new NhomCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("username", username);
+            obj[1] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(duyet))
+            {
+                obj[2] = new SqlParameter("Duyet", duyet);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("Duyet", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Select_SelectDuyet_linhnx", obj))
             {
                 while (rd.Read())
                 {
