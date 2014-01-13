@@ -494,6 +494,32 @@ namespace docsoft.entities
             }
             return list;
         }
+        public static Nhom SelectByRowId(Guid rowId)
+        {
+            return SelectByRowId(DAL.con(), rowId, string.Empty);
+        }
+        public static Nhom SelectByRowId(SqlConnection con, Guid rowId, string username)
+        {
+            var item = new Nhom();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("rowId", rowId);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhom_Select_SelectByRowId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         #endregion
     }
     #endregion

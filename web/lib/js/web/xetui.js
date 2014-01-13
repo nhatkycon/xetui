@@ -665,7 +665,7 @@ var autoFn = {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
                            setTimeout(function() {
-                               document.location.href = rs;
+                               //document.location.href = rs;
                            }, 1000);
                        }
                    }

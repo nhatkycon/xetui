@@ -3,8 +3,6 @@
 <%@ Register Src="~/lib/ui/nhom/Nhom-Header.ascx" TagPrefix="uc1" TagName="NhomHeader" %>
 <%@ Register Src="~/lib/ui/blog/ListBlogForNhom.ascx" TagPrefix="uc1" TagName="ListBlogForNhom" %>
 <%@ Register Src="~/lib/ui/blog/ListThreadForNhom.ascx" TagPrefix="uc1" TagName="ListThreadForNhom" %>
-
-
 <div class="padding-20">
     <div class="row">
         <div class="col-md-8">
@@ -13,9 +11,19 @@
                     <uc1:NhomHeader runat="server" ID="NhomHeader" />
                 </div>
                 <div class="col-md-6">
+                    <h3 class="h3-subtitle">
+                        <a href="<%=Item.Url %>blogs/">
+                            Blog
+                        </a>                        
+                    </h3>
                     <uc1:ListBlogForNhom runat="server" ID="ListBlogForNhom" />
                 </div>
                 <div class="col-md-6">
+                    <h3 class="h3-subtitle">
+                        <a href="<%=Item.Url %>forum/">
+                            Thảo luận
+                        </a>                        
+                    </h3>
                     <uc1:ListThreadForNhom runat="server" ID="ListThreadForNhom" />
                 </div>
             </div>          

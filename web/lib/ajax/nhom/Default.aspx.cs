@@ -57,6 +57,22 @@ public partial class lib_ajax_nhom_Default : BasedPage
                         
                         item.RowId = Guid.NewGuid();
                         item = NhomDal.Insert(item);
+
+
+                        NhomThanhVienDal.Insert(new NhomThanhVien()
+                                                    {
+                                                        NHOM_ID = item.ID
+                                                        , Accepted = true
+                                                        ,AcceptedDate = DateTime.Now
+                                                        , Admin = true
+                                                        , Approved = true
+                                                        , ApprovedDate = DateTime.Now
+                                                        , ID = Guid.NewGuid()
+                                                        , NgayTao = DateTime.Now
+                                                        , NguoiTao = Security.Username
+                                                        , Username = Security.Username
+                                                    });
+
                         ObjMemberDal.Insert(new ObjMember()
                         {
                             PRowId = item.RowId

@@ -37,7 +37,12 @@ public partial class html_BlogAdd : System.Web.UI.Page
                     item.PID_ID = xe.RowId;
                     item.Xe = xe;
                     break;
-                case 3: // Community
+                case 3:
+                case 4:
+                case 5: // Community
+                    var nhom = NhomDal.SelectById(con, Convert.ToInt32(PID_ID));
+                    item.PID_ID = nhom.RowId;
+                    item.Nhom = nhom;
                     break;
             }
             Add.Id = Id;

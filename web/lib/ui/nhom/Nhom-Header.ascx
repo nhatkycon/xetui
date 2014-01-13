@@ -3,3 +3,7 @@
     <a href="/group/">Cộng đồng</a>&nbsp; &gt;
     <%=Item.Ten %>
 </div>
+<div class="nhomView-intro">
+    <%=Item.MoTa %>
+</div>
+<hr class="hr comment-hr"/>

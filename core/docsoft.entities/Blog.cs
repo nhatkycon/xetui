@@ -44,6 +44,7 @@ namespace docsoft.entities
         public Member Profile { get; set; }
         public Xe Xe { get; set; }
         public List<Anh> Anhs { get; set; }
+        public Nhom Nhom { get; set; }
         public string AnhStr { get; set; }
         public string Url
         {
@@ -71,7 +72,35 @@ namespace docsoft.entities
                             return string.Format("/blogs/{0}/", ID);
                         }
                         break;
-                    case 3: // Community
+                    case 3: // Community Blog
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}blogs/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 4: // Community Topic
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}forum/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 5: // Community QA
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}qa/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
                         break;
                 }
                 return string.Empty;
@@ -441,10 +470,10 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static BlogCollection SelectTopForNhomByLoai(SqlConnection con, int top, int loai, string username, string Publish)
+        public static BlogCollection SelectTopForNhomByProwId(SqlConnection con, int top, Guid PRowId, int loai, string username, string Publish)
         {
             var list = new BlogCollection();
-            var obj = new SqlParameter[4];
+            var obj = new SqlParameter[5];
             obj[0] = new SqlParameter("Top", top);
             obj[1] = new SqlParameter("Loai", loai);
             if (!string.IsNullOrEmpty(username))
@@ -463,7 +492,8 @@ namespace docsoft.entities
             {
                 obj[3] = new SqlParameter("Publish", Publish);
             }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopForNhomByLoai_linhnx", obj))
+            obj[4] = new SqlParameter("PRowId", PRowId);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopForNhomByProwId_linhnx", obj))
             {
                 while (rd.Read())
                 {

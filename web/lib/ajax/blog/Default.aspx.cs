@@ -85,6 +85,9 @@ public partial class lib_ajax_blog_Default : BasedPage
                             item.Xe = XeDal.SelectByRowId(item.PID_ID);
                             break;
                         case 3:
+                        case 4:
+                        case 5:
+                            item.Nhom = NhomDal.SelectByRowId(item.PID_ID);
                             break;
                     }
                     rendertext(item.Url);

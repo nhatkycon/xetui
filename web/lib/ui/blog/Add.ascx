@@ -1,29 +1,59 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Add.ascx.cs" Inherits="lib_ui_blog_Add" %>
 <%@ Register src="~/lib/ui/cars/templates/anh-item.ascx" tagPrefix="temp" tagName="anhItem" %>
 <div class="padding-20 blog-add-pnl">
+    <div class="h3-subtitle">
     <% switch (Item.Loai)
        {%>
     <%case 1: %>
-    <div class="h3-subtitle">
         <a href="<%=Item.Profile.Url %>/blogs/">
             <%=Item.Profile.Ten %>
         </a>
-    </div>
     <% break; %>
     
     <%case 2: %>
-    <div class="h3-subtitle">
         <a href="<%=Item.Xe.XeUrl %>blogs/">
             Nhật ký hành trình
         </a>
-    </div>
     <% break; %>
     
     <%case 3: %>
-    
+        <a href="/group/">
+            Cộng đồng
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>">
+            <%=Item.Nhom.Ten %>
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>blogs/">
+            Blog
+        </a>&nbsp; &gt;
+        Viết blog
     <% break; %>
-
+    <%case 4: %>
+        <a href="/group/">
+            Cộng đồng
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>">
+            <%=Item.Nhom.Ten %>
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>forum/">
+            Thảo luận
+        </a>&nbsp; &gt;
+        Viết thảo luận mới
+    <% break; %>
+    <%case 5: %>
+        <a href="/group/">
+            Cộng đồng
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>">
+            <%=Item.Nhom.Ten %>
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Nhom.Url %>aq/">
+            Hỏi đáp
+        </a>&nbsp; &gt;
+        Đặt câu hỏi
+    <% break; %>
     <% } %>
+    </div>
     <hr class="hr comment-hr"/>
     <form class="form-horizontal blog-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.ID %>"/>

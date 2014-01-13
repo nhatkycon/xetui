@@ -34,15 +34,15 @@
 </style>
 
     <div class="form-signin">
-    <h2 class="form-signin-heading">Đăng nhập</h2>
-        <asp:TextBox ID="Username" runat="server" CssClass="input-block-level form-control"></asp:TextBox>
-        <asp:TextBox ID="Pwd" TextMode="Password" CssClass="input-block-level form-control" runat="server"></asp:TextBox>
-    <label class="checkbox">
-        Ghi nhớ
-        <asp:CheckBox runat="server" ID="ckb"/>
-    </label>
-        <div id="msg" runat="server" Visible="False" class="alert alert-warning">
-        Username và mật khẩu không hợp lệ                    
-    </div>
-    <asp:LinkButton ID="btnLogin" CssClass="btn btn-large btn-primary" runat="server" OnClick="btnLogin_Click">Đăng nhập</asp:LinkButton>
+        <h2 class="form-signin-heading">Đăng nhập</h2>
+            <asp:TextBox ID="Username" runat="server" CssClass="input-block-level form-control"></asp:TextBox>
+            <asp:TextBox ID="Pwd" TextMode="Password" CssClass="input-block-level form-control" runat="server"></asp:TextBox>
+        <label class="checkbox">
+            Ghi nhớ
+            <asp:CheckBox runat="server" ID="ckb"/>
+        </label>
+            <div id="msg" runat="server" Visible="False" class="alert alert-warning">
+            Username và mật khẩu không hợp lệ                    
+        </div>
+        <asp:LinkButton ID="btnLogin" CssClass="btn btn-large btn-primary" runat="server" OnClick="btnLogin_Click">Đăng nhập</asp:LinkButton>
     </div>
