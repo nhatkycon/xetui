@@ -19,7 +19,8 @@ public partial class lib_ajax_account_Default : BasedPage
         var MoTa = Request["MoTa"];
         var Mobile = Request["Mobile"];
         var Tinh_ID = Request["Tinh_ID"];
-
+        var Alias = Request["Alias"];
+        var rowId = Request["RowId"];
         switch (subAct)
         {
             case "changeAvatar":
@@ -50,6 +51,61 @@ public partial class lib_ajax_account_Default : BasedPage
                         MemberDal.UpdateAnh(Security.Username,anhNew);
                         rendertext(anhNew);
                     }
+                }
+                rendertext("0");
+                break;
+                #endregion
+            case "validateAlias":
+                #region validate object alias
+                if (logged && !string.IsNullOrEmpty(rowId) && !string.IsNullOrEmpty(Alias))
+                {
+                    var RowId = new Guid(rowId);
+                    var obj = ObjDal.SelectByAlias(Alias);
+                    if(obj.ID == Guid.Empty)
+                    {
+                        rendertext("1");
+                    }
+                    else
+                    {
+                        if (obj.RowId == RowId)
+                        {
+                            rendertext("1");
+                        }
+                        else
+                        {
+                            rendertext("0");
+                        }
+                    }
+                    rendertext("0");
+                }
+                rendertext("0");
+                break;
+                #endregion
+            case "saveAlias":
+                #region validate object alias
+                if (logged && !string.IsNullOrEmpty(rowId) && !string.IsNullOrEmpty(Alias))
+                {
+                    var RowId = new Guid(rowId);
+                    var obj = ObjDal.SelectByAlias(Alias);
+                    if (obj.ID == Guid.Empty)
+                    {
+                        obj = ObjDal.SelectByRowId(RowId);
+                        obj.Alias = Alias;
+                        ObjDal.Update(obj);
+                        rendertext("1");
+                    }
+                    else
+                    {
+                        if (obj.RowId == RowId)
+                        {
+                            rendertext("1");
+                        }
+                        else
+                        {
+                            rendertext("0");
+                        }
+                    }
+                    rendertext("0");
                 }
                 rendertext("0");
                 break;

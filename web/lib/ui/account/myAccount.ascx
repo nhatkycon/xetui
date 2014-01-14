@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="myAccount.ascx.cs" Inherits="lib_ui_account_myAccount" %>
 <%@ Register src="~/lib/ui/HeThong/DanhMucListByLdmMa.ascx" tagPrefix="HeThong" tagName="DanhMucListByLdmMa" %>
+<%@ Register src="~/lib/ui/account/ChangeAlias.ascx" tagPrefix="account" tagName="ChangeAlias" %>
 <div class="padding-20">
     <div class="page-header">
         <h1>Trang cá nhân</h1>        
@@ -16,6 +17,17 @@
         <hr class="hr comment-hr visible-xs visible-sm"/>
         <div class="col-md-8">
             <form class="form-horizontal myAccount-form" role="form">
+                <div class="form-group">
+                <label for="Ten" class="col-sm-2 control-label">Địa chỉ:</label>
+                <div class="col-sm-10">
+                    <%if (string.IsNullOrEmpty(Obj.Alias)){ %>
+                        <button class="btn btn-link btnChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Tạo địa chỉ ngắn</button>
+                    <%}else
+                      {%>
+                         <a href="/<%=Obj.Alias %>">http://xetui.vn/<%=Obj.Alias %></a>  - <button class="btn  btn-link ChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Đổi địa chỉ</button>      
+                     <% } %>
+                </div>
+              </div>
               <div class="form-group">
                 <label for="Ten" class="col-sm-2 control-label">Tên</label>
                 <div class="col-sm-10">
@@ -71,3 +83,4 @@
 <script>
     $('.Tinh_ID').val('<%=User.Tinh %>');
 </script>
+<account:changealias ID="changeAlias" runat="server"/>

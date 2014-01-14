@@ -461,6 +461,7 @@ var autoFn = {
         init: function () {
             autoFn.accFn.changeAvatar();
             autoFn.accFn.saveInformation();
+            autoFn.accFn.changeAlias();
         }
         , changeAvatar: function () {
             var pnl = $('.myAccount-avatar');
@@ -494,6 +495,67 @@ var autoFn = {
                         //Handle errors here
                     }
                 }
+            });
+        }
+        , changeAlias: function () {
+            var pnl = $('#changeAliasModal');
+            if ($(pnl).length < 1) return;
+            var form = pnl.find('.changeAliasForm');
+            var Alias = form.find('.Alias');
+            var loader = form.find('.loader');
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+            Alias.keyup(function () {
+                var item = $(this);
+                var alias = item.val();
+                var rowId = item.attr('data-id');
+                var data = [];
+                data.push({ name: 'subAct', value: 'validateAlias' });
+                data.push({ name: 'Alias', value: alias });
+                data.push({ name: 'RowId', value: rowId });
+                loader.show();
+                alertOk.hide();
+                alertErr.hide();
+                $.ajax({
+                    url: autoFn.url.account
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       loader.hide();
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Địa chỉ đã tồn tại');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Địa chỉ hợp lệ');
+                       }
+                   }
+                });
+            });
+
+            $('.changeBtn').click(function () {
+                var data = form.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'saveAlias' });
+                alertOk.hide();
+                alertErr.hide();
+                $.ajax({
+                    url: autoFn.url.account
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Địa chỉ đã tồn tại');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Cập nhật thành công');
+                           setTimeout(function () {
+                               $('#changeAliasModal').modal('hide');
+                           }, 1000);
+                       }
+                   }
+                });
             });
         }
         , saveInformation: function () {
@@ -589,7 +651,7 @@ var autoFn = {
                            if (admMode) {
                            } else {
                                document.location.href = '/my-cars/';
-                               
+
                            }
                        }
                    }
@@ -610,7 +672,7 @@ var autoFn = {
                        if (admMode) {
                            document.location.href = '/lib/mod/cars/';
                        } else {
-                           document.location.href = '/my-cars/';                           
+                           document.location.href = '/my-cars/';
                        }
                    }
                 });
@@ -618,7 +680,7 @@ var autoFn = {
 
             autoFn.utils.editor(GioiThieu);
 
-        }        
+        }
     }
     , blogFn: {
         init: function () {
@@ -664,7 +726,7 @@ var autoFn = {
                        } else {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
-                           setTimeout(function() {
+                           setTimeout(function () {
                                document.location.href = rs;
                            }, 1000);
                        }
@@ -694,12 +756,12 @@ var autoFn = {
         }
     }
     , nhomFn: {
-        init:function () {
+        init: function () {
             autoFn.nhomFn.addFn();
             autoFn.nhomFn.CommonFn();
             autoFn.nhomFn.JoinFn();
         }
-        ,addFn:function() {
+        , addFn: function () {
             var pnl = $('.nhom-add-pnl');
             if ($(pnl).length < 1) return;
             var btn = pnl.find('.saveBtn');
@@ -712,7 +774,7 @@ var autoFn = {
 
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
-            
+
 
 
 
@@ -725,7 +787,7 @@ var autoFn = {
                     alertErr.html('Nhập nội dung bạn ơi');
                     return;
                 }
-                
+
                 var dongY = pnl.find('#dongY').is(':checked');
                 if (!dongY) {
                     alertErr.fadeIn();
@@ -736,7 +798,7 @@ var autoFn = {
 
                 var data = pnl.find('.nhom-add-form').find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
-                
+
                 $.ajax({
                     url: autoFn.url.nhom
                     , type: 'POST'
@@ -758,7 +820,7 @@ var autoFn = {
                    }
                 });
             });
-            
+
             xoaBtn.click(function () {
                 var con = confirm('Bạn có thực sự muốn xóa nhóm?');
                 if (!con) return;
@@ -817,7 +879,7 @@ var autoFn = {
             });
 
         }
-        ,CommonFn:function() {
+        , CommonFn: function () {
             var pnl = $('.nhomList-box');
             if ($(pnl).length < 1) return;
             var header = $('.nhomList-header');
@@ -834,15 +896,15 @@ var autoFn = {
                 // return false to stop default link action
             });
         }
-        ,JoinFn:function () {
-            $('.joinGroupBtn').click(function() {
+        , JoinFn: function () {
+            $('.joinGroupBtn').click(function () {
                 if (!logged) return;
                 var item = $(this);
                 var id = item.attr('data-id');
                 var joined = item.attr('data-joined');
                 if (joined == '1') {
                     item.html('Tham gia');
-                }else {
+                } else {
                     item.html('Đã gửi yêu cầu');
                 }
                 var data = [];

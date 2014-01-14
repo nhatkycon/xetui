@@ -20,6 +20,7 @@ namespace docsoft.entities
         public String Url { get; set; }
         public DateTime NgayTao { get; set; }
         public string Alias { get; set; }
+        public string NoiDung { get; set; }
         #endregion
         #region Contructor
         public Obj()
@@ -196,10 +197,14 @@ namespace docsoft.entities
         #region Extend
         public static Obj SelectByRowId(Guid RowId)
         {
+            return SelectByRowId(DAL.con(),RowId);
+        }
+        public static Obj SelectByRowId(SqlConnection con, Guid RowId)
+        {
             var item = new Obj();
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("RowId", RowId);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblObj_Select_SelectByRowId_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblObj_Select_SelectByRowId_linhnx", obj))
             {
                 while (rd.Read())
                 {

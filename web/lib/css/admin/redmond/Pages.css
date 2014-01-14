@@ -60,6 +60,8 @@ table
 {
 	width:16px;
 	height:16px;
-	background-image:url(i/loader.gif);
+    display: none;
+    float: left;
+	background-image:url(i/load.gif);
 	background-repeat:no-repeat;
 }
