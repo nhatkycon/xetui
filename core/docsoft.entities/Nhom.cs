@@ -456,6 +456,10 @@ namespace docsoft.entities
         #region Extend
         public static NhomCollection SelectByUser(string username, int top, bool? approved)
         {
+            return SelectByUser(DAL.con(),username,top,approved);
+        }
+        public static NhomCollection SelectByUser(SqlConnection con, string username, int top, bool? approved)
+        {
             var list = new NhomCollection();
             var obj = new SqlParameter[3];
             obj[0] = new SqlParameter("username", username);
@@ -468,7 +472,7 @@ namespace docsoft.entities
             {
                 obj[2] = new SqlParameter("TV_Approved", DBNull.Value);
             }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhom_Select_SelectByUser_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhom_Select_SelectByUser_linhnx", obj))
             {
                 while (rd.Read())
                 {

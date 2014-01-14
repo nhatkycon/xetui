@@ -28,6 +28,8 @@ public partial class lib_ajax_nhom_Default : BasedPage
         var adminKey = Request["AdminKey"];
         var dic = Server.MapPath("~/lib/up/nhom/");
         var joined = Request["Joined"];
+        var approved = Request["approved"];
+        var loai = Request["loai"];
 
         switch (subAct)
         {
@@ -74,6 +76,10 @@ public partial class lib_ajax_nhom_Default : BasedPage
                                                         , NgayTao = DateTime.Now
                                                         , NguoiTao = Security.Username
                                                         , Username = Security.Username
+                                                        ,
+                                                        IsMod = false
+                                                        ,
+                                                        ModLoai = 0 
                                                     });
 
                         ObjMemberDal.Insert(new ObjMember()
@@ -154,8 +160,59 @@ public partial class lib_ajax_nhom_Default : BasedPage
                                                         , NguoiTao = Security.Username
                                                         , NHOM_ID = item.ID
                                                         , Username = Security.Username
+                                                        , IsMod = false
+                                                        , ModLoai = 0 
                                                     });
                     }
+                }
+                break;
+                #endregion
+            case "duyetThanhVien":
+                #region Duyệt thành viên tham gia nhóm
+                if (!string.IsNullOrEmpty(id) && logged)
+                {
+                    var nhomTv = NhomThanhVienDal.SelectById(new Guid(id));
+                    var mem = Security.Username;
+                    var memTv = NhomThanhVienDal.SelectByNhomIdUsername(nhomTv.NHOM_ID.ToString(), mem);
+                    var Approved = approved == "1";
+                    if(memTv.ModLoai==5 )
+                    {
+                        if(Approved)
+                        {
+                            nhomTv.Approved = true;
+                            nhomTv.ApprovedDate = DateTime.Now;
+                            NhomThanhVienDal.Update(nhomTv);
+                        }
+                        else
+                        {
+                            NhomThanhVienDal.DeleteById(nhomTv.ID);
+                        }
+                        rendertext("1");
+                    }
+                    rendertext("0");
+                }
+                break;
+                #endregion
+            case "phanQuyenThanhVien":
+                #region Phân quyền thành viên
+                if (!string.IsNullOrEmpty(id) && logged)
+                {
+                    var nhomTv = NhomThanhVienDal.SelectById(new Guid(id));
+                    var mem = Security.Username;
+                    var memTv = NhomThanhVienDal.SelectByNhomIdUsername(nhomTv.NHOM_ID.ToString(), mem);
+                    if (memTv.ModLoai == 5)
+                    {
+                        nhomTv.ModLoai = Convert.ToInt32(loai);
+                        nhomTv.IsMod = nhomTv.ModLoai != 0;
+                        if(!nhomTv.Approved)
+                        {
+                            nhomTv.Approved = true;
+                            nhomTv.ApprovedDate = DateTime.Now;
+                        }
+                        NhomThanhVienDal.Update(nhomTv);
+                        rendertext("1");
+                    }
+                    rendertext("0");
                 }
                 break;
                 #endregion

@@ -215,10 +215,14 @@ namespace docsoft.entities
         }
         public static Obj SelectByAlias(string alias)
         {
+            return SelectByAlias(DAL.con(),alias);
+        }
+        public static Obj SelectByAlias(SqlConnection con, string alias)
+        {
             var item = new Obj();
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("Alias", alias);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblObj_Select_SelectByAlias_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblObj_Select_SelectByAlias_linhnx", obj))
             {
                 while (rd.Read())
                 {

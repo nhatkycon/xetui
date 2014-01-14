@@ -12,8 +12,15 @@ public partial class html_Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        using(var con = DAL.con())
+        var alias = Request["Alias"];
+        using (var con = DAL.con())
         {
+            var obj = ObjDal.SelectByAlias(con, alias);
+            if(!string.IsNullOrEmpty(obj.Url))
+            {
+                Response.Redirect(obj.Url, true);
+            }
+
             var userHomeList = (from p in MemberDal.SelectAll()
                                 select p
                                 ).Where(p => !string.IsNullOrEmpty(p.Anh)).Take(8).ToList();

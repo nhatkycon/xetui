@@ -1,4 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="profile-about.ascx.cs" Inherits="lib_ui_account_profile_about" %>
+<%@ Register Src="~/lib/ui/nhom/templates/Item-Profile.ascx" TagPrefix="uc1" TagName="ItemProfile" %>
+
 <hr class="hr comment-hr visible-xs visible-sm"/>
 <h3 class="profile-info-header">
     Về tôi
@@ -11,10 +13,9 @@
     Cộng đồng
 </h3>
 <ul>
-    <li>
-        <a href="/communities/">Audi</a>
-    </li>
-    <li>
-        <a href="/communities/">Xe nhật</a>
-    </li>
+    <asp:Repeater runat="server" ID="rptNhom">
+        <ItemTemplate>
+            <uc1:ItemProfile runat="server" ID="ItemProfile" Item='<%# Container.DataItem %>' />
+        </ItemTemplate>
+    </asp:Repeater>
 </ul>

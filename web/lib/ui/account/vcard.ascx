@@ -16,8 +16,8 @@
                     </span>
                 </span>
             </a>
-            <span class="vcard-status">
-                <%=Item.SLOnline %>
+            <span class="vcard-status {1}">
+                {0}
             </span>
         </div>
         <div class="vcard-note note">

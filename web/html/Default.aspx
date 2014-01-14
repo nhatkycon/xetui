@@ -29,9 +29,6 @@
         <div class="x-col x10">
             <uc1:HomeList runat="server" ID="UserHomeList" />            
         </div>
-        <div class="x-col x10">
-            <uc1:HomeList runat="server" ID="HomeList1" />            
-        </div>
         <div class="x-col x10 home-blogs-box">
             <div class="row">
                 <div class="col-md-8">

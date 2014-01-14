@@ -25,6 +25,8 @@ namespace docsoft.entities
         public Boolean Accepted { get; set; }
         public DateTime AcceptedDate { get; set; }
         public String NguoiTao { get; set; }
+        public Boolean IsMod { get; set; }
+        public Int32 ModLoai { get; set; }
         #endregion
         #region Contructor
         public NhomThanhVien()
@@ -32,6 +34,7 @@ namespace docsoft.entities
         #endregion
         #region Customs properties
 
+        public Member Member { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -58,7 +61,7 @@ namespace docsoft.entities
         public static NhomThanhVien Insert(NhomThanhVien item)
         {
             var Item = new NhomThanhVien();
-            var obj = new SqlParameter[10];
+            var obj = new SqlParameter[12];
             obj[0] = new SqlParameter("TV_ID", item.ID);
             obj[1] = new SqlParameter("TV_NHOM_ID", item.NHOM_ID);
             obj[2] = new SqlParameter("TV_Username", item.Username);
@@ -90,7 +93,8 @@ namespace docsoft.entities
                 obj[8] = new SqlParameter("TV_AcceptedDate", DBNull.Value);
             }
             obj[9] = new SqlParameter("TV_NguoiTao", item.NguoiTao);
-
+            obj[10] = new SqlParameter("TV_IsMod", item.IsMod);
+            obj[11] = new SqlParameter("TV_ModLoai", item.ModLoai);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhomThanhVien_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -104,7 +108,7 @@ namespace docsoft.entities
         public static NhomThanhVien Update(NhomThanhVien item)
         {
             var Item = new NhomThanhVien();
-            var obj = new SqlParameter[10];
+            var obj = new SqlParameter[12];
             obj[0] = new SqlParameter("TV_ID", item.ID);
             obj[1] = new SqlParameter("TV_NHOM_ID", item.NHOM_ID);
             obj[2] = new SqlParameter("TV_Username", item.Username);
@@ -136,7 +140,8 @@ namespace docsoft.entities
                 obj[8] = new SqlParameter("TV_AcceptedDate", DBNull.Value);
             }
             obj[9] = new SqlParameter("TV_NguoiTao", item.NguoiTao);
-
+            obj[10] = new SqlParameter("TV_IsMod", item.IsMod);
+            obj[11] = new SqlParameter("TV_ModLoai", item.ModLoai);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhomThanhVien_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -236,6 +241,25 @@ namespace docsoft.entities
             {
                 Item.NguoiTao = (String)(rd["TV_NguoiTao"]);
             }
+            if (rd.FieldExists("TV_IsMod"))
+            {
+                Item.IsMod = (Boolean)(rd["TV_IsMod"]);
+            }
+            if (rd.FieldExists("TV_ModLoai"))
+            {
+                Item.ModLoai = (Int32)(rd["TV_ModLoai"]);
+            }
+            var mem = new Member();
+            if (rd.FieldExists("MEM_Vcard"))
+            {
+                mem.Vcard = (String)(rd["MEM_Vcard"]);
+            }
+            if (rd.FieldExists("MEM_Ten"))
+            {
+                mem.Ten = (String)(rd["MEM_Ten"]);
+            }
+
+            Item.Member = mem;
             return Item;
         }
         #endregion
@@ -243,11 +267,15 @@ namespace docsoft.entities
         #region Extend
         public static NhomThanhVien SelectByNhomIdUsername(string id, string username)
         {
+            return SelectByNhomIdUsername(DAL.con(), id, username);
+        }
+        public static NhomThanhVien SelectByNhomIdUsername(SqlConnection con, string id, string username)
+        {
             var item = new NhomThanhVien();
             var obj = new SqlParameter[2];
             obj[0] = new SqlParameter("id", id);
             obj[1] = new SqlParameter("username", username);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhomThanhVien_SelectByNhomIdUsername_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhomThanhVien_SelectByNhomIdUsername_linhnx", obj))
             {
                 while (rd.Read())
                 {
@@ -255,6 +283,21 @@ namespace docsoft.entities
                 }
             }
             return item;
+        }
+        public static NhomThanhVienCollection SelectByNhomId(SqlConnection con, string id, string approved)
+        {
+            var list = new NhomThanhVienCollection();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("id", id);
+            obj[1] = new SqlParameter("approved", approved);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblNhomThanhVien_Select_SelectByNhomId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
         }
         #endregion
     }

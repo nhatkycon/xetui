@@ -13,12 +13,14 @@ public partial class lib_ui_blog_ViewForProfile : System.Web.UI.UserControl
     public Blog Blog { get; set; }
     public string Id { get; set; }
     public Pager<BinhLuan> Pager { get; set; }
+    public List<Nhom> Nhoms { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         BinhLuanList.Pager = Pager;
         BinhLuanList.PRowId = Blog.RowId.ToString();
         profileInfo.Item = Item;
         profileAbout.Item = Item;
+        profileAbout.Nhoms = Nhoms;
         blogViewItem.Blog = Blog;
     }
 }

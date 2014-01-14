@@ -18,15 +18,15 @@
         <div class="col-md-8">
             <form class="form-horizontal myAccount-form" role="form">
                 <div class="form-group">
-                <label for="Ten" class="col-sm-2 control-label">Địa chỉ:</label>
-                <div class="col-sm-10">
-                    <%if (string.IsNullOrEmpty(Obj.Alias)){ %>
-                        <button class="btn btn-link btnChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Tạo địa chỉ ngắn</button>
-                    <%}else
-                      {%>
-                         <a href="/<%=Obj.Alias %>">http://xetui.vn/<%=Obj.Alias %></a>  - <button class="btn  btn-link ChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Đổi địa chỉ</button>      
-                     <% } %>
-                </div>
+                    <label for="Ten" class="col-sm-2 control-label">Địa chỉ:</label>
+                    <div class="col-sm-10">
+                        <%if (string.IsNullOrEmpty(Obj.Alias)){ %>
+                            <button class="btn btn-link btnChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Tạo địa chỉ ngắn</button>
+                        <%}else
+                          {%>
+                             <a href="/<%=Obj.Alias %>">http://xetui.vn/<%=Obj.Alias %></a>  - <button class="btn  btn-link ChangeAlias" data-id="<%=Obj.RowId %>" data-toggle="modal" data-target="#changeAliasModal">Đổi địa chỉ</button>      
+                         <% } %>
+                    </div>
               </div>
               <div class="form-group">
                 <label for="Ten" class="col-sm-2 control-label">Tên</label>

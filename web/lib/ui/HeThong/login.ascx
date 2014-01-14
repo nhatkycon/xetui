@@ -45,9 +45,7 @@
                     <p class="alert alert-danger" style="display: none;"></p>
                 </div>      
               </div>
-              
           </div>
-        
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div>

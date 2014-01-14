@@ -505,33 +505,37 @@ var autoFn = {
             var loader = form.find('.loader');
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
-
+            var changeAliasTimer;
+            
             Alias.keyup(function () {
                 var item = $(this);
-                var alias = item.val();
-                var rowId = item.attr('data-id');
-                var data = [];
-                data.push({ name: 'subAct', value: 'validateAlias' });
-                data.push({ name: 'Alias', value: alias });
-                data.push({ name: 'RowId', value: rowId });
-                loader.show();
-                alertOk.hide();
-                alertErr.hide();
-                $.ajax({
-                    url: autoFn.url.account
-                    , type: 'POST'
-                    , data: data
-                   , success: function (rs) {
-                       loader.hide();
-                       if (rs == '0') { // E-mail or username is not avaiable
-                           alertErr.fadeIn();
-                           alertErr.html('Địa chỉ đã tồn tại');
-                       } else {
-                           alertOk.fadeIn();
-                           alertOk.html('Địa chỉ hợp lệ');
+                if (changeAliasTimer) clearTimeout(changeAliasTimer);
+                changeAliasTimer = setTimeout(function() {
+                    var alias = item.val();
+                    var rowId = item.attr('data-id');
+                    var data = [];
+                    data.push({ name: 'subAct', value: 'validateAlias' });
+                    data.push({ name: 'Alias', value: alias });
+                    data.push({ name: 'RowId', value: rowId });
+                    loader.show();
+                    alertOk.hide();
+                    alertErr.hide();
+                    $.ajax({
+                        url: autoFn.url.account
+                        , type: 'POST'
+                        , data: data
+                       , success: function (rs) {
+                           loader.hide();
+                           if (rs == '0') { // E-mail or username is not avaiable
+                               alertErr.fadeIn();
+                               alertErr.html('Địa chỉ đã tồn tại');
+                           } else {
+                               alertOk.fadeIn();
+                               alertOk.html('Địa chỉ hợp lệ');
+                           }
                        }
-                   }
-                });
+                    });
+                }, 500);
             });
 
             $('.changeBtn').click(function () {
@@ -760,6 +764,7 @@ var autoFn = {
             autoFn.nhomFn.addFn();
             autoFn.nhomFn.CommonFn();
             autoFn.nhomFn.JoinFn();
+            autoFn.nhomFn.AdminPanel();
         }
         , addFn: function () {
             var pnl = $('.nhom-add-pnl');
@@ -917,6 +922,73 @@ var autoFn = {
                     , data: data
                    , success: function (rs) {
                        //document.location.href = '/my-cars/';
+                   }
+                });
+            });
+        }
+        , AdminPanel: function () {
+            var pnl = $('.nhomThanhVien-memberPenddingBox');
+            if ($(pnl).length < 1) return;
+
+            pnl.find('.removeMemberBtn').click(function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var data = [];
+                data.push({ name: 'subAct', value: 'duyetThanhVien' });
+                data.push({ name: 'Id', value: id });
+                data.push({ name: 'approved', value: '0' });
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       var pitem = item.parent().parent().parent().parent();
+                       pitem.addClass('animated bounceOutRight');
+                       setTimeout(function () {
+                           pitem.remove();
+                       }, 500);
+                   }
+                });
+            });
+            
+            pnl.find('.duyetMemberBtn').click(function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var data = [];
+                data.push({ name: 'subAct', value: 'duyetThanhVien' });
+                data.push({ name: 'Id', value: id });
+                data.push({ name: 'approved', value: '1' });
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       var pitem = item.parent().parent().parent().parent();
+                       pitem.addClass('animated bounceOutRight');
+                       setTimeout(function () {
+                           pitem.remove();
+                       }, 500);
+                   }
+                });
+            });
+            
+            var pnlMemberBox = $('.nhomThanhVien-memberBox');
+            
+            pnlMemberBox.find('.phanQuyenMemberBtn').click(function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var loai = item.attr('data-loai');
+                var data = [];
+                data.push({ name: 'subAct', value: 'phanQuyenThanhVien' });
+                data.push({ name: 'Id', value: id });
+                data.push({ name: 'loai', value: loai });
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       var pitem = item.parent().parent().parent();
+                       pitem.find('.help-block').html(item.find('a').html());
                    }
                 });
             });
