@@ -19,6 +19,7 @@ namespace docsoft.entities
         public String Kieu { get; set; }
         public String Url { get; set; }
         public DateTime NgayTao { get; set; }
+        public string Alias { get; set; }
         #endregion
         #region Contructor
         public Obj()
@@ -81,7 +82,7 @@ namespace docsoft.entities
         public static Obj Update(Obj item)
         {
             var Item = new Obj();
-            var obj = new SqlParameter[7];
+            var obj = new SqlParameter[8];
             obj[0] = new SqlParameter("OB_ID", item.ID);
             obj[1] = new SqlParameter("OB_RowId", item.RowId);
             obj[2] = new SqlParameter("OB_Username", item.Username);
@@ -96,7 +97,7 @@ namespace docsoft.entities
             {
                 obj[6] = new SqlParameter("OB_NgayTao", DBNull.Value);
             }
-
+            obj[7] = new SqlParameter("OB_Alias", item.Alias);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblObj_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -184,6 +185,10 @@ namespace docsoft.entities
             {
                 Item.NgayTao = (DateTime)(rd["OB_NgayTao"]);
             }
+            if (rd.FieldExists("OB_Alias"))
+            {
+                Item.Alias = (String)(rd["OB_Alias"]);
+            }
             return Item;
         }
         #endregion
@@ -195,6 +200,20 @@ namespace docsoft.entities
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("RowId", RowId);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblObj_Select_SelectByRowId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
+        public static Obj SelectByAlias(string alias)
+        {
+            var item = new Obj();
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("Alias", alias);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblObj_Select_SelectByAlias_linhnx", obj))
             {
                 while (rd.Read())
                 {

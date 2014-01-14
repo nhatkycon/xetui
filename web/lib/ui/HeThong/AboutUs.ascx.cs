@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class lib_ui_nhom_AdminMenu : System.Web.UI.UserControl
+public partial class lib_ui_HeThong_AboutUs : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
