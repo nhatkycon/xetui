@@ -9,6 +9,7 @@ using docsoft;
 using docsoft.entities;
 using linh.controls;
 using linh.core;
+using linh.core.dal;
 
 public partial class lib_ajax_nhom_Default : BasedPage
 {
@@ -26,6 +27,8 @@ public partial class lib_ajax_nhom_Default : BasedPage
         var idNull = string.IsNullOrEmpty(id) || id == "0";
         var adminKey = Request["AdminKey"];
         var dic = Server.MapPath("~/lib/up/nhom/");
+        var joined = Request["Joined"];
+
         switch (subAct)
         {
             case "save":
@@ -123,6 +126,35 @@ public partial class lib_ajax_nhom_Default : BasedPage
                         ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
                         ThichDal.DeleteByPId(item.RowId);
                         NhomDal.DeleteById(item.ID);
+                    }
+                }
+                break;
+                #endregion
+            case "join":
+                #region Tham gia nhom
+                if (!string.IsNullOrEmpty(id) && logged)
+                {
+                    var item = NhomDal.SelectById(DAL.con(), Convert.ToInt32(id), Security.Username);
+                    var isJoined = joined == "1";
+                    var itemTv = NhomThanhVienDal.SelectByNhomIdUsername(id, Security.Username);
+                    if (isJoined && itemTv.ID != Guid.Empty && !itemTv.Admin) // remove 
+                    {
+                        NhomThanhVienDal.DeleteById(itemTv.ID);
+                    }
+                    else // add
+                    {
+                        NhomThanhVienDal.Insert(new NhomThanhVien()
+                                                    {
+                                                        Accepted = true
+                                                        , AcceptedDate = DateTime.Now
+                                                        , Admin = false
+                                                        , Approved = false
+                                                        , ID = Guid.NewGuid()
+                                                        , NgayTao = DateTime.Now
+                                                        , NguoiTao = Security.Username
+                                                        , NHOM_ID = item.ID
+                                                        , Username = Security.Username
+                                                    });
                     }
                 }
                 break;

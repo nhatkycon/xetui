@@ -132,7 +132,35 @@ namespace docsoft.entities
                             return string.Format("/blogs/edit/{0}/", ID);
                         }
                         break;
-                    case 3: // Community
+                    case 3: // Community Blog
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}blogs/edit/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 4: // Community Topic
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}forum/edit/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
+                        break;
+                    case 5: // Community QA
+                        if (Nhom != null)
+                        {
+                            return string.Format("{0}qa/edit/{1}/", Nhom.Url, ID);
+                        }
+                        else
+                        {
+                            return string.Format("/blogs/{0}/", ID);
+                        }
                         break;
                 }
                 return string.Empty;

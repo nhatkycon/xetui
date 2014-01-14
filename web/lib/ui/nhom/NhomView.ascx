@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="NhomView.ascx.cs" Inherits="lib_ui_nhom_NhomView" %>
 <%@ Register Src="~/lib/ui/nhom/Nhom-Info.ascx" TagPrefix="uc1" TagName="NhomInfo" %>
 <%@ Register Src="~/lib/ui/nhom/Nhom-Header.ascx" TagPrefix="uc1" TagName="NhomHeader" %>
-<%@ Register Src="~/lib/ui/blog/ListBlogForNhom.ascx" TagPrefix="uc1" TagName="ListBlogForNhom" %>
-<%@ Register Src="~/lib/ui/blog/ListThreadForNhom.ascx" TagPrefix="uc1" TagName="ListThreadForNhom" %>
+<%@ Register Src="~/lib/ui/blog/NhomBlog/List.ascx" TagPrefix="uc1" TagName="List" %>
+
 <div class="padding-20">
     <div class="row">
         <div class="col-md-8">
@@ -16,7 +16,7 @@
                             Blog
                         </a>                        
                     </h3>
-                    <uc1:ListBlogForNhom runat="server" ID="ListBlogForNhom" />
+                    <uc1:List runat="server" ID="ListBlogForNhom" />
                 </div>
                 <div class="col-md-6">
                     <h3 class="h3-subtitle">
@@ -24,7 +24,7 @@
                             Thảo luận
                         </a>                        
                     </h3>
-                    <uc1:ListThreadForNhom runat="server" ID="ListThreadForNhom" />
+                    <uc1:List runat="server" ID="ListThreadForNhom" />
                 </div>
             </div>          
         </div>

@@ -241,6 +241,21 @@ namespace docsoft.entities
         #endregion
 
         #region Extend
+        public static NhomThanhVien SelectByNhomIdUsername(string id, string username)
+        {
+            var item = new NhomThanhVien();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("id", id);
+            obj[1] = new SqlParameter("username", username);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblNhomThanhVien_SelectByNhomIdUsername_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         #endregion
     }
     #endregion

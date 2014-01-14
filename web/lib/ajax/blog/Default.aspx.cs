@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
 using linh.core;
+using linh.core.dal;
 
 public partial class lib_ajax_blog_Default : BasedPage
 {
@@ -30,21 +31,39 @@ public partial class lib_ajax_blog_Default : BasedPage
                     var item = idNull ? new Blog() : BlogDal.SelectById(Convert.ToInt64(Id));
                     item.NoiDung = noiDung;
                     item.Ten = Ten;
-
+                    if (!string.IsNullOrEmpty(Loai))
+                    {
+                        item.Loai = Convert.ToInt32(Loai);
+                    }
+                    if (!string.IsNullOrEmpty(PID_ID))
+                    {
+                        item.PID_ID = new Guid(PID_ID);
+                    }
+                    
                     if (idNull)
                     {
                         item.NguoiTao = Security.Username;
                         item.NgayTao = DateTime.Now;
-                        if (!string.IsNullOrEmpty(Loai))
-                        {
-                            item.Loai = Convert.ToInt32(Loai);
-                        }
-                        if (!string.IsNullOrEmpty(PID_ID))
-                        {
-                            item.PID_ID = new Guid(PID_ID);
-                        }
                         item.RowId = Guid.NewGuid();
                         item = BlogDal.Insert(item);
+                        switch (item.Loai)
+                        {
+                            case 1:
+                                item.Profile = MemberDal.SelectByRowId(item.PID_ID);
+                                break;
+                            case 2:
+                                item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                                break;
+                            case 3:
+                            case 4:
+                            case 5:
+                                item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
+                                if (item.Nhom.IsAdmin)
+                                {
+                                    item.Publish = true;
+                                }
+                                break;
+                        }
                         ObjMemberDal.Insert(new ObjMember()
                         {
                             PRowId = item.RowId
@@ -75,21 +94,26 @@ public partial class lib_ajax_blog_Default : BasedPage
                     else
                     {
                         item = BlogDal.Update(item);
+                        switch (item.Loai)
+                        {
+                            case 1:
+                                item.Profile = MemberDal.SelectByRowId(item.PID_ID);
+                                break;
+                            case 2:
+                                item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                                break;
+                            case 3:
+                            case 4:
+                            case 5:
+                                item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
+                                if (item.Nhom.IsAdmin)
+                                {
+                                    item.Publish = true;
+                                }
+                                break;
+                        }
                     }
-                    switch (item.Loai)
-                    {
-                        case 1:
-                            item.Profile = MemberDal.SelectByRowId(item.PID_ID);
-                            break;
-                        case 2:
-                            item.Xe = XeDal.SelectByRowId(item.PID_ID);
-                            break;
-                        case 3:
-                        case 4:
-                        case 5:
-                            item.Nhom = NhomDal.SelectByRowId(item.PID_ID);
-                            break;
-                    }
+                    
                     rendertext(item.Url);
                 }
                 rendertext("0");

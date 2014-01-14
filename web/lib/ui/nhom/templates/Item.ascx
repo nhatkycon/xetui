@@ -3,7 +3,9 @@
     <td class="nhom-itemInList-sort">
     </td>
     <td class="nhom-itemInList-sort-name">
-        <%=Item.Ten %>
+        <a href="<%=Item.Url %>">
+            <%=Item.Ten %>
+        </a>
     </td>
     <td class="nhom-itemInList-members">
         <%=Item.TotalMember %>

@@ -665,7 +665,7 @@ var autoFn = {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
                            setTimeout(function() {
-                               //document.location.href = rs;
+                               document.location.href = rs;
                            }, 1000);
                        }
                    }
@@ -673,7 +673,7 @@ var autoFn = {
             });
 
             xoaBtn.click(function () {
-                var con = confirm('Bạn có thực sự muốn xóa xe?');
+                var con = confirm('Bạn có thực sự muốn xóa?');
                 if (!con) return;
 
                 var data = pnl.find('.blog-add-form').find(':input').serializeArray();
@@ -683,7 +683,7 @@ var autoFn = {
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
-                       document.location.href = '/my-cars/';
+                       //document.location.href = '/my-cars/';
                    }
                 });
             });
@@ -697,6 +697,7 @@ var autoFn = {
         init:function () {
             autoFn.nhomFn.addFn();
             autoFn.nhomFn.CommonFn();
+            autoFn.nhomFn.JoinFn();
         }
         ,addFn:function() {
             var pnl = $('.nhom-add-pnl');
@@ -831,6 +832,31 @@ var autoFn = {
                 // sort on the first column
                 tbl.trigger("sorton", [sorting]);
                 // return false to stop default link action
+            });
+        }
+        ,JoinFn:function () {
+            $('.joinGroupBtn').click(function() {
+                if (!logged) return;
+                var item = $(this);
+                var id = item.attr('data-id');
+                var joined = item.attr('data-joined');
+                if (joined == '1') {
+                    item.html('Tham gia');
+                }else {
+                    item.html('Đã gửi yêu cầu');
+                }
+                var data = [];
+                data.push({ name: 'subAct', value: 'join' });
+                data.push({ name: 'Id', value: id });
+                data.push({ name: 'joined', value: joined });
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       //document.location.href = '/my-cars/';
+                   }
+                });
             });
         }
     }

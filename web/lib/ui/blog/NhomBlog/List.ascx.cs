@@ -6,12 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using docsoft.entities;
 
-public partial class lib_ui_blog_ListBlogForNhom : System.Web.UI.UserControl
+public partial class lib_ui_blog_NhomBlog_List : System.Web.UI.UserControl
 {
     public List<Blog> List { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(List==null) return;
+        if (List == null) return;
         rpt.DataSource = List;
         rpt.DataBind();
     }

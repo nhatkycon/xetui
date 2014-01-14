@@ -2,7 +2,7 @@
 <%@ Import Namespace="linh.common" %>
 <div class="nhomItem-infoBox">
     <div class="nhomItem-infoBox-avatar">
-        <img src="lib/up/nhom/<%=Item.Anh %>"/>
+        <img src="/lib/up/nhom/<%=Item.Anh %>"/>
     </div>
     <div class="nhomItem-infoBox-note">
         <%if(Item.TotalMember > 1){ %>
@@ -14,10 +14,20 @@
              </a>
     </div>
     <div class="nhomitem-infoBox-buttons">
-        <%if(Item.Joined){ %>
-            <button class="btn btn-default joinGroupBtn" data-status="1" data-id="<%=Item.ID %>" title="Hủy tham gia <%=Item.Ten %>">Ngừng tham gia</button>
+        <%if(!Item.IsAdmin){ %>
+            <%if(Item.Joined){ %>
+                <button class="btn btn-default joinGroupBtn" data-joined="1" data-id="<%=Item.ID %>" title="Hủy tham gia <%=Item.Ten %>">Ngừng tham gia</button>
+            <%}else{ %>
+                <%if(Item.IsPendingMember){ %>
+                    <button class="btn btn-default" data-joined="0" data-id="<%=Item.ID %>" title="Đăng ký tham gia <%=Item.Ten %>">Đã gửi yêu cầu</button>
+                <%}else{ %>
+                    <button class="btn btn-default joinGroupBtn" data-joined="0" data-id="<%=Item.ID %>" title="Đăng ký tham gia <%=Item.Ten %>">Tham gia</button>
+                <%} %>
+            <%} %>
         <%}else{ %>
-            <button class="btn btn-default joinGroupBtn" data-status="0" data-id="<%=Item.ID %>" title="Đăng ký tham gia <%=Item.Ten %>">Tham gia</button>
+            <a href="<%=Item.Url %>admin/" class="btn btn-default" title="Quản lý <%=Item.Ten %>">
+                Quản lý
+            </a>
         <%} %>
     </div>
     <hr class="hr comment-hr"/>

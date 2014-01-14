@@ -44,6 +44,8 @@ namespace docsoft.entities
         public Boolean Duyet { get; set; }
         public DateTime NgayDuyet { get; set; }
         public String NguoiDuyet { get; set; }
+
+        public bool IsPendingMember { get; set; }
         #endregion
         #region Contructor
         public Nhom()
@@ -376,6 +378,10 @@ namespace docsoft.entities
             if (rd.FieldExists("G_Joined"))
             {
                 Item.Joined = (Boolean)(rd["G_Joined"]);
+            }
+            if (rd.FieldExists("IsPendingMember"))
+            {
+                Item.IsPendingMember = (Boolean)(rd["IsPendingMember"]);
             }
             if (rd.FieldExists("G_NgayTao"))
             {
