@@ -818,7 +818,7 @@ var autoFn = {
                            if (admMode) {
                            } else {
                                setTimeout(function () {
-                                   //document.location.href = rs;
+                                   document.location.href = rs + 'admin/';
                                }, 1000);
                            }
                        }
@@ -841,7 +841,7 @@ var autoFn = {
                        if (admMode) {
                        } else {
                            setTimeout(function () {
-                               //document.location.href = rs;
+                               document.location.href = '/group/';
                            }, 1000);
                        }
                    }
@@ -991,7 +991,33 @@ var autoFn = {
                        pitem.find('.help-block').html(item.find('a').html());
                    }
                 });
-            });
+           });
+
+
+           var nhomPenddingBlogsBox = $('.nhomPenddingBlogs-Box');
+
+           nhomPenddingBlogsBox.find('.publishBlogBtn').click(function () {
+               var item = $(this);
+               var id = item.attr('data-id');
+               var approved = item.attr('data-approved');
+               var data = [];
+               data.push({ name: 'subAct', value: 'nhomDuyetBlog' });
+               data.push({ name: 'Id', value: id });
+               data.push({ name: 'approved', value: approved });
+               $.ajax({
+                   url: autoFn.url.blog
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       var pitem = item.parent().parent().parent();
+                       pitem.addClass('animated bounceOutRight');
+                       setTimeout(function () {
+                           pitem.remove();
+                       }, 500);
+                   }
+               });
+           });
+
         }
     }
     , XuLyAnhFn: {

@@ -19,6 +19,7 @@ public partial class lib_ui_cars_view : System.Web.UI.UserControl
         ListForCar.Pager = PagerBlog;
         ListForCar.Item = Item;
         ViewCarInfo.Item = Item;
+        ViewCarInfo1.Item = Item;
         viewCarSlider.Item = Item;
     }
 }

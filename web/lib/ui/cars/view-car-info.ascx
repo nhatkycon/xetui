@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="view-car-info.ascx.cs" Inherits="lib_ui_cars_view_car_info" %>
 <%@ Register TagPrefix="heThong" TagName="likeBtn" Src="~/lib/ui/HeThong/LikeBtn.ascx" %>
-<div class="car-view-infobox">
+<div class="car-view-infobox<%=Css %>">
 <div class="car-view-breadcumb">
     <ol class="breadcrumb">
         <li><a href="/cars/">Xe</a></li>

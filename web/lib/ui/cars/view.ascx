@@ -5,6 +5,7 @@
 <%@ Register src="~/lib/ui/cars/view-car-slider.ascx" tagPrefix="car" tagName="ViewCarSlider" %>
 <%@ Register src="~/lib/ui/cars/view-car-info.ascx" tagPrefix="car" tagName="ViewCarInfo" %>
 <car:viewcarslider ID="viewCarSlider" runat="server"/>
+<car:ViewCarInfo Css=" visible-sm visible-xs" ID="ViewCarInfo1" runat="server"/>
 <div class="row car-view-body">
     <div class="col-md-6">
         <div class="padding-20">
@@ -20,7 +21,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <car:ViewCarInfo ID="ViewCarInfo" runat="server"/>        
+        <car:ViewCarInfo Css=" hidden-sm hidden-xs" ID="ViewCarInfo" runat="server"/>
         <binhLuan:List runat="server" ID="BinhLuanList" />
     </div>
 </div>

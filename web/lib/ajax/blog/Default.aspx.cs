@@ -19,6 +19,7 @@ public partial class lib_ajax_blog_Default : BasedPage
         var Id = Request["Id"];
         var cUrl = Request["cUrl"];
         var noiDung = Request["NoiDung"];
+        var approved = Request["approved"];
         var logged = Security.IsAuthenticated();
         var idNull = string.IsNullOrEmpty(Id) || Id == "0";
 
@@ -130,6 +131,26 @@ public partial class lib_ajax_blog_Default : BasedPage
                         ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
                         ThichDal.DeleteByPId(item.RowId);
                     }
+                }
+                break;
+                #endregion
+            case "nhomDuyetBlog":
+                #region duyet blog of Nhom
+                if (!string.IsNullOrEmpty(Id) && logged && !string.IsNullOrEmpty(approved))
+                {
+                    var Approved = approved == "1";
+
+                    var item = BlogDal.SelectById(Convert.ToInt64(Id));
+                    if(Approved)
+                    {
+                        item.Publish = true;
+                        BlogDal.Update(item);
+                    }
+                    else
+                    {
+                        BlogDal.DeleteById(item.ID);
+                    }
+                    
                 }
                 break;
                 #endregion

@@ -28,6 +28,9 @@
                     <a href="javascript:;" class="btn btn-success changeBtn">Đổi ảnh</a>                            
                 </div>
             </div>
+        </div>
+        <hr class="hr comment-hr"/>
+        <div class="row">            
             <div class="col-md-3 col-md-offset-1">
                 <a href="/cars/add/" class="btn btn-success btn-lg" >1. Đăng ký xe</a>
                 <p class="help-block">

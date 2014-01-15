@@ -8,7 +8,7 @@
             <i class="glyphicon glyphicon-arrow-up"></i>
         </a>
     </div>
-    <div class="panel-body">
+    <div class="panel-body nhomPenddingBlogs-Box">
         <asp:Repeater runat="server" ID="rpt">
             <ItemTemplate>
                 <uc1:ItemAdmin runat="server" ID="ItemAdmin" Item='<%# Container.DataItem %>' />
