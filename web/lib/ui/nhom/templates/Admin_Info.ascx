@@ -10,9 +10,10 @@
         </a>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal nhom-add-form" role="form">
+        <form class="form-horizontal nhom-edit-form" role="form">
             <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
             <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
+            <%if(Item.Duyet){ %>
             <div class="form-group">
                 <label for="Ten" class="col-sm-2 control-label">Địa chỉ:</label>
                 <div class="col-sm-10">
@@ -24,16 +25,22 @@
                         <% } %>
                 </div>
             </div>
+            <%}else{ %>
+            <p class="well well-lg">
+                Cộng đồng chưa được duyệt do đó người khác bạn chưa thể truy cập<br/>
+                Nếu bạn thấy vội hãy liên lạc bằng cách e-mail: <a href="mailto:support@xetui.vn">support@xetui.vn</a>
+            </p>
+            <%} %>
             <div class="form-group">
-                <label for="Ten" class="col-sm-2 control-label">Tên nhóm</label>
+                <label for="Ten" class="col-sm-2 control-label">Tên </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control Ten" id="Ten" value="<%=Item.Ten %>" name="Ten" placeholder="Tên nhóm">
+                    <input type="text" class="form-control Ten" id="Ten" value="<%=Item.Ten %>" name="Ten" placeholder="Tên cộng đồng">
                 </div>
             </div>
             <div class="form-group">
-                <label for="Ten" class="col-sm-2 control-label">Mô tả</label>
+                <label for="Ten" class="col-sm-2 control-label">Ảnh</label>
                 <div class="col-sm-10">
-                    <textarea type="text" class="form-control MoTa" id="MoTa" name="MoTa" rows="3" placeholder="Mô tả nhóm"><%=Item.MoTa %></textarea>
+                    <textarea type="text" class="form-control MoTa" id="MoTa" name="MoTa" rows="3" placeholder="Mô tả cộng đồng"><%=Item.MoTa %></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -47,7 +54,7 @@
                         <input type="hidden" name="Anh" class="Anh"  value="<%=Item.Anh %>"/>
                     </div>
                     <p class="help-block">
-                        Ảnh đại diện cho nhóm quan trọng vô cùng bạn ạ.
+                        Ảnh đại diện cho cộng đồng quan trọng vô cùng bạn ạ.
                     </p>
                 </div>
             </div>
@@ -65,21 +72,21 @@
                         <label>
                             <%if (Item.NhomMo)
                               { %>
-                                <input name="NhomMo" checked="checked" class="NhomMo" id="NhomMo" type="checkbox"> Nhóm mở
+                                <input name="NhomMo" checked="checked" class="NhomMo" id="NhomMo" type="checkbox"> Mở
                             <%}else{ %>
-                                <input name="NhomMo" class="NhomMo" id="NhomMo" type="checkbox"> Nhóm đóng
+                                <input name="NhomMo" class="NhomMo" id="NhomMo" type="checkbox"> Đóng
                             <%} %>
                         </label>
                         <p class="help-block">
-                            Nhóm mở: Thành viên có thể đăng bài<br/>
-                            Nhóm đóng: Bài đăng thành viên cần kiểm duyệt
+                            <strong>Mở</strong>: Thành viên có thể đăng bài<br/>
+                            <strong>Đóng</strong>: Bài đăng thành viên cần kiểm duyệt
                         </p>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">                    
-                    <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>
+                    <a href="javascript:;" class="btn btn-primary btn-lg saveNhomBtn">Lưu thay đổi</a>
                     <br/><br/>
                     <p class="alert alert-danger" style="display: none;"></p>
                     <p class="alert alert-success" style="display: none;"></p>

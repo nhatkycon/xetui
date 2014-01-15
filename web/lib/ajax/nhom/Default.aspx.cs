@@ -77,9 +77,9 @@ public partial class lib_ajax_nhom_Default : BasedPage
                                                         , NguoiTao = Security.Username
                                                         , Username = Security.Username
                                                         ,
-                                                        IsMod = false
+                                                        IsMod = true
                                                         ,
-                                                        ModLoai = 0 
+                                                        ModLoai = 5 
                                                     });
 
                         ObjMemberDal.Insert(new ObjMember()

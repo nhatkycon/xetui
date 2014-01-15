@@ -14,7 +14,6 @@ public partial class lib_ui_blog_NhomBlog_ListFull : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Pager == null) return;
-        Pager.List.ToList().ForEach(s => s.Nhom = Item);
         rpt.DataSource = Pager.List;
         rpt.DataBind();
         NhomHeaderBlog.Item = Item;

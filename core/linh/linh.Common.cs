@@ -17,7 +17,6 @@ using System.Diagnostics;
 using System.Web.Hosting;
 using System.Xml;
 using System.Security.Cryptography;
-using Google.YouTube;
 using System.Linq;
 namespace linh.common
 {
@@ -233,41 +232,7 @@ namespace linh.common
             }
             return string.Empty;
         }
-        public static youTubeVideo YouTubeCode(string url)
-        {
-            youTubeVideo item = new youTubeVideo();
-            if (url == null || url == "") return item;
-            var urlwatch = YouTubeValidUrl(url);
-            if (urlwatch == string.Empty) return item;
-            Uri videoEntryUrl = new Uri(string.Format("http://gdata.youtube.com/feeds/api/videos/{0}"
-           , urlwatch));
-            YouTubeRequestSettings setting = new YouTubeRequestSettings("obanbe", "obanbe", "AI39si7C5Kqeb1jEKO1tMbniRmamABGuDrk6g2uq2sRGup0hG94OIFG1DsInk-rW4BLklge1Wd9F_lbZum4V5-ebmgSHUaRejg");
-            YouTubeRequest rq = new YouTubeRequest(setting);
-            Video video = new Video();
-            try
-            {
-                video = rq.Retrieve<Video>(videoEntryUrl);
-                string title;
-                string desc;
-                string img;
-                title = video.Title;
-                desc = video.Description;
-                img = video.Thumbnails[3].Url;
-                item.Anh = img;
-                item.Ten = title;
-                item.Url = url;
-                item.YId = urlwatch;
-                item.MoTa = desc;
-                return item;
-            }
-            catch (Exception ex)
-            {
-                item.Url = url;
-                item.YId = urlwatch;
-                return item;
-            }
-            
-        }
+       
         public static string Rutgon(string input
             , int Dai)
         {

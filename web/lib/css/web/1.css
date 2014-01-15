@@ -353,6 +353,7 @@ h1, h2 {
     background-image: url(i/no-image.jpg);
     background-repeat: no-repeat;
     background-position: center;
+    background-color: #EEEBE4;
 }
 
 .user-avatar-100 {

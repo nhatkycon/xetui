@@ -5,6 +5,18 @@
 <%@ Register Src="~/lib/ui/nhom/templates/Admin_Members.ascx" TagPrefix="uc1" TagName="Admin_Members" %>
 
 <div class="padding-20">
+    <div class="h3-subtitle">
+        <a href="/group/">
+            Cộng đồng
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Url %>">
+            <%=Item.Ten %>
+        </a>&nbsp; &gt;
+        Quản trị
+    </div>
+    <hr class="hr comment-hr"/>
+    
+
     <div class="row">
         <div class="col-md-3">
             <a name="group-admin"></a>
@@ -29,7 +41,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 nhomAdminPanel">
             <uc1:Admin_Info runat="server" ID="Admin_Info" />
             <uc1:Admin_BlogPendding runat="server" ID="Admin_BlogPendding" />
             <uc1:Admin_MemberPendding runat="server" id="Admin_MemberPendding" />

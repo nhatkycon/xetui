@@ -1,28 +1,31 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Add.ascx.cs" Inherits="lib_ui_nhom_Add" %>
 <div class="padding-20 nhom-add-pnl">
-    <div class="h3-subtitle">
-        <a href="/group/">
-            Nhóm của tôi
-        </a>
-    </div>
-    <hr class="hr comment-hr"/>
+    <%if(!IsAdmin){ %>
+        <div class="h3-subtitle">
+            <a href="/group/">
+                Cộng đồng
+            </a>&nbsp; &gt;
+            Thêm cộng đồng
+        </div>
+        <hr class="hr comment-hr"/>
+    <%}%>
     <form class="form-horizontal nhom-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
         <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
         <div class="form-group">
-            <label for="Ten" class="col-sm-2 control-label">Tên nhóm</label>
+            <label for="Ten" class="col-sm-2 control-label">Tên cộng đồng</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control Ten" id="Ten" value="<%=Item.Ten %>" name="Ten" placeholder="Tên nhóm">
+                <input type="text" class="form-control Ten" id="Ten" value="<%=Item.Ten %>" name="Ten" placeholder="Tên cộng đồng">
             </div>
         </div>
         <div class="form-group">
             <label for="Ten" class="col-sm-2 control-label">Mô tả</label>
             <div class="col-sm-10">
-                <textarea type="text" class="form-control MoTa" id="MoTa" name="MoTa" rows="3" placeholder="Mô tả nhóm"><%=Item.MoTa %></textarea>
+                <textarea type="text" class="form-control MoTa" id="MoTa" name="MoTa" rows="3" placeholder="Mô tả cộng đồng"><%=Item.MoTa %></textarea>
             </div>
         </div>
         <div class="form-group">
-            <label for="Ten" class="col-sm-2 control-label">Mô tả</label>
+            <label for="Ten" class="col-sm-2 control-label">Ảnh</label>
             <div class="col-sm-10">
                 <div class="user-avatar user-avatar-180 nhom-avatar">
                     <img class="user-avatar-img img-thumbnail" src="/lib/up/nhom/<%=Item.Anh %>" alt="<%=Item.Anh %>" />
@@ -32,7 +35,7 @@
                     <input type="hidden" name="Anh" class="Anh"  value="<%=Item.Anh %>"/>
                 </div>
                 <p class="help-block">
-                    Ảnh đại diện cho nhóm quan trọng vô cùng bạn ạ.
+                    Ảnh đại diện cho cộng đồng quan trọng vô cùng bạn ạ.
                 </p>
             </div>
         </div>
@@ -61,6 +64,7 @@
         <%}%>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
+                <%if(!IsAdmin){ %>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" id="dongY"> 
@@ -71,6 +75,11 @@
                 </div>
                 <br/><br/>
                 <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>
+                 <%}
+                  else
+                  {%>
+                <a href="javascript:;" class="btn btn-primary btn-lg adminSaveBtn">Lưu thay đổi</a>
+                <%  }%>
                 <%if(Item.ID!=0){ %>
                     <a href="javascript:;" class="btn btn-danger btn-lg xoaBtn">Xóa</a>
                 <%} %>

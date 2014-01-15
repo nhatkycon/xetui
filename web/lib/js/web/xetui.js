@@ -32,8 +32,8 @@ var autoFn = {
             var config = {
                 toolbar:
 		        [
-			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList'],
-		            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Link', 'Unlink']
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList', 'Maximize', 'TextColor', 'BGColor', 'Link', 'Unlink', 'tliyoutube'],
+		            ['Styles', 'Format', 'Font', 'FontSize']
 		        ], height: '100px'
             };
             var editor = jQuery(el).ckeditor(config, function () {
@@ -44,8 +44,8 @@ var autoFn = {
             var config = {
                 toolbar:
 		        [
-			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList'],
-		            ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Link', 'Unlink']
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList', 'Maximize', 'TextColor', 'BGColor', 'Link', 'Unlink', 'tliyoutube'],
+		            ['Styles', 'Format', 'Font', 'FontSize']
 		        ], height: '400px'
             };
             var editor = jQuery(el).ckeditor(config, function () {
@@ -771,6 +771,7 @@ var autoFn = {
             if ($(pnl).length < 1) return;
             var btn = pnl.find('.saveBtn');
             var xoaBtn = pnl.find('.xoaBtn');
+            var adminSaveBtn = pnl.find('.adminSaveBtn');
             var txt = pnl.find('.Ten');
             var moTa = pnl.find('.MoTa');
             var gioiThieu = pnl.find('.GioiThieu');
@@ -815,12 +816,42 @@ var autoFn = {
                        } else {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
-                           if (admMode) {
-                           } else {
-                               setTimeout(function () {
-                                   document.location.href = rs + 'admin/';
-                               }, 1000);
-                           }
+                           setTimeout(function () {
+                               document.location.href = rs + 'admin/';
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+
+            adminSaveBtn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+
+                var data = pnl.find('.nhom-add-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               document.location.reload();
+                           }, 1000);
                        }
                    }
                 });
@@ -927,8 +958,74 @@ var autoFn = {
             });
         }
         , AdminPanel: function () {
-            var pnl = $('.nhomThanhVien-memberPenddingBox');
+            var pnl = $('.nhomAdminPanel');
             if ($(pnl).length < 1) return;
+
+            var nhomEditForm = pnl.find('.nhom-edit-form')
+
+            var alertErr = nhomEditForm.find('.alert-danger');
+            var alertOk = nhomEditForm.find('.alert-success');
+
+            var GioiThieu = nhomEditForm.find('.GioiThieu');
+
+            autoFn.utils.editor(GioiThieu);
+
+            var nhomAvatar = nhomEditForm.find('.nhom-avatar');
+            var img = nhomEditForm.find('img');
+            var imgBtn = nhomEditForm.find('.changeBtn-box');
+            var anh = nhomEditForm.find('.Anh');
+            var param = { 'subAct': 'changeAvatar' };
+            //return false;
+            new Ajax_upload(jQuery(imgBtn), {
+                action: autoFn.url.nhom,
+                name: 'anh',
+                data: param,
+                onSubmit: function (file, ext) {
+                    if (!(ext && /^(jpg|png|jpeg|gif)$/.test(ext))) {
+                        // extension is not allowed
+                        alert('Lỗi:\n Kiểu File không Hợp lệ');
+                        // cancel upload
+                        return false;
+                    };
+                    return true;
+                },
+                onComplete: function (file, response) {
+                    anh.val(response);
+                    img.attr('src', '/lib/up/nhom/' + response + '?ref=' + Math.random());
+                    try {
+                        jQuery.each(jQuery.browser, function (i, val) {
+                            if (i == "mozilla" && jQuery.browser.version.substr(0, 3) == "1.9")
+                                gBrowser.selectedBrowser.markupDocumentViewer.fullZoom = 1;
+                        });
+                    }
+                    catch (err) {
+                        //Handle errors here
+                    }
+                }
+            });
+
+            pnl.find('.saveNhomBtn').click(function () {
+                var data = pnl.find('.nhom-edit-form').find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+
+                $.ajax({
+                    url: autoFn.url.nhom
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') { // E-mail or username is not avaiable
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               alertOk.hide();
+                           }, 1000);
+                       }
+                   }
+                });
+            });
 
             pnl.find('.removeMemberBtn').click(function () {
                 var item = $(this);
@@ -972,9 +1069,7 @@ var autoFn = {
                 });
             });
             
-            var pnlMemberBox = $('.nhomThanhVien-memberBox');
-            
-            pnlMemberBox.find('.phanQuyenMemberBtn').click(function () {
+            pnl.find('.phanQuyenMemberBtn').click(function () {
                 var item = $(this);
                 var id = item.attr('data-id');
                 var loai = item.attr('data-loai');
@@ -994,9 +1089,8 @@ var autoFn = {
            });
 
 
-           var nhomPenddingBlogsBox = $('.nhomPenddingBlogs-Box');
 
-           nhomPenddingBlogsBox.find('.publishBlogBtn').click(function () {
+           pnl.find('.publishBlogBtn').click(function () {
                var item = $(this);
                var id = item.attr('data-id');
                var approved = item.attr('data-approved');

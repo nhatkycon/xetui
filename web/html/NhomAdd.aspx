@@ -3,6 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <nhom:Add runat="server" ID="Add" />
+    <nhom:Add runat="server" IsAdmin="False" ID="Add" />
 </asp:Content>
 
