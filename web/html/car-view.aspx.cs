@@ -4,7 +4,7 @@ using docsoft.entities;
 using linh.core;
 using linh.core.dal;
 
-public partial class html_car_view : BasedPage
+public partial class html_car_view : System.Web.UI.Page
 {
     public Xe Item { get; set; }
     protected void Page_Load(object sender, EventArgs e)
