@@ -28,17 +28,12 @@ public partial class html_AddCar : System.Web.UI.Page
 
             Add.Item = Item;
 
-            var hangXeList = DanhMucDal.SelectByLDMMa(con, "HANGXE");
-            if(Cache["HANGXE"]==null)
-            {
-                Cache.Insert("HANGXE", hangXeList);                
-            }
-
+            var hangXeList = DanhMucDal.SelectByLdmMaFromCache(con, "HANGXE");
             var hangList = (from p in hangXeList
                             where p.PID == Guid.Empty
                             select p).OrderBy(m => m.ThuTu).ToList();
             Add.HangList = hangList;
-            Add.ThanhPhoList = DanhMucDal.SelectByLDMMa(con, "KHUVUC");
+            Add.ThanhPhoList = DanhMucDal.SelectByLdmMaFromCache(con, "KHUVUC");
 
         }
     }

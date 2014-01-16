@@ -805,6 +805,49 @@ namespace docsoft.entities
             }
             return list;
         }
+
+        public static Pager<Xe> PagerByHang(SqlConnection con, string url, bool rewrite, string sort
+            , int size
+            , string q, string hang, string model, string username)
+        {
+            var obj = new SqlParameter[5];
+            obj[0] = new SqlParameter("Sort", sort);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", DBNull.Value);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[2] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("q", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(hang))
+            {
+                obj[3] = new SqlParameter("hang", hang);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("hang", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(model))
+            {
+                obj[4] = new SqlParameter("model", model);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("model", DBNull.Value);
+            }
+            var pg = new Pager<Xe>(con, "sp_tblXe_Pager_ByHangTen_linhnx", "p", size, 10, rewrite, url, obj);
+            return pg;
+        }
         #endregion
     }
     #endregion

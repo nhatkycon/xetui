@@ -1,17 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/html/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="html_Default" %>
 
-<%@ Register src="ui/left-navigation.ascx" tagname="left" tagprefix="uc1" %>
-<%@ Register Src="~/lib/ui/account/HomeCars.ascx" TagPrefix="uc1" TagName="HomeCars" %>
 <%@ Register Src="~/lib/ui/account/HomeList.ascx" TagPrefix="uc1" TagName="HomeList" %>
 <%@ Register Src="~/lib/ui/blog/HomeList.ascx" TagPrefix="blog" TagName="HomeList" %>
 <%@ Register src="~/lib/ui/cars/homeSmallList.ascx" tagPrefix="cars" tagName="homeSmallList" %>
+<%@ Register Src="~/lib/ui/hangXe/LeftMenu.ascx" TagPrefix="cars" TagName="LeftMenu" %>
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="cars-home-group">
         <div class="x-col left-menu-list">
-            <uc1:left ID="left1" runat="server" />        
+            <cars:LeftMenu runat="server" ID="LeftMenu" />
         </div>
         <div class="x-col x4 cars-home-1st-list">
             <img src="/html/img/car/8.jpg" />

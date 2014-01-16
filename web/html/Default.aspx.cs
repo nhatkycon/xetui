@@ -38,6 +38,12 @@ public partial class html_Default : System.Web.UI.Page
             topCarsList.List = topCars;
             newestCarsList.List = newstpCars;
 
+            var hangXeList = DanhMucDal.SelectByLdmMaFromCache(con, "HANGXE");
+            var hangList = (from p in hangXeList
+                            where p.PID == Guid.Empty
+                            select p).OrderBy(m => m.ThuTu).ToList();
+            LeftMenu.List = hangList;
+
         }
     }
 }

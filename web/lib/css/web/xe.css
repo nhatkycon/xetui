@@ -112,6 +112,11 @@
     line-height: 0;
     background: #ddd;
 }
+.carcard-pic img {
+    width: 120px;
+    height: 68px;
+    border: 0px;
+}
 .carcard-meta {
     float: right;
     position: relative;

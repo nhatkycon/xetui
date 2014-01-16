@@ -60,14 +60,7 @@ public partial class lib_ajax_car_Default : BasedPage
             #region get models by car manufacture
                 if(DM_PID!= null)
                 {
-                    var allModelInCache = Cache["HANGXE"];
-                    if(allModelInCache==null)
-                    {
-                        var hangXeList = DanhMucDal.SelectByLDMMa("HANGXE");
-                        Cache.Insert("HANGXE", hangXeList);
-                        allModelInCache = hangXeList;
-                    }
-                    var allModel=(List<DanhMuc>)allModelInCache;
+                    var allModel = DanhMucDal.SelectByLdmMaFromCache("HANGXE");
                     var filterModel = (from p in allModel
                                        where p.PID == new Guid(DM_PID)
                                        select p).OrderByDescending(m => m.ThuTu).ToList();

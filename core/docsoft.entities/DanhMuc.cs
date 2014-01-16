@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -46,6 +47,7 @@ namespace docsoft.entities
         public Int32 Level { get; set; }
         public string PID_Ten { get; set; }
         public List<Tin> Tins { get; set; }
+        public DanhMuc Hang { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -385,24 +387,7 @@ namespace docsoft.entities
         }
         public static DanhMucCollection SelectByLDMMa(string LDM_Ma)
         {
-            var List = new DanhMucCollection();
-            var obj = new SqlParameter[1];
-            if (!string.IsNullOrEmpty(LDM_Ma))
-            {
-                obj[0] = new SqlParameter("LDM_Ma", LDM_Ma);
-            }
-            else
-            {
-                obj[0] = new SqlParameter("LDM_Ma", DBNull.Value);
-            }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectByLDM_Ma_linhnx",obj))
-            {
-                while (rd.Read())
-                {
-                    List.Add(getFromReader(rd));
-                }
-            }
-            return List;
+            return SelectByLDMMa(DAL.con(),LDM_Ma);
         }
         public static DanhMucCollection SelectByLDMMa(SqlConnection con, string LDM_Ma)
         {
@@ -424,6 +409,27 @@ namespace docsoft.entities
                 }
             }
             return List;
+        }
+        public static DanhMucCollection SelectByLdmMaFromCache(string ldmMa)
+        {
+            return SelectByLdmMaFromCache(DAL.con(),ldmMa);
+        }
+        public static DanhMucCollection SelectByLdmMaFromCache(SqlConnection con, string ldmMa)
+        {
+            DanhMucCollection list;
+            var c = HttpRuntime.Cache;
+            var key = string.Format("DanhMucList-{0}", ldmMa);
+            var obj = c[key];
+            if(obj==null)
+            {
+                list = SelectByLDMMa(con, ldmMa);
+                c.Insert(key, list);
+            }
+            else
+            {
+                list = (DanhMucCollection) obj;
+            }
+            return list;
         }
         public static DanhMuc SelectByMa(string DM_Ma, SqlConnection con)
         {
@@ -467,7 +473,24 @@ namespace docsoft.entities
             }
             return Item;
         }
-
+        public static DanhMuc SelectByTen(string ten)
+        {
+            return SelectByTen(DAL.con(), ten);
+        }
+        public static DanhMuc SelectByTen(SqlConnection con, string ten)
+        {
+            var item = new DanhMuc();
+            var obj = new SqlParameter[1];
+            obj[0] = new SqlParameter("Ten", ten);
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectByTen_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    item = getFromReader(rd);
+                }
+            }
+            return item;
+        }
         public static DanhMucCollection SelectParentByDmId(string DM_ID)
         {
             var list = new DanhMucCollection();
@@ -557,10 +580,13 @@ namespace docsoft.entities
             }
             return List;
         }
-
         public static DanhMucCollection SelectByPid(string PID)
         {
-            var List = new DanhMucCollection();
+            return SelectByPid(DAL.con(),PID);
+        }
+        public static DanhMucCollection SelectByPid(SqlConnection con, string PID)
+        {
+            var list = new DanhMucCollection();
             var obj = new SqlParameter[1];
             if (!string.IsNullOrEmpty(PID))
             {
@@ -570,14 +596,14 @@ namespace docsoft.entities
             {
                 obj[0] = new SqlParameter("PID", DBNull.Value);
             }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectByPid_linhnx", obj))
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectByPid_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    List.Add(getFromReader(rd));
+                    list.Add(getFromReader(rd));
                 }
             }
-            return List;
+            return list;
         }
         #endregion
     }
