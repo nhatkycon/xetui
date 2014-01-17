@@ -20,6 +20,7 @@ namespace docsoft.entities
         public Int32 Loai { get; set; }
         public String Ten { get; set; }
         public String MoTa { get; set; }
+        public String Keywords { get; set; }
         public String Anh { get; set; }
         public String Url { get; set; }
         public String KhachHang { get; set; }
@@ -60,56 +61,55 @@ namespace docsoft.entities
 
         public static void DeleteById(Int32 P_ID)
         {
-            var obj = new SqlParameter[1];
+            SqlParameter[] obj = new SqlParameter[1];
             obj[0] = new SqlParameter("P_ID", P_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Delete_DeleteById_linhnx", obj);
         }
-
-        public static Promoted Insert(Promoted item)
+        public static Promoted Insert(Promoted Inserted)
         {
-            var Item = new Promoted();
-            var obj = new SqlParameter[20];
-            obj[0] = new SqlParameter("P_ID", item.ID);
-            obj[1] = new SqlParameter("P_PRowId", item.PRowId);
-            obj[2] = new SqlParameter("P_Loai", item.Loai);
-            obj[3] = new SqlParameter("P_Ten", item.Ten);
-            obj[4] = new SqlParameter("P_MoTa", item.MoTa);
-            obj[5] = new SqlParameter("P_Anh", item.Anh);
-            obj[6] = new SqlParameter("P_Url", item.Url);
-            obj[7] = new SqlParameter("P_KhachHang", item.KhachHang);
-            obj[8] = new SqlParameter("P_KhachHangId", item.KhachHangId);
-            if (item.NgayBatDau > DateTime.MinValue)
+            Promoted Item = new Promoted();
+            SqlParameter[] obj = new SqlParameter[20];
+            obj[0] = new SqlParameter("P_PRowId", Inserted.PRowId);
+            obj[1] = new SqlParameter("P_Loai", Inserted.Loai);
+            obj[2] = new SqlParameter("P_Ten", Inserted.Ten);
+            obj[3] = new SqlParameter("P_MoTa", Inserted.MoTa);
+            obj[4] = new SqlParameter("P_Keywords", Inserted.Keywords);
+            obj[5] = new SqlParameter("P_Anh", Inserted.Anh);
+            obj[6] = new SqlParameter("P_Url", Inserted.Url);
+            obj[7] = new SqlParameter("P_KhachHang", Inserted.KhachHang);
+            obj[8] = new SqlParameter("P_KhachHangId", Inserted.KhachHangId);
+            if (Inserted.NgayBatDau > DateTime.MinValue)
             {
-                obj[9] = new SqlParameter("P_NgayBatDau", item.NgayBatDau);
+                obj[9] = new SqlParameter("P_NgayBatDau", Inserted.NgayBatDau);
             }
             else
             {
                 obj[9] = new SqlParameter("P_NgayBatDau", DBNull.Value);
             }
-            if (item.NgayKetThuc > DateTime.MinValue)
+            if (Inserted.NgayKetThuc > DateTime.MinValue)
             {
-                obj[10] = new SqlParameter("P_NgayKetThuc", item.NgayKetThuc);
+                obj[10] = new SqlParameter("P_NgayKetThuc", Inserted.NgayKetThuc);
             }
             else
             {
                 obj[10] = new SqlParameter("P_NgayKetThuc", DBNull.Value);
             }
-            obj[11] = new SqlParameter("P_refId", item.refId);
-            if (item.NgayTao > DateTime.MinValue)
+            obj[11] = new SqlParameter("P_refId", Inserted.refId);
+            if (Inserted.NgayTao > DateTime.MinValue)
             {
-                obj[12] = new SqlParameter("P_NgayTao", item.NgayTao);
+                obj[12] = new SqlParameter("P_NgayTao", Inserted.NgayTao);
             }
             else
             {
                 obj[12] = new SqlParameter("P_NgayTao", DBNull.Value);
             }
-            obj[13] = new SqlParameter("P_NguoiTao", item.NguoiTao);
-            obj[14] = new SqlParameter("P_Approved", item.Approved);
-            obj[15] = new SqlParameter("P_ApprovedDate", item.ApprovedDate);
-            obj[16] = new SqlParameter("P_ApprovedBy", item.ApprovedBy);
-            obj[17] = new SqlParameter("P_Views", item.Views);
-            obj[18] = new SqlParameter("P_Clicked", item.Clicked);
-            obj[19] = new SqlParameter("P_RowId", item.RowId);
+            obj[13] = new SqlParameter("P_NguoiTao", Inserted.NguoiTao);
+            obj[14] = new SqlParameter("P_Approved", Inserted.Approved);
+            obj[15] = new SqlParameter("P_ApprovedDate", Inserted.ApprovedDate);
+            obj[16] = new SqlParameter("P_ApprovedBy", Inserted.ApprovedBy);
+            obj[17] = new SqlParameter("P_Views", Inserted.Views);
+            obj[18] = new SqlParameter("P_Clicked", Inserted.Clicked);
+            obj[19] = new SqlParameter("P_RowId", Inserted.RowId);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Insert_InsertNormal_linhnx", obj))
             {
@@ -121,51 +121,52 @@ namespace docsoft.entities
             return Item;
         }
 
-        public static Promoted Update(Promoted item)
+        public static Promoted Update(Promoted Updated)
         {
-            var Item = new Promoted();
-            var obj = new SqlParameter[20];
-            obj[0] = new SqlParameter("P_ID", item.ID);
-            obj[1] = new SqlParameter("P_PRowId", item.PRowId);
-            obj[2] = new SqlParameter("P_Loai", item.Loai);
-            obj[3] = new SqlParameter("P_Ten", item.Ten);
-            obj[4] = new SqlParameter("P_MoTa", item.MoTa);
-            obj[5] = new SqlParameter("P_Anh", item.Anh);
-            obj[6] = new SqlParameter("P_Url", item.Url);
-            obj[7] = new SqlParameter("P_KhachHang", item.KhachHang);
-            obj[8] = new SqlParameter("P_KhachHangId", item.KhachHangId);
-            if (item.NgayBatDau > DateTime.MinValue)
+            Promoted Item = new Promoted();
+            SqlParameter[] obj = new SqlParameter[21];
+            obj[0] = new SqlParameter("P_ID", Updated.ID);
+            obj[1] = new SqlParameter("P_PRowId", Updated.PRowId);
+            obj[2] = new SqlParameter("P_Loai", Updated.Loai);
+            obj[3] = new SqlParameter("P_Ten", Updated.Ten);
+            obj[4] = new SqlParameter("P_MoTa", Updated.MoTa);
+            obj[5] = new SqlParameter("P_Keywords", Updated.Keywords);
+            obj[6] = new SqlParameter("P_Anh", Updated.Anh);
+            obj[7] = new SqlParameter("P_Url", Updated.Url);
+            obj[8] = new SqlParameter("P_KhachHang", Updated.KhachHang);
+            obj[9] = new SqlParameter("P_KhachHangId", Updated.KhachHangId);
+            if (Updated.NgayBatDau > DateTime.MinValue)
             {
-                obj[9] = new SqlParameter("P_NgayBatDau", item.NgayBatDau);
+                obj[10] = new SqlParameter("P_NgayBatDau", Updated.NgayBatDau);
             }
             else
             {
-                obj[9] = new SqlParameter("P_NgayBatDau", DBNull.Value);
+                obj[10] = new SqlParameter("P_NgayBatDau", DBNull.Value);
             }
-            if (item.NgayKetThuc > DateTime.MinValue)
+            if (Updated.NgayKetThuc > DateTime.MinValue)
             {
-                obj[10] = new SqlParameter("P_NgayKetThuc", item.NgayKetThuc);
+                obj[11] = new SqlParameter("P_NgayKetThuc", Updated.NgayKetThuc);
             }
             else
             {
-                obj[10] = new SqlParameter("P_NgayKetThuc", DBNull.Value);
+                obj[11] = new SqlParameter("P_NgayKetThuc", DBNull.Value);
             }
-            obj[11] = new SqlParameter("P_refId", item.refId);
-            if (item.NgayTao > DateTime.MinValue)
+            obj[12] = new SqlParameter("P_refId", Updated.refId);
+            if (Updated.NgayTao > DateTime.MinValue)
             {
-                obj[12] = new SqlParameter("P_NgayTao", item.NgayTao);
+                obj[13] = new SqlParameter("P_NgayTao", Updated.NgayTao);
             }
             else
             {
-                obj[12] = new SqlParameter("P_NgayTao", DBNull.Value);
+                obj[13] = new SqlParameter("P_NgayTao", DBNull.Value);
             }
-            obj[13] = new SqlParameter("P_NguoiTao", item.NguoiTao);
-            obj[14] = new SqlParameter("P_Approved", item.Approved);
-            obj[15] = new SqlParameter("P_ApprovedDate", item.ApprovedDate);
-            obj[16] = new SqlParameter("P_ApprovedBy", item.ApprovedBy);
-            obj[17] = new SqlParameter("P_Views", item.Views);
-            obj[18] = new SqlParameter("P_Clicked", item.Clicked);
-            obj[19] = new SqlParameter("P_RowId", item.RowId);
+            obj[14] = new SqlParameter("P_NguoiTao", Updated.NguoiTao);
+            obj[15] = new SqlParameter("P_Approved", Updated.Approved);
+            obj[16] = new SqlParameter("P_ApprovedDate", Updated.ApprovedDate);
+            obj[17] = new SqlParameter("P_ApprovedBy", Updated.ApprovedBy);
+            obj[18] = new SqlParameter("P_Views", Updated.Views);
+            obj[19] = new SqlParameter("P_Clicked", Updated.Clicked);
+            obj[20] = new SqlParameter("P_RowId", Updated.RowId);
 
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Update_UpdateNormal_linhnx", obj))
             {
@@ -179,8 +180,8 @@ namespace docsoft.entities
 
         public static Promoted SelectById(Int32 P_ID)
         {
-            var Item = new Promoted();
-            var obj = new SqlParameter[1];
+            Promoted Item = new Promoted();
+            SqlParameter[] obj = new SqlParameter[1];
             obj[0] = new SqlParameter("P_ID", P_ID);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Select_SelectById_linhnx", obj))
             {
@@ -191,10 +192,9 @@ namespace docsoft.entities
             }
             return Item;
         }
-
         public static PromotedCollection SelectAll()
         {
-            var List = new PromotedCollection();
+            PromotedCollection List = new PromotedCollection();
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Select_SelectAll_linhnx"))
             {
                 while (rd.Read())
@@ -204,52 +204,18 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<Promoted> PagerNormal(string url, bool rewrite, string sort, string q, int size
-            , string loai, string tuNgay, string denNgay)
+        public static Pager<Promoted> pagerNormal(string url, bool rewrite, string sort)
         {
-            var obj = new SqlParameter[5];
+            SqlParameter[] obj = new SqlParameter[1];
             obj[0] = new SqlParameter("Sort", sort);
-            if (!string.IsNullOrEmpty(q))
-            {
-                obj[1] = new SqlParameter("q", q);
-            }
-            else
-            {
-                obj[1] = new SqlParameter("q", DBNull.Value);
-            }
-            if (!string.IsNullOrEmpty(loai))
-            {
-                obj[2] = new SqlParameter("Loai", loai);
-            }
-            else
-            {
-                obj[2] = new SqlParameter("Loai", DBNull.Value);
-            }
-            if (!string.IsNullOrEmpty(tuNgay))
-            {
-                obj[3] = new SqlParameter("TuNgay", tuNgay);
-            }
-            else
-            {
-                obj[3] = new SqlParameter("TuNgay", DBNull.Value);
-            }
-            if (!string.IsNullOrEmpty(denNgay))
-            {
-                obj[4] = new SqlParameter("DenNgay", denNgay);
-            }
-            else
-            {
-                obj[4] = new SqlParameter("DenNgay", DBNull.Value);
-            }
-            var pg = new Pager<Promoted>("sp_tblPromoted_Pager_Normal_linhnx", "page", size, 10, rewrite, url, obj);
+            Pager<Promoted> pg = new Pager<Promoted>("sp_tblPromoted_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
-
         #region Utilities
         public static Promoted getFromReader(IDataReader rd)
         {
-            var Item = new Promoted();
+            Promoted Item = new Promoted();
             if (rd.FieldExists("P_ID"))
             {
                 Item.ID = (Int32)(rd["P_ID"]);
@@ -269,6 +235,10 @@ namespace docsoft.entities
             if (rd.FieldExists("P_MoTa"))
             {
                 Item.MoTa = (String)(rd["P_MoTa"]);
+            }
+            if (rd.FieldExists("P_Keywords"))
+            {
+                Item.Keywords = (String)(rd["P_Keywords"]);
             }
             if (rd.FieldExists("P_Anh"))
             {
@@ -333,12 +303,10 @@ namespace docsoft.entities
             return Item;
         }
         #endregion
-
         #region Extend
         #endregion
     }
     #endregion
-
     #endregion
     
 }

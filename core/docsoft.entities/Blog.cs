@@ -525,7 +525,11 @@ namespace docsoft.entities
         }
         public static Pager<Blog> PagerByPRowIdLoaiFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int loai)
         {
-            var obj = new SqlParameter[4];
+            return PagerByPRowIdLoaiFull(con, url, rewrite, sort, pRowId, username, loai, null);
+        }
+        public static Pager<Blog> PagerByPRowIdLoaiFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int loai, string publish)
+        {
+            var obj = new SqlParameter[5];
             obj[0] = new SqlParameter("Sort", sort);
             obj[1] = new SqlParameter("pRowId", pRowId);
             if (!string.IsNullOrEmpty(username))
@@ -536,7 +540,15 @@ namespace docsoft.entities
             {
                 obj[2] = new SqlParameter("username", username);
             }
-            obj[3] = new SqlParameter("loai", loai);
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[3] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("publish", username);
+            }
+            obj[4] = new SqlParameter("loai", loai);
             var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
@@ -615,10 +627,10 @@ namespace docsoft.entities
             return list;
         }
 
-        public static BlogCollection SelectTopBlogProfile(SqlConnection con, int top, string username)
+        public static BlogCollection SelectTopBlogProfile(SqlConnection con, int top, string username, string publish)
         {
             var list = new BlogCollection();
-            var obj = new SqlParameter[2];
+            var obj = new SqlParameter[3];
             obj[0] = new SqlParameter("Top", top);
             if (!string.IsNullOrEmpty(username))
             {
@@ -627,6 +639,14 @@ namespace docsoft.entities
             else
             {
                 obj[1] = new SqlParameter("username", username);
+            }
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[2] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("publish", username);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogProfile_linhnx", obj))
             {
@@ -637,7 +657,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static BlogCollection SelectTopBlogXe(SqlConnection con, int top, string username)
+        public static BlogCollection SelectTopBlogXe(SqlConnection con, int top, string username, string publish)
         {
             var list = new BlogCollection();
             var obj = new SqlParameter[3];
@@ -649,6 +669,14 @@ namespace docsoft.entities
             else
             {
                 obj[1] = new SqlParameter("username", username);
+            }
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[2] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("publish", username);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogXe_linhnx", obj))
             {
@@ -659,7 +687,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static BlogCollection SelectTopBlogNhom(SqlConnection con, int top, string username)
+        public static BlogCollection SelectTopBlogNhom(SqlConnection con, int top, string username, string publish)
         {
             var list = new BlogCollection();
             var obj = new SqlParameter[3];
@@ -671,6 +699,14 @@ namespace docsoft.entities
             else
             {
                 obj[1] = new SqlParameter("username", username);
+            }
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[2] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("publish", username);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogNhom_linhnx", obj))
             {
@@ -681,7 +717,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static BlogCollection SelectTopBlogTopicNhom(SqlConnection con, int top, string username)
+        public static BlogCollection SelectTopBlogTopicNhom(SqlConnection con, int top, string username, string publish)
         {
             var list = new BlogCollection();
             var obj = new SqlParameter[3];
@@ -693,6 +729,14 @@ namespace docsoft.entities
             else
             {
                 obj[1] = new SqlParameter("username", username);
+            }
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[2] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("publish", username);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogTopicNhom_linhnx", obj))
             {
@@ -703,7 +747,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static BlogCollection SelectTopBlogQaNhom(SqlConnection con, int top, string username)
+        public static BlogCollection SelectTopBlogQaNhom(SqlConnection con, int top, string username, string publish)
         {
             var list = new BlogCollection();
             var obj = new SqlParameter[3];
@@ -715,6 +759,14 @@ namespace docsoft.entities
             else
             {
                 obj[1] = new SqlParameter("username", username);
+            }
+            if (!string.IsNullOrEmpty(publish))
+            {
+                obj[2] = new SqlParameter("publish", publish);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("publish", username);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogQaNhom_linhnx", obj))
             {

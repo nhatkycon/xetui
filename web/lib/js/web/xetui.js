@@ -34,7 +34,7 @@ var autoFn = {
 		        [
 			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList', 'Maximize', 'TextColor', 'BGColor', 'Link', 'Unlink', 'tliyoutube'],
 		            ['Styles', 'Format', 'Font', 'FontSize']
-		        ], height: '100px'
+		        ]
             };
             var editor = jQuery(el).ckeditor(config, function () {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
@@ -46,7 +46,7 @@ var autoFn = {
 		        [
 			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList', 'Maximize', 'TextColor', 'BGColor', 'Link', 'Unlink', 'tliyoutube'],
 		            ['Styles', 'Format', 'Font', 'FontSize']
-		        ], height: '400px'
+		        ]
             };
             var editor = jQuery(el).ckeditor(config, function () {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
@@ -57,7 +57,7 @@ var autoFn = {
                 toolbar:
 		        [
 			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'tliyoutube', 'Maximize']		            
-		        ], height: '60px'
+		        ]
             };
             var editor = jQuery(el).ckeditor(config, function () {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
@@ -96,6 +96,7 @@ var autoFn = {
             autoFn.loginfn.registerAc();
             autoFn.loginfn.common();
             autoFn.loginfn.loginModal();
+            autoFn.loginfn.loginNormal();
             autoFn.loginfn.resendActive();
             autoFn.loginfn.recoverFn();
             autoFn.loginfn.recreatingPasswordFn();
@@ -106,33 +107,45 @@ var autoFn = {
             if ($(logoutBtn).length < 1) return;
 
             logoutBtn.click(function () {
-                var data = { subAct: 'logout' };
-                $.ajax({
-                    url: autoFn.url.login
-                    , data: data
-                    , success: function () {
-                        try {
-                            FB.logout(function () { document.location.reload(); });
-                        }
-                        catch (err) {
-                            //document.location.reload();
-                        }
-                        finally {
-                            setTimeout(function () {
-                                document.location.reload();
-                            }, 1000);
-                        }
+                autoFn.loginfn.doLogout();
+            });
+        }
+        , doLogout:function () {
+            var data = { subAct: 'logout' };
+            $.ajax({
+                url: autoFn.url.login
+                , data: data
+                , success: function () {
+                    try {
+                        FB.logout(function () { document.location.reload(); });
+                    }
+                    catch (err) {
+                        //document.location.reload();
+                    }
+                    finally {
                         setTimeout(function () {
                             document.location.reload();
-                        }, 2000);
+                        }, 1000);
                     }
-                });
+                    setTimeout(function () {
+                        document.location.reload();
+                    }, 2000);
+                }
             });
         }
         , loginModal: function () {
-            var pnl = $('.login-form');
+            var pnl = $('.login-form-modal');
             if ($(pnl).length < 1) return;
 
+            $('.showLoginModalBtn').click(function() {
+                try {
+                    FB.logout(function () { document.location.reload(); });
+                }
+                catch (err) {
+                }
+                finally {
+                }
+            });
 
             var btn = pnl.find('.loginBtn');
             pnl.find(':input').focus(function () {
@@ -140,16 +153,16 @@ var autoFn = {
                 item.unbind('keypress').bind('keypress', function (evt) {
                     if (evt.keyCode == 13) {
                         evt.preventDefault();
-                        autoFn.loginfn.doLogin();
+                        autoFn.loginfn.doLogin(pnl);
                         return false;
                     }
                 });
             });
             btn.click(function () {
-                autoFn.loginfn.doLogin();
+                autoFn.loginfn.doLogin(pnl);
             });
 
-            var loginFbbtn = $('.loginFacebook');
+            var loginFbbtn = pnl.find('.loginFacebook');
             if ($(loginFbbtn).length < 1) return;
             loginFbbtn.click(function () {
                 FB.login(function (response) {
@@ -176,8 +189,60 @@ var autoFn = {
             });
 
         }
-        , doLogin: function () {
-            var pnl = $('.login-form');
+        , loginNormal: function () {
+            var pnl = $('.login-form-normal');
+            if ($(pnl).length < 1) return;
+            try {
+                FB.logout(function () { document.location.reload(); });
+            }
+            catch (err) {
+            }
+            finally {
+            }
+
+            var btn = pnl.find('.loginBtn');
+            pnl.find(':input').focus(function () {
+                var item = $(this);
+                item.unbind('keypress').bind('keypress', function (evt) {
+                    if (evt.keyCode == 13) {
+                        evt.preventDefault();
+                        autoFn.loginfn.doLogin(pnl);
+                        return false;
+                    }
+                });
+            });
+            btn.click(function () {
+                autoFn.loginfn.doLogin(pnl);
+            });
+
+            var loginFbbtn = pnl.find('.loginFacebook');
+            if ($(loginFbbtn).length < 1) return;
+            loginFbbtn.click(function () {
+                FB.login(function (response) {
+                    FB.api('/me', function (res) {
+                        var data = {
+                            id: res.id
+                            , subAct: 'checkFbId'
+                        };
+                        $.ajax({
+                            url: autoFn.url.login
+                            , data: data
+                            , type: 'POST'
+                            , success: function (rs) {
+                                if (rs == "0") {
+                                    document.location.href = '/Register/';
+                                } else {
+                                    document.location.reload();
+                                }
+                            }
+                        });
+
+                    });
+                }, { scope: 'email' });
+            });
+
+        }
+        , doLogin: function (pnl, fn) {
             var data = pnl.find(':input').serializeArray();
             data.push({ name: 'subAct', value: 'login' });
             var alertMsg = pnl.find('.alert-danger');

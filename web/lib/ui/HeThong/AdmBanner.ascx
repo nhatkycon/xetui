@@ -10,22 +10,24 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-                <span class="logo">Bally</span>
+                <span class="logo">XETUI.VN</span>
             </a>            
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">               
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Marketing<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quản lý<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <% foreach (var item in List)
-                           {%>
-                           <li>
-                               <a href="<%=item.Url %>">
-                                   <%=item.Ten %>
-                               </a>
-                           </li>
-                         <%  } %>
+                        <li>
+                            <a href="/lib/mod/Cars/Default.aspx">
+                                Xe
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Nhóm
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>            

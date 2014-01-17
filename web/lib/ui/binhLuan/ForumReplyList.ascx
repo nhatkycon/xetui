@@ -12,10 +12,9 @@
         <textarea name="txt" class="form-control txt txt-editor" rows="3"></textarea>
         <div class="binhLuan-post-btn">
             <span class="pull-right">
-                <a href="javascript:;" data-id="<%=PRowId %>" class="btn btn-lg btn-default saveBtn">Gửi bình luận</a>
+                <a href="javascript:;" data-id="<%=PRowId %>" class="btn btn-lg btn-default saveBtn">Trả lời</a>
                 <input type="hidden" name="PRowId" value="<%=PRowId %>"/>
             </span>
-            <span class="help-block">Nội dung lịch sự</span>            
         </div>
         <p class="alert alert-danger" style="display: none;"></p>
         <p class="alert alert-success" style="display: none;"></p>

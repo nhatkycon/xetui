@@ -17,7 +17,7 @@ public partial class html_NhomBlogs : System.Web.UI.Page
             {
                 Item = NhomDal.SelectById(con, Convert.ToInt32(Id), Security.Username);
                 var pagerBlog = BlogDal.PagerByPRowIdLoaiFull(con, string.Empty, false, null, Item.RowId.ToString(),
-                                                      Security.Username, 3);
+                                                      Security.Username, 3, true.ToString());
                 ListBlogForNhomFull1.Pager = pagerBlog;
                 ListBlogForNhomFull1.Item = Item;
             }

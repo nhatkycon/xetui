@@ -5,7 +5,7 @@
         <%=Item.Ten %>
     </div>
     <hr class="hr comment-hr"/>
-    <div class="well well-lg">
+    <div class="alert alert-danger">
         <h3 class="h3-subtitle">
          <i class="glyphicon glyphicon-warning-sign"></i> Bạn không phải là admin của nhóm <%=Item.Ten %>
         </h3>

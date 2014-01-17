@@ -22,7 +22,7 @@ public partial class html_NhomForum : System.Web.UI.Page
             {
                 Item = NhomDal.SelectById(con, Convert.ToInt32(Id), Security.Username);
                 var pagerBlog = BlogDal.PagerByPRowIdLoaiFull(con, string.Empty, false, null, Item.RowId.ToString(),
-                                                      Security.Username, 4);
+                                                      Security.Username, 4, true.ToString());
                 ListBlogForNhomFull1.Pager = pagerBlog;
                 ListBlogForNhomFull1.Item = Item;
             }

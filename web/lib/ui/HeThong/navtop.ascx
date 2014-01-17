@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <%if(!Security.IsAuthenticated()){ %>
         <div class="navbar-form navbar-left">
-            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#loginModal">Đăng nhập</a> 
+            <a href="javascript:;" class="btn btn-primary btn-sm showLoginModalBtn" data-toggle="modal" data-target="#loginModal">Đăng nhập</a> 
             <a href="/Register/" class="btn btn-default btn-sm">Đăng ký</a>      
         </div>        
         <%} %>

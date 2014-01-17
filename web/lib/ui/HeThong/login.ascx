@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Đăng nhập</h4>
       </div>
       <div class="modal-body">
-          <div class="row">
+          <div class="row login-form-modal">
             <div class="col-md-5">
                   <p class="help-block">
                       Đăng nhập bằng tài khoản Facebook
@@ -19,7 +19,7 @@
               <div class="col-md-1 hidden-sm hidden-xs"></div>
               <div class="col-md-1 visible-sm visible-xs"><hr/></div>
               <div class="col-md-6">
-                <div role="form" class="login-form">
+                <div role="form" class="">
                     <div class="form-group">
                         <label for="Email">Email:</label>
                         <input type="email" id="Email" class="form-control Email" name="Email" placeholder="E-mail xịn" required="">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary loginBtn">Đăng nhập</button>
-                        <a type="button" class="btn btn-success">Đăng ký</a>
+                        <a href="/Register/" class="btn btn-success">Đăng ký</a>
                         <p>
                             <a href="/Recover/" class="btn btn-link">Quên mật khẩu</a>
                         </p>

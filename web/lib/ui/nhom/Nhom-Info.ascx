@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Nhom-Info.ascx.cs" Inherits="lib_ui_nhom_Nhom_Info" %>
 <%@ Import Namespace="linh.common" %>
 <div class="nhomItem-infoBox">
+    <hr class="hr comment-hr visible-xs visible-sm"/>
     <div class="nhomItem-infoBox-avatar">
         <img src="/lib/up/nhom/<%=Item.Anh %>"/>
     </div>

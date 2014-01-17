@@ -1,7 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Admin_Info.ascx.cs" Inherits="lib_ui_nhom_templates_Admin_Info" %>
 <%@ Register Src="~/lib/ui/account/ChangeAlias.ascx" TagPrefix="uc1" TagName="ChangeAlias" %>
-
-
+<%if(!Item.Duyet){ %>
+    <p class="alert alert-danger">
+        Cộng đồng chưa được duyệt do đó người khác bạn chưa thể truy cập<br/>
+        Nếu bạn thấy vội hãy liên lạc bằng cách e-mail: <a href="mailto:support@xetui.vn">support@xetui.vn</a>
+    </p>
+<%} %>
 <div class="panel panel-default">
     <div class="panel-heading">
         Thông tin nhóm
@@ -25,11 +29,6 @@
                         <% } %>
                 </div>
             </div>
-            <%}else{ %>
-            <p class="well well-lg">
-                Cộng đồng chưa được duyệt do đó người khác bạn chưa thể truy cập<br/>
-                Nếu bạn thấy vội hãy liên lạc bằng cách e-mail: <a href="mailto:support@xetui.vn">support@xetui.vn</a>
-            </p>
             <%} %>
             <div class="form-group">
                 <label for="Ten" class="col-sm-2 control-label">Tên </label>

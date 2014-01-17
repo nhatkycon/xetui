@@ -174,6 +174,7 @@ public partial class lib_ajax_nhom_Default : BasedPage
                     var nhomTv = NhomThanhVienDal.SelectById(new Guid(id));
                     var mem = Security.Username;
                     var memTv = NhomThanhVienDal.SelectByNhomIdUsername(nhomTv.NHOM_ID.ToString(), mem);
+                    var nhom = NhomDal.SelectById(nhomTv.NHOM_ID);
                     var Approved = approved == "1";
                     if(memTv.ModLoai==5 )
                     {
@@ -182,10 +183,24 @@ public partial class lib_ajax_nhom_Default : BasedPage
                             nhomTv.Approved = true;
                             nhomTv.ApprovedDate = DateTime.Now;
                             NhomThanhVienDal.Update(nhomTv);
+
+                            ObjMemberDal.Insert(new ObjMember()
+                            {
+                                PRowId = nhom.RowId
+                                ,
+                                Username = nhomTv.Username
+                                ,
+                                Owner = false
+                                ,
+                                NgayTao = DateTime.Now
+                                ,
+                                RowId = Guid.NewGuid()
+                            });
                         }
                         else
                         {
                             NhomThanhVienDal.DeleteById(nhomTv.ID);
+                            ObjMemberDal.DeleteByPRowIdUsername(nhom.RowId.ToString(), nhomTv.Username);
                         }
                         rendertext("1");
                     }

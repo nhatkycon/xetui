@@ -8,7 +8,8 @@
         Blog
     </a>                
 </div>  
-<%if(Item.Joined){ %>    
+<%if(Item.Joined){ %>   
+<hr class="hr comment-hr"/> 
 <div>
     <a href="<%=Item.Url %>/blogs/add/" class="btn btn-primary">
         <i class="glyphicon glyphicon-plus">

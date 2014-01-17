@@ -7,7 +7,7 @@
               <button type="button" data-sort="data-id" class="btn btn-default btn-xs btn-sort">Mới nhất</button>
               <button type="button" data-sort="data-member" class="btn btn-default btn-xs btn-sort">Đông nhất</button>
               <button type="button" data-sort="data-name" class="btn btn-default btn-xs">Tên</button>
-              <a href="/group/add/"  class="btn btn-primary btn-xs btn-sort">
+              <a href="/group/add/"  class="btn btn-primary btn-xs">
                   Tạo cộng đồng
               </a>
             </div>

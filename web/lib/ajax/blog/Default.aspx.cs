@@ -59,10 +59,39 @@ public partial class lib_ajax_blog_Default : BasedPage
                             case 4:
                             case 5:
                                 item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
-                                if (item.Nhom.IsAdmin)
+                                //var nhomTv = NhomThanhVienDal.SelectByNhomIdUsername(DAL.con(), item.Nhom.ID.ToString(),
+                                //                                                     Security.Username);
+                                if (item.Nhom.NhomMo)
                                 {
                                     item.Publish = true;
                                 }
+                                systemMessageDal.Insert(new systemMessage()
+                                {
+                                    NoiDung = string.Format("<strong>{0}</strong> viết bài mới", item.MemberNguoiTao.Ten)
+                                    ,
+                                    HeThong = false
+                                    ,
+                                    ID = Guid.NewGuid()
+                                    ,
+                                    PRowId = item.PID_ID
+                                    ,
+                                    NgayTao = DateTime.Now
+                                    ,
+                                    Active = true
+                                    ,
+                                    Loai = 1
+                                    ,
+                                    Url = string.Format("{0}", item.Url)
+                                    ,
+                                    Ten = string.Empty
+                                    ,
+                                    ThanhVienMoi = false
+                                    ,
+                                    Username = Security.Username
+                                    ,
+                                    ThuTu = 0
+                                });
+                                BlogDal.Update(item);
                                 break;
                         }
                         ObjMemberDal.Insert(new ObjMember()
@@ -91,6 +120,8 @@ public partial class lib_ajax_blog_Default : BasedPage
                             ,
                             Username = Security.Username
                         });
+
+                       
                     }
                     else
                     {
