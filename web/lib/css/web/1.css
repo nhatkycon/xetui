@@ -261,6 +261,9 @@ h1, h2 {
     padding: 20px;
     padding-bottom: 50px;
 }
+.main-content .padding-20.padding-bottom-10 {
+    padding-bottom: 10px;
+}
 .nav-index {
     margin: 25px 0;
 }

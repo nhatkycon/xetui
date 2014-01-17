@@ -7,17 +7,17 @@ using System.Web.UI.WebControls;
 using docsoft.entities;
 using linh.controls;
 
-public partial class lib_ui_blog_NhomBlog_ListFull : System.Web.UI.UserControl
+public partial class lib_ui_blog_NhomForum_ListFull : System.Web.UI.UserControl
 {
     public Nhom Item { get; set; }
     public Pager<Blog> Pager { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Pager == null) return;
-        Pager.List.ForEach(x => x.Nhom=Item);
+        Pager.List.ForEach(x => x.Nhom = Item);
         rpt.DataSource = Pager.List;
         rpt.DataBind();
-        NhomHeaderBlog.Item = Item;
+        NhomHeaderForum.Item = Item;
         NhomInfo.Item = Item;
     }
 }

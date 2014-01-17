@@ -1,8 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="View.ascx.cs" Inherits="lib_ui_blog_NhomBlog_View" %>
-<%@ Register TagPrefix="uc1" TagName="ForNhomItemFull" Src="~/lib/ui/blog/templates/ForNhom-Blog-Item-Full.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="NhomInfo" Src="~/lib/ui/nhom/Nhom-Info.ascx" %>
 <%@ Register Src="~/lib/ui/nhom/Nhom-Header-Blog.ascx" TagPrefix="uc1" TagName="NhomHeaderBlog" %>
-<%@ Register Src="~/lib/ui/blog/templates/BlogView-ForNhomBlog-Item.ascx" TagPrefix="uc1" TagName="BlogViewForNhomBlogItem" %>
 <%@ Register TagPrefix="binhLuan" TagName="List" Src="~/lib/ui/binhLuan/List.ascx" %>
 <%@ Register Src="~/lib/ui/blog/NhomBlog/templates/Item-View.ascx" TagPrefix="binhLuan" TagName="ItemView" %>
 

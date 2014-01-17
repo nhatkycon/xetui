@@ -32,7 +32,7 @@
         <div class="x-col x10 home-blogs-box">
             <div class="row">
                 <div class="col-md-8">
-                    <blog:HomeList ID="nhatKyXeTop" runat="server" Title="Nhật ký xe mới"/>
+                    <blog:HomeList ID="nhatKyXeTop" runat="server" Title="Hành trình"/>
                     <hr class="hr comment-hr"/>
                     <blog:HomeList ID="blogTop" runat="server" Title="Blog mới"/>
                 </div>

@@ -3,17 +3,22 @@
 <div class=" padding-20">
     <div class="nhomList-header">
         <div class="pull-right">
-            <div class="btn-group">
-              <button type="button" data-sort="1" class="btn btn-default btn-xs btn-sort">Mới nhất</button>
-              <button type="button" data-sort="2" class="btn btn-default btn-xs btn-sort">Đông nhất</button>
-              <button type="button" data-sort="3" class="btn btn-default btn-xs btn-sort">Tên</button>
+            <div class="btn-group sortGroupBtn">
+              <button type="button" data-sort="data-id" class="btn btn-default btn-xs btn-sort">Mới nhất</button>
+              <button type="button" data-sort="data-member" class="btn btn-default btn-xs btn-sort">Đông nhất</button>
+              <button type="button" data-sort="data-name" class="btn btn-default btn-xs">Tên</button>
+              <a href="/group/add/"  class="btn btn-primary btn-xs btn-sort">
+                  Tạo cộng đồng
+              </a>
             </div>
         </div>
-        <span class="h3-subtitle">Cộng đồng</span>
-        <input class="form-control" placeholder="Tìm kiếm nhóm"/>
+        <span class="h3-subtitle">Cộng đồng</span>        
     </div>
+    <div class="form-group">
+        <input class="form-control" placeholder="Tìm kiếm"/>
+    </div>      
     <div class="nhomList-box">
-        <table class="table table-hover">
+        <table class="table table-hover nhomList-box-table">
             <tbody>
                 <asp:Repeater runat="server" ID="rpt">
                     <ItemTemplate>
@@ -25,4 +30,4 @@
     </div>    
 </div>
 
-<script src="/lib/js/jqueryLib/jquery.tablesorter.min.js"></script>
+<script src="/lib/js/jqueryLib/jquery.tinysort.min.js"></script>

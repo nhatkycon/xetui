@@ -402,6 +402,69 @@ namespace docsoft.entities
             {
                 Item.Liked = (Boolean)(rd["BLOG_Liked"]);
             }
+
+            switch (Item.Loai)
+            {
+                case 1:
+                    var profile = new Member();
+                    if (rd.FieldExists("PROFILE_Vcard"))
+                    {
+                        profile.Vcard = (String)(rd["PROFILE_Vcard"]);
+                    }
+                    if (rd.FieldExists("PROFILE_Ten"))
+                    {
+                        profile.Ten = (String)(rd["PROFILE_Ten"]);
+                    }
+                    if (rd.FieldExists("PROFILE_Anh"))
+                    {
+                        profile.Anh = (String)(rd["PROFILE_Anh"]);
+                    }
+                    if (rd.FieldExists("PROFILE_Username"))
+                    {
+                        profile.Username = (String)(rd["PROFILE_Username"]);
+                    }
+                    Item.Profile = profile;
+                    break;
+                case 2:
+                    var xe = new Xe();
+                    if (rd.FieldExists("X_Ten"))
+                    {
+                        xe.Ten = (String)(rd["X_Ten"]);
+                    }
+                    if (rd.FieldExists("X_Ten"))
+                    {
+                        xe.Ten = (String)(rd["X_Ten"]);
+                    }
+                    if (rd.FieldExists("HANG_Ten"))
+                    {
+                        xe.HANG_Ten = (String)(rd["HANG_Ten"]);
+                    }
+                    if (rd.FieldExists("MODEL_Ten"))
+                    {
+                        xe.MODEL_Ten = (String)(rd["MODEL_Ten"]);
+                    }
+                    if (rd.FieldExists("X_ID"))
+                    {
+                        xe.ID = (Int64)(rd["X_ID"]);
+                    }
+                    Item.Xe = xe;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    var nhom = new Nhom();
+                    if (rd.FieldExists("G_Ten"))
+                    {
+                        nhom.Ten = (String)(rd["G_Ten"]);
+                    }
+                    if (rd.FieldExists("G_ID"))
+                    {
+                        nhom.ID = (Int32)(rd["G_ID"]);
+                    }
+                    Item.Nhom = nhom;
+                    break;
+            }
+
             var mem = new Member();
             if (rd.FieldExists("MEM_Vcard"))
             {
@@ -460,6 +523,23 @@ namespace docsoft.entities
             var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdFull_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
+        public static Pager<Blog> PagerByPRowIdLoaiFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int loai)
+        {
+            var obj = new SqlParameter[4];
+            obj[0] = new SqlParameter("Sort", sort);
+            obj[1] = new SqlParameter("pRowId", pRowId);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("username", username);
+            }
+            obj[3] = new SqlParameter("loai", loai);
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", 20, 10, rewrite, url, obj);
+            return pg;
+        }
         public static Blog SelectByRowId(string RowId)
         {
             var item = new Blog();
@@ -498,6 +578,10 @@ namespace docsoft.entities
             }
             return list;
         }
+
+
+        
+
         public static BlogCollection SelectTopForNhomByProwId(SqlConnection con, int top, Guid PRowId, int loai, string username, string Publish)
         {
             var list = new BlogCollection();
@@ -522,6 +606,117 @@ namespace docsoft.entities
             }
             obj[4] = new SqlParameter("PRowId", PRowId);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopForNhomByProwId_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+
+        public static BlogCollection SelectTopBlogProfile(SqlConnection con, int top, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogProfile_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static BlogCollection SelectTopBlogXe(SqlConnection con, int top, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogXe_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static BlogCollection SelectTopBlogNhom(SqlConnection con, int top, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogNhom_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static BlogCollection SelectTopBlogTopicNhom(SqlConnection con, int top, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogTopicNhom_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
+        public static BlogCollection SelectTopBlogQaNhom(SqlConnection con, int top, string username)
+        {
+            var list = new BlogCollection();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("Top", top);
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("username", username);
+            }
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogQaNhom_linhnx", obj))
             {
                 while (rd.Read())
                 {

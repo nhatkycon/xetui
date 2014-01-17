@@ -25,7 +25,7 @@ public partial class html_NhomAdmin : System.Web.UI.Page
             var item = NhomDal.SelectById(con, Convert.ToInt32(id), Security.Username);
             Item = item;
             var currentMember = NhomThanhVienDal.SelectByNhomIdUsername(con, item.ID.ToString(), Security.Username);
-            if (currentMember.ModLoai != 5)
+            if (currentMember.ModLoai != 5 || !currentMember.Admin)
             {
                 Admin.Visible = false;
                 AdminUnAuthorize.Visible = true;

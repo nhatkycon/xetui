@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
 using linh.core.dal;
@@ -21,8 +16,8 @@ public partial class html_NhomBlogs : System.Web.UI.Page
             if (!idNull)
             {
                 Item = NhomDal.SelectById(con, Convert.ToInt32(Id), Security.Username);
-                var pagerBlog = BlogDal.PagerByPRowIdFull(con, string.Empty, false, null, Item.RowId.ToString(),
-                                                      Security.Username);
+                var pagerBlog = BlogDal.PagerByPRowIdLoaiFull(con, string.Empty, false, null, Item.RowId.ToString(),
+                                                      Security.Username, 3);
                 ListBlogForNhomFull1.Pager = pagerBlog;
                 ListBlogForNhomFull1.Item = Item;
             }

@@ -27,10 +27,11 @@ public partial class html_Default : System.Web.UI.Page
             
             UserHomeList.List = userHomeList;
 
-            var userBlogs = BlogDal.SelectTopBlogByLoai(con, 10, 1, Security.Username);
+                    
+            var userBlogs = BlogDal.SelectTopBlogProfile(con, 10, Security.Username);
             blogTop.List = userBlogs;
 
-            var carBlogs = BlogDal.SelectTopBlogByLoai(con, 10, 2, Security.Username);
+            var carBlogs = BlogDal.SelectTopBlogXe(con, 10, Security.Username);
             nhatKyXeTop.List = carBlogs;
 
             var topCars = XeDal.SelectTopCar(con, 10, Security.Username);

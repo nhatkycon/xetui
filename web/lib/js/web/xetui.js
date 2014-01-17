@@ -52,6 +52,17 @@ var autoFn = {
                 //CKFinder.setupCKEditor(this, '../js/ckfinder/');
             });
         }
+        , editorBinhLuan: function (el) {
+            var config = {
+                toolbar:
+		        [
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'tliyoutube', 'Maximize']		            
+		        ], height: '60px'
+            };
+            var editor = jQuery(el).ckeditor(config, function () {
+                //CKFinder.setupCKEditor(this, '../js/ckfinder/');
+            });
+        }
         , msg: function (tit, txt, fn, time) {
             var body = $('#AlertModal').find('.modal-body');
             var title = $('#AlertModal').find('.modal-title');
@@ -506,11 +517,11 @@ var autoFn = {
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
             var changeAliasTimer;
-            
+
             Alias.keyup(function () {
                 var item = $(this);
                 if (changeAliasTimer) clearTimeout(changeAliasTimer);
-                changeAliasTimer = setTimeout(function() {
+                changeAliasTimer = setTimeout(function () {
                     var alias = item.val();
                     var rowId = item.attr('data-id');
                     var data = [];
@@ -919,18 +930,11 @@ var autoFn = {
             var pnl = $('.nhomList-box');
             if ($(pnl).length < 1) return;
             var header = $('.nhomList-header');
-            var tbl = pnl.find('table');
-            tbl.tablesorter();
             header.find('.btn-sort').click(function () {
-                var item = $(this);
-                console.log(item);
-                var index = parseInt(item.attr('data-sort'));
-                console.log(index);
-                var sorting = [[1, 1]];
-                // sort on the first column
-                tbl.trigger("sorton", [sorting]);
-                // return false to stop default link action
+                var attr = $(this).attr('data-sort');
+                $('.nhomList-box-table>tbody>tr').tsort({ attr: attr }, { order: 'desc' });
             });
+
         }
         , JoinFn: function () {
             $('.joinGroupBtn').click(function () {
@@ -1047,7 +1051,7 @@ var autoFn = {
                    }
                 });
             });
-            
+
             pnl.find('.duyetMemberBtn').click(function () {
                 var item = $(this);
                 var id = item.attr('data-id');
@@ -1068,7 +1072,7 @@ var autoFn = {
                    }
                 });
             });
-            
+
             pnl.find('.phanQuyenMemberBtn').click(function () {
                 var item = $(this);
                 var id = item.attr('data-id');
@@ -1086,20 +1090,20 @@ var autoFn = {
                        pitem.find('.help-block').html(item.find('a').html());
                    }
                 });
-           });
+            });
 
 
 
-           pnl.find('.publishBlogBtn').click(function () {
-               var item = $(this);
-               var id = item.attr('data-id');
-               var approved = item.attr('data-approved');
-               var data = [];
-               data.push({ name: 'subAct', value: 'nhomDuyetBlog' });
-               data.push({ name: 'Id', value: id });
-               data.push({ name: 'approved', value: approved });
-               $.ajax({
-                   url: autoFn.url.blog
+            pnl.find('.publishBlogBtn').click(function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var approved = item.attr('data-approved');
+                var data = [];
+                data.push({ name: 'subAct', value: 'nhomDuyetBlog' });
+                data.push({ name: 'Id', value: id });
+                data.push({ name: 'approved', value: approved });
+                $.ajax({
+                    url: autoFn.url.blog
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
@@ -1109,8 +1113,8 @@ var autoFn = {
                            pitem.remove();
                        }, 500);
                    }
-               });
-           });
+                });
+            });
 
         }
     }
@@ -1238,7 +1242,10 @@ var autoFn = {
             var binhLuanItems = $('.binhLuan-Items');
             var btn = pnl.find('.saveBtn');
             var txt = pnl.find('.txt');
-
+            var txtEditor = pnl.find('.txt-editor');
+            if ($(txtEditor).length > 0) {
+                autoFn.utils.editorBinhLuan(txtEditor);
+            }
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
 
@@ -1297,6 +1304,10 @@ var autoFn = {
                 newReplyPnl.find('.PBL_ID').val(pid);
 
                 var txt = newReplyPnl.find('.txt');
+                var txtEditor = newReplyPnl.find('.txt-editor');
+                if ($(txtEditor).length > 0) {
+                    autoFn.utils.editorBinhLuan(txtEditor);
+                }
                 var btn = newReplyPnl.find('.replySaveBtn');
                 btn.click(function () {
                     var val = txt.val();
