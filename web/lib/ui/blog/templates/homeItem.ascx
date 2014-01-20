@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="homeItem.ascx.cs" Inherits="lib_ui_blog_templates_homeItem" %>
 <%@ Import Namespace="linh.common" %>
 <div class="blog-item car-blog-item">
-    <a href="<%=Item.MemberNguoiTao.Url %>" class="blog-view-user">
-        <img src="/lib/up/user/<%=Item.MemberNguoiTao.Anh %>"/>
+    <a href="<%=Item.MemberNguoiTao.Url %>" class="blog-item-user">
+        <img src="/lib/up/users/<%=Item.MemberNguoiTao.Anh %>"/>
     </a>
     <div class="blog-item-entry">
         <a class="blog-item-caption" href="<%=Item.Url %>" title="<%=Item.Ten %>"><%=Item.Ten %></a>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <%if (!string.IsNullOrEmpty(Item.AnhStr)){ %>
-        <div class="blog-item-pics">
+        <div class="blog-item-pics hidden-sm">
             <%=Item.AnhStr %>
         </div>
     <%} %>

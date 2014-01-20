@@ -931,10 +931,13 @@ h3.profile-info-header {
     min-height: 54px;
     margin: 0 0 0 60px;
     margin-left: 0px;
+    padding-left: 60px;
+    margin-bottom: 10px;
 }
 .blog-item-user {
     float: left;
     width: 50px;
+    margin-left: -60px;
 }
 .blog-item-user img{
     float: left;
@@ -946,7 +949,7 @@ h3.profile-info-header {
 .blog-item-entry {
     padding: 0 0 3px;
 }
-.blog-item-caption {
+.x-col a.blog-item-caption {
     position: relative;
     top: -3px;
     margin: 0 0 -2px;
@@ -959,6 +962,7 @@ h3.profile-info-header {
     font: bold 12px/1.2 sans-serif;
     text-transform: uppercase;
     word-spacing: 2px;
+    float: none;
 }
 .blog-item-mota {
     margin: 0 0 2px;
@@ -969,7 +973,6 @@ h3.profile-info-header {
     height: 50px;
     margin: 0 0 5px;
     margin-top: 10px;
-    clear: left;
 }
 .blog-item-pics a {
     float: left;
@@ -987,7 +990,7 @@ h3.profile-info-header {
 .blog-item-info {
     font-size: 11px;
     color: gray;
-    margin: 0 -10px 5px 0;
+    margin: 10px -10px 10px 0px;
 }
 .blog-item-date {
     
@@ -1117,7 +1120,7 @@ h3.profile-info-header {
         margin-left: 1%;
     }
     .cars-home-3rd-list a:nth-child(3n + 3) {
-        margin-top: -2px;
+        margin-top: -1px;
     }
 }
 @media (min-width: 992px) 
@@ -1185,6 +1188,10 @@ h3.profile-info-header {
     
 }
 
+.homeTopCarList .carsHomeSmall-item a.carsHomeSmall-item-caption {
+    float: none;
+}
+
 .left-menu-list .nav-item :hover {
     color: #fff;
     background: #4f5866;
@@ -1194,14 +1201,20 @@ h3.profile-info-header {
 
 
 .user-home-box {
-    
+     
+}
+.homeProfilesBox {
 }
 .user-home-item {
     float: left;
+    margin: 0px;
     width: 100px;
-    margin: 0 0 20px;
+    margin-bottom: 20px;
     font: 11px/1.4 sans-serif;
     color: gray;
+    letter-spacing: 0; /* webkit */
+    *letter-spacing: normal; /* reset IE < 8 */
+    word-spacing: 0; /* IE < 8 && gecko */
 }
 .user-home-item-avatar {
     display: block;
@@ -1286,6 +1299,7 @@ h3.profile-info-header {
     height: 45px;
 }
 .carsHomeSmall-item-caption {
+
     margin: 0 0 3px 90px;
     display: block;
     color: #205090;

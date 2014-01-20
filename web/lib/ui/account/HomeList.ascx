@@ -4,7 +4,7 @@
     <div class="home-title">
         Lái xe "vàng son"
     </div>
-    <div class="user-home-box">
+    <div class="user-home-box homeProfilesBox">
         <asp:Repeater runat="server" ID="rpt">
             <ItemTemplate>
                 <uc1:homeitem runat="server" ID="homeitem" Item='<%# Container.DataItem %>'/>

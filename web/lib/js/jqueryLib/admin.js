@@ -156,17 +156,6 @@ var adm = {
         jQuery.post(adm.urlDefault, { 'act': 'loadPlug', 'rqPlug': 'docsoft.hethong.preload.Class1, docsoft.hethong.preload', 'subAct': 'lite' }, function (data) { adm.loading(null); }, 'script');
     },
     preload: function () {
-        ///da ngon ngu admin _hiennb
-        adm.regType(typeof (languageFn), 'docsoft.plugin.hethong.language.Class1, docsoft.plugin.hethong.language', function () {
-            languageFn.setup(function () {
-                $.each(LangArr, function (i, item) {
-                    if (item.Active) {
-                        Lang = item.Ma;
-                    }
-                });
-
-            });
-        });
         ///
         window.defaultOnError = window.onerror;
         window.onerror = function (errorMeaage, fileName, lineNumber) {
@@ -408,7 +397,7 @@ var adm = {
     ,
     upload: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            var fixUrl = '../js/ajaxupload.js';
+            var fixUrl = '../js/jqueryLib/ajaxupload.js';
             if (typeof(domain) != 'undefined') {
                 fixUrl = domain + '/lib/js/ajaxupload.js';
             }
@@ -549,7 +538,7 @@ var adm = {
     ,
     uploadSanPham: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            var fixUrl = '../js/ajaxupload.js';
+            var fixUrl = '../js/jqueryLib/ajaxupload.js';
             if (typeof(domain) != 'undefined') {
                 fixUrl = domain + '/lib/js/ajaxupload.js';
             }
@@ -673,7 +662,7 @@ var adm = {
     },
     uploadTintuc: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadTintuc', 'subAct': type };
                 param = jQuery.extend(defaultParam, param);
                 //return false;
@@ -793,7 +782,7 @@ var adm = {
     },
     uploadKTNN: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadKTNN', 'subAct': type };
                 param = jQuery.extend(defaultParam, param);
                 //return false;
@@ -913,7 +902,7 @@ var adm = {
     },
     uploadQuangCao: function (height, width, uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadQuangCao', 'subAct': type, 'height': height, 'width': width };
                 param = jQuery.extend(defaultParam, param);
                 //return false;
@@ -1074,7 +1063,7 @@ var adm = {
     },
     uploadFlash: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadFlash', 'subAct': type };
                 param = jQuery.extend(defaultParam, param);
                 //return false;
@@ -1164,7 +1153,7 @@ var adm = {
     },
     uploadFull: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadFull', 'subAct': type };
                 param = jQuery.extend(defaultParam, param);
                 //return false;
@@ -1268,7 +1257,7 @@ var adm = {
     },
     uploadvideo: function (uploadBtn, type, param, callback, callbackFile, _call) {
         if (typeof (Ajax_upload) == 'undefined') {
-            jQuery.getScript('../js/ajaxupload.js', function () {
+            jQuery.getScript('../js/jqueryLib/ajaxupload.js', function () {
                 var defaultParam = { 'act': 'uploadvideo', 'subAct': type };
                 param = jQuery.extend(defaultParam, param);
                 new Ajax_upload(jQuery(uploadBtn), {

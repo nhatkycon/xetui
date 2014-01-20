@@ -1,10 +1,75 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AboutUs.ascx.cs" Inherits="lib_ui_HeThong_AboutUs" %>
-Chúng tôi - Ban quản trị xetui.vn không có tạo ra luật lệ.
-Các quy định dưới đây chỉ để bảo vệ cộng đồng lái xe trên Xetui.vn
-1/ Lái xe không được lái ẩu, va chạm với các lái xe khác.
-2/ Không lái xe khi đang "say rượu"
-3/ Không chỉ trích hoặc miệt thị
-4/ Không chính chị chính em, không tôn giáo và tín ngưỡng, vùng miền. Mọi lái xe đều bình đẳng
-5/ Hãy đồng ý là ban quản trị xetui.vn luôn đúng.
-Các quy định trên có thể thay đổi mà không cần báo trước.
-Nếu bạn chấp hành thì việc lái xe trên xetui là điều vô cùng thú vị.
+<div class="padding-20">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a class="list-group-item" href="#About-us">
+                    <span class="list-group-item-text">
+                        Giới thiệu
+                    </span>
+                </a>
+                <a class="list-group-item" href="#Supports">
+                    <span class="list-group-item-text">
+                        Hỗ trợ
+                    </span>
+                </a>
+                <a class="list-group-item" href="#Rules">
+                    <span class="list-group-item-text">
+                        Quy định
+                    </span>
+                </a>
+                <a class="list-group-item" href="#Ads">
+                    <span class="list-group-item-text">
+                        Quảng cáo
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <a name="About-us"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        Giới thiệu
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <%=AboutUs %>
+                </div>
+            </div>
+            <a name="Supports"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        Hỗ trợ
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <%=Support %>
+                </div>
+            </div>
+            <a name="Rules"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        Quy định
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <%=Rules %>
+                </div>
+            </div>
+            <a name="Ads"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="panel-title">
+                        Quảng cáo
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <%=Ads %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

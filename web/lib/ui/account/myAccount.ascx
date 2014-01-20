@@ -59,7 +59,7 @@
                   </p>
                 </div>
               </div>
-              <div class="form-group">
+              <%--<div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <div class="checkbox">
                     <label>
@@ -67,7 +67,7 @@
                     </label>
                   </div>
                 </div>
-              </div>
+              </div>--%>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>

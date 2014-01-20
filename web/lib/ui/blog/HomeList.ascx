@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="HomeList.ascx.cs" Inherits="lib_ui_blog_HomeList" %>
 <%@ Register src="~/lib/ui/blog/templates/homeItem.ascx" tagPrefix="temp" tagName="homeItem" %>
-<div class="padding-20 padding-bottom-10">
+<div class="">
     <div class="home-title">
         <%=Title %>
     </div>
