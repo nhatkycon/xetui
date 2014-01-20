@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -18,6 +19,7 @@ public partial class lib_ajax_blog_Default : BasedPage
         var Loai = Request["Loai"];
         var Id = Request["Id"];
         var cUrl = Request["cUrl"];
+        var rowId = Request["RowId"];
         var noiDung = Request["NoiDung"];
         var approved = Request["approved"];
         var logged = Security.IsAuthenticated();
@@ -40,12 +42,24 @@ public partial class lib_ajax_blog_Default : BasedPage
                     {
                         item.PID_ID = new Guid(PID_ID);
                     }
-                    
+                    if (!string.IsNullOrEmpty(rowId))
+                    {
+                        item.RowId = new Guid(rowId);
+                    }
+                    var anhs = AnhDal.SelectByPId(DAL.con(), item.RowId.ToString(), 20).OrderByDescending(x => x.AnhBia).ToList();
+                    if (anhs.Count > 0)
+                    {
+                        var sb = new StringBuilder();
+                        foreach (var anhItem in anhs)
+                        {
+                            sb.AppendFormat(@"<a href=""/lib/up/car/{0}""><img alt=""{0}"" src=""/lib/up/car/{0}"" /></a>" , anhItem.FileAnh);
+                        }
+                        item.AnhStr = sb.ToString();
+                    }
                     if (idNull)
                     {
                         item.NguoiTao = Security.Username;
                         item.NgayTao = DateTime.Now;
-                        item.RowId = Guid.NewGuid();
                         item = BlogDal.Insert(item);
                         switch (item.Loai)
                         {
@@ -146,6 +160,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                         }
                     }
                     
+                    SearchManager.Add(item.Ten, string.Format("{0} {1}", item.Ten, item.NoiDung),string.Empty,item.RowId.ToString(),item.Url,typeof(Blog).Name);
                     rendertext(item.Url);
                 }
                 rendertext("0");
@@ -158,6 +173,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                     var item = BlogDal.SelectById(Convert.ToInt64(Id));
                     if(item.NguoiTao==Security.Username)
                     {
+                        SearchManager.Remove(item.RowId);
                         ObjDal.DeleteByRowId(item.RowId);
                         ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
                         ThichDal.DeleteByPId(item.RowId);

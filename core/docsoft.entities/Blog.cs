@@ -191,7 +191,7 @@ namespace docsoft.entities
         public static Blog Insert(Blog Inserted)
         {
             Blog Item = new Blog();
-            SqlParameter[] obj = new SqlParameter[17];
+            SqlParameter[] obj = new SqlParameter[18];
             obj[0] = new SqlParameter("BLOG_Loai", Inserted.Loai);
             obj[1] = new SqlParameter("BLOG_PID_ID", Inserted.PID_ID);
             obj[2] = new SqlParameter("BLOG_Ten", Inserted.Ten);
@@ -216,7 +216,7 @@ namespace docsoft.entities
             obj[14] = new SqlParameter("BLOG_TotalLike", Inserted.TotalLike);
             obj[15] = new SqlParameter("BLOG_TotalComment", Inserted.TotalComment);
             obj[16] = new SqlParameter("BLOG_Liked", Inserted.Liked);
-
+            obj[17] = new SqlParameter("BLOG_AnhStr", Inserted.AnhStr);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -230,7 +230,7 @@ namespace docsoft.entities
         public static Blog Update(Blog Updated)
         {
             Blog Item = new Blog();
-            SqlParameter[] obj = new SqlParameter[18];
+            SqlParameter[] obj = new SqlParameter[19];
             obj[0] = new SqlParameter("BLOG_ID", Updated.ID);
             obj[1] = new SqlParameter("BLOG_Loai", Updated.Loai);
             obj[2] = new SqlParameter("BLOG_PID_ID", Updated.PID_ID);
@@ -256,7 +256,7 @@ namespace docsoft.entities
             obj[15] = new SqlParameter("BLOG_TotalLike", Updated.TotalLike);
             obj[16] = new SqlParameter("BLOG_TotalComment", Updated.TotalComment);
             obj[17] = new SqlParameter("BLOG_Liked", Updated.Liked);
-
+            obj[18] = new SqlParameter("BLOG_AnhStr", Updated.AnhStr);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -369,6 +369,10 @@ namespace docsoft.entities
             if (rd.FieldExists("BLOG_NguoiTao"))
             {
                 Item.NguoiTao = (String)(rd["BLOG_NguoiTao"]);
+            }
+            if (rd.FieldExists("BLOG_AnhStr"))
+            {
+                Item.AnhStr = (String)(rd["BLOG_AnhStr"]);
             }
             if (rd.FieldExists("BLOG_Publish"))
             {
@@ -646,7 +650,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[2] = new SqlParameter("publish", username);
+                obj[2] = new SqlParameter("publish", publish);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogProfile_linhnx", obj))
             {
@@ -676,7 +680,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[2] = new SqlParameter("publish", username);
+                obj[2] = new SqlParameter("publish", publish);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogXe_linhnx", obj))
             {
@@ -706,7 +710,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[2] = new SqlParameter("publish", username);
+                obj[2] = new SqlParameter("publish", publish);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogNhom_linhnx", obj))
             {
@@ -736,7 +740,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[2] = new SqlParameter("publish", username);
+                obj[2] = new SqlParameter("publish", publish);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogTopicNhom_linhnx", obj))
             {
@@ -766,7 +770,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[2] = new SqlParameter("publish", username);
+                obj[2] = new SqlParameter("publish", publish);
             }
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogQaNhom_linhnx", obj))
             {

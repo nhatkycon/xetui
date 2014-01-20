@@ -43,7 +43,7 @@
     <script src="/lib/js/jqueryLib/ajaxupload.js" type="text/javascript"></script>
     
     <script src="/lib/js/jqueryLib/jquery.tmpl.min.js"></script>
-    <script src="/lib/js/jqueryLib/admin.js" type="text/javascript"></script>
+    <%--<script src="/lib/js/jqueryLib/admin.js" type="text/javascript"></script>--%>
     <script src="/lib/js/web/xetui.js" type="text/javascript"></script>
     <script src="/lib/js/web/adm.js" type="text/javascript"></script>
 </body>

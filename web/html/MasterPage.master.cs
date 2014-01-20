@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using docsoft;
 using docsoft.entities;
@@ -8,7 +9,7 @@ public partial class html_MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        promotedCars.List = XeDal.SelectPromoted(DAL.con(), 5, Security.Username);
+        promotedCars.List = XeDal.PromotedTop.Take(5).ToList();
     }
     public string domain
     {

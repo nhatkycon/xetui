@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>docsoft.entities</RootNamespace>
     <AssemblyName>docsoft.entities</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
     </SccProjectName>
@@ -41,6 +41,21 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\..\web\lib\dll\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -54,9 +69,11 @@
     <Compile Include="Anh.cs" />
     <Compile Include="BinhLuan.cs" />
     <Compile Include="Blog.cs" />
+    <Compile Include="CacheManager.cs" />
     <Compile Include="Promoted.cs" />
     <Compile Include="Nhom.cs" />
     <Compile Include="NhomThanhVien.cs" />
+    <Compile Include="SearchManager.cs" />
     <Compile Include="Thich.cs" />
     <Compile Include="PmRoom.cs" />
     <Compile Include="PM.cs" />
@@ -90,6 +107,7 @@
       <Name>linh</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

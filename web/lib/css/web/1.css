@@ -932,6 +932,17 @@ h3.profile-info-header {
     margin: 0 0 0 60px;
     margin-left: 0px;
 }
+.blog-item-user {
+    float: left;
+    width: 50px;
+}
+.blog-item-user img{
+    float: left;
+    width: 50px;
+    height: 50px;
+    border: 0px;
+    background-color: #FFF;
+}
 .blog-item-entry {
     padding: 0 0 3px;
 }
@@ -953,16 +964,26 @@ h3.profile-info-header {
     margin: 0 0 2px;
     font: 12px/1.4 sans-serif;
 }
-.blog-item-pics {
+.blog-item-pics 
+{
     height: 50px;
     margin: 0 0 5px;
+    margin-top: 10px;
+    clear: left;
 }
-.blog-item-pics-img {
-     float: left;
+.blog-item-pics a {
+    float: left;
     width: 75px;
     height: 50px;
     background: #ddd 50% 50% no-repeat;
 }
+.blog-item-pics a img {
+    float: left;
+    width: 75px;
+    height: 50px;
+    border: 0px;
+}
+
 .blog-item-info {
     font-size: 11px;
     color: gray;
@@ -997,6 +1018,24 @@ h3.profile-info-header {
 .x-col.x10 {
     width: 100%;
 }
+.x-col a 
+{
+    float: left;
+}
+.x-col a.nav-item 
+{
+    float: none;
+}
+.x-col a img
+{
+    float: left;
+    border: 0px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    .cars-home-3rd-list a:nth-child(3n + 3) {
+        margin-top: -2px;
+    }
+}
 @media (min-width: 320px) {
     .x-col.left-menu-list {
         float: left;
@@ -1020,11 +1059,39 @@ h3.profile-info-header {
     .profile-box {
         height: auto;
     }
+    .x-col.x2 {
+        width: 100%;
+    }  
+    .x-col.x2 a {
+        width: 50%;
+        margin-top: 0px;
+    }
+    .x-col.x1 {
+        width: 100%;
+    }
+    .x-col.x1 a {
+        width: 50%;
+        margin-top: 0px;
+    }
 }
 @media (min-width: 520px) {
     .x-col {
         width: 100%;
-    }        
+    }    
+    .x-col.x2 {
+        width: 100%;
+    }  
+    .x-col.x2 a {
+        width: 50%;
+        margin-top: 0px;
+    }
+    .x-col.x1 {
+        width: 100%;
+    }
+    .x-col.x1 a {
+        width: 25%;
+        margin-top: 0px;
+    }
 }
 @media (min-width: 768px) {
 
@@ -1035,14 +1102,22 @@ h3.profile-info-header {
     .x-col.x1 {
         width: 14%;
     }
+    .x-col.x1 a {
+        width: 100%;
+    }
     .x-col.x2 {
         width: 28%;
     }
-    .x-col.x2 img{
+    .x-col.x2 a
+    {
+        width: 100%;
     }
     .x-col.x4 {
         width: 56%;
         margin-left: 1%;
+    }
+    .cars-home-3rd-list a:nth-child(3n + 3) {
+        margin-top: -2px;
     }
 }
 @media (min-width: 992px) 
@@ -1092,6 +1167,7 @@ h3.profile-info-header {
      .x-col.x10 {
         width: 87.5%;
     }
+    
 }
 @media (min-width: 1200px) {
     .x-col.left-menu-list {
@@ -1108,12 +1184,7 @@ h3.profile-info-header {
     }
     
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
-    .cars-home-3rd-list img:nth-child(3n + 3) {
-        margin-top: -2px;    
-    }
-    
-}
+
 .left-menu-list .nav-item :hover {
     color: #fff;
     background: #4f5866;
@@ -1334,4 +1405,11 @@ h3.profile-info-header {
 }
 .Model-Item:hover {
     background-color: #FFF;
+}
+.searchRs-item {
+    
+}
+.searchRs-item a {
+    display: block;
+    font-weight: bold;
 }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -48,7 +51,15 @@ namespace docsoft.entities
         public string PID_Ten { get; set; }
         public List<Tin> Tins { get; set; }
         public DanhMuc Hang { get; set; }
+        public string Id { get { return ID.ToString(); } 
+        }
+        public LoaiDanhMuc LoaiDanhMuc { get; set; }
         #endregion
+       
+
+        public const string ListKey = "urn:danhmuc:list";
+        public const string Key = "urn:danhmuc:{0}";
+
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return DanhMucDal.getFromReader(rd);
@@ -69,8 +80,8 @@ namespace docsoft.entities
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("DM_ID", DM_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblDanhMuc_Delete_DeleteById_linhnx", obj);
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
         }
-
         public static DanhMuc Insert(DanhMuc item)
         {
             var Item = new DanhMuc();
@@ -119,9 +130,9 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
             return Item;
         }
-
         public static DanhMuc Update(DanhMuc item)
         {
             var Item = new DanhMuc();
@@ -170,35 +181,42 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
             return Item;
         }
 
         public static DanhMuc SelectById(Guid DM_ID)
         {
-            var Item = new DanhMuc();
+            var item = new DanhMuc();
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("DM_ID", DM_ID);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectById_linhnx", obj))
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            return item;
         }
-
+        public static DanhMuc Select(Guid dmId)
+        {
+            using (var client = new RedisClient(CacheManager.RedisAddress))
+            {
+                return List.ToList().FirstOrDefault(x => x.ID == dmId);
+            }
+        }
         public static DanhMucCollection SelectAll()
         {
-            var List = new DanhMucCollection();
+            var list = new DanhMucCollection();
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectAll_linhnx"))
             {
                 while (rd.Read())
                 {
-                    List.Add(getFromReader(rd));
+                    list.Add(getFromReader(rd));
                 }
             }
-            return List;
+            return list;
         }
 
         public static Pager<DanhMuc> pagerNormal(string url, bool rewrite, string sort, string q, int size)
@@ -222,109 +240,116 @@ namespace docsoft.entities
         #region Utilities
         public static DanhMuc getFromReader(IDataReader rd)
         {
-            var Item = new DanhMuc();
+            var item = new DanhMuc();
             if (rd.FieldExists("DM_ID"))
             {
-                Item.ID = (Guid)(rd["DM_ID"]);
+                item.ID = (Guid)(rd["DM_ID"]);
             }
             if (rd.FieldExists("DM_GH_ID"))
             {
-                Item.GH_ID = (Guid)(rd["DM_GH_ID"]);
+                item.GH_ID = (Guid)(rd["DM_GH_ID"]);
             }
             if (rd.FieldExists("DM_PID"))
             {
-                Item.PID = (Guid)(rd["DM_PID"]);
+                item.PID = (Guid)(rd["DM_PID"]);
             }
             if (rd.FieldExists("DM_LDM_ID"))
             {
-                Item.LDM_ID = (Guid)(rd["DM_LDM_ID"]);
+                item.LDM_ID = (Guid)(rd["DM_LDM_ID"]);
             }
             if (rd.FieldExists("DM_Lang"))
             {
-                Item.Lang = (String)(rd["DM_Lang"]);
+                item.Lang = (String)(rd["DM_Lang"]);
             }
             if (rd.FieldExists("DM_LangBased"))
             {
-                Item.LangBased = (Boolean)(rd["DM_LangBased"]);
+                item.LangBased = (Boolean)(rd["DM_LangBased"]);
             }
             if (rd.FieldExists("DM_LangBased_ID"))
             {
-                Item.LangBased_ID = (Guid)(rd["DM_LangBased_ID"]);
+                item.LangBased_ID = (Guid)(rd["DM_LangBased_ID"]);
             }
             if (rd.FieldExists("DM_Alias"))
             {
-                Item.Alias = (String)(rd["DM_Alias"]);
+                item.Alias = (String)(rd["DM_Alias"]);
             }
             if (rd.FieldExists("DM_KyHieu"))
             {
-                Item.KyHieu = (String)(rd["DM_KyHieu"]);
+                item.KyHieu = (String)(rd["DM_KyHieu"]);
             }
             if (rd.FieldExists("DM_Ten"))
             {
-                Item.Ten = (String)(rd["DM_Ten"]);
+                item.Ten = (String)(rd["DM_Ten"]);
             }
             if (rd.FieldExists("DM_Anh"))
             {
-                Item.Anh = (String)(rd["DM_Anh"]);
+                item.Anh = (String)(rd["DM_Anh"]);
             }
             if (rd.FieldExists("DM_Ma"))
             {
-                Item.Ma = (String)(rd["DM_Ma"]);
+                item.Ma = (String)(rd["DM_Ma"]);
             }
             if (rd.FieldExists("DM_GiaTri"))
             {
-                Item.GiaTri = (String)(rd["DM_GiaTri"]);
+                item.GiaTri = (String)(rd["DM_GiaTri"]);
             }
             if (rd.FieldExists("DM_ThuTu"))
             {
-                Item.ThuTu = (Int32)(rd["DM_ThuTu"]);
+                item.ThuTu = (Int32)(rd["DM_ThuTu"]);
             }
             if (rd.FieldExists("DM_NgayTao"))
             {
-                Item.NgayTao = (DateTime)(rd["DM_NgayTao"]);
+                item.NgayTao = (DateTime)(rd["DM_NgayTao"]);
             }
             if (rd.FieldExists("DM_NguoiTao"))
             {
-                Item.NguoiTao = (String)(rd["DM_NguoiTao"]);
+                item.NguoiTao = (String)(rd["DM_NguoiTao"]);
             }
             if (rd.FieldExists("DM_NguoiSua"))
             {
-                Item.NguoiSua = (String)(rd["DM_NguoiSua"]);
+                item.NguoiSua = (String)(rd["DM_NguoiSua"]);
             }
             if (rd.FieldExists("DM_NgayCapNhat"))
             {
-                Item.NgayCapNhat = (DateTime)(rd["DM_NgayCapNhat"]);
+                item.NgayCapNhat = (DateTime)(rd["DM_NgayCapNhat"]);
             }
             if (rd.FieldExists("DM_KeyWords"))
             {
-                Item.KeyWords = (String)(rd["DM_KeyWords"]);
+                item.KeyWords = (String)(rd["DM_KeyWords"]);
             }
             if (rd.FieldExists("DM_Description"))
             {
-                Item.Description = (String)(rd["DM_Description"]);
+                item.Description = (String)(rd["DM_Description"]);
             }
             if (rd.FieldExists("DM_RowId"))
             {
-                Item.RowId = (Guid)(rd["DM_RowId"]);
+                item.RowId = (Guid)(rd["DM_RowId"]);
             }
             if (rd.FieldExists("DM_Deleted"))
             {
-                Item.Deleted = (Boolean)(rd["DM_Deleted"]);
+                item.Deleted = (Boolean)(rd["DM_Deleted"]);
             }
 
             if (rd.FieldExists("LDM_Ten"))
             {
-                Item.LDM_Ten = (String)(rd["LDM_Ten"]);
+                item.LDM_Ten = (String)(rd["LDM_Ten"]);
             }
             if (rd.FieldExists("DM_Level"))
             {
-                Item.Level = (Int32)(rd["DM_Level"]);
+                item.Level = (Int32)(rd["DM_Level"]);
             }
             if (rd.FieldExists("PID_Ten"))
             {
-                Item.PID_Ten = (String)(rd["PID_Ten"]);
+                item.PID_Ten = (String)(rd["PID_Ten"]);
             }
-            return Item;
+            var loaiDanhMuc = LoaiDanhMucDal.SelectById(item.LDM_ID);
+            item.LoaiDanhMuc = loaiDanhMuc;
+            //using (var client = new RedisClient(CacheManager.RedisAddress))
+            //{
+            //    var redis = client.As<DanhMuc>();
+            //    redis.StoreRelatedEntities(item.LDM_ID, loaiDanhMuc);
+            //}
+            return item;
         }
         #endregion
 
@@ -343,7 +368,7 @@ namespace docsoft.entities
             }
             return Item;
         }
-        public static DanhMucCollection SelectByLDMID(string LDM_ID)
+        public static List<DanhMuc> SelectByLDMID(string LDM_ID)
         {
             var List = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -364,7 +389,7 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static DanhMucCollection SelectByLDMID(SqlConnection con, string LDM_ID)
+        public static List<DanhMuc> SelectByLDMID(SqlConnection con, string LDM_ID)
         {
             var List = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -385,51 +410,22 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static DanhMucCollection SelectByLDMMa(string LDM_Ma)
+        public static List<DanhMuc> SelectByLDMMa(string LDM_Ma)
         {
-            return SelectByLDMMa(DAL.con(),LDM_Ma);
+            return SelectByLDMMa(DAL.con(), LDM_Ma);
         }
-        public static DanhMucCollection SelectByLDMMa(SqlConnection con, string LDM_Ma)
+        public static List<DanhMuc> SelectByLDMMa(SqlConnection con, string LDM_Ma)
         {
-            var List = new DanhMucCollection();
-            var obj = new SqlParameter[1];
-            if (!string.IsNullOrEmpty(LDM_Ma))
-            {
-                obj[0] = new SqlParameter("LDM_Ma", LDM_Ma);
-            }
-            else
-            {
-                obj[0] = new SqlParameter("LDM_Ma", DBNull.Value);
-            }
-            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblDanhMuc_Select_SelectByLDM_Ma_linhnx", obj))
-            {
-                while (rd.Read())
-                {
-                    List.Add(getFromReader(rd));
-                }
-            }
-            return List;
+            var loaiDanhMuc = LoaiDanhMucDal.List.FirstOrDefault(x => x.Ma == LDM_Ma);
+            return loaiDanhMuc == null ? new List<DanhMuc>() : List.Where(x => x.LDM_ID == loaiDanhMuc.ID).ToList();
         }
-        public static DanhMucCollection SelectByLdmMaFromCache(string ldmMa)
+        public static List<DanhMuc> SelectByLdmMaFromCache(string ldmMa)
         {
             return SelectByLdmMaFromCache(DAL.con(),ldmMa);
         }
-        public static DanhMucCollection SelectByLdmMaFromCache(SqlConnection con, string ldmMa)
+        public static List<DanhMuc> SelectByLdmMaFromCache(SqlConnection con, string ldmMa)
         {
-            DanhMucCollection list;
-            var c = HttpRuntime.Cache;
-            var key = string.Format("DanhMucList-{0}", ldmMa);
-            var obj = c[key];
-            if(obj==null)
-            {
-                list = SelectByLDMMa(con, ldmMa);
-                c.Insert(key, list);
-            }
-            else
-            {
-                list = (DanhMucCollection) obj;
-            }
-            return list;
+            return SelectByLDMMa(con, ldmMa);
         }
         public static DanhMuc SelectByMa(string DM_Ma, SqlConnection con)
         {
@@ -491,7 +487,7 @@ namespace docsoft.entities
             }
             return item;
         }
-        public static DanhMucCollection SelectParentByDmId(string DM_ID)
+        public static List<DanhMuc> SelectParentByDmId(string DM_ID)
         {
             var list = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -512,7 +508,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static DanhMucCollection SelectParentByDmId(SqlConnection con, string DM_ID)
+        public static List<DanhMuc> SelectParentByDmId(SqlConnection con, string DM_ID)
         {
             var list = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -533,7 +529,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static DanhMucCollection SelectTreeByDmMa(SqlConnection con, string Ma)
+        public static List<DanhMuc> SelectTreeByDmMa(SqlConnection con, string Ma)
         {
             var list = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -559,7 +555,7 @@ namespace docsoft.entities
         /// </summary>
         /// <param name="TV_ID"></param>
         /// <returns></returns>
-        public static DanhMucCollection SelectByTvId(string TV_ID)
+        public static List<DanhMuc> SelectByTvId(string TV_ID)
         {
             var List = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -580,11 +576,11 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static DanhMucCollection SelectByPid(string PID)
+        public static List<DanhMuc> SelectByPid(string PID)
         {
             return SelectByPid(DAL.con(),PID);
         }
-        public static DanhMucCollection SelectByPid(SqlConnection con, string PID)
+        public static List<DanhMuc> SelectByPid(SqlConnection con, string PID)
         {
             var list = new DanhMucCollection();
             var obj = new SqlParameter[1];
@@ -606,9 +602,26 @@ namespace docsoft.entities
             return list;
         }
         #endregion
+
+        #region Cache
+        public static IList<DanhMuc> List
+        {
+            get
+            {
+                var obj = CacheManager.Cache[DanhMuc.ListKey];
+                if (obj == null)
+                {
+                    var list = SelectAll();
+                    CacheManager.Cache.Insert(DanhMuc.ListKey, list);
+                    return list;
+                }
+                return (List<DanhMuc>)obj;
+            }
+        }
+        #endregion
     }
     #endregion
-
+   
     #endregion
 }
 

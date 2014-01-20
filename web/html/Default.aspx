@@ -4,6 +4,7 @@
 <%@ Register Src="~/lib/ui/blog/HomeList.ascx" TagPrefix="blog" TagName="HomeList" %>
 <%@ Register src="~/lib/ui/cars/homeSmallList.ascx" tagPrefix="cars" tagName="homeSmallList" %>
 <%@ Register Src="~/lib/ui/hangXe/LeftMenu.ascx" TagPrefix="cars" TagName="LeftMenu" %>
+<%@ Register Src="~/lib/ui/promoted/Home.ascx" TagPrefix="promoted" TagName="Home" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
@@ -13,19 +14,7 @@
         <div class="x-col left-menu-list">
             <cars:LeftMenu runat="server" ID="LeftMenu" />
         </div>
-        <div class="x-col x4 cars-home-1st-list">
-            <img src="/html/img/car/8.jpg" />
-        </div>
-        <div class="x-col x2 cars-home-2nd-list">
-            <img src="/html/img/car/8.jpg" />
-            <img src="/html/img/car/8.jpg" />
-        </div>
-        <div class="x-col x1 cars-home-3rd-list">
-            <img src="/html/img/car/8.jpg" />
-            <img src="/html/img/car/8.jpg" />
-            <img src="/html/img/car/8.jpg" />
-            <img src="/html/img/car/8.jpg" />
-        </div>
+        <promoted:Home ID="promotedHome" runat="server"/>
         <div class="x-col x10">
             <uc1:HomeList runat="server" ID="UserHomeList" />            
         </div>

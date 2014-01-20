@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1F622505-C735-43CB-BFAB-EFA8428028CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docsoft", "core\docsoft\docsoft.csproj", "{57E9EC8D-655E-4BCC-9AFF-A505FAA878CA}"

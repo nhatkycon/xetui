@@ -151,6 +151,12 @@
         </div>
         <%if(IsAdmin){ %>
         <div class="form-group">
+            <label for="RowId" class="col-sm-2 col-md-2 control-label">RowId</label>
+            <div class="col-sm-4 col-md-4">
+                <input name="RowId" class="form-control" id="RowId" value="<%=Item.RowId %>" />
+            </div>
+        </div>
+        <div class="form-group">
             <label for="Duyet" class="col-sm-2 col-md-2 control-label">Trạng thái</label>
             <div class="col-sm-4 col-md-4">
                 <div class="checkbox">

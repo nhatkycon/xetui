@@ -54,6 +54,7 @@ public partial class lib_ajax_car_Default : BasedPage
         var THANHPHO_ID = Request["THANHPHO_ID"];
         var Anh = Request["Anh"];
         var Duyet = Request["Duyet"];
+
         switch (subAct)
         {
             case "GetModelByHangXe":
@@ -174,7 +175,6 @@ public partial class lib_ajax_car_Default : BasedPage
                             car.NgayTao = DateTime.Now;
                             car.NguoiTao = Security.Username;
                             car = XeDal.Insert(car);
-
                             ObjMemberDal.Insert(new ObjMember()
                             {
                                 PRowId = car.RowId
@@ -212,6 +212,8 @@ public partial class lib_ajax_car_Default : BasedPage
                     else
                     {
                         car = XeDal.Update(car);
+                        SearchManager.Add(car.Ten, string.Format("{0} {1}", car.Ten, car.GioiThieu), string.Empty, car.RowId.ToString(),
+                                              car.XeUrl, typeof(Xe).Name);
                     }
                     MemberDal.UpdateVcard(DAL.con(), Security.Username);
                 }
@@ -226,6 +228,7 @@ public partial class lib_ajax_car_Default : BasedPage
                         return;
                     XeDal.DeleteById(xe.ID);
                     ObjDal.DeleteByRowId(xe.RowId);
+                    SearchManager.Remove(xe.RowId);
                     ObjMemberDal.DeleteByPRowId(xe.RowId.ToString());
                     foreach (var item in AnhDal.SelectByPId(DAL.con(), xe.RowId.ToString(),50))
                     {

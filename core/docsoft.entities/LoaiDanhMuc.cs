@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ServiceStack.Redis;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -26,13 +28,23 @@ namespace docsoft.entities
         public Int32 ThuTu { get; set; }
         public String NguoiSua { get; set; }
         public Boolean Deleted { get; set; }
+
+        
+
         #endregion
         #region Contructor
         public LoaiDanhMuc()
-        { }
+        {
+            
+        }
         #endregion
         #region Customs properties
-
+        public const string ListKey = "urn:loaiDanhMuc:list";
+        public const string Key = "urn:loaiDanhMuc:{0}";
+        public string Id
+        {
+            get { return ID.ToString(); }
+        }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
         {
@@ -54,6 +66,7 @@ namespace docsoft.entities
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("LDM_ID", LDM_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblLoaiDanhMuc_Delete_DeleteById_linhnx", obj);
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
         }
 
         public static LoaiDanhMuc Insert(LoaiDanhMuc item)
@@ -93,7 +106,9 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
             return Item;
+            
         }
 
         public static LoaiDanhMuc Update(LoaiDanhMuc item)
@@ -133,22 +148,14 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheManager.Clear(CacheManager.Loai.Cache, DanhMuc.ListKey);
             return Item;
         }
 
-        public static LoaiDanhMuc SelectById(Guid LDM_ID)
+        public static LoaiDanhMuc SelectById(Guid ldmId)
         {
-            var Item = new LoaiDanhMuc();
-            var obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("LDM_ID", LDM_ID);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblLoaiDanhMuc_Select_SelectById_linhnx", obj))
-            {
-                while (rd.Read())
-                {
-                    Item = getFromReader(rd);
-                }
-            }
-            return Item;
+            var item = List.FirstOrDefault(x => x.ID == ldmId);
+            return item ?? new LoaiDanhMuc();
         }
 
         public static LoaiDanhMucCollection SelectAll()
@@ -162,6 +169,23 @@ namespace docsoft.entities
                 }
             }
             return List;
+        }
+        public static void ClearCache(CacheManager.Loai loai)
+        {
+            switch (loai)
+            {
+                case CacheManager.Loai.Redis:
+                    using (var client = new RedisClient(CacheManager.RedisAddress))
+                    {
+                        var redis = client.As<LoaiDanhMuc>();
+                        var list = redis.Lists[LoaiDanhMuc.ListKey];
+                        list.RemoveAll();
+                    }
+                    break;
+                case CacheManager.Loai.Cache:
+                    CacheManager.Cache.Remove(LoaiDanhMuc.Key);
+                    break;
+            }
         }
         public static Pager<LoaiDanhMuc> pagerNormal(string url, bool rewrite, string sort, string q, int size)
         {
@@ -234,6 +258,22 @@ namespace docsoft.entities
         #endregion
 
         #region Extend
+        #endregion
+        #region Cache
+        public static IList<LoaiDanhMuc> List
+        {
+            get
+            {
+                var obj = CacheManager.Cache[LoaiDanhMuc.ListKey];
+                if (obj == null)
+                {
+                    var list = SelectAll();
+                    CacheManager.Cache.Insert(LoaiDanhMuc.ListKey, list);
+                    return list;
+                }
+                return (List<LoaiDanhMuc>)obj;
+            }
+        }
         #endregion
     }
     #endregion

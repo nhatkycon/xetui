@@ -28,18 +28,26 @@ public partial class html_Default : System.Web.UI.Page
             UserHomeList.List = userHomeList;
 
                     
-            var userBlogs = BlogDal.SelectTopBlogProfile(con, 10, Security.Username);
+            var userBlogs = BlogDal.SelectTopBlogProfile(con, 10, Security.Username, null);
             blogTop.List = userBlogs;
 
-            var carBlogs = BlogDal.SelectTopBlogXe(con, 10, Security.Username);
+            var carBlogs = BlogDal.SelectTopBlogXe(con, 10, Security.Username, null);
             nhatKyXeTop.List = carBlogs;
 
-            var topCars = XeDal.SelectTopCar(con, 10, Security.Username);
-            var newstpCars = XeDal.SelectTopCar(con, 10, Security.Username);
-            topCarsList.List = topCars;
-            newestCarsList.List = newstpCars;
+            var topCars = XeDal.HomeTop;
+            var newstpCars = XeDal.HomeNewest;
 
-            var hangXeList = DanhMucDal.SelectByLdmMaFromCache(con, "HANGXE");
+
+
+            topCarsList.List = topCars.ToList();
+            newestCarsList.List = newstpCars.ToList();
+
+
+            promotedHome.HomeBig = XeDal.PromotedHomeBig.FirstOrDefault();
+            promotedHome.HomeMedium = XeDal.PromotedHomeMedium.Take(2).ToList();
+            promotedHome.HomeSMall = XeDal.PromotedHomeSmall.Take(4).ToList();
+
+            var hangXeList = DanhMucDal.SelectByLDMMa(con, "HANGXE");
             var hangList = (from p in hangXeList
                             where p.PID == Guid.Empty
                             select p).OrderBy(m => m.ThuTu).ToList();

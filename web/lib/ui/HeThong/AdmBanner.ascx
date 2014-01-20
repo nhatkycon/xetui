@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/lib/mod/">
                 <span class="logo">XETUI.VN</span>
             </a>            
         </div>
@@ -26,6 +26,11 @@
                         <li>
                             <a href="/lib/mod/Nhom/Default.aspx">
                                 Nhóm
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Promoted/Default.aspx">
+                                Promoted
                             </a>
                         </li>
                     </ul>

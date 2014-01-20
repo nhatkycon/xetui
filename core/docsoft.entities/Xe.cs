@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ServiceStack.Redis;
 using linh.common;
 using linh.controls;
 using linh.core.dal;
@@ -55,99 +56,6 @@ namespace docsoft.entities
         #region Contructor
         public Xe()
         { }
-        public Xe(Int64? id, Guid? hang_id, Guid? model_id, String submodel, Boolean? xuatxu, Int32? nam, Boolean? tinhtrang, Guid? dongxe_id, Guid? maungoaithat_id, Guid? maunoithat_id, Boolean? hopso, Guid? kieudandong_id, Guid? nhienlieu_id, Guid? thanhpho_id, String ten, Guid? rowid, Boolean? raoban, Int64? gia, Boolean? daban, String chu, String nguoitao, String nguoicapnhat, DateTime? ngaytao, DateTime? ngaycapnhat, Boolean? khoa, Boolean? xoa)
-        {
-            if (id != null)
-            {
-                ID = id.Value;
-            }
-            if (hang_id != null)
-            {
-                HANG_ID = hang_id.Value;
-            }
-            if (model_id != null)
-            {
-                MODEL_ID = model_id.Value;
-            }
-            SubModel = submodel;
-            if (xuatxu != null)
-            {
-                XuatXu = xuatxu.Value;
-            }
-            if (nam != null)
-            {
-                Nam = nam.Value;
-            }
-            if (tinhtrang != null)
-            {
-                TinhTrang = tinhtrang.Value;
-            }
-            if (dongxe_id != null)
-            {
-                DONGXE_ID = dongxe_id.Value;
-            }
-            if (maungoaithat_id != null)
-            {
-                MAUNGOAITHAT_ID = maungoaithat_id.Value;
-            }
-            if (maunoithat_id != null)
-            {
-                MAUNOITHAT_ID = maunoithat_id.Value;
-            }
-            if (hopso != null)
-            {
-                HopSo = hopso.Value;
-            }
-            if (kieudandong_id != null)
-            {
-                KIEUDANDONG_ID = kieudandong_id.Value;
-            }
-            if (nhienlieu_id != null)
-            {
-                NHIENLIEU_ID = nhienlieu_id.Value;
-            }
-            if (thanhpho_id != null)
-            {
-                THANHPHO_ID = thanhpho_id.Value;
-            }
-            Ten = ten;
-            if (rowid != null)
-            {
-                RowId = rowid.Value;
-            }
-            if (raoban != null)
-            {
-                RaoBan = raoban.Value;
-            }
-            if (gia != null)
-            {
-                Gia = gia.Value;
-            }
-            if (daban != null)
-            {
-                DaBan = daban.Value;
-            }
-            Chu = chu;
-            NguoiTao = nguoitao;
-            NguoiCapNhat = nguoicapnhat;
-            if (ngaytao != null)
-            {
-                NgayTao = ngaytao.Value;
-            }
-            if (ngaycapnhat != null)
-            {
-                NgayCapNhat = ngaycapnhat.Value;
-            }
-            if (khoa != null)
-            {
-                Khoa = khoa.Value;
-            }
-            if (xoa != null)
-            {
-                Xoa = xoa.Value;
-            }
-
-        }
         #endregion
         #region Customs properties
 
@@ -165,6 +73,8 @@ namespace docsoft.entities
         public string NguoiTao_Ten { get; set; }
         public Member Member { get; set; }
         public bool Liked { get; set; }
+        public string Id { get { return ID.ToString(); } 
+        }
         #endregion
         public string XeUrl
         {
@@ -177,6 +87,15 @@ namespace docsoft.entities
                  , ID); 
             }
         }
+
+        public const string Key = "urn:xe:{0}";
+        public const string KeyPromoted = "urn:xe:promotedCars";
+        public const string KeyPromotedHomeBig = "urn:xe:promotedHomeBig";
+        public const string KeyPromotedHomeMedium = "urn:xe:promotedHomeMedium";
+        public const string KeyPromotedHomeSmall = "urn:xe:promotedHomeSmall";
+        public const string KeyHomeNewest = "urn:xe:newest";
+        public const string KeyHomeTop = "urn:xe:top";
+        public const string KeyHome = "urn:xe:home";
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return XeDal.getFromReader(rd);
@@ -690,7 +609,7 @@ namespace docsoft.entities
             return SelectByRowId(RowId.ToString());
         }
 
-        public static XeCollection SelectDuyetByNguoiTao(SqlConnection con, string NguoiTao, int Top, bool? Duyet )
+        public static List<Xe> SelectDuyetByNguoiTao(SqlConnection con, string NguoiTao, int Top, bool? Duyet )
         {
             var list = new XeCollection();
             var obj = new SqlParameter[3];
@@ -738,10 +657,10 @@ namespace docsoft.entities
         }
 
 
-        public static XeCollection SelectPromoted(SqlConnection con, int Top, string username)
+        public static List<Xe> SelectPromoted(SqlConnection con, int Top, string username, string loai)
         {
             var list = new XeCollection();
-            var obj = new SqlParameter[3];
+            var obj = new SqlParameter[4];
             obj[1] = new SqlParameter("Top", Top);
             if (!string.IsNullOrEmpty(username))
             {
@@ -750,6 +669,14 @@ namespace docsoft.entities
             else
             {
                 obj[2] = new SqlParameter("username", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(loai))
+            {
+                obj[3] = new SqlParameter("loai", loai);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("loai", DBNull.Value);
             }
             using (var rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectPromoted_linhnx", obj))
             {
@@ -760,8 +687,7 @@ namespace docsoft.entities
             }
             return list;
         }
-
-        public static XeCollection SelectTopCar(SqlConnection con, int top, string username)
+        public static IList<Xe> SelectTopCar(SqlConnection con, int top, string username)
         {
             var list = new XeCollection();
             var obj = new SqlParameter[3];
@@ -783,7 +709,7 @@ namespace docsoft.entities
             }
             return list;
         }
-        public static XeCollection SelectNewestCar(SqlConnection con, int top, string username)
+        public static IList<Xe> SelectNewestCar(SqlConnection con, int top, string username)
         {
             var list = new XeCollection();
             var obj = new SqlParameter[3];
@@ -847,6 +773,94 @@ namespace docsoft.entities
             }
             var pg = new Pager<Xe>(con, "sp_tblXe_Pager_ByHangTen_linhnx", "p", size, 10, rewrite, url, obj);
             return pg;
+        }
+        #endregion
+
+        #region Cache
+        // TODO: Transform to Redis
+        public static IList<Xe> PromotedTop
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyPromoted];
+                if(obj == null)
+                {
+                    var list = SelectPromoted(DAL.con(), 20, null, "1");
+                    CacheManager.Cache.Insert(Xe.KeyPromoted, list);
+                    return list;
+                }
+                return (List<Xe>) obj;
+            }
+        }
+        public static IList<Xe> PromotedHomeBig
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyPromotedHomeBig];
+                if (obj == null)
+                {
+                    var list = SelectPromoted(DAL.con(), 20, null, "2");
+                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeBig, list);
+                    return list;
+                }
+                return (List<Xe>)obj;
+            }
+        }
+        public static IList<Xe> PromotedHomeMedium
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyPromotedHomeMedium];
+                if (obj == null)
+                {
+                    var list = SelectPromoted(DAL.con(), 20, null, "3");
+                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeMedium, list);
+                    return list;
+                }
+                return (List<Xe>)obj;
+            }
+        }
+        public static IList<Xe> PromotedHomeSmall
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyPromotedHomeSmall];
+                if (obj == null)
+                {
+                    var list = SelectPromoted(DAL.con(), 20, null, "4");
+                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeSmall, list);
+                    return list;
+                }
+                return (List<Xe>)obj;
+            }
+        }
+        public static IList<Xe> HomeTop
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyHomeTop];
+                if (obj == null)
+                {
+                    var list = SelectTopCar(DAL.con(), 20, null);
+                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeSmall, list);
+                    return list;
+                }
+                return (List<Xe>)obj;
+            }
+        }
+        public static IList<Xe> HomeNewest
+        {
+            get
+            {
+                var obj = CacheManager.Cache[Xe.KeyHomeNewest];
+                if (obj == null)
+                {
+                    var list = SelectTopCar(DAL.con(), 20, null);
+                    CacheManager.Cache.Insert(Xe.KeyHomeNewest, list);
+                    return list;
+                }
+                return (List<Xe>)obj;
+            }
         }
         #endregion
     }

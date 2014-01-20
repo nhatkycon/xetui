@@ -31,7 +31,7 @@ namespace docsoft.entities
         public DateTime NgayTao { get; set; }
         public String NguoiTao { get; set; }
         public Boolean Approved { get; set; }
-        public Object ApprovedDate { get; set; }
+        public DateTime ApprovedDate { get; set; }
         public String ApprovedBy { get; set; }
         public Int32 Views { get; set; }
         public Int32 Clicked { get; set; }
@@ -47,6 +47,29 @@ namespace docsoft.entities
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return PromotedDal.getFromReader(rd);
+        }
+        public string LoaiTen
+        {
+            get
+            {
+                switch(Loai)
+                {
+                    case 1:
+                        return "Xe top";
+                    case 2:
+                        return "Xe Home Big";
+                    case 3:
+                        return "Xe Home Medium";
+                    case 4:
+                        return "Xe Home Small";
+                    case 5:
+                        return "Xe View";
+                    case 10:
+                        return "Other";
+                    default:
+                        return string.Empty;
+                }
+            }
         }
     }
     #endregion
@@ -204,106 +227,161 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<Promoted> pagerNormal(string url, bool rewrite, string sort)
+        public static Pager<Promoted> PagerNormal(string url, bool rewrite, string sort, string q, int size, string tuNgay, string denNgay, string loai, string duyet)
         {
-            SqlParameter[] obj = new SqlParameter[1];
+            var obj = new SqlParameter[6];
             obj[0] = new SqlParameter("Sort", sort);
-            Pager<Promoted> pg = new Pager<Promoted>("sp_tblPromoted_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[1] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[1] = new SqlParameter("q", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(loai))
+            {
+                obj[2] = new SqlParameter("loai", loai);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("loai", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(duyet))
+            {
+                obj[3] = new SqlParameter("Duyet", duyet);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("Duyet", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(denNgay))
+            {
+                obj[4] = new SqlParameter("DenNgay", denNgay);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(tuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", tuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            var pg = new Pager<Promoted>("sp_tblPromoted_Pager_Normal_linhnx", "p", 20, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
         #region Utilities
         public static Promoted getFromReader(IDataReader rd)
         {
-            Promoted Item = new Promoted();
+            var item = new Promoted();
             if (rd.FieldExists("P_ID"))
             {
-                Item.ID = (Int32)(rd["P_ID"]);
+                item.ID = (Int32)(rd["P_ID"]);
             }
             if (rd.FieldExists("P_PRowId"))
             {
-                Item.PRowId = (Guid)(rd["P_PRowId"]);
+                item.PRowId = (Guid)(rd["P_PRowId"]);
             }
             if (rd.FieldExists("P_Loai"))
             {
-                Item.Loai = (Int32)(rd["P_Loai"]);
+                item.Loai = (Int32)(rd["P_Loai"]);
             }
             if (rd.FieldExists("P_Ten"))
             {
-                Item.Ten = (String)(rd["P_Ten"]);
+                item.Ten = (String)(rd["P_Ten"]);
             }
             if (rd.FieldExists("P_MoTa"))
             {
-                Item.MoTa = (String)(rd["P_MoTa"]);
+                item.MoTa = (String)(rd["P_MoTa"]);
             }
             if (rd.FieldExists("P_Keywords"))
             {
-                Item.Keywords = (String)(rd["P_Keywords"]);
+                item.Keywords = (String)(rd["P_Keywords"]);
             }
             if (rd.FieldExists("P_Anh"))
             {
-                Item.Anh = (String)(rd["P_Anh"]);
+                item.Anh = (String)(rd["P_Anh"]);
             }
             if (rd.FieldExists("P_Url"))
             {
-                Item.Url = (String)(rd["P_Url"]);
+                item.Url = (String)(rd["P_Url"]);
             }
             if (rd.FieldExists("P_KhachHang"))
             {
-                Item.KhachHang = (String)(rd["P_KhachHang"]);
+                item.KhachHang = (String)(rd["P_KhachHang"]);
             }
             if (rd.FieldExists("P_KhachHangId"))
             {
-                Item.KhachHangId = (Guid)(rd["P_KhachHangId"]);
+                item.KhachHangId = (Guid)(rd["P_KhachHangId"]);
             }
             if (rd.FieldExists("P_NgayBatDau"))
             {
-                Item.NgayBatDau = (DateTime)(rd["P_NgayBatDau"]);
+                item.NgayBatDau = (DateTime)(rd["P_NgayBatDau"]);
             }
             if (rd.FieldExists("P_NgayKetThuc"))
             {
-                Item.NgayKetThuc = (DateTime)(rd["P_NgayKetThuc"]);
+                item.NgayKetThuc = (DateTime)(rd["P_NgayKetThuc"]);
             }
             if (rd.FieldExists("P_refId"))
             {
-                Item.refId = (String)(rd["P_refId"]);
+                item.refId = (String)(rd["P_refId"]);
             }
             if (rd.FieldExists("P_NgayTao"))
             {
-                Item.NgayTao = (DateTime)(rd["P_NgayTao"]);
+                item.NgayTao = (DateTime)(rd["P_NgayTao"]);
             }
             if (rd.FieldExists("P_NguoiTao"))
             {
-                Item.NguoiTao = (String)(rd["P_NguoiTao"]);
+                item.NguoiTao = (String)(rd["P_NguoiTao"]);
             }
             if (rd.FieldExists("P_Approved"))
             {
-                Item.Approved = (Boolean)(rd["P_Approved"]);
+                item.Approved = (Boolean)(rd["P_Approved"]);
             }
             if (rd.FieldExists("P_ApprovedDate"))
             {
-                Item.ApprovedDate = (Object)(rd["P_ApprovedDate"]);
+                item.ApprovedDate = (DateTime)(rd["P_ApprovedDate"]);
             }
             if (rd.FieldExists("P_ApprovedBy"))
             {
-                Item.ApprovedBy = (String)(rd["P_ApprovedBy"]);
+                item.ApprovedBy = (String)(rd["P_ApprovedBy"]);
             }
             if (rd.FieldExists("P_Views"))
             {
-                Item.Views = (Int32)(rd["P_Views"]);
+                item.Views = (Int32)(rd["P_Views"]);
             }
             if (rd.FieldExists("P_Clicked"))
             {
-                Item.Clicked = (Int32)(rd["P_Clicked"]);
+                item.Clicked = (Int32)(rd["P_Clicked"]);
             }
             if (rd.FieldExists("P_RowId"))
             {
-                Item.RowId = (Guid)(rd["P_RowId"]);
+                item.RowId = (Guid)(rd["P_RowId"]);
             }
-            return Item;
+            return item;
         }
         #endregion
         #region Extend
+        public static PromotedCollection SelectByLoai(SqlConnection con, string top, string loai)
+        {
+            var list = new PromotedCollection();
+            var obj = new SqlParameter[2];
+            obj[0] = new SqlParameter("loai", loai);
+            obj[1] = new SqlParameter("top", top);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPromoted_Select_SelectByLoai_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion

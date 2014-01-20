@@ -56,7 +56,7 @@ var autoFn = {
             var config = {
                 toolbar:
 		        [
-			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'tliyoutube', 'Maximize']		            
+			        ['Image', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'tliyoutube', 'Maximize']
 		        ]
             };
             var editor = jQuery(el).ckeditor(config, function () {
@@ -110,7 +110,7 @@ var autoFn = {
                 autoFn.loginfn.doLogout();
             });
         }
-        , doLogout:function () {
+        , doLogout: function () {
             var data = { subAct: 'logout' };
             $.ajax({
                 url: autoFn.url.login
@@ -137,7 +137,7 @@ var autoFn = {
             var pnl = $('.login-form-modal');
             if ($(pnl).length < 1) return;
 
-            $('.showLoginModalBtn').click(function() {
+            $('.showLoginModalBtn').click(function () {
                 try {
                     FB.logout(function () { document.location.reload(); });
                 }
@@ -716,6 +716,13 @@ var autoFn = {
                 var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
                 if (anh != '') {
                     data.push({ name: 'Anh', value: anh });
+                } else {
+                    var anhItems = pnl.find("input:radio[name ='AnhBia']");
+                    if ($(anhItems).length > 0) {
+                        anhItems.eq(1).click();                        
+                        anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
+                        data.push({ name: 'Anh', value: anh });
+                    }                    
                 }
                 $.ajax({
                     url: autoFn.url.car
@@ -794,6 +801,13 @@ var autoFn = {
                 var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
                 if (anh != '') {
                     data.push({ name: 'Anh', value: anh });
+                } else {
+                    var anhItems = pnl.find("input:radio[name ='AnhBia']");
+                    if ($(anhItems).length > 0) {
+                        anhItems.eq(1).click();
+                        anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
+                        data.push({ name: 'Anh', value: anh });
+                    } 
                 }
                 $.ajax({
                     url: autoFn.url.blog
