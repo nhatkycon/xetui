@@ -8,6 +8,7 @@
 <%@ Register src="~/lib/ui/HeThong/navtop.ascx" tagname="navtop" tagprefix="hethong" %>
 <%@ Register src="~/lib/ui/adv/homeTop1000.ascx" tagname="homeTop1000" tagprefix="adv" %>
 <%@ Register src="~/lib/ui/HeThong/login.ascx" tagname="login" tagprefix="hethong" %>
+<%@ Register src="~/lib/ui/HeThong/WelcomeModal.ascx" tagname="WelcomeModal" tagprefix="hethong" %>
 <%@ Register Src="~/lib/ui/HeThong/pmPostBox.ascx" TagPrefix="hethong" TagName="pmPostBox" %>
 <%@ Register Src="~/lib/ui/HeThong/footer.ascx" TagPrefix="hethong" TagName="footer" %>
 
@@ -57,6 +58,7 @@
         </div>
     </div> 
     <hethong:pmPostBox runat="server" ID="pmPostBox" />
+    <hethong:WelcomeModal runat="server" ID="WelcomeModal" />
     <script>
         var domain = '<%=domain %>';
     </script>

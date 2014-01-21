@@ -14,6 +14,7 @@ public partial class lib_ui_blog_ViewForProfile : System.Web.UI.UserControl
     public string Id { get; set; }
     public Pager<BinhLuan> Pager { get; set; }
     public List<Nhom> Nhoms { get; set; }
+    public List<Xe> Xes { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         BinhLuanList.Pager = Pager;
@@ -21,6 +22,7 @@ public partial class lib_ui_blog_ViewForProfile : System.Web.UI.UserControl
         profileInfo.Item = Item;
         profileAbout.Item = Item;
         profileAbout.Nhoms = Nhoms;
+        profileAbout.Xes = Xes;
         blogViewItem.Blog = Blog;
     }
 }

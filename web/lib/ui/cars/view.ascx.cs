@@ -14,6 +14,7 @@ public partial class lib_ui_cars_view : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Id = Request["ID"];
+        if(Item == null) return;
         BinhLuanList.Pager = Pager;
         BinhLuanList.PRowId = Item.RowId.ToString();
         ListForCar.Pager = PagerBlog;

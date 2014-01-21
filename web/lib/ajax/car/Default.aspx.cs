@@ -17,15 +17,7 @@ public partial class lib_ajax_car_Default : BasedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        var x = Request["x"];
-        var y = Request["y"];
-        var x1 = Request["x1"];
-        var y1 = Request["y1"];
-        var w = Request["w"];
-        var h = Request["h"];
-        var Key = Request["key"];
         var Id = Request["Id"];
-        var dic = Server.MapPath("~/lib/up/crop/");
         var newDic = Server.MapPath("~/lib/up/car/");
         var DM_PID = Request["DM_PID"];
         var logged = Security.IsAuthenticated();
@@ -74,7 +66,7 @@ public partial class lib_ajax_car_Default : BasedPage
                 if (logged)
                 {
                     RaoBan = !string.IsNullOrEmpty(RaoBan) ? "true" : "false";
-                    DangLai = string.IsNullOrEmpty(DangLai) ? "true" : "false";
+                    DangLai = !string.IsNullOrEmpty(DangLai) ? "true" : "false";
                     Gia = string.IsNullOrEmpty(Gia) ? "0" : Gia;
                     var isInserting = false;
 
@@ -162,7 +154,10 @@ public partial class lib_ajax_car_Default : BasedPage
                         car.RowId = new Guid(RowId);
                     }
                     car.RaoBan = Convert.ToBoolean(RaoBan);
-                    car.Nam = Convert.ToInt32(Nam);
+                    if (!string.IsNullOrEmpty(Nam))
+                    {
+                        car.Nam = Convert.ToInt32(Nam);                        
+                    }
                     car.SubModel = SubModel;
                     car.NgayCapNhat = DateTime.Now;
                     car.NguoiCapNhat = Security.Username;

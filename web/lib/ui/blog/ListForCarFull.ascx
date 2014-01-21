@@ -14,8 +14,11 @@
                         <i class="glyphicon glyphicon-plus"></i> Thêm
                     </a>
                 <%} %>
+                <a href="<%=Item.XeUrl %>">
+                    Xe
+                </a>&nbsp; &gt;
                 <a href="<%=Item.XeUrl %>/blogs/">
-                    Nhật ký hành trình
+                    Hành trình
                 </a>
                 <%if(Pager!=null && Pager.Total > 0){ %>
                 <span class="text-muted"><%=Pager.Total %> bài</span>

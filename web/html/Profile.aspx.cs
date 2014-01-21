@@ -17,7 +17,7 @@ public partial class html_Profile : System.Web.UI.Page
         {
             var user = MemberDal.SelectAllByUserName(con, u, Security.Username);
             profile.Item = user;
-            profile.Xes = XeDal.SelectDuyetByNguoiTao(con, Security.Username, 20, null);
+            profile.Xes = XeDal.SelectDuyetByNguoiTao(con, u, 20, null);
             profile.Nhoms = NhomDal.SelectByUser(con, u, 20, true);
             var pagerBlog = BlogDal.PagerByPRowIdFull(con, string.Empty, false, null, user.RowId.ToString(),
                                                       Security.Username);

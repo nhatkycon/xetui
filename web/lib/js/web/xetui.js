@@ -8,6 +8,7 @@ jQuery(function () {
 var autoFn = {
     ini: function () {
         autoFn.trackUi();
+        autoFn.welCome();
         autoFn.loginfn.init();
         autoFn.accFn.init();
         autoFn.carFn.init();
@@ -18,6 +19,13 @@ var autoFn = {
         autoFn.XuLyAnhFn.init();
         autoFn.blogFn.init();
         autoFn.nhomFn.init();
+    }
+    , welCome: function () {
+        if (!logged) {
+            setTimeout(function () {
+                $('#welComeModal').modal('show');
+            }, 10000);
+        }
     }
     , trackUi: function () {
         var w = $(window).width();
@@ -139,7 +147,7 @@ var autoFn = {
 
             $('.showLoginModalBtn').click(function () {
                 try {
-                    FB.logout(function () { document.location.reload(); });
+                    FB.logout(function () {  });
                 }
                 catch (err) {
                 }
@@ -193,7 +201,7 @@ var autoFn = {
             var pnl = $('.login-form-normal');
             if ($(pnl).length < 1) return;
             try {
-                FB.logout(function () { document.location.reload(); });
+                FB.logout(function () { });
             }
             catch (err) {
             }
@@ -719,10 +727,10 @@ var autoFn = {
                 } else {
                     var anhItems = pnl.find("input:radio[name ='AnhBia']");
                     if ($(anhItems).length > 0) {
-                        anhItems.eq(1).click();                        
+                        anhItems.eq(1).click();
                         anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
                         data.push({ name: 'Anh', value: anh });
-                    }                    
+                    }
                 }
                 $.ajax({
                     url: autoFn.url.car
@@ -807,7 +815,7 @@ var autoFn = {
                         anhItems.eq(1).click();
                         anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
                         data.push({ name: 'Anh', value: anh });
-                    } 
+                    }
                 }
                 $.ajax({
                     url: autoFn.url.blog
@@ -1228,6 +1236,7 @@ var autoFn = {
                                 onSelect: function (c) {
                                     autoFn.XuLyAnhFn.XuLyAnhCrop(c, anhItem);
                                 },
+                                keySupport: false,
                                 bgColor: 'black',
                                 bgOpacity: .4,
                                 //minSize: [480, 270],

@@ -185,13 +185,14 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheHelper.Max(string.Format(Xe.Key, Item.ID), Item);
             return Item;
         }
 
         public static Xe Update(Xe Updated)
         {
-            Xe Item = new Xe();
-            SqlParameter[] obj = new SqlParameter[36];
+            Xe item = new Xe();
+            var obj = new SqlParameter[36];
             obj[0] = new SqlParameter("X_ID", Updated.ID);
             obj[1] = new SqlParameter("X_HANG_ID", Updated.HANG_ID);
             obj[2] = new SqlParameter("X_MODEL_ID", Updated.MODEL_ID);
@@ -255,10 +256,12 @@ namespace docsoft.entities
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            return Item;
+            CacheHelper.Remove(string.Format(Xe.Key, item.ID));
+            CacheHelper.Max(string.Format(Xe.Key, item.ID), item);
+            return item;
         }
         public static Xe SelectById(Int64 X_ID)
         {
@@ -266,17 +269,26 @@ namespace docsoft.entities
         }
         public static Xe SelectById(SqlConnection con, Int64 X_ID)
         {
-            var Item = new Xe();
-            var obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("X_ID", X_ID);
-            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectById_linhnx", obj))
+            var item = new Xe();
+            var cache = CacheHelper.Get(string.Format(Xe.Key, X_ID));
+            if(cache == null)
             {
-                while (rd.Read())
+                var obj = new SqlParameter[1];
+                obj[0] = new SqlParameter("X_ID", X_ID);
+                using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblXe_Select_SelectById_linhnx", obj))
                 {
-                    Item = getFromReader(rd);
+                    while (rd.Read())
+                    {
+                        item = getFromReader(rd);
+                    }
                 }
+                CacheHelper.Max(string.Format(Xe.Key,X_ID), item);
             }
-            return Item;
+            else
+            {
+                item = (Xe) cache;
+            }
+            return item;
         }
         public static Xe SelectByIdUsername(SqlConnection con, Int64 X_ID, string username)
         {
@@ -567,11 +579,11 @@ namespace docsoft.entities
         }
         #endregion
         #region Extend
-        public static Xe SelectByRowIdUsername(SqlConnection con, Guid RowId, string username)
+        public static Xe SelectByRowIdUsername(SqlConnection con, Guid rowId, string username)
         {
             var Item = new Xe();
             var obj = new SqlParameter[2];
-            obj[0] = new SqlParameter("X_RowID", RowId);
+            obj[0] = new SqlParameter("X_RowID", rowId);
             if (!string.IsNullOrEmpty(username))
             {
                 obj[1] = new SqlParameter("username", username);

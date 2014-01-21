@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ViewForProfile.ascx.cs" Inherits="lib_ui_blog_ViewForProfile" %>
 <%@ Import Namespace="docsoft" %>
-<%@ Import Namespace="linh.common" %>
 <%@ Register TagPrefix="account" TagName="profileinfo" Src="~/lib/ui/account/Profile-Info.ascx" %>
 <%@ Register TagPrefix="account" TagName="ProfileAbout" Src="~/lib/ui/account/profile-about.ascx" %>
 <%@ Register TagPrefix="binhLuan" TagName="List" Src="~/lib/ui/binhLuan/List.ascx" %>
@@ -15,6 +14,9 @@
                         <i class="glyphicon glyphicon-plus"></i> Thêm
                     </a>
                 <%} %>
+                <a href="<%=Item.Url %>">
+                    <%=Item.Ten %>
+                </a>&nbsp; &gt;
                 <a href="<%=Item.Url %>/blogs/">
                     Nhật ký
                 </a>

@@ -17,6 +17,10 @@ public partial class lib_ui_promoted_Home : System.Web.UI.UserControl
         {
             ItemBig.Item = HomeBig;
         }
+        else
+        {
+            ItemBig.Visible = false;
+        }
         if (HomeMedium != null)
         {
             homeMedium.DataSource = HomeMedium;

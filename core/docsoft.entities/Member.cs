@@ -70,6 +70,8 @@ namespace docsoft.entities
         public Int32 GH_ID { get; set; }
         public bool Thich { get; set; }
         public Int32 SecondOnline { get; set; }
+        public String VcardStr { get { return string.Format(Vcard, SecondOnline); } 
+        }
         public string Url
         {
             get { return string.Format("/user/{0}",Username); }

@@ -68,6 +68,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                 break;
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                                CacheHelper.Remove(string.Format(Xe.Key,item.ID));
                                 break;
                             case 3:
                             case 4:
@@ -147,6 +148,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                 break;
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                                CacheHelper.Remove(string.Format(Xe.Key, item.ID));
                                 break;
                             case 3:
                             case 4:

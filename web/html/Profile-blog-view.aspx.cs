@@ -25,6 +25,7 @@ public partial class html_Profile_blog_view : System.Web.UI.Page
                 Item = MemberDal.SelectByRowId(con, blog.PID_ID , Security.Username);
                 blog.Anhs = AnhDal.SelectByPId(con, blog.RowId.ToString(), 20);
                 blog.Profile = Item;
+                ViewForProfile.Xes = XeDal.SelectDuyetByNguoiTao(con, blog.NguoiTao, 20, null);
                 ViewForProfile.Nhoms = NhomDal.SelectByUser(con, Item.Username, 20, true);
                 ViewForProfile.Pager = BinhLuanDal.PagerByPRowId(con, "", true, blog.RowId.ToString(), 20);
                 ViewForProfile.Blog = blog;

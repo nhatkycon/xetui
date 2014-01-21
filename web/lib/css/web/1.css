@@ -13,7 +13,7 @@ body.loggedIn {
     padding-top: 70px;
 }
 body.unActive {
-    padding-top: 170px;
+    padding-top: 115px;
 }
 a:hover, a:active, a:focus, object, embed  
 {
@@ -424,6 +424,9 @@ h1, h2 {
 .car-view-intro-title {
     
 }
+.car-view-intro img {
+    max-width: 100% !important;
+}
 .car-view-infobox {
     padding: 20px;
     background-color: #1A1E21;
@@ -608,6 +611,13 @@ h1, h2 {
     font: 14px/1.4 sans-serif;
     word-wrap: break-word;
 }
+.binhLuan-item-text {
+    margin-bottom: 10px;
+}
+.binhLuan-item-text img
+{
+    max-width: 100% !important;
+}
 .binhLuan-item-footer {
     font: 11px/14px sans-serif;
     margin-bottom: 10px;
@@ -762,6 +772,7 @@ h1, h2 {
 .alert-notXacNhan {
     border-width: 0 0 1px;
     margin-bottom: 0px;
+    padding: 0px;
 }
 
 .profile-box {
@@ -931,8 +942,10 @@ h3.profile-info-header {
     min-height: 54px;
     margin: 0 0 0 60px;
     margin-left: 0px;
-    padding-left: 60px;
     margin-bottom: 10px;
+}
+.user-home-box .blog-item {
+    padding-left: 60px;    
 }
 .blog-item-user {
     float: left;
@@ -945,6 +958,11 @@ h3.profile-info-header {
     height: 50px;
     border: 0px;
     background-color: #FFF;
+}
+.blog-item-caption {
+    font: bold 12px/1.2 sans-serif;
+    text-transform: uppercase;
+    word-spacing: 2px;
 }
 .blog-item-entry {
     padding: 0 0 3px;
@@ -1426,4 +1444,11 @@ h3.profile-info-header {
 .searchRs-item a {
     display: block;
     font-weight: bold;
+}
+.modal-welcome {
+    background-image: url(i/bg-reg-dv.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 100px;
+    line-height: 160%;
 }

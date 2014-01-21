@@ -28,7 +28,7 @@ public partial class lib_ajax_Thich_Default : BasedPage
                    }
                    else
                    {
-                       ThichDal.Insert(new Thich()
+                      var item= ThichDal.Insert(new Thich()
                                            {
                                                ID = Guid.NewGuid()
                                                , NgayTao = DateTime.Now
@@ -36,6 +36,13 @@ public partial class lib_ajax_Thich_Default : BasedPage
                                                , Username = Security.Username
                                                , Loai = Convert.ToInt32(loai)
                                            });
+                       switch (item.Loai)
+                       {
+                           case 1:
+                               var xe = XeDal.SelectByRowId(item.P_ID);
+                               CacheHelper.Remove(string.Format(Xe.Key, xe.ID));
+                               break;
+                       }
                    }
                }
                 break;

@@ -29,7 +29,7 @@
                     <%=Item.TotalComment%> bình luận
                 </a>
                 &nbsp;
-                <heThong:likeBtn ID="likeBtn" Css=" btn-xs" runat="server"/>
+                <heThong:likeBtn Loai="3" ID="likeBtn" Css=" btn-xs" runat="server"/>
             </div>
         </div>
     </div>

@@ -11,22 +11,33 @@ public partial class html_car_view : System.Web.UI.Page
     {
         var Id = Request["ID"];
         var idNull = string.IsNullOrEmpty(Id);
+        var logged = Security.IsAuthenticated();
         Item = new Xe();
+        view.Visible = false;
+        Missing.Visible = true;
         using (var con = DAL.con())
         {
             if (!idNull)
             {
-                Item = XeDal.SelectByIdUsername(con, Convert.ToInt32(Id),Security.Username);
+                Item = logged
+                           ? XeDal.SelectByIdUsername(con, Convert.ToInt32(Id), Security.Username)
+                           : XeDal.SelectById(con, Convert.ToInt64(Id));
+
+                
                 Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);
                 Item.Member = MemberDal.SelectByUser(con, Item.NguoiTao);
                 view.Pager = BinhLuanDal.PagerByPRowId(con, "", true, Item.RowId.ToString(), 20);
                 var pagerBlog = BlogDal.PagerByPRowId(string.Empty, false, null, Item.RowId.ToString(),
                                                       Security.Username);
                 view.PagerBlog = pagerBlog;
-
-
+                view.Item = Item;
+                if (Item.ID == 0)
+                {
+                    return;
+                }
+                view.Visible = true;
+                Missing.Visible = false;
             }
-            view.Item = Item;
         }
     }
 }

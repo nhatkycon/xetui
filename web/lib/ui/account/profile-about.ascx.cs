@@ -18,5 +18,14 @@ public partial class lib_ui_account_profile_about : System.Web.UI.UserControl
             rptNhom.DataSource = Nhoms;
             rptNhom.DataBind();
         }
+        if(Xes != null)
+        {
+            var xeMoi = Xes.Where(x => x.DangLai).ToList();
+            xeMoiList.List = xeMoi;
+
+            var xeCu = Xes.Where(x => !x.DangLai).ToList();
+
+            xeCuList.List = xeCu;
+        }
     }
 }

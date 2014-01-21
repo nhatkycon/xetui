@@ -7,11 +7,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
-                        <i class="glyphicon glyphicon-info-sign"></i>
-                        Xetui.vn đã gửi e-mail xác nhận vào hòm thư <strong><%=User.Email %></strong>.<br/> Vui lòng mở hòm thư và làm theo hướng dẫn
-                        <br/>
-                        <i class="glyphicon glyphicon-minus-sign"></i>
-                        Sau 30 ngày bạn không xác nhận, bằng lái của bạn sẽ bị <strong>tịch thu</strong>
+                        Kiểm tra hòm thư <strong><%=User.Email %></strong> 
+                        <button class="btn btn-link" data-toggle="modal" data-target="#activeEmailModal"><i class="glyphicon glyphicon-info-sign"></i></button>
                     </div>
                     <div class="col-md-4">
                         <div class="pull-right">
@@ -21,6 +18,8 @@
                 </div>
             </div>
         </div>   
+        
+
         <script>
             $(function() {
             $('body')
@@ -136,3 +135,28 @@
     </div>
 
 </nav>
+
+<%if (!User.XacNhan)
+  { %>
+<!-- Modal -->
+            <div class="modal fade" id="activeEmailModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Xác nhận e-mail</h4>
+                  </div>
+                  <div class="modal-body">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                        Xetui.vn đã gửi e-mail xác nhận vào hòm thư <strong><%= User.Email %></strong>.<br/> Vui lòng mở hòm thư và làm theo hướng dẫn
+                        <br/>
+                        <i class="glyphicon glyphicon-minus-sign"></i>
+                        Sau 30 ngày bạn không xác nhận, bằng lái của bạn sẽ bị <strong>tịch thu</strong>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng lại</button>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <% } %>
