@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
 using linh.core.dal;
 
-public partial class html_MyAccount : System.Web.UI.Page
+public partial class html_MyAccount : LoggedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {

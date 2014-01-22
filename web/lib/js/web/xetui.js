@@ -24,7 +24,7 @@ var autoFn = {
         if (!logged) {
             setTimeout(function () {
                 $('#welComeModal').modal('show');
-            }, 10000);
+            }, 3000);
         }
     }
     , trackUi: function () {
@@ -147,7 +147,7 @@ var autoFn = {
 
             $('.showLoginModalBtn').click(function () {
                 try {
-                    FB.logout(function () {  });
+                    FB.logout(function () { });
                 }
                 catch (err) {
                 }
@@ -325,7 +325,6 @@ var autoFn = {
             var id = res.id;
             var username = res.username;
             var verified = res.verified;
-
 
             var Ten = step2.find('#Ten1');
             var imgEl = step2.find('img');
@@ -895,7 +894,7 @@ var autoFn = {
                 var dongY = pnl.find('#dongY').is(':checked');
                 if (!dongY) {
                     alertErr.fadeIn();
-                    alertErr.html('Bạn vui lòng đồng ý với các điều khoản trước khi tạo nhóm');
+                    alertErr.html('Bạn vui lòng đồng ý với các điều khoản trước khi tạo cộng đồng');
                     return;
                 }
 
@@ -1194,7 +1193,7 @@ var autoFn = {
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
-                       var pitem = item.parent().parent().parent();
+                       var pitem = item.parent().parent();
                        pitem.addClass('animated bounceOutRight');
                        setTimeout(function () {
                            pitem.remove();
@@ -1346,9 +1345,12 @@ var autoFn = {
                     alertErr.html('Nhập nội dung bạn ơi');
                     return;
                 }
+                var url = document.location.href;
+                var hash = document.location.hash;
+                url = url.replace(hash, '');
                 var data = pnl.find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
-                data.push({ name: 'cUrl', value: document.location.href });
+                data.push({ name: 'cUrl', value: url });
                 btn.hide();
                 $.ajax({
                     url: autoFn.url.binhLuan
@@ -1403,10 +1405,12 @@ var autoFn = {
                         autoFn.utils.msg('Thông báo', 'Nhập nội dung bình luận nhé');
                         return;
                     }
-
+                    var url = document.location.href;
+                    var hash = document.location.hash;
+                    url = url.replace(hash, '');
                     var data = newReplyPnl.find(':input').serializeArray();
                     data.push({ name: 'subAct', value: 'save' });
-                    data.push({ name: 'cUrl', value: document.location.href });
+                    data.push({ name: 'cUrl', value: url });
                     btn.hide();
                     $.ajax({
                         url: autoFn.url.binhLuan

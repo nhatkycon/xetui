@@ -3,12 +3,21 @@
 <div class="promotedCars hidden-xs">
     <div class="row">
         <div class="col-sm-2">
-            <a href="#" class="car-promoted-item">
+            <%if(Logged){ %>
+            <a href="/cars/add/" class="car-promoted-item">
                 <img class="car-img" src="/html/img/add.png"/>  
                 <span class="car-caption">
                     Đăng xe của bạn lên đây
                 </span>          
             </a>
+            <%}else{ %>
+            <a href="/cars/add/" class="car-promoted-item">
+                <img class="car-img" src="/html/img/add.png"/>  
+                <span class="car-caption">
+                    Đăng xe của bạn lên đây
+                </span>          
+            </a>
+            <%} %>
         </div>
         <asp:Repeater runat="server" ID="rpt">
             <ItemTemplate>

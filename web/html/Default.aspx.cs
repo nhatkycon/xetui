@@ -21,11 +21,7 @@ public partial class html_Default : System.Web.UI.Page
                 Response.Redirect(obj.Url, true);
             }
 
-            var userHomeList = (from p in MemberDal.SelectAll()
-                                select p
-                                ).Where(p => !string.IsNullOrEmpty(p.Anh)).Take(8).ToList();
-            
-            UserHomeList.List = userHomeList;
+            UserHomeList.List = MemberDal.SelectPromoted(con, 8, 61);
 
                     
             var userBlogs = BlogDal.SelectTopBlogProfile(con, 10, Security.Username, null);

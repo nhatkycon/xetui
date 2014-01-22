@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Caching;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -171,6 +172,24 @@ namespace docsoft.entities
         {
             return BlogDal.getFromReader(rd);
         }
+        public string LoaiTen
+        {
+            get
+            {
+                switch (Loai)
+                {
+                    case 1: return "Cá nhân";
+                    case 2: return "Xe";
+                    case 3:
+                        return "Nhóm Blog";
+                    case 4:
+                        return "Nhóm diễn đàn";
+                    case 5:
+                        return "Nhóm QA";
+                }
+                return string.Empty;
+            }
+        }
     }
     #endregion
     #region Collection
@@ -187,6 +206,7 @@ namespace docsoft.entities
             SqlParameter[] obj = new SqlParameter[1];
             obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Delete_DeleteById_linhnx", obj);
+            CacheHelper.Remove(string.Format(CacheItemKey, BLOG_ID));
         }
         public static Blog Insert(Blog Inserted)
         {
@@ -224,6 +244,7 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
             return Item;
         }
 
@@ -264,7 +285,10 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
             return Item;
+
         }
         public static Blog SelectById(Int64 BLOG_ID)
         {
@@ -272,39 +296,55 @@ namespace docsoft.entities
         }
         public static Blog SelectById(SqlConnection con, Int64 BLOG_ID)
         {
-            Blog Item = new Blog();
-            SqlParameter[] obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
-            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblBlog_Select_SelectById_linhnx", obj))
+            var key = string.Format(CacheItemKey, BLOG_ID);
+            var cacheObj = CacheHelper.Get(key);
+            if(cacheObj == null)
             {
-                while (rd.Read())
+                var item = new Blog();
+                var obj = new SqlParameter[1];
+                obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
+                using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblBlog_Select_SelectById_linhnx", obj))
                 {
-                    Item = getFromReader(rd);
+                    while (rd.Read())
+                    {
+                        item = getFromReader(rd);
+                    }
                 }
+                CacheHelper.Max(key,item);
+                return item;    
             }
-            return Item;
+            return (Blog) cacheObj;
         }
         public static Blog SelectById(SqlConnection con, Int64 BLOG_ID, string username)
         {
-            var item = new Blog();
-            var obj = new SqlParameter[2];
-            obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
-            if (!string.IsNullOrEmpty(username))
+            var key = string.Format(CacheItemUserKey, BLOG_ID, username);
+            var cacheObj = CacheHelper.Get(key);
+            if (cacheObj == null)
             {
-                obj[1] = new SqlParameter("username", username);
-            }
-            else
-            {
-                obj[1] = new SqlParameter("username", username);
-            }
-            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblBlog_Select_SelectById_linhnx", obj))
-            {
-                while (rd.Read())
+                var item = new Blog();
+                var obj = new SqlParameter[2];
+                obj[0] = new SqlParameter("BLOG_ID", BLOG_ID);
+                if (!string.IsNullOrEmpty(username))
                 {
-                    item = getFromReader(rd);
+                    obj[1] = new SqlParameter("username", username);
                 }
+                else
+                {
+                    obj[1] = new SqlParameter("username", username);
+                }
+                using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblBlog_Select_SelectById_linhnx", obj))
+                {
+                    while (rd.Read())
+                    {
+                        item = getFromReader(rd);
+                    }
+                }
+                var list = new List<string> {string.Format(CacheItemKey, item.ID)};
+                var dep = new CacheDependency(null, list.ToArray());
+                CacheHelper.Max(key, item, dep);
+                return item;
             }
-            return item;
+            return (Blog) cacheObj;
         }
         public static BlogCollection SelectAll()
         {
@@ -318,11 +358,62 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<Blog> pagerNormal(string url, bool rewrite, string sort)
+        public static Pager<Blog> PagerNormal(SqlConnection con, string url, bool rewrite, string sort
+            , int size
+            , string q, string Username, string Publish, string TuNgay, string DenNgay
+            )
         {
-            SqlParameter[] obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("Sort", sort);
-            Pager<Blog> pg = new Pager<Blog>("sp_tblBlog_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
+            var obj = new SqlParameter[8];
+            if (!string.IsNullOrEmpty(sort))
+            {
+                obj[0] = new SqlParameter("Sort", sort);
+            }
+            else
+            {
+                obj[0] = new SqlParameter("Sort", DBNull.Value);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[2] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("q", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(Username))
+            {
+                obj[3] = new SqlParameter("Username", Username);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("Username", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(Publish))
+            {
+                obj[4] = new SqlParameter("Publish", Publish);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("Publish", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(TuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", TuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(DenNgay))
+            {
+                obj[6] = new SqlParameter("DenNgay", DenNgay);
+            }
+            else
+            {
+                obj[6] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
         }
         #endregion
@@ -511,6 +602,30 @@ namespace docsoft.entities
         {
             return SelectByRowId(RowId.ToString());
         }
+        public static Blog SelectByRowId(string RowId)
+        {
+            var key = string.Format(CacheItemKey, RowId);
+            var cacheObj = CacheHelper.Get(key);
+            if (cacheObj == null)
+            {
+                var item = new Blog();
+                var obj = new SqlParameter[1];
+                obj[0] = new SqlParameter("BLOG_RowId", RowId);
+                using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectByRowId_linhnx", obj))
+                {
+                    while (rd.Read())
+                    {
+                        item = getFromReader(rd);
+                    }
+                }
+                var list = new List<string> { string.Format(CacheItemKey, item.ID) };
+                var dep = new CacheDependency(null, list.ToArray());
+                CacheHelper.Max(key, item, dep);
+                return item;
+
+            }
+            return (Blog) cacheObj;
+        }
         public static Pager<Blog> PagerByPRowIdFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username)
         {
             var obj = new SqlParameter[3];
@@ -555,20 +670,6 @@ namespace docsoft.entities
             obj[4] = new SqlParameter("loai", loai);
             var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", 20, 10, rewrite, url, obj);
             return pg;
-        }
-        public static Blog SelectByRowId(string RowId)
-        {
-            var item = new Blog();
-            var obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("BLOG_RowId", RowId);
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectByRowId_linhnx", obj))
-            {
-                while (rd.Read())
-                {
-                    item = getFromReader(rd);
-                }
-            }
-            return item;
         }
 
         public static BlogCollection SelectTopBlogByLoai(SqlConnection con, int top, int loai, string username)
@@ -781,6 +882,13 @@ namespace docsoft.entities
             }
             return list;
         }
+        #endregion
+
+        #region Cache
+        public const string CacheKey = "Blog:{0}";
+        public const string CacheItemUserKey = "Blog:Item:{0}:User:{1}";
+        public const string CacheItemKey = "Blog:Item:{0}";
+        public const string CacheListKey = "Blog:List:{0}";
         #endregion
     }
     #endregion

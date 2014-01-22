@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Caching;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -70,7 +71,12 @@ namespace docsoft.entities
         public Int32 GH_ID { get; set; }
         public bool Thich { get; set; }
         public Int32 SecondOnline { get; set; }
-        public String VcardStr { get { return string.Format(Vcard, SecondOnline); } 
+        public String VcardStr { get
+        {
+            if (string.IsNullOrEmpty(Vcard)) return string.Empty;
+            if (SecondOnline == 0) return string.Empty;
+            return string.Format(Vcard, SecondOnline);
+        } 
         }
         public string Url
         {
@@ -80,8 +86,7 @@ namespace docsoft.entities
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return MemberDal.getFromReader(rd) ;
-        }
-
+        }       
     }
     #endregion
     #region Collection
@@ -99,6 +104,7 @@ namespace docsoft.entities
             SqlParameter[] obj = new SqlParameter[1];
             obj[0] = new SqlParameter("MEM_ID", MEM_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblMember_Delete_DeleteById_linhnx", obj);
+            CacheHelper.Remove(string.Format(CacheItemKey, MEM_ID));
         }
 
         public static Member Insert(Member Inserted)
@@ -192,6 +198,7 @@ namespace docsoft.entities
                     item = getFromReader(rd);
                 }
             }
+            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
             return item;
         }
         /// <summary>
@@ -392,6 +399,8 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
             return Item;
         }
 
@@ -1347,6 +1356,9 @@ namespace docsoft.entities
             obj[0] = new SqlParameter("Username", username);
             obj[1] = new SqlParameter("Vcard", vcard);
             SqlHelper.ExecuteNonQuery(con, CommandType.StoredProcedure, "sp_tblMember_Update_UpdateVcard_linhnx", obj);
+            var Item = SelectByUser(username);
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
             return vcard;
         }
         public static Pager<Member> PagerFanByRowId(string url, bool rewrite, string sort, string rowId, string refUser)
@@ -1388,10 +1400,17 @@ namespace docsoft.entities
 
         public static Pager<Member> PagerAll(SqlConnection con, string url, bool rewrite, string sort
             , int size
-            , string q, string XacNhan, string TuNgay, string DenNgay)
+            , string q, string XacNhan, string Active, string TuNgay, string DenNgay)
         {
             var obj = new SqlParameter[8];
-            obj[0] = new SqlParameter("Sort", sort);
+            if (!string.IsNullOrEmpty(sort))
+            {
+                obj[0] = new SqlParameter("Sort", sort);
+            }
+            else
+            {
+                obj[0] = new SqlParameter("Sort", DBNull.Value);
+            }
 
             if (!string.IsNullOrEmpty(q))
             {
@@ -1409,6 +1428,14 @@ namespace docsoft.entities
             {
                 obj[3] = new SqlParameter("XacNhan", DBNull.Value);
             }
+            if (!string.IsNullOrEmpty(Active))
+            {
+                obj[4] = new SqlParameter("Active", Active);
+            }
+            else
+            {
+                obj[4] = new SqlParameter("Active", DBNull.Value);
+            }
             if (!string.IsNullOrEmpty(TuNgay))
             {
                 obj[5] = new SqlParameter("TuNgay", TuNgay);
@@ -1425,10 +1452,53 @@ namespace docsoft.entities
             {
                 obj[6] = new SqlParameter("DenNgay", DBNull.Value);
             }
+           
             var pg = new Pager<Member>(con, "sp_tblMember_Pager_All_linhnx", "p", size, 10, rewrite, url, obj);
             return pg;
         }
 
+        public static List<Member> SelectPromoted(SqlConnection con, int top, int loai)
+        {
+            var list = new MemberCollection();
+            var key = string.Format(CacheListKey, string.Format("SelectPromoted:{0}:{1}", top, loai));
+            var objCache = CacheHelper.Get(key);
+            if(objCache == null)
+            {
+                //TODO: Continue
+                var obj = new SqlParameter[2];
+                obj[0] = new SqlParameter("top", top);
+                obj[1] = new SqlParameter("loai", loai);
+                using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblMember_Select_SelectPromoted_linhnx", obj))
+                {
+                    while (rd.Read())
+                    {
+                        list.Add(getFromReader(rd));
+                    }
+                }
+                var listKey = new List<string>();
+                list.ForEach(x =>
+                                 {
+                                     CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                                     listKey.Add(string.Format(CacheItemKey, x.ID));
+                                 });
+                var dep = new CacheDependency(null, listKey.ToArray());
+                objCache = list;
+                CacheHelper.Max(key, list, dep);
+            }
+
+            return (List<Member>)objCache;
+        }
+        public static void RemoveAllCache(string key)
+        {
+            CacheHelper.RemoveByPattern(key);
+        }
+        
+        #endregion
+
+        #region Cache
+        public const string CacheKey = "Member:{0}";
+        public const string CacheItemKey = "Member:Item:{0}";
+        public const string CacheListKey = "Member:List:{0}";
         #endregion
     }
     #endregion

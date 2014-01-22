@@ -83,8 +83,8 @@ namespace linh.core
         {
             if ((obj != null))
             {
-                _cache.Insert(key, obj, dep, DateTime.Now.AddDays(7),TimeSpan.Zero, CacheItemPriority.High, new CacheItemRemovedCallback(CacheItemRemovedCallBack));
-                //_cache.Insert(key, obj, dep, DateTime.MaxValue, TimeSpan.FromMinutes(20));
+                _cache.Insert(key, obj, dep, DateTime.MaxValue, TimeSpan.FromDays(30), CacheItemPriority.High, new CacheItemRemovedCallback(CacheItemRemovedCallBack));
+                //_cache.Insert(key, obj, dep, DateTime.MaxValue, TimeSpan.FromDays(30));
             }
         }
 
@@ -113,9 +113,21 @@ namespace linh.core
                 }
             }
         }
+
+        public static Dictionary<string, object> GetKeys()
+        {
+            var enumerator = _cache.GetEnumerator();
+            var list = new Dictionary<string, object>();
+            while (enumerator.MoveNext())
+            {
+                list.Add(enumerator.Key.ToString(), enumerator.Value);
+            }
+            return list;
+        }
+
         public static void CacheItemRemovedCallBack(string key, object value, CacheItemRemovedReason reason)
         {
-            _cache.Insert(key, value, null, DateTime.Now.AddMinutes(20), TimeSpan.FromMinutes(10), CacheItemPriority.High, new CacheItemRemovedCallback(CacheItemRemovedCallBack));
+            //_cache.Insert(key, value, null, DateTime.Now.AddMinutes(20), TimeSpan.FromMinutes(10), CacheItemPriority.High, new CacheItemRemovedCallback(CacheItemRemovedCallBack));
             // Do whatever
         }
         #endregion        

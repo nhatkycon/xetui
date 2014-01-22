@@ -2,12 +2,14 @@
     admFn.init();
 });
 
-var admFn ={
-    init:function () {
+var admFn = {
+    init: function () {
         admFn.headerFn();
         admFn.promoteFn.init();
+        admFn.userFn.init();
+        admFn.blogFn.init();
     }
-    , headerFn:function () {
+    , headerFn: function () {
         var pnl = $('.ModuleHeader');
 
         if ($(pnl).length < 1) return;
@@ -45,6 +47,8 @@ var admFn ={
     }
     , url: {
         promoted: '/lib/ajax/promoted/Default.aspx'
+        , user: '/lib/ajax/user/Default.aspx'
+        , blog: '/lib/ajax/blog/Default.aspx'
     }
     , promoteFn: {
         init: function () {
@@ -185,6 +189,132 @@ var admFn ={
                         //Handle errors here
                     }
                 }
+            });
+        }
+    }
+    , userFn: {
+        init: function () {
+            admFn.userFn.add();
+        }
+        , add: function () {
+            var pnl = $('.user-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var txt = pnl.find('.Username');
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+
+                $.ajax({
+                    url: admFn.url.user
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') {
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               document.location.href = '/lib/mod/Users/';
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa?');
+                if (!con) return;
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: admFn.url.user
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = rs + '/lib/mod/Users/';
+                   }
+                });
+            });
+        }
+    }
+    , blogFn: {
+        init: function () {
+            admFn.blogFn.add();
+        }
+        , add: function () {
+            var pnl = $('.blog-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var txt = pnl.find('.Username');
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+
+                $.ajax({
+                    url: admFn.url.blog
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') {
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               document.location.href = '/lib/mod/Users/';
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa?');
+                if (!con) return;
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: admFn.url.blog
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = rs + '/lib/mod/Users/';
+                   }
+                });
             });
         }
     }

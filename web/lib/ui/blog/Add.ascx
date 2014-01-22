@@ -5,14 +5,20 @@
     <% switch (Item.Loai)
        {%>
     <%case 1: %>
-        <a href="<%=Item.Profile.Url %>/blogs/">
+        <a href="<%=Item.Profile.Url %>">
             <%=Item.Profile.Ten %>
+        </a>&nbsp; &gt;
+        <a href="<%=Item.Profile.Url %>/blogs/">
+            Blog
         </a>
     <% break; %>
     
     <%case 2: %>
+        <a href="<%=Item.Xe.XeUrl %>">
+            Xe
+        </a>&nbsp; &gt;
         <a href="<%=Item.Xe.XeUrl %>blogs/">
-            Nhật ký hành trình
+            Hành trình
         </a>
     <% break; %>
     

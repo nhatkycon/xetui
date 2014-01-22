@@ -14,23 +14,123 @@
             </a>            
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">               
+            <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Quản lý<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Thành viên<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/lib/mod/Cars/Default.aspx">
-                                Xe
+                            <a href="/lib/mod/Users/Default.aspx?XacNhan=false">
+                                Chưa xác nhận
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
-                                Nhóm
+                            <a href="/lib/mod/Users/Default.aspx">
+                                Danh sách
+                            </a>
+                        </li>                        
+                        <li>
+                            <a href="/lib/mod/Users/Default.aspx?Active=false">
+                                Khóa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Users/Default.aspx">
+                                Top trang chủ
+                            </a>
+                        </li>
+                    </ul>
+                </li>               
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Xe<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/Cars/Default.aspx">
+                                Chưa duyệt
                             </a>
                         </li>
                         <li>
                             <a href="/lib/mod/Promoted/Default.aspx">
-                                Promoted
+                                Danh sách
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Promoted/Default.aspx">
+                                Xe Top
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nhóm<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/Cars/Default.aspx">
+                                Chưa duyệt
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Danh sách
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Promoted/Default.aspx">
+                                Top
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Promoted<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/Cars/Default.aspx">
+                                Chưa duyệt
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Danh sách
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Top
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Home Big
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Home Medium
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Home Small
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/Cars/Default.aspx">
+                                Mới
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Top hành trình
+                            </a>
+                        </li>       
+                        <li>
+                            <a href="/lib/mod/Nhom/Default.aspx">
+                                Top nhật ký
                             </a>
                         </li>
                     </ul>

@@ -1,8 +1,9 @@
 ﻿using System;
+using docsoft;
 using docsoft.entities;
 using linh.core.dal;
 
-public partial class html_NhomAdd : System.Web.UI.Page
+public partial class html_NhomAdd : LoggedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {

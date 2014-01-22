@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Caching;
+using ServiceStack.Common.Extensions;
 using ServiceStack.Redis;
 using linh.common;
 using linh.controls;
@@ -87,15 +89,6 @@ namespace docsoft.entities
                  , ID); 
             }
         }
-
-        public const string Key = "urn:xe:{0}";
-        public const string KeyPromoted = "urn:xe:promotedCars";
-        public const string KeyPromotedHomeBig = "urn:xe:promotedHomeBig";
-        public const string KeyPromotedHomeMedium = "urn:xe:promotedHomeMedium";
-        public const string KeyPromotedHomeSmall = "urn:xe:promotedHomeSmall";
-        public const string KeyHomeNewest = "urn:xe:newest";
-        public const string KeyHomeTop = "urn:xe:top";
-        public const string KeyHome = "urn:xe:home";
         public override BaseEntity getFromReader(IDataReader rd)
         {
             return XeDal.getFromReader(rd);
@@ -116,11 +109,12 @@ namespace docsoft.entities
             var obj = new SqlParameter[1];
             obj[0] = new SqlParameter("X_ID", X_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Delete_DeleteById_linhnx", obj);
+            CacheHelper.Remove(string.Format(CacheItemKey, X_ID));
         }
         public static Xe Insert(Xe Inserted)
         {
-            Xe Item = new Xe();
-            SqlParameter[] obj = new SqlParameter[35];
+            var item = new Xe();
+            var obj = new SqlParameter[35];
             obj[0] = new SqlParameter("X_HANG_ID", Inserted.HANG_ID);
             obj[1] = new SqlParameter("X_MODEL_ID", Inserted.MODEL_ID);
             obj[2] = new SqlParameter("X_SubModel", Inserted.SubModel);
@@ -182,11 +176,11 @@ namespace docsoft.entities
             {
                 while (rd.Read())
                 {
-                    Item = getFromReader(rd);
+                    item = getFromReader(rd);
                 }
             }
-            CacheHelper.Max(string.Format(Xe.Key, Item.ID), Item);
-            return Item;
+            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
+            return item;
         }
 
         public static Xe Update(Xe Updated)
@@ -259,8 +253,8 @@ namespace docsoft.entities
                     item = getFromReader(rd);
                 }
             }
-            CacheHelper.Remove(string.Format(Xe.Key, item.ID));
-            CacheHelper.Max(string.Format(Xe.Key, item.ID), item);
+            CacheHelper.Remove(string.Format(CacheItemKey, item.ID));
+            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
             return item;
         }
         public static Xe SelectById(Int64 X_ID)
@@ -270,7 +264,7 @@ namespace docsoft.entities
         public static Xe SelectById(SqlConnection con, Int64 X_ID)
         {
             var item = new Xe();
-            var cache = CacheHelper.Get(string.Format(Xe.Key, X_ID));
+            var cache = CacheHelper.Get(string.Format(CacheItemKey, item.ID));
             if(cache == null)
             {
                 var obj = new SqlParameter[1];
@@ -282,7 +276,7 @@ namespace docsoft.entities
                         item = getFromReader(rd);
                     }
                 }
-                CacheHelper.Max(string.Format(Xe.Key,X_ID), item);
+                CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
             }
             else
             {
@@ -789,16 +783,28 @@ namespace docsoft.entities
         #endregion
 
         #region Cache
+        public const string CacheKey = "Xe:{0}";
+        public const string CacheItemKey = "Xe:Item:{0}";
+        public const string CacheListKey = "Xe:List:{0}";
+
         // TODO: Transform to Redis
         public static IList<Xe> PromotedTop
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyPromoted];
+                var key = string.Format(CacheListKey, "KeyPromotedHomeBig");
+                var obj = CacheHelper.Get(key);
                 if(obj == null)
                 {
                     var list = SelectPromoted(DAL.con(), 20, null, "1");
-                    CacheManager.Cache.Insert(Xe.KeyPromoted, list);
+                    var listKey = new List<string>();
+                    list.ForEach(x =>
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                    });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>) obj;
@@ -808,11 +814,19 @@ namespace docsoft.entities
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyPromotedHomeBig];
+                var key = string.Format(CacheListKey, "KeyPromotedHomeBig");
+                var obj = CacheManager.Cache[key];
                 if (obj == null)
                 {
                     var list = SelectPromoted(DAL.con(), 20, null, "2");
-                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeBig, list);
+                    var listKey = new List<string>();
+                    list.ForEach( x =>
+                                      {
+                                          CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                                          listKey.Add(string.Format(CacheItemKey, x.ID));
+                                      });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>)obj;
@@ -822,11 +836,19 @@ namespace docsoft.entities
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyPromotedHomeMedium];
+                var key = string.Format(CacheListKey, "PromotedHomeMedium");
+                var obj = CacheHelper.Get(key);
                 if (obj == null)
                 {
                     var list = SelectPromoted(DAL.con(), 20, null, "3");
-                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeMedium, list);
+                    var listKey = new List<string>();
+                    list.ForEach(x =>
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                    });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>)obj;
@@ -836,11 +858,19 @@ namespace docsoft.entities
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyPromotedHomeSmall];
+                var key = string.Format(CacheListKey, "PromotedHomeSmall");
+                var obj = CacheHelper.Get(key);
                 if (obj == null)
                 {
                     var list = SelectPromoted(DAL.con(), 20, null, "4");
-                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeSmall, list);
+                    var listKey = new List<string>();
+                    list.ForEach(x =>
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                    });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>)obj;
@@ -850,11 +880,19 @@ namespace docsoft.entities
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyHomeTop];
+                var key = string.Format(CacheListKey, "HomeTop");
+                var obj = CacheHelper.Get(key);
                 if (obj == null)
                 {
                     var list = SelectTopCar(DAL.con(), 20, null);
-                    CacheManager.Cache.Insert(Xe.KeyPromotedHomeSmall, list);
+                    var listKey = new List<string>();
+                    list.ForEach(x =>
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                    });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>)obj;
@@ -864,17 +902,27 @@ namespace docsoft.entities
         {
             get
             {
-                var obj = CacheManager.Cache[Xe.KeyHomeNewest];
+                var key = string.Format(CacheListKey, "HomeNewest");
+                var obj = CacheHelper.Get(key);
                 if (obj == null)
                 {
                     var list = SelectTopCar(DAL.con(), 20, null);
-                    CacheManager.Cache.Insert(Xe.KeyHomeNewest, list);
+                    var listKey = new List<string>();
+                    list.ForEach(x =>
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
+                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                    });
+                    var dep = new CacheDependency(null, listKey.ToArray());
+                    CacheHelper.Max(key, list, dep);
                     return list;
                 }
                 return (List<Xe>)obj;
             }
         }
         #endregion
+
+       
     }
     #endregion
     #endregion

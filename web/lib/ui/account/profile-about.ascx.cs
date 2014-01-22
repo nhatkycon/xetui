@@ -15,8 +15,8 @@ public partial class lib_ui_account_profile_about : System.Web.UI.UserControl
     {
         if(Nhoms!= null)
         {
-            rptNhom.DataSource = Nhoms;
-            rptNhom.DataBind();
+            ListForProfile.Visible = (Nhoms.Count > 0);
+            ListForProfile.List = Nhoms;
         }
         if(Xes != null)
         {
