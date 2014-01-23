@@ -8,6 +8,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <title>Xetui.vn - Cộng đồng xe và xế</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="cars-home-group">

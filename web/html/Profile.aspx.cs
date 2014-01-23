@@ -10,12 +10,14 @@ using linh.core.dal;
 
 public partial class html_Profile : System.Web.UI.Page
 {
+    public Member Item { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         var u = Request["u"];
         using(var con = DAL.con())
         {
             var user = MemberDal.SelectAllByUserName(con, u, Security.Username);
+            Item = user;
             profile.Item = user;
             profile.Xes = XeDal.SelectDuyetByNguoiTao(con, u, 20, null);
             profile.Nhoms = NhomDal.SelectByUser(con, u, 20, true);

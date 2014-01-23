@@ -792,7 +792,7 @@ namespace docsoft.entities
         {
             get
             {
-                var key = string.Format(CacheListKey, "KeyPromotedHomeBig");
+                var key = string.Format(CacheListKey, "PromotedTop");
                 var obj = CacheHelper.Get(key);
                 if(obj == null)
                 {

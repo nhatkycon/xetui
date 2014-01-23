@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
+using linh.common;
 using linh.core;
 
 public partial class lib_ajax_binhLuan_Default : BasedPage
@@ -26,6 +27,8 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                 if(logged && !string.IsNullOrEmpty(PRowId))
                 {
                     var item = idNull ? new BinhLuan() : BinhLuanDal.SelectById(Convert.ToInt64(Id));
+                    txt = Lib.RemoveUnwantedTags(txt);
+                    txt = Lib.Rutgon(txt, 4000);
                     item.NoiDung = txt;
                     
                     if(idNull)

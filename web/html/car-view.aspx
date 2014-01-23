@@ -5,7 +5,7 @@
     <title><%=Item.Ten %></title>
     <meta property="fb:admins" content="740919195"/>
     <meta property="fb:app_id" content="372490826229164"/>
-    <meta property="og:title" content="Video: <%=Item.Ten %>" />
+    <meta property="og:title" content="<%=Item.Ten %>" />
     <meta property="og:description" content="<%=Item.Ten %>" />
     <% if (!string.IsNullOrEmpty(Item.Anh))
         { %>

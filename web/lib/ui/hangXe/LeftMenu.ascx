@@ -3,13 +3,13 @@
 
 <div class="nav-list">
     <div class="nav-index">
-        <a href="/" class="nav-item">
+        <a href="/cars/top/" class="nav-item">
             Top
         </a>
-        <a href="/" class="nav-item">
-            Chọn lọc
+        <a href="/group/" class="nav-item">
+            Cộng đồng
         </a>
-        <a href="/" class="nav-item">
+        <a href="/cars/newest/" class="nav-item">
             Xe mới
         </a>
         <a href="javascript:;" data-toggle="collapse" data-target="#nav-list-more" class="nav-item nav-list-more-btn ">

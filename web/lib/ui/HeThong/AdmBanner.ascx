@@ -49,12 +49,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Promoted/Default.aspx">
+                            <a href="/lib/mod/Cars/Default.aspx">
                                 Danh sách
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Promoted/Default.aspx">
+                            <a href="/lib/mod/Cars/Default.aspx">
                                 Xe Top
                             </a>
                         </li>
@@ -84,32 +84,32 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Promoted<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/lib/mod/Cars/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Chưa duyệt
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Danh sách
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Top
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Home Big
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Home Medium
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Promoted/Default.aspx">
                                 Home Small
                             </a>
                         </li>
@@ -119,17 +119,17 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/lib/mod/Cars/Default.aspx">
+                            <a href="/lib/mod/Blog/Default.aspx">
                                 Mới
                             </a>
                         </li>
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Blog/Default.aspx">
                                 Top hành trình
                             </a>
                         </li>       
                         <li>
-                            <a href="/lib/mod/Nhom/Default.aspx">
+                            <a href="/lib/mod/Blog/Default.aspx">
                                 Top nhật ký
                             </a>
                         </li>

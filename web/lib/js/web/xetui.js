@@ -23,14 +23,16 @@ var autoFn = {
     , welCome: function () {
         if (!logged) {
             setTimeout(function () {
-                $('#welComeModal').modal('show');
-            }, 3000);
+                if (!hideWelcome) {
+                    $('#welComeModal').modal('show');
+                }
+            }, 1000);
         }
     }
     , trackUi: function () {
         var w = $(window).width();
         var h = $(window).height();
-        document.title = w + ';' + h;
+        //document.title = w + ';' + h;
         window.onresize = function () {
             autoFn.trackUi();
         };
@@ -146,6 +148,7 @@ var autoFn = {
             if ($(pnl).length < 1) return;
 
             $('.showLoginModalBtn').click(function () {
+                hideWelcome = true;
                 try {
                     FB.logout(function () { });
                 }
@@ -200,6 +203,7 @@ var autoFn = {
         , loginNormal: function () {
             var pnl = $('.login-form-normal');
             if ($(pnl).length < 1) return;
+            hideWelcome = true;
             try {
                 FB.logout(function () { });
             }

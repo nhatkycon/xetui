@@ -4,6 +4,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <title>Cộng đồng xe và xế</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div class="row">
@@ -11,7 +12,6 @@
             <uc1:List runat="server" ID="List" />            
         </div>
         <div class="col-md-4">
-            
         </div>
     </div>
 </asp:Content>

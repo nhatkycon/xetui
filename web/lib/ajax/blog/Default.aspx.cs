@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
+using linh.common;
 using linh.core;
 using linh.core.dal;
 
@@ -46,6 +47,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                     {
                         item.RowId = new Guid(rowId);
                     }
+                    item.MoTa = Lib.Rutgon(Lib.NoHtml(item.NoiDung), 400);
                     var anhs = AnhDal.SelectByPId(DAL.con(), item.RowId.ToString(), 20).OrderByDescending(x => x.AnhBia).ToList();
                     if (anhs.Count > 0)
                     {
@@ -68,7 +70,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                 break;
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
-                                CacheHelper.Remove(string.Format(Xe.Key,item.ID));
+                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey,item.ID));
                                 break;
                             case 3:
                             case 4:
@@ -148,7 +150,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                 break;
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
-                                CacheHelper.Remove(string.Format(Xe.Key, item.ID));
+                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey, item.ID));
                                 break;
                             case 3:
                             case 4:
