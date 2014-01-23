@@ -19,6 +19,7 @@ var autoFn = {
         autoFn.XuLyAnhFn.init();
         autoFn.blogFn.init();
         autoFn.nhomFn.init();
+        autoFn.apdaptiveImage();
     }
     , welCome: function () {
         if (!logged) {
@@ -34,8 +35,21 @@ var autoFn = {
         var h = $(window).height();
         //document.title = w + ';' + h;
         window.onresize = function () {
-            autoFn.trackUi();
+            //autoFn.trackUi();
+            autoFn.apdaptiveImage();
         };
+    }
+    , apdaptiveImage:function () {
+        var w = $(window).width();
+        $('.adaptiveImage').each(function (i, j) {
+            var item = $(j);
+            if(w < 480) {
+                item.attr('src', item.attr('data-src-xs'));
+            }
+            else {
+                item.attr('src', item.attr('data-src-md'));
+            }
+        });
     }
     , utils: {
         editor: function (el) {

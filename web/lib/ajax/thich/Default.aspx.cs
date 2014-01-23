@@ -40,7 +40,7 @@ public partial class lib_ajax_Thich_Default : BasedPage
                        {
                            case 1:
                                var xe = XeDal.SelectByRowId(item.P_ID);
-                               CacheHelper.Remove(string.Format(Xe.Key, xe.ID));
+                               CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.ID));
                                break;
                        }
                    }

@@ -281,6 +281,11 @@ namespace linh.controls
                 MemoryStream ms=new MemoryStream();
                 img.Save(ms,getImageFormat(Mime));
                 c.Response.OutputStream.Write(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
+                c.Response.Cache.SetCacheability(HttpCacheability.Public);
+                c.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+                c.Response.StatusCode = 304;
+                c.Response.StatusDescription = "Not Modified";
+                c.Response.Cache.SetLastModified(DateTime.Now.AddDays(-10));
                 ms.Close();
                 c.Response.End();
             }

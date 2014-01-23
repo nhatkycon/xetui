@@ -16,7 +16,11 @@
         <% foreach (var item in Item.Anhs)
            {%>
             <div class="item <%=i==0 ? "active" : "" %>">
-                <img width="100%" src="/lib/up/car/<%=item.FileAnh %>" alt=""/>
+                <img width="100%" src="/lib/up/car/<%=item.FileAnh %>?w=120"
+                    class="adaptiveImage"
+                    data-src-xs="/lib/up/car/<%=item.FileAnh %>?w=320"
+                    data-src-md="/lib/up/car/<%=item.FileAnh %>?w=960"
+                     alt=""/>
             </div>
             <% i++; %>
         <% } %>

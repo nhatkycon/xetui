@@ -2,7 +2,9 @@
 <%@ Import Namespace="linh.common" %>
 <div class="blog-item car-blog-item">
     <a href="<%=Item.MemberNguoiTao.Url %>" class="blog-item-user">
-        <img src="/lib/up/users/<%=Item.MemberNguoiTao.Anh %>"/>
+        <img src="/lib/up/users/<%=Item.MemberNguoiTao.Anh %>?w=50"                
+            class=""
+            />
     </a>
     <div class="blog-item-entry">
         <a class="blog-item-caption" href="<%=Item.Url %>" title="<%=Item.Ten %>"><%=Item.Ten %></a>

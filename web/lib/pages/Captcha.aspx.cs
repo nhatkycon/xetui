@@ -12,7 +12,7 @@ public partial class lib_pages_Captcha : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string _capchaCode = CaptchaImage.GenerateRandomCode(CaptchaType.AlphaNumeric, 6);
+        string _capchaCode = CaptchaImage.GenerateRandomCode(CaptchaType.AlphaNumeric, 4);
         Session["capcha"] = _capchaCode;
         var c = new CaptchaImage(_capchaCode, 100, 40, "Tahoma", Color.White, Color.Red);
         Response.ClearContent();
