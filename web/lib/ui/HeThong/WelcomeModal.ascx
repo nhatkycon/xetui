@@ -20,7 +20,7 @@
       </div>
       <div class="modal-footer">
         <a href="/Register/" class="btn btn-success">Đăng ký</a>
-        <a type="/Login/" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Đăng nhập</a>
+        <a href="/Login/?return=<%=Server.UrlEncode(Request.RawUrl) %>" class="btn btn-primary" >Đăng nhập</a>
         <button type="button" class="btn btn-default" data-dismiss="modal">Đăng ký sau</button>
       </div>
     </div><!-- /.modal-content -->

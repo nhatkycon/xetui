@@ -28,6 +28,10 @@
             </ItemTemplate>
         </asp:Repeater>     
     </div>
+    <%if(Pager.Total > Pager.PageSize){ %>
+    <hr class="hr comment-hr"/>
+    <a class="btn btn-default" href="/comments/<%=PRowId %>/">Xem thêm</a>
+    <%} %>
 </div>
 
 <div class="binhLuan-post binhLuanReplyBox">

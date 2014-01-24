@@ -20,6 +20,7 @@ var autoFn = {
         autoFn.blogFn.init();
         autoFn.nhomFn.init();
         autoFn.apdaptiveImage();
+        autoFn.advFn.init();
     }
     , welCome: function () {
         if (!logged) {
@@ -39,11 +40,11 @@ var autoFn = {
             autoFn.apdaptiveImage();
         };
     }
-    , apdaptiveImage:function () {
+    , apdaptiveImage: function () {
         var w = $(window).width();
         $('.adaptiveImage').each(function (i, j) {
             var item = $(j);
-            if(w < 480) {
+            if (w < 480) {
                 item.attr('src', item.attr('data-src-xs'));
             }
             else {
@@ -113,6 +114,7 @@ var autoFn = {
         , upload: '/lib/ajax/upload/default.aspx'
         , blog: '/lib/ajax/blog/default.aspx'
         , nhom: '/lib/ajax/nhom/default.aspx'
+        , adv: '/lib/ajax/adv/default.aspx'
     }
     , loginfn: {
         init: function () {
@@ -555,6 +557,38 @@ var autoFn = {
                        alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');
                    }
                 });
+            });
+        }
+    }
+    , advFn: {
+        init: function () {
+            $('.adv-box').each(function (i, j) {
+                var el = $(j);
+                autoFn.advFn.showAdvLoai(el);
+            });
+        }
+        , showAdvLoai: function (el) {
+            if ($(el).length == 0) return;
+            var loai = el.attr('data-loai');
+            var keywords = el.attr('data-keywords');
+            var data = [];
+            data.push({ name: 'subAct', value: 'getAdv' });
+            data.push({ name: 'Loai', value: loai });
+            data.push({ name: 'Keywords', value: keywords });
+            $.ajax({
+                url: autoFn.url.adv
+                , data: data
+                , success: function (dt) {
+                    if (dt == '0') {
+                        el.hide();
+                    }
+                    else {
+                        el.html(dt);
+                    }
+                }
+                , error:function () {
+                    el.hide();
+                }
             });
         }
     }

@@ -22,7 +22,7 @@ public partial class html_NhomForumView : System.Web.UI.Page
                 blog.Anhs = AnhDal.SelectByPId(con, blog.RowId.ToString(), 20);
                 blog.Nhom = Item;
 
-                View.Pager = BinhLuanDal.PagerByPRowId(con, "", true, blog.RowId.ToString(), 20);
+                View.Pager = BinhLuanDal.PagerByPRowId(con, "?{1}={0}", true, blog.RowId.ToString(), 20);
                 View.Blog = blog;
                 View.Item = Item;
             }

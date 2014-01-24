@@ -27,6 +27,11 @@
             </ItemTemplate>
         </asp:Repeater>     
     </div>
+    <%if(Pager != null){ %>
+        <ul class="pagination">
+            <%=Pager.Paging %>
+        </ul>
+    <%} %>
 </div>
 
 <div class="binhLuan-post binhLuanReplyBox">

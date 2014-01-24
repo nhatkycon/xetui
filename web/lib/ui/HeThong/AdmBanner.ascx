@@ -116,6 +116,26 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ads<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/Adv/Default.aspx">
+                                Mới
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/lib/mod/Adv/Default.aspx">
+                                Top hành trình
+                            </a>
+                        </li>       
+                        <li>
+                            <a href="/lib/mod/Adv/Add.aspx">
+                                Thêm mới
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>

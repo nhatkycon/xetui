@@ -71,6 +71,32 @@ public partial class lib_ajax_blog_Default : BasedPage
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
                                 CacheHelper.Remove(string.Format(XeDal.CacheItemKey,item.ID));
+                                systemMessageDal.Insert(new systemMessage()
+                                {
+                                    NoiDung = string.Format("<strong>{0}</strong> viết bài mới", item.MemberNguoiTao.Ten)
+                                    ,
+                                    HeThong = false
+                                    ,
+                                    ID = Guid.NewGuid()
+                                    ,
+                                    PRowId = item.PID_ID
+                                    ,
+                                    NgayTao = DateTime.Now
+                                    ,
+                                    Active = true
+                                    ,
+                                    Loai = 1
+                                    ,
+                                    Url = string.Format("{0}", item.Url)
+                                    ,
+                                    Ten = string.Empty
+                                    ,
+                                    ThanhVienMoi = false
+                                    ,
+                                    Username = Security.Username
+                                    ,
+                                    ThuTu = 0
+                                });
                                 break;
                             case 3:
                             case 4:

@@ -1,5 +1,5 @@
 ﻿@import url(animate-custom.css);
-@import url(http://fonts.googleapis.com/css?family=Frijole);
+/*@import url(http://fonts.googleapis.com/css?family=Frijole);*/
 @import url(fonts.css);
 @import url(xe.css);
 @import url(chat.css);
@@ -1451,4 +1451,11 @@ h3.profile-info-header {
     background-position: center right;
     padding-right: 100px;
     line-height: 160%;
+}
+.adv-box {
+    margin-bottom: 20px;
+}
+.adv-home-100.adv-box img 
+{
+    max-width: 100%;    
 }

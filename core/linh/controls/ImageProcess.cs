@@ -15,17 +15,17 @@ namespace linh.controls
     public class ImageProcess: IDisposable
     {
         public string CacheKey { get; set; }
-        public byte[] Bytes
-        {
-            get
-            {
-                return (byte[])(HttpRuntime.Cache[CacheKey]);
-            }
-            set
-            {
-                HttpRuntime.Cache.Insert(CacheKey, value, null);
-            }
-        }
+        public byte[] Bytes { get; set; }
+        //{
+        //    get
+        //    {
+        //        return (byte[])(HttpRuntime.Cache[CacheKey]);
+        //    }
+        //    set
+        //    {
+        //        HttpRuntime.Cache.Insert(CacheKey, value, null);
+        //    }
+        //}
         public int Width { get; set; }
         public int Heigth { get; set; }
         public string Mime { get; set; }
@@ -274,18 +274,26 @@ namespace linh.controls
         /// </summary>
         public void Save()
         {
-            using (Image img = convertFromByte(localBytes==null? Bytes : localBytes))
+            using (var img = convertFromByte(localBytes==null? Bytes : localBytes))
             {
                 c.Response.ClearContent();
                 c.Response.ContentType = getMimeType(img);
-                MemoryStream ms=new MemoryStream();
+                var ms=new MemoryStream();
                 img.Save(ms,getImageFormat(Mime));
                 c.Response.OutputStream.Write(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
+                c.Response.Cache.SetValidUntilExpires(true);
                 c.Response.Cache.SetCacheability(HttpCacheability.Public);
-                c.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
-                c.Response.StatusCode = 304;
-                c.Response.StatusDescription = "Not Modified";
-                c.Response.Cache.SetLastModified(DateTime.Now.AddDays(-10));
+                c.Response.Cache.SetExpires(DateTime.Now.AddMonths(1));
+                //c.Response.Cache.SetLastModified(DateTime.Now.AddMonths(-1));
+
+                //var textIfModifiedSince = c.Request.Headers["If-Modified-Since"];
+                //if (!string.IsNullOrEmpty(textIfModifiedSince))
+                //{
+                //    c.Response.Status = "304 Not Modified";
+                //}
+                //c.Response.StatusCode = 304;
+                //c.Response.StatusDescription = "Not Modified";
+                //c.Response.Cache.SetLastModified(DateTime.Now.AddDays(-10));
                 ms.Close();
                 c.Response.End();
             }

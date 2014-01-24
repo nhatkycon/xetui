@@ -70,6 +70,7 @@
     <Compile Include="BinhLuan.cs" />
     <Compile Include="Blog.cs" />
     <Compile Include="CacheManager.cs" />
+    <Compile Include="Adv.cs" />
     <Compile Include="Promoted.cs" />
     <Compile Include="Nhom.cs" />
     <Compile Include="NhomThanhVien.cs" />

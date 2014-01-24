@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using docsoft;
 using docsoft.entities;
 using linh.core;
+using linh.core.dal;
 
 public partial class lib_ajax_Thich_Default : BasedPage
 {
@@ -24,7 +25,20 @@ public partial class lib_ajax_Thich_Default : BasedPage
                    var likedVal = Convert.ToBoolean(liked);
                    if(likedVal)
                    {
-                       ThichDal.DeleteByPIdUsername(new Guid(Id),Security.Username);
+                       using(var con = DAL.con())
+                       {
+                           var item = ThichDal.SelectByPidUsernameLoai(con, Id, Security.Username, loai);
+                           switch (item.Loai)
+                           {
+                               case 1:
+                                   ObjMemberDal.DeleteByPRowIdUsername(Id,Security.Username);
+                                   var xe = XeDal.SelectByRowId(item.P_ID);
+                                   CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.ID));
+                                   break;
+                           }
+                           ThichDal.DeleteById(item.ID);
+                       }
+                       
                    }
                    else
                    {
@@ -41,6 +55,14 @@ public partial class lib_ajax_Thich_Default : BasedPage
                            case 1:
                                var xe = XeDal.SelectByRowId(item.P_ID);
                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.ID));
+                               ObjMemberDal.Insert(new ObjMember()
+                                                       {
+                                                           PRowId = xe.RowId
+                                                           , Username = Security.Username
+                                                           , Owner = false
+                                                           , NgayTao = DateTime.Now
+                                                           , RowId = Guid.NewGuid()
+                                                       });
                                break;
                        }
                    }

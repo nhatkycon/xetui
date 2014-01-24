@@ -16,6 +16,7 @@ namespace Xetui.HttpHandler
             var h = context.Request["h"];
             if(string.IsNullOrEmpty(path))
                 return;
+            if(path.IndexOf("lib/js/") > 0) return;
             path = context.Server.MapPath(@"~\" + path);
             if(!File.Exists(path))
                 return;

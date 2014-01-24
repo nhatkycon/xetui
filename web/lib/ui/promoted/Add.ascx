@@ -4,7 +4,7 @@
         <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
         <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
         <div class="form-group">
-            <label for="HANG_ID" class="col-sm-2 col-md-2 control-label">Loại</label>
+            <label for="Loai" class="col-sm-2 col-md-2 control-label">Loại</label>
             <div class="col-sm-4 col-md-4">
                 <select name="Loai" class="form-control Loai">
                     <option value="0">--</option>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="UrClickedl" class="col-sm-2 control-label">Clicks</label>
+            <label for="Clicked" class="col-sm-2 control-label">Clicks</label>
             <div class="col-sm-10 col-md-4">
                 <input type="text" class="form-control" id="Clicked" value="<%=Item.Clicked %>" name="Clicked" placeholder=""></input>
             </div>

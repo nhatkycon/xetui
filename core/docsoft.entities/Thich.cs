@@ -189,6 +189,23 @@ namespace docsoft.entities
             obj[0] = new SqlParameter("P_ID", P_ID);
             SqlHelper.ExecuteNonQuery(DAL.con(), CommandType.StoredProcedure, "sp_tblThich_Delete_DeleteByPId_linhnx", obj);
         }
+        public static Thich SelectByPidUsernameLoai(SqlConnection con, string P_ID,string Username, string Loai)
+        {
+            var Item = new Thich();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("P_ID", P_ID);
+            obj[1] = new SqlParameter("Username", Username);
+            obj[2] = new SqlParameter("Loai", Loai);
+
+            using (IDataReader rd = SqlHelper.ExecuteReader(con, CommandType.StoredProcedure, "sp_tblThich_Select_SelectByPidUsernameLoai_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    Item = getFromReader(rd);
+                }
+            }
+            return Item;
+        }
         #endregion
     }
     #endregion

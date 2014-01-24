@@ -8,6 +8,7 @@ var admFn = {
         admFn.promoteFn.init();
         admFn.userFn.init();
         admFn.blogFn.init();
+        admFn.AdvFn.init();
     }
     , headerFn: function () {
         var pnl = $('.ModuleHeader');
@@ -45,10 +46,27 @@ var admFn = {
             });
         }
     }
+    , utils: {
+        editor: function (el) {
+            var config = {
+                toolbar:
+		        [
+			        ['Source', 'Image', 'Flash', 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'NumberedList', 'BulletedList', 'Maximize', 'TextColor', 'BGColor', 'Link', 'Unlink', 'tliyoutube'],
+		            ['Styles', 'Format', 'Font', 'FontSize']
+		        ]
+            };
+            config.enterMode = CKEDITOR.ENTER_BR;
+            config.shiftEnterMode = CKEDITOR.ENTER_BR;
+            var editor = jQuery(el).ckeditor(config, function () {
+                CKFinder.setupCKEditor(this, '../../js/ckfinder/');
+            });
+        }
+    }
     , url: {
         promoted: '/lib/ajax/promoted/Default.aspx'
         , user: '/lib/ajax/user/Default.aspx'
         , blog: '/lib/ajax/blog/Default.aspx'
+        , adv: '/lib/ajax/adv/Default.aspx'
     }
     , promoteFn: {
         init: function () {
@@ -313,6 +331,87 @@ var admFn = {
                     , data: data
                    , success: function (rs) {
                        document.location.href = rs + '/lib/mod/Users/';
+                   }
+                });
+            });
+        }
+    }
+    , AdvFn: {
+        init: function () {
+            admFn.AdvFn.add();
+        }
+        , add: function () {
+            var pnl = $('.Adv-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var txt = pnl.find('.Ten');
+            var noiDung = pnl.find('.NoiDung');
+
+
+            var tuNgayPicker = pnl.find('#TuNgayPicker');
+            if ($(tuNgayPicker).length > 0) {
+                tuNgayPicker.datetimepicker({
+                    language: 'vi-Vn'
+                });
+            }
+            var denNgayPicker = pnl.find('#DenNgayPicker');
+            if ($(denNgayPicker).length > 0) {
+                denNgayPicker.datetimepicker({
+                    language: 'vi-Vn'
+                });
+            }
+
+            admFn.utils.editor(noiDung);
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = txt.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'save' });
+
+                $.ajax({
+                    url: admFn.url.adv
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') {
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               document.location.href = '/lib/mod/adv/';
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa?');
+                if (!con) return;
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'remove' });
+                $.ajax({
+                    url: admFn.url.adv
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = rs + '/lib/mod/adv/';
                    }
                 });
             });

@@ -43,6 +43,8 @@ public partial class lib_ajax_promoted_Default : BasedPage
                     item.Anh = anh;
                     item.Url = xurl;
                     item.refId = refId;
+                    item.Clicked = Convert.ToInt32(clicked);
+                    item.Views = Convert.ToInt32(views);
                     if (!string.IsNullOrEmpty(pRowId))
                     {
                         item.PRowId = new Guid(pRowId);
