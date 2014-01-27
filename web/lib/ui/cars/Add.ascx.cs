@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using docsoft.entities;
 
 public partial class lib_ui_cars_Add : System.Web.UI.UserControl
@@ -23,9 +18,8 @@ public partial class lib_ui_cars_Add : System.Web.UI.UserControl
 
         if(Id!=null)
         {
-            AnhList.Visible = true;
-            AnhList.DataSource = Item.Anhs;
-            AnhList.DataBind();
+            UploaderV1.RowId = Item.RowId.ToString();
+            UploaderV1.Anhs = Item.Anhs;
         }
     }
 }

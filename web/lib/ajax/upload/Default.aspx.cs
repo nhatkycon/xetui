@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
 using docsoft;
@@ -31,45 +32,48 @@ public partial class lib_ajax_upload_Default : BasedPage
         {
             case "upload":
                 #region upload image
-                Response.ContentType = "text/plain";//"application/json";
-                var r = new List<ViewDataUploadFilesResult>();
-                foreach (string file in Request.Files)
+                if (!string.IsNullOrEmpty(Id))
                 {
+                    Response.ContentType = "text/plain";//"application/json";
+                    var r = new List<ViewDataUploadFilesResult>();
+                    foreach (string file in Request.Files)
+                    {
+                        var hpf = Request.Files[file] as HttpPostedFile;
+                        var key = Guid.NewGuid().ToString();
+                        var img = new ImageProcess(hpf.InputStream, key);
+                        var fileName = key + img.Ext;
+                        img.Resize(960);
+                        img.Save(dic + key + "full" + img.Ext);
+                        img.Save(dic + key + img.Ext);
 
-                    var hpf = Request.Files[file] as HttpPostedFile;
-                    var key = Guid.NewGuid().ToString();
-                    var img = new ImageProcess(hpf.InputStream, key);
-                    var fileName = key + img.Ext;
-                    img.Resize(960);
-                    img.Save(dic + key + "full" + img.Ext);
-                    img.Save(dic + key + img.Ext);
-
-                    var anh = new Anh()
-                    {
-                        ID = Guid.NewGuid()
-                        ,
-                        P_ID = new Guid(Id)
-                        ,
-                        FileAnh = fileName
-                        ,
-                        NgayTao = DateTime.Now
-                    };
-                    anh = AnhDal.Insert(anh);
-                    r.Add(new ViewDataUploadFilesResult()
-                    {
-                        Id = anh.ID.ToString(),
-                        Thumbnail_url = key + img.Ext,
-                        Name = key + "full" + img.Ext,
-                        Length = hpf.ContentLength,
-                        Type = hpf.ContentType
-                    });
-                    var uploadedFiles = new
-                    {
-                        files = r.ToArray()
-                    };
-                    var jsonObj = js.Serialize(uploadedFiles);
-                    Response.Write(jsonObj);
+                        var anh = new Anh()
+                        {
+                            ID = Guid.NewGuid()
+                            ,
+                            P_ID = new Guid(Id)
+                            ,
+                            FileAnh = fileName
+                            ,
+                            NgayTao = DateTime.Now
+                        };
+                        anh = AnhDal.Insert(anh);
+                        r.Add(new ViewDataUploadFilesResult()
+                        {
+                            Id = anh.ID.ToString(),
+                            Thumbnail_url = key + img.Ext,
+                            Name = key + "full" + img.Ext,
+                            Length = hpf.ContentLength,
+                            Type = hpf.ContentType
+                        });
+                        var uploadedFiles = new
+                        {
+                            files = r.ToArray()
+                        };
+                        var jsonObj = js.Serialize(uploadedFiles);
+                        rendertext(jsonObj);
+                    }
                 }
+                rendertext("Id is missing", HttpStatusCode.BadRequest);
                 break;
                 #endregion
             case "GetImage":
@@ -140,6 +144,14 @@ public partial class lib_ajax_upload_Default : BasedPage
                     Response.ClearContent();
                     Response.ContentType = img.Mime;
                     img.Save(newDic + Key);
+                    if(!string.IsNullOrEmpty(w))
+                    {
+                        img.Resize(Convert.ToInt32(w));
+                        if(!string.IsNullOrEmpty(h))
+                        {
+                            img.Crop(Convert.ToInt32(w), Convert.ToInt32(h));
+                        }
+                    }
                     img.Save();
                     Response.End();
                 }

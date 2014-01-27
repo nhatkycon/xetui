@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="/lib/css/web/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="/lib/css/web/1.css" rel="stylesheet" type="text/css" />
+    <script src="/lib/js/jqueryLib/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        logged = false, hideWelcome=true;
+    </script>
+    <script src="/lib/js/ckeditor.4.3.1/ckeditor.js" type="text/javascript"></script>
+    <script src="/lib/js/ckeditor.4.3.1/adapters/jquery.js" type="text/javascript"></script>
+    <script src="/lib/js/jqueryLib/jquery.scrollTo-min.js"></script>
+    <script src="/lib/js/web/c.js" type="text/javascript"></script>
+    <script src="/lib/js/jqueryLib/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/lib/js/jqueryLib/ajaxupload.js" type="text/javascript"></script>
+    <script src="/lib/js/jqueryLib/jquery.tmpl.min.js"></script>
+    <script src="/lib/js/jqueryLib/touchswipe.min.js" type="text/javascript"></script>
+    <script src="/lib/js/jqueryLib/admin.js" type="text/javascript"></script>
+    <link href="/lib/js/jCrop/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+    <script src="/lib/js/jCrop/jquery.Jcrop.min.js" type="text/javascript"></script>
+    <script src="/lib/js/Html5MultiUpload/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="/lib/js/Html5MultiUpload/jquery.ui.widget.js" type="text/javascript"></script>
+    <script src="/lib/js/Html5MultiUpload/jquery.fileupload.js" type="text/javascript"></script>
+    <script src="/lib/js/web/xetui.js" type="text/javascript"></script>
+</head>
+    <body>
+        <div class="car-add-upload uploaderBox" data-id="8A2E0217-E2CE-48A3-B2F7-9959D7246B16">
+            <div class="row">
+                <span class="col-sm-offset-2 col-sm-10">
+                    <span class="btn btn-success btn-lg car-add-upload-box">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Chọn ảnh</span>
+                        <!-- The file input field used as target for the file upload widget -->
+                        <input type="file" multiple="" class="car-multipleUpload-btn" name="files[]" id="fileupload">
+                    </span>
+                </span>    
+            </div>
+            <div id="progress" class="progress" style="display: none;">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+            <div class="well well-lg car-add-upload-dropzone">
+                <div class="row view-large">
+                    <asp:Repeater runat="server" ID="AnhList" Visible="False">
+                        <ItemTemplate>
+                            <temp:anhItem ID="anhItem" runat="server" Item='<%# Container.DataItem %>' />
+                        </ItemTemplate>
+                    </asp:Repeater> 
+                </div>                
+            </div>
+        </div>
+        <script id="anh-item" type="text/x-jquery-tmpl">
+            <div class="col-md-4 item-anh-uploadPreview" data-id="${Id}">            
+                <div class="checkbox">                                                    
+                    <button class="btn btn-primary editBtn" data-src="${Thumbnail_url}" data-id="${Id}" style="margin-bottom: 10px;">Sửa ảnh</button> 
+                    <button class="btn btn-warning removeBtn" data-id="${Id}" style="margin-bottom: 10px;">Xóa</button>
+                    <label>
+                        <input name="AnhBia" type="radio" data-src="${Thumbnail_url}" class="setBiaBtn" data-id="${Id}" title="Đặt làm ảnh đại diện của xe"/>&nbsp;Chọn làm ảnh đại diện
+                    </label>
+                </div>    
+                <div class="anh-img-box img-thumbnail">
+                    <img src="/lib/up/crop/${Thumbnail_url}?w=240&h=135"  data-key="${Thumbnail_url}" class="anh-img img-responsive"/>
+                </div>
+            </div>
+        </script>
+        <script>
+
+            var jcrop_api;
+            $(function () {
+                var pnl = $('.uploaderBox');
+                if ($(pnl).length < 1) return;
+                var viewLarge = pnl.find('.view-large');
+                var rowId = pnl.attr('data-id');
+
+                $('#fileupload').fileupload({
+                    url: autoFn.url.upload,
+                    dataType: 'json',
+                    dropZone: viewLarge,
+                    formData: {
+                        'subAct': 'upload'
+                        , 'Id': rowId
+                    },
+                    done: function (e, data) {
+                        $('#progress').hide();
+                        $.each(data.result.files, function (index, file) {
+                            var anhItem = $('#anh-item').tmpl(file).prependTo(viewLarge);
+                            var editBtn = anhItem.find('.editBtn');
+                            var windowWidth = $(window).width();
+                            if (windowWidth > 1024) {
+                                editBtn.show();
+                            } else {
+                                editBtn.hide();
+                                var anhImg = anhItem.find('.anh-img');
+                                var url = autoFn.url.upload + '?subAct=GetImageMobile&Key=' + anhImg.attr('data-key') + '&w=240&h=135';
+                                anhImg.show();
+                                anhImg.addClass('img-responsive');
+                                anhImg.attr('src', url);
+                            }
+                        });
+                    },
+                    progressall: function (e, data) {
+                        $('#progress').show();
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        $('#progress').find('.progress-bar').css(
+                            'width',
+                            progress + '%'
+                        );
+                    }
+                });
+                $(viewLarge).on('click', '.editBtn', function () {
+                    var item = $(this);
+                    var mainImg = item.parent().parent().find('.anh-img');
+                    var id = item.attr('data-id');
+                    var src = item.attr('data-src');
+                    var modal = $('#cropImageModal');
+                    var img = modal.find('img');
+                    var key = modal.find('.key');
+                    var Id = modal.find('.Id');
+                    Id.val(id);
+                    key.val(src);
+                    img.attr('src', '/lib/up/crop/' + src);
+
+                    var btn = modal.find('.btnApply');
+                    modal.modal('show');
+                    modal.find('.modal-dialog').css({ width: '1020px' });
+                    setTimeout(function () {
+                        jcrop_api = $.Jcrop('#cropImageModal-img', {
+                            onSelect: function (c) {
+                                modal.find('.x').val(Math.round(c.x));
+                                modal.find('.y').val(Math.round(c.y));
+                                modal.find('.x1').val(c.x2);
+                                modal.find('.y1').val(c.y2);
+                                modal.find('.w').val(Math.round(c.w));
+                                modal.find('.h').val(Math.round(c.h));
+                                //                                var data = autoFn.url.upload + '?' + modal.find(':input').serialize();
+                                //                                modal.find('img').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
+                            },
+                            keySupport: false,
+                            bgColor: 'black',
+                            bgOpacity: .4,
+                            //minSize: [480, 270],
+                            setSelect: [0, 0, 960, 540],
+                            aspectRatio: 16 / 9
+                        });
+                    }, 500);
+
+                    btn.unbind('click').click(function () {
+                        var data = autoFn.url.upload + '?' + modal.find(':input').serialize() + '&subAct=GetImage&ref=' + Math.random();
+                        modal.find('img').attr('src', data);
+                        console.log(data);
+                        jcrop_api.destroy();
+                        mainImg.attr('src', '');
+                        setTimeout(function() {
+                            var newSrc = '/lib/up/car/' + src + '?w=240&ref=' + Math.random();
+                            mainImg.attr('src', newSrc);
+                            mainImg.load(function () {
+                                console.log('loading');
+                            });
+                            $('#cropImageModal-img').css({ height: 'auto' });
+                            modal.modal('hide');
+                        }, 100);
+                    });
+                });
+
+                pnl.on('click', '.setBiaBtn', function () {
+                    var item = $(this);
+                    var id = item.attr('data-id');
+                    var data1 = [];
+                    data1.push({ name: 'subAct', value: 'SetAnhChinh' });
+                    data1.push({ name: 'Id', value: id });
+                    $.ajax({
+                        url: autoFn.url.upload
+                    , type: 'POST'
+                    , data: data1
+                    , success: function (rs) {
+                    }
+                    });
+                });
+
+                pnl.on('click', '.removeBtn', function () {
+                    var item = $(this);
+                    var id = item.attr('data-id');
+                    var con = confirm('Xóa bỏ ảnh?');
+                    if (!con) return;
+                    var data1 = [];
+                    data1.push({ name: 'subAct', value: 'RemoveImage' });
+                    data1.push({ name: 'Id', value: id });
+                    $.ajax({
+                        url: autoFn.url.upload
+                    , type: 'POST'
+                    , data: data1
+                    , success: function (rs) {
+                        item.parent().parent().remove();
+                    }
+                    });
+                });
+            });
+        </script>
+        
+        <div class="modal fade" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Sửa ảnh
+                </h4>
+              </div>
+                <div class="modal-body">
+                    <p class="alert alert-info">Ảnh nên để độ phân giải 960 X  540</p>
+                    <div class="cropImageModal-imgBox" style="width: 960px;">
+                        <img id="cropImageModal-img" class=""/>
+                        <input name="key" class="key" value="" type="hidden"/>
+                        <input name="Id" class="Id" value="" type="hidden"/>
+                        <input name="x" class="x" type="hidden"/>
+                        <input name="y"  class="y" type="hidden"/>
+                        <input name="x1" class="x1" type="hidden"/>
+                        <input name="y1" class="y1" type="hidden"/>
+                        <input name="w" class="w" type="hidden"/>
+                        <input name="h" class="h" type="hidden"/>
+                    </div>
+                </div>
+              <div class="modal-footer">                
+                <button type="button" class="btn btn-primary btnApply" >Cắt ảnh</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Bỏ qua</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </body>
+</html>

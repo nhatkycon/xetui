@@ -17,9 +17,8 @@ public partial class lib_ui_blog_Add : System.Web.UI.UserControl
         Id = Request["ID"];
         if (Id != null)
         {
-            AnhList.Visible = true;
-            AnhList.DataSource = Item.Anhs;
-            AnhList.DataBind();
+            UploaderV1.RowId = Item.RowId.ToString();
+            UploaderV1.Anhs = Item.Anhs;
         }
     }
 }

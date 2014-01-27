@@ -804,6 +804,44 @@ namespace linh.common
             }            
             
         }
+
+        public static void SesSend(string email, string title, string body,string fromEmail)
+        {
+            // Supply your SMTP credentials below. Note that your SMTP credentials are different from your AWS credentials.
+            const String smtpUsername = "AKIAIEAJNYOXYX5CNIRA";  // Replace with your SMTP username. 
+            const String smtpPassword = "Ahw5/ubW5SoAcTs0tdRtn/AMLtt4UzDnaxo8vp0gDnY3";  // Replace with your SMTP password.
+
+            // Amazon SES SMTP host name. This example uses the us-east-1 region.
+            const String host = "email-smtp.eu-west-1.amazonaws.com";
+
+            // Port we will connect to on the Amazon SES SMTP endpoint. We are choosing port 587 because we will use
+            // STARTTLS to encrypt the connection.
+            const int port = 587;
+
+            // Create an SMTP client with the specified host name and port.
+            using (var client = new System.Net.Mail.SmtpClient(host, port))
+            {
+                // Create a network credential with your SMTP user name and password.
+                client.Credentials = new System.Net.NetworkCredential(smtpUsername, smtpPassword);
+
+                // Use SSL when accessing Amazon SES. The SMTP session will begin on an unencrypted connection, and then 
+                // the client will issue a STARTTLS command to upgrade to an encrypted connection using SSL.
+                client.EnableSsl = true;
+
+                // Send the email. 
+                client.Send(fromEmail, email, title, body);
+
+                try
+                {
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine("Error message: " + ex.Message);
+                }
+            }
+
+        }
+
         public static void Send(string toEmail, string toTen, string subject, string body, string fromEmail, string fromName, string pwd)
         {
             var fromAddress = new MailAddress(fromEmail, fromName);

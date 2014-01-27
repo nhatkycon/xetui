@@ -14,6 +14,7 @@ public partial class html_NhomHome : System.Web.UI.Page
         using(var con =DAL.con())
         {
             var item = NhomDal.SelectById(con, Convert.ToInt32(id) , Security.Username);
+            Item = item;
             NhomView.Item = item;
 
             var blogs = BlogDal.SelectTopForNhomByProwId(con, 20, item.RowId,  3, Security.Username, true.ToString());

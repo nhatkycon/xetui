@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web.UI;
 namespace linh.core
 {
     public class BasedPage:Page
     {
+        public void rendertext(string txt, HttpStatusCode status)
+        {
+            Response.ClearContent();
+            Response.StatusCode = Convert.ToInt32(status);
+            Response.ContentType = "text/html";
+            Response.Write(txt);
+            Response.End();
+        }
         public void rendertext(string txt)
         {
             Response.ClearContent();
