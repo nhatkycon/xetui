@@ -130,12 +130,6 @@ namespace linh.controls
                     {
                         if (i <= TotalPages)
                         {
-                            //sb.AppendFormat("<a class=\"PagingItem {1}\" href=\"{4}{2}{3}\">{0}</a>"
-                            //    , i
-                            //    , i == PageIndex ? "PagingItemActive" : ""
-                            //    , UseRewriter ? Query + "/" : "&" + Query + "="
-                            //    , i
-                            //    , string.IsNullOrEmpty(CUrl) ? "?" : CUrl);
                             sb.AppendFormat("<li class=\"{1}\"><a class=\"PagingItem {1}\" href=\"{2}\">{0}</a></li>"
                                 , i
                                 , i == PageIndex ? "PagingItemActive active" : ""

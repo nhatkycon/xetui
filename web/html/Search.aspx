@@ -4,5 +4,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <heThong:search ID="search1" runat="server"/>
+    <%if(!string.IsNullOrEmpty(Paging)){ %>
+    <ul class="pagination">
+        <%=Paging %>
+    </ul>
+    <%} %>
 </asp:Content>
 
