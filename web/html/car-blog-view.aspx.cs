@@ -18,8 +18,9 @@ public partial class html_car_blog_view : System.Web.UI.Page
             if (!idNull)
             {
                 var blog = BlogDal.SelectById(con, Convert.ToInt64(Id), Security.Username);
-                Blog = blog;
                 Item = XeDal.SelectByRowIdUsername(con, blog.PID_ID, Security.Username);
+                blog.Xe = Item;
+                Blog = blog;
                 Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);
                 Item.Member = MemberDal.SelectByUser(con, Item.NguoiTao);
                 viewForCar.Pager = BinhLuanDal.PagerByPRowId(con, "", true, blog.RowId.ToString(), 20);
