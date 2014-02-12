@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Header.ascx.cs" Inherits="lib_ui_HeThong_Header" %>
 <%@ Import Namespace="docsoft" %>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0; user-scalable=no">
     <link href="/lib/css/web/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />

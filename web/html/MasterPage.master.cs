@@ -14,14 +14,21 @@ public partial class html_MasterPage : System.Web.UI.MasterPage
         var input = Request["k"];
         if(!string.IsNullOrEmpty(input))
         {
-            Session["key"] = input;
+            if(input.IndexOf("2602") != -1)
+            {
+                Session["key"] = input;                
+            }
+            else
+            {
+                Session["key"] = null;
+            }
         }
         var key = Session["key"];
         if(key == null)
         {
-            //Response.ClearContent();
-            //Response.Write(string.Format("<h1>Tesing</h1><hr/>Requested IP:{0}<br/>Date:{1}<hr/>{2}", Request.UserHostAddress, DateTime.Now, Request.UserAgent));
-            //Response.End();
+            Response.ClearContent();
+            Response.Write(string.Format("<h1>Tesing mode</h1>Key is requiered<hr/>Requested IP:{0}<br/>Date:{1}<hr/>{2}", Request.UserHostAddress, DateTime.Now, Request.UserAgent));
+            Response.End();
         }
     }
 }

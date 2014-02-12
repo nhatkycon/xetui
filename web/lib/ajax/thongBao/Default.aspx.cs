@@ -38,9 +38,14 @@ public partial class lib_ajax_thongBao_Default : BasedPage
                 }
                 break;
             #endregion
-            case "notifications-view":
+            case "pm-get":
                 #region get notification
-                
+                if(logged)
+                {
+                    var list = PmDal.NewByUserGet(Security.Username, 20);
+                    pmNotificationList.List = list;
+                    pmNotificationList.Visible = true;
+                }
                 break;
                 #endregion
         }

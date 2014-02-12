@@ -270,6 +270,7 @@ namespace docsoft.entities
                     SqlHelper.ExecuteScalar(DAL.con(), CommandType.StoredProcedure,
                                             "sp_tblsystemMessage_Select_NewByUser_linhnx", obj).ToString());
         }
+       
         #endregion
     }
     #endregion

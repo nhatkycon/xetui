@@ -49,11 +49,14 @@
             </ul>
           </li>
           <li class="notification msgbox">
-              <a href="/pm/">
+              <a href="/pm/" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="glyphicon glyphicon-comment"></i>
                   Tin nhắn
                   <span class="notificationBubble" data-total="0"></span>
               </a>
+               <ul class="dropdown-menu noti-items">
+                
+                </ul>
           </li>
         </ul>
   </div>

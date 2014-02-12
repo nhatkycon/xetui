@@ -15,7 +15,6 @@ namespace docsoft.entities
 {
     #region Member
     #region BO
-    [Serializable()]
     public class Member : BaseEntity
     {
         #region Properties
@@ -60,8 +59,6 @@ namespace docsoft.entities
         public bool Liked { get; set; }
         #endregion
         #region Contructor
-        public Member()
-        { }
         #endregion
         #region Customs properties
         public CoQuan _CoQuan { get; set; }

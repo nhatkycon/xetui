@@ -34,6 +34,7 @@ namespace docsoft.entities
         public Int32 TotalLike { get; set; }
         public Int32 TotalComment { get; set; }
         public Boolean Liked { get; set; }
+        public Int64 Id{get { return ID; }}
         #endregion
         #region Contructor
         public Blog()
@@ -47,6 +48,7 @@ namespace docsoft.entities
         public List<Anh> Anhs { get; set; }
         public Nhom Nhom { get; set; }
         public string AnhStr { get; set; }
+        public List<string> NguoiThich { get; set; } 
         public string Url
         {
             get
@@ -732,65 +734,99 @@ namespace docsoft.entities
             return list;
         }
 
-        public static BlogCollection SelectTopBlogProfile(SqlConnection con, int top, string username, string publish)
+        public static List<Blog> SelectTopBlogProfile(SqlConnection con, int top, string username, string publish)
         {
-            var list = new BlogCollection();
-            var obj = new SqlParameter[3];
-            obj[0] = new SqlParameter("Top", top);
-            if (!string.IsNullOrEmpty(username))
+            var key = string.Format(CacheListKey, "SelectTopBlogProfile-"  + top);
+            var objCache = CacheHelper.Get(key);
+            if (objCache == null)
             {
-                obj[1] = new SqlParameter("username", username);
-            }
-            else
-            {
-                obj[1] = new SqlParameter("username", username);
-            }
-            if (!string.IsNullOrEmpty(publish))
-            {
-                obj[2] = new SqlParameter("publish", publish);
-            }
-            else
-            {
-                obj[2] = new SqlParameter("publish", publish);
-            }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogProfile_linhnx", obj))
-            {
-                while (rd.Read())
+                var list = new BlogCollection();
+                var obj = new SqlParameter[3];
+                obj[0] = new SqlParameter("Top", top);
+                if (!string.IsNullOrEmpty(username))
                 {
-                    list.Add(getFromReader(rd));
+                    obj[1] = new SqlParameter("username", username);
                 }
+                else
+                {
+                    obj[1] = new SqlParameter("username", username);
+                }
+                if (!string.IsNullOrEmpty(publish))
+                {
+                    obj[2] = new SqlParameter("publish", publish);
+                }
+                else
+                {
+                    obj[2] = new SqlParameter("publish", publish);
+                }
+                using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogProfile_linhnx", obj))
+                {
+                    while (rd.Read())
+                    {
+                        list.Add(getFromReader(rd));
+                    }
+                }
+                var listKey = new List<string>();
+                list.ForEach(x =>
+                {
+                    if (CacheHelper.Get(string.Format(CacheItemKey, x.ID)) == null)
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), SelectById(con, x.ID));
+                    }
+                    listKey.Add(string.Format(CacheItemKey, x.ID));
+                });
+                var dep = new CacheDependency(null, listKey.ToArray());
+                CacheHelper.Max(key, list, dep);
+                return list;
             }
-            return list;
+            return (List<Blog>)objCache;
         }
-        public static BlogCollection SelectTopBlogXe(SqlConnection con, int top, string username, string publish)
+        public static List<Blog> SelectTopBlogXe(SqlConnection con, int top, string username, string publish)
         {
-            var list = new BlogCollection();
-            var obj = new SqlParameter[3];
-            obj[0] = new SqlParameter("Top", top);
-            if (!string.IsNullOrEmpty(username))
+            var key = string.Format(CacheListKey, "SelectTopBlogXe-" + top);
+            var objCache = CacheHelper.Get(key);
+            if (objCache == null)
             {
-                obj[1] = new SqlParameter("username", username);
-            }
-            else
-            {
-                obj[1] = new SqlParameter("username", username);
-            }
-            if (!string.IsNullOrEmpty(publish))
-            {
-                obj[2] = new SqlParameter("publish", publish);
-            }
-            else
-            {
-                obj[2] = new SqlParameter("publish", publish);
-            }
-            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogXe_linhnx", obj))
-            {
-                while (rd.Read())
+                var list = new BlogCollection();
+                var obj = new SqlParameter[3];
+                obj[0] = new SqlParameter("Top", top);
+                if (!string.IsNullOrEmpty(username))
                 {
-                    list.Add(getFromReader(rd));
+                    obj[1] = new SqlParameter("username", username);
                 }
+                else
+                {
+                    obj[1] = new SqlParameter("username", username);
+                }
+                if (!string.IsNullOrEmpty(publish))
+                {
+                    obj[2] = new SqlParameter("publish", publish);
+                }
+                else
+                {
+                    obj[2] = new SqlParameter("publish", publish);
+                }
+                using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblBlog_Select_SelectTopBlogXe_linhnx", obj))
+                {
+                    while (rd.Read())
+                    {
+                        list.Add(getFromReader(rd));
+                    }
+                }
+                var listKey = new List<string>();
+                list.ForEach(x =>
+                {
+                    if (CacheHelper.Get(string.Format(CacheItemKey, x.ID)) == null)
+                    {
+                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), SelectById(con, x.ID));                        
+                    }
+                    listKey.Add(string.Format(CacheItemKey, x.ID));
+                });
+                var dep = new CacheDependency(null, listKey.ToArray());
+                CacheHelper.Max(key, list, dep);
+                return list;
             }
-            return list;
+            return (List<Blog>)objCache;
         }
         public static BlogCollection SelectTopBlogNhom(SqlConnection con, int top, string username, string publish)
         {
@@ -891,6 +927,9 @@ namespace docsoft.entities
         public const string CacheListKey = "Blog:List:{0}";
         #endregion
     }
+    #endregion
+    #region BlogManager
+    
     #endregion
     #endregion
     

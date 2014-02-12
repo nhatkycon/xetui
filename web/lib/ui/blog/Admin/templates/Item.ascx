@@ -2,17 +2,17 @@
 <%@ Import Namespace="linh.common" %>
 <tr class="<%=Item.Publish ? "success" : "" %>">
     <td class="">
-        <a href="/lib/mod/Users/Add.aspx?ID=<%=Item.ID %>">
+        <a href="/lib/mod/Blog/Add.aspx?ID=<%=Item.ID %>">
             <%=Item.ID %>
         </a>
     </td>
     <td class="hidden-xs">
-        <a href="/lib/mod/Users/Add.aspx?ID=<%=Item.ID %>">
+        <a href="/lib/mod/Blog/Add.aspx?ID=<%=Item.ID %>">
             <%=Item.LoaiTen %>
         </a>
     </td>
     <td class="">
-        <a href="/lib/mod/Users/Add.aspx?ID=<%=Item.ID %>">
+        <a href="/lib/mod/Blog/Add.aspx?ID=<%=Item.ID %>">
             <%=Item.Ten %>
         </a>
         <a href="<%=Item.Url %>" class="btn btn-default btn-xs">

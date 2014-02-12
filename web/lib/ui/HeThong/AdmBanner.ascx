@@ -182,6 +182,11 @@
                             <i class="glyphicon glyphicon-info-sign"></i> Hỗ trợ
                         </a>
                     </li>
+                    <li>
+                        <a href="/">
+                            <i class="glyphicon glyphicon-user"></i> Xetui.vn
+                        </a>
+                    </li>
                   <li class="divider"></li>
                     <li>
                         <a href="javascript:;" class="logoutbtn">

@@ -133,7 +133,26 @@ public partial class lib_ajax_login_Default : BasedPage
                     user.RowId = Guid.NewGuid();
                     user.DiaChi = CaptchaImage.GenerateRandomCode(CaptchaType.Numeric, 6);
                     user = MemberDal.Insert(user);
+                    var obj = ObjDal.Insert(new Obj()
+                    {
+                        ID = Guid.NewGuid()
+                        ,
+                        Kieu = typeof(Member).FullName
+                        ,
+                        NgayTao = DateTime.Now
+                        ,
+                        RowId = user.RowId
+                        ,
+                        Url = user.Url
+                        ,
+                        Username = Security.Username
+                        ,
+                        Ten = user.Ten
+                    });
+                    
                     MemberDal.UpdateVcard(DAL.con(), user.Username);
+                    
+                    
                     Security.Login(user.Username, Pwd, "true");
 
                     var dele = new SendEmailDelegate(SendMailSingle);

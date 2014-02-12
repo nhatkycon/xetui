@@ -255,6 +255,21 @@ namespace docsoft.entities
                     SqlHelper.ExecuteScalar(DAL.con(), CommandType.StoredProcedure,
                                             "sp_tblPm_Select_NewByUser_linhnx", obj).ToString());
         }
+        public static List<Pm> NewByUserGet(string username, int top)
+        {
+            var list = new List<Pm>();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("username", username);
+            obj[1] = new SqlParameter("Top", top);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblPm_Select_NewByUserGet_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         public static PmCollection SelectByUser(string username, int Top, string fromId)
         {
             var list = new PmCollection();

@@ -3,6 +3,9 @@
 @import url(fonts.css);
 @import url(xe.css);
 @import url(chat.css);
+html {
+    -webkit-text-size-adjust: none; /* Prevent font scaling in landscape */
+}
 html, body
 {
     background-color: #63666B;

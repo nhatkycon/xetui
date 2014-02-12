@@ -75,8 +75,6 @@ namespace docsoft.entities
         public string NguoiTao_Ten { get; set; }
         public Member Member { get; set; }
         public bool Liked { get; set; }
-        public string Id { get { return ID.ToString(); } 
-        }
         #endregion
         public string XeUrl
         {

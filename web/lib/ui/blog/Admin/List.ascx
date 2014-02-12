@@ -24,16 +24,7 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <select name="XacNhan">
-                                <option value="">Xác nhân</option>
-                                <option value="false">Chưa xác nhận e-mail</option>
-                                <option value="true">Đã xác nhận</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <select name="Active">
+                            <select name="publish">
                                 <option value="">Trạng thái</option>
                                 <option value="false">Khóa</option>
                                 <option value="true">Kích hoạt</option>

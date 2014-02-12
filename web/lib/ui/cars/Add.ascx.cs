@@ -15,10 +15,10 @@ public partial class lib_ui_cars_Add : System.Web.UI.UserControl
         Id = Request["ID"];
         HANG_ID.List = HangList;
         THANHPHO_ID.List = ThanhPhoList;
+        UploaderV1.RowId = Item.RowId.ToString();
 
         if(Id!=null)
         {
-            UploaderV1.RowId = Item.RowId.ToString();
             UploaderV1.Anhs = Item.Anhs;
         }
     }

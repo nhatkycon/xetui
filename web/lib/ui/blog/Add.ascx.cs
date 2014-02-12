@@ -15,9 +15,9 @@ public partial class lib_ui_blog_Add : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Id = Request["ID"];
+        UploaderV1.RowId = Item.RowId.ToString();
         if (Id != null)
         {
-            UploaderV1.RowId = Item.RowId.ToString();
             UploaderV1.Anhs = Item.Anhs;
         }
     }

@@ -336,7 +336,7 @@ var autoFn = {
             var pnl = $('.register-pnl');
             var step2 = pnl.find('.step-2');
             var step1 = pnl.find('.step-1');
-
+            hideWelcome = true;
             step1.hide();
             step2.fadeIn();
 
@@ -398,7 +398,7 @@ var autoFn = {
             var step1 = pnl.find('.step-1');
             step1.find(':input').val('');
             var alertMsg = step1.find('.alert-danger');
-
+            hideWelcome = true;
             var btn = step1.find('.dangKyBtn');
             btn.click(function () {
                 var dongY = step1.find('#dongY').is(':checked');
@@ -1574,10 +1574,27 @@ var autoFn = {
             });
 
         }
+        , loadById: function (id) {
+            var pnl = $('.PmRooms');
+            if (id == '') return;
+            var idValue = parseInt(id);
+            var item = pnl.find('.PmRoom-Item[data-id="' + idValue + '"]');
+            setTimeout(function() {
+                item.click();
+            }, 100);
+        }
         , manageFn: function () {
             var pnl = $('.PmRooms');
             if ($(pnl).length < 1) return;
             var pmContainer = $('.PmContainer');
+
+            var hash = document.location.hash;
+            if (hash != '') {
+                var id = hash.substr(1);
+                autoFn.pmFn.loadById(id);
+            }
+
+
             pnl.find('.PmRoom-Item').click(function () {
                 var item = $(this);
                 var id = item.attr('data-id');
@@ -1776,6 +1793,24 @@ var autoFn = {
                 items.html('Đang nạp');
                 var data1 = [];
                 data1.push({ name: 'subAct', value: 'notifications-get' });
+                $.ajax({
+                    url: autoFn.url.thongBao
+                    , type: 'POST'
+                    , data: data1
+                   , success: function (rs) {
+                       items.html(rs);
+                   }
+                   , error: function () {
+
+                   }
+                });
+            });
+            
+            msgbox.find('a.dropdown-toggle').unbind('click').click(function () {
+                var items = msgbox.find('.dropdown-menu');
+                items.html('Đang nạp');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'pm-get' });
                 $.ajax({
                     url: autoFn.url.thongBao
                     , type: 'POST'

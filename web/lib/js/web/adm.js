@@ -7,7 +7,7 @@ var admFn = {
         admFn.headerFn();
         admFn.promoteFn.init();
         admFn.userFn.init();
-        admFn.blogFn.init();
+        admFn.blogAdmFn.init();
         admFn.AdvFn.init();
     }
     , headerFn: function () {
@@ -273,9 +273,9 @@ var admFn = {
             });
         }
     }
-    , blogFn: {
+    , blogAdmFn: {
         init: function () {
-            admFn.blogFn.add();
+            admFn.blogAdmFn.add();
         }
         , add: function () {
             var pnl = $('.blog-add-pnl');
@@ -295,8 +295,6 @@ var admFn = {
                     alertErr.html('Nhập nội dung bạn ơi');
                     return;
                 }
-
-
                 var data = pnl.find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
 
@@ -312,7 +310,7 @@ var admFn = {
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
                            setTimeout(function () {
-                               document.location.href = '/lib/mod/Users/';
+                               document.location.href = '/lib/mod/Blog/';
                            }, 1000);
                        }
                    }
@@ -330,7 +328,7 @@ var admFn = {
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
-                       document.location.href = rs + '/lib/mod/Users/';
+                       document.location.href = rs + '/lib/mod/Blog/';
                    }
                 });
             });

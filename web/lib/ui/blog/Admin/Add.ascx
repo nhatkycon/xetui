@@ -18,7 +18,9 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                    <textarea class="form-control NoiDung" name="NoiDung" id="NoiDung" rows="10"><%=Item.NoiDung %></textarea>                
+                    <textarea class="form-control NoiDung" name="NoiDung" id="NoiDung" rows="10">
+                    <%=Item.NoiDung %>
+                    </textarea>                
                     </div>
                 </div>
                 <div class="form-group">

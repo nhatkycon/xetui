@@ -12,17 +12,17 @@ public partial class lib_lab_RedisRelated : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //var danhMuc = DanhMucDal.List;
-        using (var client = new RedisClient(CacheManager.RedisAddress))
-        {
-            var redis = client.As<Xe>();
-            Response.Write("<hr/>");
-            foreach (var key in redis.GetAllKeys())
-            {
-                Response.Write(string.Format("{0}<br/>", key));
-            }
-        }
+        //using (var client = new RedisClient(CacheManager.RedisAddress))
+        //{
+        //    var redis = client.As<Xe>();
+        //    Response.Write("<hr/>");
+        //    foreach (var key in redis.GetAllKeys())
+        //    {
+        //        Response.Write(string.Format("{0}<br/>", key));
+        //    }
+        //}
 
-        return;
+        //return;
 
         var xe = new Person()
             {

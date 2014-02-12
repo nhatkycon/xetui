@@ -16,7 +16,7 @@ public partial class lib_mod_Blog_Add : System.Web.UI.Page
         {
             if (!idNull)
             {
-                item = BlogDal.SelectById(Convert.ToInt32(id));
+                item = BlogDal.SelectById(con, Convert.ToInt32(id));
             }
         }
         Add.Item = item;

@@ -82,7 +82,11 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                             ,
                             Username = Security.Username
                         });
-
+                        if(!string.IsNullOrEmpty(cUrl))
+                        {
+                            var uri = new Uri(cUrl, UriKind.RelativeOrAbsolute);
+                            cUrl = uri.OriginalString;
+                        }
                         systemMessageDal.Insert(new systemMessage()
                                                     {
                                                         NoiDung = string.Format("<strong>{0}</strong> bình luận",item.Member.Ten)
