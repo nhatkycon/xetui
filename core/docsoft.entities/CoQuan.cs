@@ -12,11 +12,10 @@ namespace docsoft.entities
 {
     #region CoQuan
     #region BO
-    [Serializable()]
     public class CoQuan : BaseEntity
     {
         #region Properties
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public Int32 PID { get; set; }
         public Int32 ThuTu { get; set; }
         public Int32 Loai { get; set; }
@@ -37,7 +36,6 @@ namespace docsoft.entities
         { }
         #endregion
         #region Customs properties
-        public CoQuan _Parent { get; set; }
         public int NSD { get; set; }
         #endregion
         public override BaseEntity getFromReader(IDataReader rd)
@@ -95,7 +93,7 @@ namespace docsoft.entities
         {
             CoQuan Item = new CoQuan();
             SqlParameter[] obj = new SqlParameter[15];
-            obj[0] = new SqlParameter("CQ_ID", Updated.ID);
+            obj[0] = new SqlParameter("CQ_ID", Updated.Id);
             obj[1] = new SqlParameter("CQ_PID", Updated.PID);
             obj[2] = new SqlParameter("CQ_ThuTu", Updated.ThuTu);
             obj[3] = new SqlParameter("CQ_Loai", Updated.Loai);
@@ -147,7 +145,7 @@ namespace docsoft.entities
             CoQuan Item = new CoQuan();
             if (rd.FieldExists("CQ_ID"))
             {
-                Item.ID = (Int32)(rd["CQ_ID"]);
+                Item.Id = (Int32)(rd["CQ_ID"]);
             }
             if (rd.FieldExists("CQ_PID"))
             {
@@ -216,7 +214,7 @@ namespace docsoft.entities
             CoQuan Item = new CoQuan();
             if (rd.FieldExists("CQ_ID"))
             {
-                Item.ID = (Int32)(rd["CQ_ID"]);
+                Item.Id = (Int32)(rd["CQ_ID"]);
             }
             if (rd.FieldExists("CQ_PID"))
             {
@@ -285,7 +283,7 @@ namespace docsoft.entities
             CoQuan Item = new CoQuan();
             if (rd.FieldExists("CQ_ID"))
             {
-                Item.ID = (Int32)(rd["CQ_ID"]);
+                Item.Id = (Int32)(rd["CQ_ID"]);
             }
             if (rd.FieldExists("CQ_PID"))
             {
@@ -370,7 +368,7 @@ namespace docsoft.entities
         public static CoQuan getFromReaderAuto(IDataReader rd)
         {
             CoQuan Item = new CoQuan();
-            Item.ID = (Int32)(rd["CQ_ID"]);
+            Item.Id = (Int32)(rd["CQ_ID"]);
             Item.Ten = (String)(rd["CQ_Ten"]);
             Item.RowId = (Guid)(rd["CQ_RowId"]);
             return Item;
@@ -389,7 +387,6 @@ namespace docsoft.entities
                     _Item.Ten = rd["P_CQ_Ten"].ToString();
                 }
             }
-            Item._Parent = _Item;
             return Item;
         }
         public static CoQuan SelectByUsername(string Username)

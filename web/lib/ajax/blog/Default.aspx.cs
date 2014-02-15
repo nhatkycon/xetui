@@ -47,6 +47,20 @@ public partial class lib_ajax_blog_Default : BasedPage
                     {
                         item.RowId = new Guid(rowId);
                     }
+                    switch (item.Loai)
+                    {
+                        case 1:
+                            item.Profile = MemberDal.SelectByRowId(item.PID_ID);
+                            break;
+                        case 2:
+                            item.Xe = XeDal.SelectByRowId(item.PID_ID);
+                            break;
+                        case 3:
+                        case 4:
+                        case 5:
+                            item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
+                            break;
+                    }
                     item.MoTa = Lib.Rutgon(Lib.NoHtml(item.NoiDung), 400);
                     var anhs = AnhDal.SelectByPId(DAL.con(), item.RowId.ToString(), 20).OrderByDescending(x => x.AnhBia).ToList();
                     if (anhs.Count > 0)
@@ -54,9 +68,10 @@ public partial class lib_ajax_blog_Default : BasedPage
                         var sb = new StringBuilder();
                         foreach (var anhItem in anhs)
                         {
-                            sb.AppendFormat(@"<a href=""/lib/up/car/{0}""><img alt=""{0}"" src=""/lib/up/car/{0}"" /></a>" , anhItem.FileAnh);
+                            sb.AppendFormat(@"<a href=""{1}""><img alt=""{0}"" src=""/lib/up/car/{0}?w=75"" /></a>" , anhItem.FileAnh, item.Url);
                         }
                         item.AnhStr = sb.ToString();
+                        
                     }
                     if (idNull)
                     {
@@ -66,11 +81,9 @@ public partial class lib_ajax_blog_Default : BasedPage
                         switch (item.Loai)
                         {
                             case 1:
-                                item.Profile = MemberDal.SelectByRowId(item.PID_ID);
                                 break;
                             case 2:
-                                item.Xe = XeDal.SelectByRowId(item.PID_ID);
-                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey,item.ID));
+                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey,item.Id));
                                 systemMessageDal.Insert(new systemMessage()
                                 {
                                     NoiDung = string.Format("<strong>{0}</strong> viết bài mới", item.MemberNguoiTao.Ten)
@@ -101,9 +114,6 @@ public partial class lib_ajax_blog_Default : BasedPage
                             case 3:
                             case 4:
                             case 5:
-                                item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
-                                //var nhomTv = NhomThanhVienDal.SelectByNhomIdUsername(DAL.con(), item.Nhom.ID.ToString(),
-                                //                                                     Security.Username);
                                 if (item.Nhom.NhomMo)
                                 {
                                     item.Publish = true;
@@ -176,7 +186,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                 break;
                             case 2:
                                 item.Xe = XeDal.SelectByRowId(item.PID_ID);
-                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey, item.ID));
+                                CacheHelper.Remove(string.Format(XeDal.CacheItemKey, item.Id));
                                 break;
                             case 3:
                             case 4:
@@ -207,6 +217,9 @@ public partial class lib_ajax_blog_Default : BasedPage
                         ObjDal.DeleteByRowId(item.RowId);
                         ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
                         ThichDal.DeleteByPId(item.RowId);
+                        CacheHelper.Remove(string.Format(BlogDal.CacheItemKey, item.Id));
+                        BlogDal.DeleteById(item.Id);
+                        rendertext("1");
                     }
                 }
                 break;
@@ -225,7 +238,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                     }
                     else
                     {
-                        BlogDal.DeleteById(item.ID);
+                        BlogDal.DeleteById(item.Id);
                     }
                     
                 }

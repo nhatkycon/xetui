@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="myCar-item.ascx.cs" Inherits="lib_ui_cars_templates_myCar_item" %>
 <div class="carcard carcard-big">
     <div class="carcard-buttons">
-        <a class="btn btn-link" href="/cars/edit/<%=Item.ID %>/">
+        <a class="btn btn-link" href="/cars/edit/<%=Item.Id %>/">
             <i class="glyphicon glyphicon-edit"></i> Sửa
         </a>
     </div>

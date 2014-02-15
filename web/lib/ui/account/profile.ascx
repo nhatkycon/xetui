@@ -14,7 +14,7 @@
                     </a>
                 <%} %>
                 <a href="<%=Item.Url %>/blogs/">
-                    Nhật ký
+                    Blog
                 </a>
                 <%if(Pager!=null && Pager.Total > 0){ %>
                 <span class="text-muted"><%=Pager.Total %> bài</span>

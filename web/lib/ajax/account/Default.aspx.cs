@@ -46,7 +46,7 @@ public partial class lib_ajax_account_Default : BasedPage
                             if(File.Exists(anh))
                                 File.Delete(anh);
                         }
-                        var anhNew = string.Format("{0}{1}", user.ID, img.Ext);
+                        var anhNew = string.Format("{0}{1}", user.Id, img.Ext);
                         img.Save(dic + anhNew);
                         MemberDal.UpdateAnh(Security.Username,anhNew);
                         rendertext(anhNew);

@@ -33,7 +33,7 @@ public partial class lib_ajax_Thich_Default : BasedPage
                                case 1:
                                    ObjMemberDal.DeleteByPRowIdUsername(Id,Security.Username);
                                    var xe = XeDal.SelectByRowId(item.P_ID);
-                                   CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.ID));
+                                   CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.Id));
                                    break;
                            }
                            ThichDal.DeleteById(item.ID);
@@ -54,7 +54,7 @@ public partial class lib_ajax_Thich_Default : BasedPage
                        {
                            case 1:
                                var xe = XeDal.SelectByRowId(item.P_ID);
-                               CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.ID));
+                               CacheHelper.Remove(string.Format(XeDal.CacheItemKey, xe.Id));
                                ObjMemberDal.Insert(new ObjMember()
                                                        {
                                                            PRowId = xe.RowId

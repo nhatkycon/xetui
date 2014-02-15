@@ -18,7 +18,7 @@
                     <%=Item.Ten %>
                 </a>&nbsp; &gt;
                 <a href="<%=Item.Url %>/blogs/">
-                    Nhật ký
+                    Blog
                 </a>
             </div>
             <hr class="hr comment-hr"/>

@@ -7,7 +7,7 @@
     <div class="panel-body">
         <div class="padding-20 user-add-pnl">
             <form class="form-horizontal user-add-form" role="form">
-                <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
+                <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
                 <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
                 <div class="form-group">
                     <label for="Ten" class="col-md-2 control-label">
@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>
-                        <%if(Item.ID!=0){ %>
+                        <%if(Item.Id!=0){ %>
                             <a href="javascript:;" class="btn btn-danger btn-lg xoaBtn">Xóa</a>
                         <%} %>
                         <br/><br/>

@@ -80,7 +80,7 @@ public partial class lib_ajax_car_Default : BasedPage
                         if (!string.IsNullOrEmpty(RowId))
                         {
                             car = XeDal.SelectByRowId(RowId);
-                            if (car.ID == 0)
+                            if (car.Id == 0)
                             {
                                 isInserting = true;
                             }
@@ -221,7 +221,7 @@ public partial class lib_ajax_car_Default : BasedPage
                     var xe = XeDal.SelectById(Convert.ToInt64(Id));
                     if (xe.NguoiTao != Security.Username && string.IsNullOrEmpty(adminKey))
                         return;
-                    XeDal.DeleteById(xe.ID);
+                    XeDal.DeleteById(xe.Id);
                     ObjDal.DeleteByRowId(xe.RowId);
                     SearchManager.Remove(xe.RowId);
                     ObjMemberDal.DeleteByPRowId(xe.RowId.ToString());
@@ -232,7 +232,7 @@ public partial class lib_ajax_car_Default : BasedPage
                         {
                             File.Delete(newDic + item.FileAnh);
                         }
-                        AnhDal.DeleteById(item.ID);    
+                        AnhDal.DeleteById(item.Id);    
                     }
                 }
                 break;

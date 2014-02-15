@@ -78,7 +78,7 @@ public partial class lib_ajax_login_Default : BasedPage
                         userFb.Active = true;
                         userFb = MemberDal.Insert(userFb);
                         var saveAvatar = new SaveAvatarDelegate(SaveAvatar);
-                        saveAvatar.BeginInvoke(userFb.ID, id, dic, null, null);
+                        saveAvatar.BeginInvoke(userFb.Id, id, dic, null, null);
                         MemberDal.UpdateVcard(DAL.con(), userFb.Username);
                         Security.Login(username, "true");
                         rendertext("1");
@@ -158,7 +158,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     var dele = new SendEmailDelegate(SendMailSingle);
                     var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Xetui-email-welcome.html");
                     dele.BeginInvoke(user.Email, "Xetui.vn - Xac nhan tai khoan"
-                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.Id, user.DiaChi)
                                      , null, null);
 
                     rendertext("1");
@@ -176,7 +176,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     var dele = new SendEmailDelegate(SendMailSingle);
                     var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Xetui-email-welcome.html");
                     dele.BeginInvoke(user.Email, "Xetui.vn - Xac nhan tai khoan"
-                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.Id, user.DiaChi)
                                      , null, null);
                     rendertext("1");
                 }
@@ -188,7 +188,7 @@ public partial class lib_ajax_login_Default : BasedPage
                 if (!string.IsNullOrEmpty(Email))
                 {
                     var user = MemberDal.SelectAllByUserName(Email);
-                    if(user.ID==0)
+                    if(user.Id==0)
                         rendertext("0");
                     if (!user.XacNhan)
                         rendertext("2");
@@ -197,7 +197,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     var dele = new SendEmailDelegate(SendMailSingle);
                     var emailTemp = Lib.GetResource(typeof(Class1).Assembly, "Lay-lai-mat-khau.html");
                     dele.BeginInvoke(user.Email, "Xetui.vn - Lay lai mat khau"
-                                     , string.Format(emailTemp, user.Ten, user.Email, user.ID, user.DiaChi)
+                                     , string.Format(emailTemp, user.Ten, user.Email, user.Id, user.DiaChi)
                                      , null, null);
                     rendertext("1");
                 }
@@ -209,7 +209,7 @@ public partial class lib_ajax_login_Default : BasedPage
                 if (!string.IsNullOrEmpty(id))
                 {
                     var user = MemberDal.SelectById(Convert.ToInt32(id));
-                    if (user.ID == 0)
+                    if (user.Id == 0)
                         rendertext("0");
                     if (!user.XacNhan)
                         rendertext("2");

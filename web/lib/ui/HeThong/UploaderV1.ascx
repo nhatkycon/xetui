@@ -25,10 +25,11 @@
 <script id="anh-item" type="text/x-jquery-tmpl">
     <div class="row item-anh-uploadPreview" data-id="${Id}">
         <div class="checkbox">            
+            <button class="btn btn-primary insert" data-src="${Thumbnail_url}" data-id="${Id}" style="margin-bottom: 10px;">Chèn</button> 
             <button class="btn btn-primary apply" data-id="${Id}" style="margin-bottom: 10px;">Cắt ảnh</button> 
             <button class="btn btn-warning removeBtn" data-id="${Id}" style="margin-bottom: 10px;">Xóa</button>
             <label>
-                <input name="AnhBia" type="radio" data-src="${Thumbnail_url}" class="setBiaBtn" data-id="${Id}" title="Đặt làm ảnh đại diện của xe"/> Chọn làm ảnh đại diện của xe
+                <input name="AnhBia" type="radio" data-src="${Thumbnail_url}" class="setBiaBtn" data-id="${Id}" title="Đặt làm ảnh đại diện của xe"/> Chọn làm ảnh đại diện
             </label>
         </div>    
         <div class="anh-img-box img-thumbnail">

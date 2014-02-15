@@ -42,7 +42,7 @@ public partial class lib_lab_Lucense : System.Web.UI.Page
             doc.Add(new Field("NoiDung", string.Format("{0} {1}", item.Ten, item.GioiThieu), Field.Store.YES,
                               Field.Index.ANALYZED));
             doc.Add(new Field("RowId", item.RowId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-            doc.Add(new Field("ID", item.ID.ToString(), Field.Store.YES, Field.Index.TOKENIZED));
+            doc.Add(new Field("ID", item.Id.ToString(), Field.Store.YES, Field.Index.TOKENIZED));
             doc.Add(new Field("Url", item.XeUrl, Field.Store.YES, Field.Index.NOT_ANALYZED));
             writer.AddDocument(doc);
         }
@@ -54,7 +54,7 @@ public partial class lib_lab_Lucense : System.Web.UI.Page
             doc.Add(new Field("NoiDung", string.Format("{0} {1} {2}", item.Ten, item.GioiThieu, item.MoTa), Field.Store.YES,
                               Field.Index.ANALYZED));
             doc.Add(new Field("RowId", item.RowId.ToString(), Field.Store.YES, Field.Index.TOKENIZED));
-            doc.Add(new Field("ID", item.ID.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("ID", item.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.Add(new Field("Url", item.Url, Field.Store.YES, Field.Index.NOT_ANALYZED));
             writer.AddDocument(doc);
         }
@@ -68,7 +68,7 @@ public partial class lib_lab_Lucense : System.Web.UI.Page
             doc.Add(new Field("NoiDung", string.Format("{0} {1}", item.Ten, item.NoiDung), Field.Store.YES,
                               Field.Index.ANALYZED));
             doc.Add(new Field("RowId", item.RowId.ToString(), Field.Store.YES, Field.Index.TOKENIZED));
-            doc.Add(new Field("ID", item.ID.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("ID", item.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.Add(new Field("Url", item.Url, Field.Store.YES, Field.Index.NOT_ANALYZED));
             writer.AddDocument(doc);
         }
@@ -80,7 +80,7 @@ public partial class lib_lab_Lucense : System.Web.UI.Page
             doc.Add(new Field("NoiDung", string.Format("{0} {1}", item.Ten, item.NoiDung), Field.Store.YES,
                               Field.Index.ANALYZED));
             doc.Add(new Field("RowId", item.RowId.ToString(), Field.Store.YES, Field.Index.TOKENIZED));
-            doc.Add(new Field("ID", item.ID.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("ID", item.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.Add(new Field("Url", item.Url, Field.Store.YES, Field.Index.NOT_ANALYZED));
             writer.AddDocument(doc);
         }

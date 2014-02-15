@@ -15,7 +15,7 @@ namespace docsoft.entities
     public class Anh : BaseEntity
     {
         #region Properties
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
         public Guid AB_ID { get; set; }
         public Guid P_ID { get; set; }
         public String Ten { get; set; }
@@ -60,7 +60,7 @@ namespace docsoft.entities
         {
             var Item = new Anh();
             var obj = new SqlParameter[11];
-            obj[0] = new SqlParameter("A_ID", item.ID);
+            obj[0] = new SqlParameter("A_ID", item.Id);
             obj[1] = new SqlParameter("A_AB_ID", item.AB_ID);
             obj[2] = new SqlParameter("A_P_ID", item.P_ID);
             obj[3] = new SqlParameter("A_Ten", item.Ten);
@@ -93,7 +93,7 @@ namespace docsoft.entities
         {
             var Item = new Anh();
             var obj = new SqlParameter[10];
-            obj[0] = new SqlParameter("A_ID", item.ID);
+            obj[0] = new SqlParameter("A_ID", item.Id);
             obj[1] = new SqlParameter("A_AB_ID", item.AB_ID);
             obj[2] = new SqlParameter("A_P_ID", item.P_ID);
             obj[3] = new SqlParameter("A_Ten", item.Ten);
@@ -172,7 +172,7 @@ namespace docsoft.entities
             var Item = new Anh();
             if (rd.FieldExists("A_ID"))
             {
-                Item.ID = (Guid)(rd["A_ID"]);
+                Item.Id = (Guid)(rd["A_ID"]);
             }
             if (rd.FieldExists("A_AB_ID"))
             {

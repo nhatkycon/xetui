@@ -221,6 +221,23 @@ namespace linh.controls
                 }
             }
         }
+        public void AddWaterMark(string watermark)
+        {
+            using (var image = convertFromByte(Bytes))
+            using (var watermarkImage = Image.FromFile(watermark))
+            using (var imageGraphics = Graphics.FromImage(image))
+            using (var watermarkBrush = new TextureBrush(watermarkImage))
+            {
+                int x = (image.Width - watermarkImage.Width - 10);
+                int y = (image.Height - watermarkImage.Height -10);
+                watermarkBrush.TranslateTransform(x, y);
+                imageGraphics.FillRectangle(watermarkBrush, new Rectangle(new Point(x, y), new Size(watermarkImage.Width + 1, watermarkImage.Height)));
+                //image.Save(@"C:\Users\Public\Pictures\Sample Pictures\Desert_watermark.jpg");
+                var ms = new MemoryStream();
+                image.Save(ms, getImageFormat(Mime));
+                localBytes = ms.ToArray();
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

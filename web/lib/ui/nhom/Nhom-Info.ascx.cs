@@ -13,7 +13,7 @@ public partial class lib_ui_nhom_Nhom_Info : System.Web.UI.UserControl
     {
         if(!Item.Duyet)
         {
-            Server.Transfer(string.Format("~/html/NhomUnApproved.aspx?ID={0}", Item.ID));
+            Server.Transfer(string.Format("~/html/NhomUnApproved.aspx?ID={0}", Item.Id));
         }
     }
 }

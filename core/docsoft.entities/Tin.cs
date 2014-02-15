@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using ServiceStack.Redis;
 using linh.common;
 using linh.controls;
 using linh.core.dal;
@@ -1388,6 +1389,29 @@ namespace docsoft.entities
             return list;
         }
         #endregion
+    }
+    #endregion
+    #region Redis
+    public class BinhLuanRedis
+    {
+        const string ItemKey = "urn:binhluan:{0}";
+        const string ListKey = "urn:binhluan:list:{0}";
+        private readonly IRedisClient _redisClient;
+        public BinhLuanRedis(IRedisClient client)
+        {
+            _redisClient = client;
+        }
+        public BinhLuan GetById(int id)
+        {
+            var key = string.Format(ItemKey, id);
+            var item = _redisClient.Get<BinhLuan>(key);
+            if (item == null)
+            {
+                item = BinhLuanDal.SelectById(id);
+                _redisClient.Set(key, item);
+            }
+            return item;
+        }
     }
     #endregion
     #endregion

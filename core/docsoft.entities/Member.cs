@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Caching;
+using ServiceStack.Redis;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -18,7 +19,7 @@ namespace docsoft.entities
     public class Member : BaseEntity
     {
         #region Properties
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public String Ho { get; set; }
         public String Ten { get; set; }
         public String Mota { get; set; }
@@ -59,6 +60,14 @@ namespace docsoft.entities
         public bool Liked { get; set; }
         #endregion
         #region Contructor
+        public Member()
+        {
+            BlogIds=new List<long>();
+            XeIds=new List<long>();
+            XeYeuThichIds = new List<long>();
+            NguoiYeuThichUnames=new List<string>();
+            Fans=new List<string>();
+        }
         #endregion
         #region Customs properties
         public CoQuan _CoQuan { get; set; }
@@ -68,6 +77,37 @@ namespace docsoft.entities
         public Int32 GH_ID { get; set; }
         public bool Thich { get; set; }
         public Int32 SecondOnline { get; set; }
+        public List<Int64> BlogIds { get; set; }
+        public List<Blog> GetBlogs(IRedisClient _redisClient)
+        {
+            var blog = new BlogRedis(_redisClient);
+            return BlogIds.Select(id => blog.GetById(id)).ToList();
+        }
+
+        public List<Int64> XeIds { get; set; }
+        public List<Xe> GetXe ()
+        {
+            return new List<Xe>();
+        }
+
+        public List<Int64> XeYeuThichIds { get; set; } 
+        public List<Xe> XeYeuThich()
+        {
+            return new List<Xe>();
+        }
+
+        public List<string> NguoiYeuThichUnames { get; set; }
+        public List<Member> GetNguoiYeuThich()
+        {
+            return new List<Member>();
+        }
+
+        public List<string> Fans { get; set; }
+        public List<Member> GetFans()
+        {
+            return new List<Member>();
+        }
+
         public String VcardStr { get
         {
             if (string.IsNullOrEmpty(Vcard)) return string.Empty;
@@ -195,7 +235,7 @@ namespace docsoft.entities
                     item = getFromReader(rd);
                 }
             }
-            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
+            CacheHelper.Max(string.Format(CacheItemKey, item.Id), item);
             return item;
         }
         /// <summary>
@@ -300,7 +340,7 @@ namespace docsoft.entities
         {
             Member Item = new Member();
             SqlParameter[] obj = new SqlParameter[36];
-            obj[0] = new SqlParameter("MEM_ID", Updated.ID);
+            obj[0] = new SqlParameter("MEM_ID", Updated.Id);
             obj[1] = new SqlParameter("MEM_Ho", Updated.Ho);
             obj[2] = new SqlParameter("MEM_Ten", Updated.Ten);
             obj[3] = new SqlParameter("MEM_Mota", Updated.Mota);
@@ -396,8 +436,8 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
-            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
-            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.Id));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.Id), Item);
             return Item;
         }
 
@@ -654,7 +694,7 @@ namespace docsoft.entities
             Member Item = new Member();
             if (rd.FieldExists("MEM_ID"))
             {
-                Item.ID = (Int32)(rd["MEM_ID"]);
+                Item.Id = (Int32)(rd["MEM_ID"]);
             }
             if (rd.FieldExists("MEM_Ho"))
             {
@@ -900,7 +940,7 @@ namespace docsoft.entities
         public static Member getFromReaderTiny(IDataReader rd)
         {
             Member Item = new Member();
-            Item.ID = (Int32)(rd["MEM_ID"]);
+            Item.Id = (Int32)(rd["MEM_ID"]);
             Item.Ten = (String)(rd["MEM_Ten"]);
             Item.CQ_ID = (Int32)(rd["MEM_CQ_ID"]);
             Item.Username = (String)(rd["MEM_Username"]);
@@ -1068,7 +1108,7 @@ namespace docsoft.entities
         public static Member getFromReaderAuto(IDataReader rd)
         {
             Member Item = new Member();
-            Item.ID = (Int32)(rd["MEM_ID"]);
+            Item.Id = (Int32)(rd["MEM_ID"]);
             Item.Ten = (String)(rd["MEM_Ten"]);
             Item.Username = (String)(rd["MEM_Username"]);
             Item.RowId = (Guid)(rd["MEM_RowId"]);
@@ -1152,7 +1192,7 @@ namespace docsoft.entities
         {
             Member Item = new Member();
             SqlParameter[] obj = new SqlParameter[27];
-            obj[0] = new SqlParameter("MEM_ID", Updated.ID);
+            obj[0] = new SqlParameter("MEM_ID", Updated.Id);
             obj[1] = new SqlParameter("MEM_Ho", Updated.Ho);
             obj[2] = new SqlParameter("MEM_Ten", Updated.Ten);
             obj[3] = new SqlParameter("MEM_Mota", Updated.Mota);
@@ -1354,8 +1394,8 @@ namespace docsoft.entities
             obj[1] = new SqlParameter("Vcard", vcard);
             SqlHelper.ExecuteNonQuery(con, CommandType.StoredProcedure, "sp_tblMember_Update_UpdateVcard_linhnx", obj);
             var Item = SelectByUser(username);
-            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
-            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.Id));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.Id), Item);
             return vcard;
         }
         public static Pager<Member> PagerFanByRowId(string url, bool rewrite, string sort, string rowId, string refUser)
@@ -1475,8 +1515,8 @@ namespace docsoft.entities
                 var listKey = new List<string>();
                 list.ForEach(x =>
                                  {
-                                     CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                                     listKey.Add(string.Format(CacheItemKey, x.ID));
+                                     CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                                     listKey.Add(string.Format(CacheItemKey, x.Id));
                                  });
                 var dep = new CacheDependency(null, listKey.ToArray());
                 objCache = list;
@@ -1499,7 +1539,54 @@ namespace docsoft.entities
         #endregion
     }
     #endregion
-
+    #region Redis
+    public class MemberRedis
+    {
+        const string ItemKey = "urn:member:{0}";
+        const string ListKey = "urn:member:list:{0}";
+        private readonly IRedisClient _redisClient;
+        public MemberRedis(IRedisClient client)
+        {
+            _redisClient = client;
+        }
+        public void Save(Member item)
+        {
+            var key = string.Format(ItemKey, item.Id);
+            _redisClient.Set(key, item);
+        }
+        public Member GetById(int id)
+        {
+            var key = string.Format(ItemKey, id);
+            var item = _redisClient.Get<Member>(key);
+            if (item == null)
+            {
+                item = MemberDal.SelectById(id);
+                _redisClient.Set(key, item);
+            }
+            return item;
+        }
+        public IRedisList GetAll()
+        {
+            return _redisClient.Lists[string.Format(ListKey, "all")];
+        }
+        public IRedisList GetXacNhan()
+        {
+            return _redisClient.Lists[string.Format(ListKey, "xacNhan")];
+        }
+        public IRedisList GetChuaXacNhan()
+        {
+            return _redisClient.Lists[string.Format(ListKey, "chuaXacNhan")];
+        }
+        public Member GetByUsername(string username)
+        {
+            var idKey = string.Format(ItemKey, username);
+            var id = _redisClient.Get<Int32>(idKey);
+            if (id == 0) return null;
+            var item = GetById(id);
+            return item;
+        }
+    }
+    #endregion
     #endregion
     
 }

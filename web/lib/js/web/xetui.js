@@ -737,7 +737,7 @@ var autoFn = {
 
             var HANG_ID = pnl.find('.HANG_ID');
             var MODEL_ID = pnl.find('.MODEL_ID');
-            var GioiThieu = pnl.find('.GioiThieu');
+            var NoiDung = pnl.find('.NoiDung');
 
             var btn = pnl.find('.saveBtn');
             var xoaBtn = pnl.find('.xoaBtn');
@@ -824,7 +824,7 @@ var autoFn = {
                 });
             });
 
-            autoFn.utils.editor(GioiThieu);
+            autoFn.utils.editor(NoiDung);
 
         }
     }
@@ -898,6 +898,7 @@ var autoFn = {
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       window.history.back();
                        //document.location.href = '/my-cars/';
                    }
                 });
@@ -1325,6 +1326,23 @@ var autoFn = {
         , AnhFn: function () {
             var pnl = $('.upload-anh-box');
             if ($(pnl).length < 1) return;
+
+            pnl.on('click', '.insert', function () {
+                var item = $(this);
+                var pitem = item.parent().parent();
+                var img = pitem.find('img:visible');
+                if ($(img).length < 1) return;
+                var src = img.attr('src');
+                var str = '<img src="' + src + '"/>';
+                CKEDITOR.instances.NoiDung.insertHtml(str);
+                //CKEDITOR.instances.GioiThieu.setData(str);
+                
+                //var oEditor = CKEDITOR.instances.<%=txtCkEditor.ClientID %>;
+                //var html = "<img src='" + $(this).attr("imgsrc") + "' />";
+ 
+                //var newElement = CKEDITOR.dom.element.createFromHtml(html, oEditor.document);
+                //oEditor.insertElement(newElement);
+            });
 
             pnl.on('click', '.setBiaBtn', function () {
                 var item = $(this);

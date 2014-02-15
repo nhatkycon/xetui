@@ -31,7 +31,7 @@ public partial class html_car_view : System.Web.UI.Page
                                                       Security.Username);
                 view.PagerBlog = pagerBlog;
                 view.Item = Item;
-                if (Item.ID == 0)
+                if (Item.Id == 0)
                 {
                     return;
                 }

@@ -15,7 +15,7 @@ namespace docsoft.entities
     public class BinhLuan : BaseEntity
     {
         #region Properties
-        public Int64 ID { get; set; }
+        public Int64 Id { get; set; }
         public Guid P_RowId { get; set; }
         public Int64 PBL_ID { get; set; }
         public String Ten { get; set; }
@@ -95,7 +95,7 @@ namespace docsoft.entities
         {
             BinhLuan Item = new BinhLuan();
             SqlParameter[] obj = new SqlParameter[12];
-            obj[0] = new SqlParameter("BL_ID", Updated.ID);
+            obj[0] = new SqlParameter("BL_ID", Updated.Id);
             obj[1] = new SqlParameter("BL_P_RowId", Updated.P_RowId);
             obj[2] = new SqlParameter("BL_PBL_ID", Updated.PBL_ID);
             obj[3] = new SqlParameter("BL_Ten", Updated.Ten);
@@ -165,7 +165,7 @@ namespace docsoft.entities
             var item = new BinhLuan();
             if (rd.FieldExists("BL_ID"))
             {
-                item.ID = (Int64)(rd["BL_ID"]);
+                item.Id = (Int64)(rd["BL_ID"]);
             }
             if (rd.FieldExists("BL_P_RowId"))
             {

@@ -17,12 +17,12 @@
     <div class="nhomitem-infoBox-buttons">
         <%if(!Item.IsAdmin){ %>
             <%if(Item.Joined){ %>
-                <button class="btn btn-default joinGroupBtn" data-joined="1" data-id="<%=Item.ID %>" title="Hủy tham gia <%=Item.Ten %>">Ngừng tham gia</button>
+                <button class="btn btn-default joinGroupBtn" data-joined="1" data-id="<%=Item.Id %>" title="Hủy tham gia <%=Item.Ten %>">Ngừng tham gia</button>
             <%}else{ %>
                 <%if(Item.IsPendingMember){ %>
-                    <button class="btn btn-default" data-joined="0" data-id="<%=Item.ID %>" title="Đăng ký tham gia <%=Item.Ten %>">Đã gửi yêu cầu</button>
+                    <button class="btn btn-default" data-joined="0" data-id="<%=Item.Id %>" title="Đăng ký tham gia <%=Item.Ten %>">Đã gửi yêu cầu</button>
                 <%}else{ %>
-                    <button class="btn btn-default joinGroupBtn" data-joined="0" data-id="<%=Item.ID %>" title="Đăng ký tham gia <%=Item.Ten %>">Tham gia</button>
+                    <button class="btn btn-default joinGroupBtn" data-joined="0" data-id="<%=Item.Id %>" title="Đăng ký tham gia <%=Item.Ten %>">Tham gia</button>
                 <%} %>
             <%} %>
         <%}else{ %>

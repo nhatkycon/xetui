@@ -2,18 +2,18 @@
 <%@ Import Namespace="linh.common" %>
 <tr class="<%=Item.Duyet ? "success" : "" %>">
     <td class="">
-        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.ID %>">
-            <%=Item.ID %>
+        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.Id %>">
+            <%=Item.Id %>
         </a>
     </td>
     <td class="hidden-xs">
-        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.ID %>">
+        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.Id %>">
             <img style="width: 80px; height: 45px;" src="/lib/up/car/<%=Item.Anh %>" 
                 class="img-responsive"/>
         </a>
     </td>
     <td class="">
-        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.ID %>">
+        <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.Id %>">
             <%=Item.Ten %>
         </a>
         <a href="<%=Item.XeUrl %>" class="btn btn-default btn-xs">

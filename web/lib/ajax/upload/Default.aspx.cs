@@ -48,7 +48,7 @@ public partial class lib_ajax_upload_Default : BasedPage
 
                         var anh = new Anh()
                         {
-                            ID = Guid.NewGuid()
+                            Id = Guid.NewGuid()
                             ,
                             P_ID = new Guid(Id)
                             ,
@@ -59,7 +59,7 @@ public partial class lib_ajax_upload_Default : BasedPage
                         anh = AnhDal.Insert(anh);
                         r.Add(new ViewDataUploadFilesResult()
                         {
-                            Id = anh.ID.ToString(),
+                            Id = anh.Id.ToString(),
                             Thumbnail_url = key + img.Ext,
                             Name = key + "full" + img.Ext,
                             Length = hpf.ContentLength,
@@ -106,7 +106,7 @@ public partial class lib_ajax_upload_Default : BasedPage
                     {
                         File.Delete(newDic + item.FileAnh);
                     }
-                    AnhDal.DeleteById(item.ID);
+                    AnhDal.DeleteById(item.Id);
                 }
                 break;
                 #endregion
@@ -115,15 +115,15 @@ public partial class lib_ajax_upload_Default : BasedPage
                 if (Id != null)
                 {
                     var item = AnhDal.SelectById(new Guid(Id));
-                    AnhDal.UpdateAnhBia(item.ID);
+                    AnhDal.UpdateAnhBia(item.Id);
                     var xe = XeDal.SelectByRowId(item.P_ID);
-                    if (xe.ID != 0)
+                    if (xe.Id != 0)
                     {
                         xe.Anh = item.FileAnh;
                         XeDal.Update(xe);
                     }
                     var blog = BlogDal.SelectByRowId(item.P_ID);
-                    if (blog.ID != 0)
+                    if (blog.Id != 0)
                     {
                         blog.Anh = item.FileAnh;
                         BlogDal.Update(blog);

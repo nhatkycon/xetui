@@ -15,7 +15,7 @@
     </div>
     <div class="panel-body">
         <form class="form-horizontal nhom-edit-form" role="form">
-            <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
+            <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
             <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
             <%if(Item.Duyet){ %>
             <div class="form-group">

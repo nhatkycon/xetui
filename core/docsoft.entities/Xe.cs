@@ -19,7 +19,7 @@ namespace docsoft.entities
     public class Xe : BaseEntity
     {
         #region Properties
-        public Int64 ID { get; set; }
+        public Int64 Id { get; set; }
         public Guid HANG_ID { get; set; }
         public Guid MODEL_ID { get; set; }
         public String SubModel { get; set; }
@@ -57,9 +57,38 @@ namespace docsoft.entities
         #endregion
         #region Contructor
         public Xe()
-        { }
+        {
+            BinhLuanIds=new List<long>();
+            BlogIds=new List<long>();
+            Fans = new List<string>();
+            AnhIds=new List<Guid>();
+        }
         #endregion
         #region Customs properties
+
+        public List<Int64> BinhLuanIds { get; set; }
+        public List<BinhLuan> GetBinhLuans()
+        {
+            return new List<BinhLuan>();
+        }
+
+        public List<Int64> BlogIds { get; set; }
+        public List<Blog> GetBlog()
+        {
+            return new List<Blog>();
+        }
+
+        public List<string> Fans { get; set; }
+        public List<Member> GetFans()
+        {
+            return new List<Member>();
+        }
+
+        public List<Guid> AnhIds { get; set; }
+        public List<Anh> GetAnhs()
+        {
+            return new List<Anh>();
+        }
 
         public string GioiThieu { get; set; }
         public List<Anh> Anhs { get; set; }
@@ -84,7 +113,7 @@ namespace docsoft.entities
                  , Lib.Bodau(HANG_Ten)
                  , Lib.Bodau(MODEL_Ten)
                  , Lib.Bodau(Ten)
-                 , ID); 
+                 , Id); 
             }
         }
         public override BaseEntity getFromReader(IDataReader rd)
@@ -177,7 +206,7 @@ namespace docsoft.entities
                     item = getFromReader(rd);
                 }
             }
-            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
+            CacheHelper.Max(string.Format(CacheItemKey, item.Id), item);
             return item;
         }
 
@@ -185,7 +214,7 @@ namespace docsoft.entities
         {
             Xe item = new Xe();
             var obj = new SqlParameter[36];
-            obj[0] = new SqlParameter("X_ID", Updated.ID);
+            obj[0] = new SqlParameter("X_ID", Updated.Id);
             obj[1] = new SqlParameter("X_HANG_ID", Updated.HANG_ID);
             obj[2] = new SqlParameter("X_MODEL_ID", Updated.MODEL_ID);
             obj[3] = new SqlParameter("X_SubModel", Updated.SubModel);
@@ -251,8 +280,8 @@ namespace docsoft.entities
                     item = getFromReader(rd);
                 }
             }
-            CacheHelper.Remove(string.Format(CacheItemKey, item.ID));
-            CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
+            CacheHelper.Remove(string.Format(CacheItemKey, item.Id));
+            CacheHelper.Max(string.Format(CacheItemKey, item.Id), item);
             return item;
         }
         public static Xe SelectById(Int64 X_ID)
@@ -262,7 +291,7 @@ namespace docsoft.entities
         public static Xe SelectById(SqlConnection con, Int64 X_ID)
         {
             var item = new Xe();
-            var cache = CacheHelper.Get(string.Format(CacheItemKey, item.ID));
+            var cache = CacheHelper.Get(string.Format(CacheItemKey, item.Id));
             if(cache == null)
             {
                 var obj = new SqlParameter[1];
@@ -274,7 +303,7 @@ namespace docsoft.entities
                         item = getFromReader(rd);
                     }
                 }
-                CacheHelper.Max(string.Format(CacheItemKey, item.ID), item);
+                CacheHelper.Max(string.Format(CacheItemKey, item.Id), item);
             }
             else
             {
@@ -399,7 +428,7 @@ namespace docsoft.entities
             var Item = new Xe();
             if (rd.FieldExists("X_ID"))
             {
-                Item.ID = (Int64)(rd["X_ID"]);
+                Item.Id = (Int64)(rd["X_ID"]);
             }
             if (rd.FieldExists("X_HANG_ID"))
             {
@@ -619,7 +648,7 @@ namespace docsoft.entities
                         item = getFromReader(rd);
                     }
                 }
-                var key = string.Format(CacheItemKey, item.ID);
+                var key = string.Format(CacheItemKey, item.Id);
                 var dep = new CacheDependency(null, new string[] { key });
                 CacheHelper.Max(keyRowId, item, dep);
                 return item;
@@ -816,8 +845,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                        listKey.Add(string.Format(CacheItemKey, x.Id));
                     });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);
@@ -838,8 +867,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach( x =>
                                       {
-                                          CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                                          listKey.Add(string.Format(CacheItemKey, x.ID));
+                                          CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                                          listKey.Add(string.Format(CacheItemKey, x.Id));
                                       });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);
@@ -860,8 +889,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                        listKey.Add(string.Format(CacheItemKey, x.Id));
                     });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);
@@ -882,8 +911,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                        listKey.Add(string.Format(CacheItemKey, x.Id));
                     });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);
@@ -904,8 +933,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                        listKey.Add(string.Format(CacheItemKey, x.Id));
                     });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);
@@ -926,8 +955,8 @@ namespace docsoft.entities
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), x);
-                        listKey.Add(string.Format(CacheItemKey, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), x);
+                        listKey.Add(string.Format(CacheItemKey, x.Id));
                     });
                     var dep = new CacheDependency(null, listKey.ToArray());
                     CacheHelper.Max(key, list, dep);

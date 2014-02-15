@@ -60,7 +60,7 @@ public partial class lib_ajax_nhom_Default : BasedPage
 
                         NhomThanhVienDal.Insert(new NhomThanhVien()
                                                     {
-                                                        NHOM_ID = item.ID
+                                                        NHOM_ID = item.Id
                                                         , Accepted = true
                                                         ,AcceptedDate = DateTime.Now
                                                         , Admin = true
@@ -125,7 +125,7 @@ public partial class lib_ajax_nhom_Default : BasedPage
                         ObjDal.DeleteByRowId(item.RowId);
                         ObjMemberDal.DeleteByPRowId(item.RowId.ToString());
                         ThichDal.DeleteByPId(item.RowId);
-                        NhomDal.DeleteById(item.ID);
+                        NhomDal.DeleteById(item.Id);
                     }
                 }
                 break;
@@ -152,7 +152,7 @@ public partial class lib_ajax_nhom_Default : BasedPage
                                                         , ID = Guid.NewGuid()
                                                         , NgayTao = DateTime.Now
                                                         , NguoiTao = Security.Username
-                                                        , NHOM_ID = item.ID
+                                                        , NHOM_ID = item.Id
                                                         , Username = Security.Username
                                                         , IsMod = false
                                                         , ModLoai = 0 

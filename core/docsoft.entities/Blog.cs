@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Caching;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using linh.controls;
 using linh.core.dal;
 using linh.core;
@@ -16,7 +18,7 @@ namespace docsoft.entities
     public class Blog : BaseEntity
     {
         #region Properties
-        public Int64 ID { get; set; }
+        public Int64 Id { get; set; }
         public Int32 Loai { get; set; }
         public Guid PID_ID { get; set; }
         public String Ten { get; set; }
@@ -34,11 +36,14 @@ namespace docsoft.entities
         public Int32 TotalLike { get; set; }
         public Int32 TotalComment { get; set; }
         public Boolean Liked { get; set; }
-        public Int64 Id{get { return ID; }}
         #endregion
         #region Contructor
         public Blog()
-        { }
+        {
+            NguoiThich=new List<string>();
+            AnhList=new List<Guid>();
+            BinhLuanIds=new List<long>();
+        }
         #endregion
         #region Customs properties
 
@@ -48,7 +53,22 @@ namespace docsoft.entities
         public List<Anh> Anhs { get; set; }
         public Nhom Nhom { get; set; }
         public string AnhStr { get; set; }
-        public List<string> NguoiThich { get; set; } 
+        public List<string> NguoiThich { get; set; }
+        public List<Member> GetNguoiThich()
+        {
+            return NguoiThich.Select(item => MemberDal.SelectByUsername(item)).ToList();
+        }
+        public bool IsLiked(string username)
+        {
+            return NguoiThich.Contains(username);
+        }
+
+        public List<long> BinhLuanIds { get; set; } 
+        public List<BinhLuan>  GetBinhLuans()
+        {
+            return BinhLuanDal.PagerByPRowId(DAL.con(), null, false, RowId.ToString(), 20).List;
+        }
+        public List<Guid> AnhList { get; set; } 
         public string Url
         {
             get
@@ -58,51 +78,51 @@ namespace docsoft.entities
                     case 1: // Profile
                         if (Profile != null)
                         {
-                            return string.Format("{0}/blogs/{1}/", Profile.Url, ID);
+                            return string.Format("{0}/blogs/{1}/", Profile.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 2: // Xe
                         if (Xe != null)
                         {
-                            return string.Format("{0}blogs/{1}/", Xe.XeUrl, ID);                            
+                            return string.Format("{0}blogs/{1}/", Xe.XeUrl, Id);                            
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 3: // Community Blog
                         if (Nhom != null)
                         {
-                            return string.Format("{0}blogs/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}blogs/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 4: // Community Topic
                         if (Nhom != null)
                         {
-                            return string.Format("{0}forum/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}forum/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 5: // Community QA
                         if (Nhom != null)
                         {
-                            return string.Format("{0}qa/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}qa/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                 }
@@ -118,51 +138,51 @@ namespace docsoft.entities
                     case 1: // Profile
                         if (Profile != null)
                         {
-                            return string.Format("{0}/blogs/edit/{1}/", Profile.Url, ID);
+                            return string.Format("{0}/blogs/edit/{1}/", Profile.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/edit/{0}/", ID);
+                            return string.Format("/blogs/edit/{0}/", Id);
                         }
                         break;
                     case 2: // Xe
                         if (Xe != null)
                         {
-                            return string.Format("{0}blogs/edit/{1}/", Xe.XeUrl, ID);
+                            return string.Format("{0}blogs/edit/{1}/", Xe.XeUrl, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/edit/{0}/", ID);
+                            return string.Format("/blogs/edit/{0}/", Id);
                         }
                         break;
                     case 3: // Community Blog
                         if (Nhom != null)
                         {
-                            return string.Format("{0}blogs/edit/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}blogs/edit/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 4: // Community Topic
                         if (Nhom != null)
                         {
-                            return string.Format("{0}forum/edit/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}forum/edit/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                     case 5: // Community QA
                         if (Nhom != null)
                         {
-                            return string.Format("{0}qa/edit/{1}/", Nhom.Url, ID);
+                            return string.Format("{0}qa/edit/{1}/", Nhom.Url, Id);
                         }
                         else
                         {
-                            return string.Format("/blogs/{0}/", ID);
+                            return string.Format("/blogs/{0}/", Id);
                         }
                         break;
                 }
@@ -246,7 +266,7 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
-            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
+            CacheHelper.Max(string.Format(CacheItemKey, Item.Id), Item);
             return Item;
         }
 
@@ -254,7 +274,7 @@ namespace docsoft.entities
         {
             Blog Item = new Blog();
             SqlParameter[] obj = new SqlParameter[19];
-            obj[0] = new SqlParameter("BLOG_ID", Updated.ID);
+            obj[0] = new SqlParameter("BLOG_ID", Updated.Id);
             obj[1] = new SqlParameter("BLOG_Loai", Updated.Loai);
             obj[2] = new SqlParameter("BLOG_PID_ID", Updated.PID_ID);
             obj[3] = new SqlParameter("BLOG_Ten", Updated.Ten);
@@ -287,8 +307,8 @@ namespace docsoft.entities
                     Item = getFromReader(rd);
                 }
             }
-            CacheHelper.Remove(string.Format(CacheItemKey, Item.ID));
-            CacheHelper.Max(string.Format(CacheItemKey, Item.ID), Item);
+            CacheHelper.Remove(string.Format(CacheItemKey, Item.Id));
+            CacheHelper.Max(string.Format(CacheItemKey, Item.Id), Item);
             return Item;
 
         }
@@ -296,6 +316,7 @@ namespace docsoft.entities
         {
             return SelectById(DAL.con(), BLOG_ID);
         }
+
         public static Blog SelectById(SqlConnection con, Int64 BLOG_ID)
         {
             var key = string.Format(CacheItemKey, BLOG_ID);
@@ -341,7 +362,7 @@ namespace docsoft.entities
                         item = getFromReader(rd);
                     }
                 }
-                var list = new List<string> {string.Format(CacheItemKey, item.ID)};
+                var list = new List<string> {string.Format(CacheItemKey, item.Id)};
                 var dep = new CacheDependency(null, list.ToArray());
                 CacheHelper.Max(key, item, dep);
                 return item;
@@ -425,7 +446,7 @@ namespace docsoft.entities
             Blog Item = new Blog();
             if (rd.FieldExists("BLOG_ID"))
             {
-                Item.ID = (Int64)(rd["BLOG_ID"]);
+                Item.Id = (Int64)(rd["BLOG_ID"]);
             }
             if (rd.FieldExists("BLOG_Loai"))
             {
@@ -542,7 +563,7 @@ namespace docsoft.entities
                     }
                     if (rd.FieldExists("X_ID"))
                     {
-                        xe.ID = (Int64)(rd["X_ID"]);
+                        xe.Id = (Int64)(rd["X_ID"]);
                     }
                     Item.Xe = xe;
                     break;
@@ -556,7 +577,7 @@ namespace docsoft.entities
                     }
                     if (rd.FieldExists("G_ID"))
                     {
-                        nhom.ID = (Int32)(rd["G_ID"]);
+                        nhom.Id = (Int32)(rd["G_ID"]);
                     }
                     Item.Nhom = nhom;
                     break;
@@ -582,9 +603,9 @@ namespace docsoft.entities
         #region Extend
         public static Pager<Blog> PagerByPRowId(string url, bool rewrite, string sort, string pRowId, string username)
         {
-            return PagerByPRowId(DAL.con(), url, rewrite, sort, pRowId, username);
+            return PagerByPRowId(DAL.con(), url, rewrite, sort, pRowId, username, 20);
         }
-        public static Pager<Blog> PagerByPRowId(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username)
+        public static Pager<Blog> PagerByPRowId(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int size)
         {
             var obj = new SqlParameter[3];
             obj[0] = new SqlParameter("Sort", sort);
@@ -597,7 +618,7 @@ namespace docsoft.entities
             {
                 obj[2] = new SqlParameter("username", username);
             }
-            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowId_linhnx", "q", 20, 10, rewrite, url, obj);
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowId_linhnx", "q", size, 10, rewrite, url, obj);
             return pg;
         }
         public static Blog SelectByRowId(Guid RowId)
@@ -620,7 +641,7 @@ namespace docsoft.entities
                         item = getFromReader(rd);
                     }
                 }
-                var list = new List<string> { string.Format(CacheItemKey, item.ID) };
+                var list = new List<string> { string.Format(CacheItemKey, item.Id) };
                 var dep = new CacheDependency(null, list.ToArray());
                 CacheHelper.Max(key, item, dep);
                 return item;
@@ -650,6 +671,10 @@ namespace docsoft.entities
         }
         public static Pager<Blog> PagerByPRowIdLoaiFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int loai, string publish)
         {
+            return PagerByPRowIdLoaiFull(con, url, rewrite, sort, pRowId, username, loai, null, 20);
+        }
+        public static Pager<Blog> PagerByPRowIdLoaiFull(SqlConnection con, string url, bool rewrite, string sort, string pRowId, string username, int loai, string publish, int size)
+        {
             var obj = new SqlParameter[5];
             obj[0] = new SqlParameter("Sort", sort);
             obj[1] = new SqlParameter("pRowId", pRowId);
@@ -670,7 +695,7 @@ namespace docsoft.entities
                 obj[3] = new SqlParameter("publish", username);
             }
             obj[4] = new SqlParameter("loai", loai);
-            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", 20, 10, rewrite, url, obj);
+            var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", size, 10, rewrite, url, obj);
             return pg;
         }
 
@@ -769,11 +794,11 @@ namespace docsoft.entities
                 var listKey = new List<string>();
                 list.ForEach(x =>
                 {
-                    if (CacheHelper.Get(string.Format(CacheItemKey, x.ID)) == null)
+                    if (CacheHelper.Get(string.Format(CacheItemKey, x.Id)) == null)
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), SelectById(con, x.ID));
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), SelectById(con, x.Id));
                     }
-                    listKey.Add(string.Format(CacheItemKey, x.ID));
+                    listKey.Add(string.Format(CacheItemKey, x.Id));
                 });
                 var dep = new CacheDependency(null, listKey.ToArray());
                 CacheHelper.Max(key, list, dep);
@@ -816,11 +841,11 @@ namespace docsoft.entities
                 var listKey = new List<string>();
                 list.ForEach(x =>
                 {
-                    if (CacheHelper.Get(string.Format(CacheItemKey, x.ID)) == null)
+                    if (CacheHelper.Get(string.Format(CacheItemKey, x.Id)) == null)
                     {
-                        CacheHelper.Max(string.Format(CacheItemKey, x.ID), SelectById(con, x.ID));                        
+                        CacheHelper.Max(string.Format(CacheItemKey, x.Id), SelectById(con, x.Id));                        
                     }
-                    listKey.Add(string.Format(CacheItemKey, x.ID));
+                    listKey.Add(string.Format(CacheItemKey, x.Id));
                 });
                 var dep = new CacheDependency(null, listKey.ToArray());
                 CacheHelper.Max(key, list, dep);
@@ -928,8 +953,89 @@ namespace docsoft.entities
         #endregion
     }
     #endregion
-    #region BlogManager
-    
+    #region BlogRedis
+    public class BlogRedis
+    {
+        const string ItemKey = "urn:blog:{0}";
+        const string ListKey = "urn:blog:list:{0}";
+        private readonly IRedisClient _redisClient;
+        public BlogRedis(IRedisClient client)
+        {
+            _redisClient = client;
+        }
+        public  Blog GetById(long id)
+        {
+            var key = string.Format(ItemKey, id);
+            var item = _redisClient.Get<Blog>(key);
+            if(item==null)
+            {
+                item = BlogDal.SelectById(id);
+                _redisClient.Set(key, item);
+            }
+            return item;
+        }
+
+        public void Remove(long id)
+        {
+            var blog = GetById(id);
+            var memberRedis = new MemberRedis(_redisClient);
+            var member = memberRedis.GetByUsername(blog.NguoiTao);
+            member.TotalBlog -= 1;
+            member.BlogIds.Remove(id);
+            memberRedis.Save(member);
+
+            _redisClient.Remove(string.Format(ItemKey, id));
+            _redisClient.Lists[string.Format(ListKey, "all")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "approved")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "unApproved")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "blog")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "hanhTrinh")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "nhomBlog")].Remove(id.ToString());
+            _redisClient.Lists[string.Format(ListKey, "nhomForum")].Remove(id.ToString());
+        }
+        public IRedisList GetAll()
+        {
+            var key = string.Format(ListKey, "all");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetApproved()
+        {
+            var key = string.Format(ListKey, "approved");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetUnApproved()
+        {
+            var key = string.Format(ListKey, "unApproved");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetNhatKy()
+        {
+            var key = string.Format(ListKey, "blog");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetHanhTrinh()
+        {
+            var key = string.Format(ListKey, "hanhTrinh");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetNhomBlog()
+        {
+            var key = string.Format(ListKey, "nhomBlog");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        }
+        public IRedisList GetNhomForum()
+        {
+            var key = string.Format(ListKey, "nhomForum");
+            var ids = _redisClient.Lists[key];
+            return ids;
+        } 
+    }
     #endregion
     #endregion
     

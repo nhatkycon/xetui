@@ -38,8 +38,8 @@ namespace docsoft.plugin.hethong.coquan
                     List<jgridRow> ListRow = new List<jgridRow>();                    
                     foreach (CoQuan cq in ListCq)
                     {
-                        ListRow.Add(new jgridRow(cq.ID.ToString(), new string[] { 
-                            cq.ID.ToString()
+                        ListRow.Add(new jgridRow(cq.Id.ToString(), new string[] { 
+                            cq.Id.ToString()
                             , cq.ThuTu.ToString()
                             , cq.Ma
                             , cq.Ten
@@ -258,7 +258,7 @@ namespace docsoft.plugin.hethong.coquan
         }
         List<HierarchyNode<CoQuan>> buildTree(List<CoQuan> listInput)
         {
-            var tree = listInput.OrderByDescending(e => e.ThuTu).ToList().AsHierarchy(e => e.ID, e => e.PID);
+            var tree = listInput.OrderByDescending(e => e.ThuTu).ToList().AsHierarchy(e => e.Id, e => e.PID);
             List<HierarchyNode<CoQuan>> _list = new List<HierarchyNode<CoQuan>>();
             foreach (HierarchyNode<CoQuan> item in tree)
             {

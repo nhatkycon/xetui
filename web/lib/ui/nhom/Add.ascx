@@ -10,7 +10,7 @@
         <hr class="hr comment-hr"/>
     <%}%>
     <form class="form-horizontal nhom-add-form" role="form">
-        <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
+        <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
         <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
         <div class="form-group">
             <label for="Ten" class="col-sm-2 control-label">Tên cộng đồng</label>
@@ -80,7 +80,7 @@
                   {%>
                 <a href="javascript:;" class="btn btn-primary btn-lg adminSaveBtn">Lưu thay đổi</a>
                 <%  }%>
-                <%if(Item.ID!=0){ %>
+                <%if(Item.Id!=0){ %>
                     <a href="javascript:;" class="btn btn-danger btn-lg xoaBtn">Xóa</a>
                 <%} %>
                 <br/><br/>

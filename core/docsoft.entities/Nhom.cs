@@ -16,7 +16,7 @@ namespace docsoft.entities
     public class Nhom : BaseEntity
     {
         #region Properties
-        public Int32 ID { get; set; }
+        public Int32 Id { get; set; }
         public String Ten { get; set; }
         public String Alias { get; set; }
         public String MoTa { get; set; }
@@ -49,17 +49,62 @@ namespace docsoft.entities
         #endregion
         #region Contructor
         public Nhom()
-        { }
+        {
+            MemberIds=new List<string>();
+            AdminIds = new List<string>();
+            UnApproveIds = new List<string>();
+            BlogIds=new List<long>();
+            BlogUnApprovedIds = new List<long>();
+            ForumBlogIds = new List<long>();
+            ForumBlogUnApprovedIds = new List<long>();
+        }
         #endregion
         #region Customs properties
         public string Url
         {
             get
             {
-                return string.Format("/group/{0}/{1}/",Lib.Bodau(Ten),ID);
+                return string.Format("/group/{0}/{1}/",Lib.Bodau(Ten),Id);
             }
         }
 
+        public List<string> MemberIds { get; set; }
+        public List<Member> GetMembers()
+        {
+            return new List<Member>();
+        }
+
+        public List<string> AdminIds { get; set; }
+        public List<Member> GetAdmins()
+        {
+            return new List<Member>();
+        }
+        public List<string> UnApproveIds { get; set; }
+        public List<Member> GetUnApprove()
+        {
+            return new List<Member>();
+        }
+
+        public List<Int64> BlogIds { get; set; }
+        public List<Blog> GetBlogs()
+        {
+            return new List<Blog>();
+        }
+        public List<Int64> BlogUnApprovedIds { get; set; }
+        public List<Blog> GetBlogUnApproveds()
+        {
+            return new List<Blog>();
+        }
+        public List<Int64> ForumBlogIds { get; set; }
+        public List<Blog> GetForumBlogs()
+        {
+            return new List<Blog>();
+        }
+        public List<Int64> ForumBlogUnApprovedIds { get; set; }
+        public List<Blog> GetForumBlogUnApproveds()
+        {
+            return new List<Blog>();
+        }
         public Member Member { get; set; }
         public Int64 Index { get; set; }
         #endregion
@@ -89,7 +134,7 @@ namespace docsoft.entities
         {
             var Item = new Nhom();
             var obj = new SqlParameter[28];
-            obj[0] = new SqlParameter("G_ID", item.ID);
+            obj[0] = new SqlParameter("G_ID", item.Id);
             obj[1] = new SqlParameter("G_Ten", item.Ten);
             obj[2] = new SqlParameter("G_Alias", item.Alias);
             obj[3] = new SqlParameter("G_MoTa", item.MoTa);
@@ -153,7 +198,7 @@ namespace docsoft.entities
         {
             var Item = new Nhom();
             var obj = new SqlParameter[28];
-            obj[0] = new SqlParameter("G_ID", item.ID);
+            obj[0] = new SqlParameter("G_ID", item.Id);
             obj[1] = new SqlParameter("G_Ten", item.Ten);
             obj[2] = new SqlParameter("G_Alias", item.Alias);
             obj[3] = new SqlParameter("G_MoTa", item.MoTa);
@@ -321,7 +366,7 @@ namespace docsoft.entities
             var Item = new Nhom();
             if (rd.FieldExists("G_ID"))
             {
-                Item.ID = (Int32)(rd["G_ID"]);
+                Item.Id = (Int32)(rd["G_ID"]);
             }
             if (rd.FieldExists("G_Ten"))
             {

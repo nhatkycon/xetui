@@ -206,6 +206,21 @@ namespace docsoft.entities
             }
             return Item;
         }
+        public static List<Thich> SelectByPidLoai(Guid pid, int Loai)
+        {
+            var list = new List<Thich>();
+            var obj = new SqlParameter[3];
+            obj[0] = new SqlParameter("P_ID", pid);
+            obj[1] = new SqlParameter("Loai", Loai);
+            using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblThich_Select_SelectByPidLoai_linhnx", obj))
+            {
+                while (rd.Read())
+                {
+                    list.Add(getFromReader(rd));
+                }
+            }
+            return list;
+        }
         #endregion
     }
     #endregion

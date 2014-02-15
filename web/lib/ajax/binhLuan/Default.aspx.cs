@@ -78,7 +78,7 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                             ,
                             RowId = item.RowId
                             ,
-                            Url = string.Format("{0}#{1}", cUrl, item.ID)
+                            Url = string.Format("{0}#{1}", cUrl, item.Id)
                             ,
                             Username = Security.Username
                         });
@@ -96,7 +96,7 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                                                         , NgayTao = DateTime.Now
                                                         , Active = true
                                                         , Loai = 1
-                                                        , Url = string.Format("{0}#{1}", cUrl,item.ID)
+                                                        , Url = string.Format("{0}#{1}", cUrl,item.Id)
                                                         , Ten = string.Empty
                                                         , ThanhVienMoi = false
                                                         , Username = Security.Username
@@ -123,7 +123,7 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                     {
                         ObjMemberDal.DeleteByPRowIdUsername(item.RowId.ToString(), Security.Username);
                         ObjDal.DeleteByRowId(item.RowId);
-                        BinhLuanDal.DeleteById(item.ID);
+                        BinhLuanDal.DeleteById(item.Id);
                     }
                 }
                 break;

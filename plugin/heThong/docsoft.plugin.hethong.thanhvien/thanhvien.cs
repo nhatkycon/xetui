@@ -74,8 +74,8 @@ namespace docsoft.plugin.hethong.thanhvien
                     List<jgridRow> ListRow = new List<jgridRow>();
                     foreach (Member item in PagerGet.List)
                     {
-                        ListRow.Add(new jgridRow(item.ID.ToString(), new string[]{
-                            item.ID.ToString()
+                        ListRow.Add(new jgridRow(item.Id.ToString(), new string[]{
+                            item.Id.ToString()
                             ,item.Ten
                             , item._CoQuan.Ten
                             , item.Loai_Ten
@@ -490,8 +490,8 @@ http://nhatkycon.vn/lib/pages/CaNhan/Profile.aspx?U={0}", memItem.Email), null, 
                         {
                             CoQuan ItemCq = CoQuanDal.SelectByMa(tran, "RAOVAT");
                             //Member ItemMe = MemberDal.Insert(tran, ItemCq.ID, _Ten, _Email, _Mobile, _DiaChi, maHoa.EncryptString(_Pwd, _Email));
-                            Member ItemMe = MemberDal.Insert(tran, ItemCq.ID, _Ten, _Email, _Mobile, _DiaChi, maHoa.MD5Encrypt(_Password));
-                            MemberRole ItemMR = MemberRoleDal.InsertDangKyCaNhan(tran, ItemCq.ID, _Email);                           
+                            Member ItemMe = MemberDal.Insert(tran, ItemCq.Id, _Ten, _Email, _Mobile, _DiaChi, maHoa.MD5Encrypt(_Password));
+                            MemberRole ItemMR = MemberRoleDal.InsertDangKyCaNhan(tran, ItemCq.Id, _Email);                           
                             Security.Login(_Email, "true");
                             sb.Append("1");
                             tran.Commit();
@@ -519,10 +519,10 @@ http://nhatkycon.vn/lib/pages/CaNhan/Profile.aspx?U={0}", memItem.Email), null, 
                         try
                         {
                             CoQuan ItemCqP = CoQuanDal.SelectByMa(tran, "GIANHANG");
-                            CoQuan ItemCq = CoQuanDal.Insert(tran, ItemCqP.ID, _Ten, _Email);
+                            CoQuan ItemCq = CoQuanDal.Insert(tran, ItemCqP.Id, _Ten, _Email);
                             //Member ItemMe = MemberDal.Insert(tran, ItemCq.ID, _Ten, _Email, _Mobile, _DiaChi, maHoa.EncryptString(_Pwd, _Email));
-                            Member ItemMe = MemberDal.Insert(tran, ItemCq.ID, _Ten, _Email, _Mobile, _DiaChi, maHoa.MD5Encrypt(_Pwd));
-                            MemberRoleDal.InsertDangKyGianHang(tran, ItemCq.ID, _Email, _Ten,_Lang);
+                            Member ItemMe = MemberDal.Insert(tran, ItemCq.Id, _Ten, _Email, _Mobile, _DiaChi, maHoa.MD5Encrypt(_Pwd));
+                            MemberRoleDal.InsertDangKyGianHang(tran, ItemCq.Id, _Email, _Ten,_Lang);
                             //LienHe itemLH = LienHeDal.InsertLH(tran, ItemMe.RowId.ToString());
                             Security.Login(_Email, "true");
                             sb.Append("1");

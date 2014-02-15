@@ -72,7 +72,7 @@ namespace docsoft
                 if (HttpContext.Current.Session[sessionName] != null)
                 {
                     Member Item = (Member)(HttpContext.Current.Session[sessionName]);
-                    return Item.ID;
+                    return Item.Id;
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace docsoft
                     {
                         c.Values.Add("Username", username);
                         c.Values.Add("Ten", HttpContext.Current.Server.UrlEncode(item.Ten));
-                        c.Values.Add("Id", item.ID.ToString());
+                        c.Values.Add("Id", item.Id.ToString());
                         c.Expires = DateTime.Now.AddDays(14);
                         HttpContext.Current.Response.Cookies.Add(c);
                     }
@@ -142,7 +142,7 @@ namespace docsoft
             {
                 c.Values.Add("Username", username);
                 c.Values.Add("Ten", HttpContext.Current.Server.UrlEncode(item.Ten));
-                c.Values.Add("Id", item.ID.ToString());
+                c.Values.Add("Id", item.Id.ToString());
                 c.Expires = DateTime.Now.AddDays(14);
                 HttpContext.Current.Response.Cookies.Add(c);
             }

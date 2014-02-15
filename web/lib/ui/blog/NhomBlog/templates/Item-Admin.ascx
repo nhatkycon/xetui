@@ -2,10 +2,10 @@
 <%@ Import Namespace="linh.common" %>
 <div class="blogNhom-item">
     <div class="pull-right">
-        <button title="Xóa" class="btn btn-default publishBlogBtn" data-approved="0" data-id="<%=Item.ID %>">
+        <button title="Xóa" class="btn btn-default publishBlogBtn" data-approved="0" data-id="<%=Item.Id %>">
             <i class="glyphicon glyphicon-remove"></i>
         </button>
-        <button title="Duyệt" class="btn btn-default publishBlogBtn" data-approved="1" data-id="<%=Item.ID %>">
+        <button title="Duyệt" class="btn btn-default publishBlogBtn" data-approved="1" data-id="<%=Item.Id %>">
             <i class="glyphicon glyphicon-ok"></i>
         </button>
     </div>

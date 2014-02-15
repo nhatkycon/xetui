@@ -49,8 +49,8 @@ public partial class lib_lab_CacheRelated : BasedPage
                 var listKey = new List<string>();
                 mems.ForEach(x =>
                                  {
-                                     CacheHelper.Max(string.Format(MemKey, x.ID), x);
-                                     listKey.Add(string.Format(MemKey, x.ID));
+                                     CacheHelper.Max(string.Format(MemKey, x.Id), x);
+                                     listKey.Add(string.Format(MemKey, x.Id));
                                  });
                 var dep = new CacheDependency(null, listKey.ToArray());
                 Cache.Insert(key, mems, dep);

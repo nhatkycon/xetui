@@ -14,6 +14,7 @@ namespace Xetui.HttpHandler
             var path = context.Request["path"];
             var w = context.Request["w"];
             var h = context.Request["h"];
+            var m = context.Request["m"];
             if(string.IsNullOrEmpty(path))
                 return;
             if(path.IndexOf("lib/js/") > 0) return;
@@ -27,6 +28,14 @@ namespace Xetui.HttpHandler
                 if(!string.IsNullOrEmpty(h))
                 {
                     img.Crop(Convert.ToInt32(w), Convert.ToInt32(h));
+                }
+                if (Convert.ToInt32(w) > 320)
+                {
+                    if(string.IsNullOrEmpty(m))
+                    {
+                        var watermark = context.Server.MapPath("~/lib/css/web/xetui-logo/watermark.png");
+                        img.AddWaterMark(watermark);    
+                    }
                 }
             }
             img.Save();

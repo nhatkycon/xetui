@@ -4,7 +4,7 @@
 <%@ Register src="~/lib/ui/HeThong/UploaderV1.ascx" tagPrefix="HeThong" tagName="UploaderV1" %>
 <div class="padding-20 car-add-pnl">
     <form class="form-horizontal car-add-form" role="form">
-        <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
+        <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
         <input type="hidden" name="AdminKey" class="AdminKey"  value="<%=IsAdmin %>"/>
         <div class="form-group">
             <label for="HANG_ID" class="col-sm-2 col-md-2 control-label">Hãng</label>
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label for="GioiThieu" class="col-sm-2 control-label">Giới thiệu</label>
             <div class="col-sm-10">
-                <textarea class="form-control GioiThieu" name="GioiThieu" id="GioiThieu" rows="6"><%=Item.GioiThieu %></textarea>
+                <textarea class="form-control NoiDung" name="GioiThieu" id="NoiDung" rows="6"><%=Item.GioiThieu %></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -181,7 +181,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>
-                <%if(Item.ID!=0){ %>
+                <%if(Item.Id!=0){ %>
                 <a href="javascript:;" class="btn btn-danger btn-lg xoaBtn">Xóa</a>
                 <%} %>
                 <br/><br/>

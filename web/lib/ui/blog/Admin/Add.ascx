@@ -6,7 +6,7 @@
     <div class="panel-body">
         <div class="padding-20 blog-add-pnl">
             <form class="form-horizontal blog-add-form" role="form">
-                <input type="hidden" name="Id"  value="<%=Item.ID %>"/>
+                <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
                 <input type="hidden" name="RowId" class="RowId"  value="<%=Item.RowId %>"/>
                 <input type="hidden" name="PID_ID" class="PID_ID"  value="<%=Item.PID_ID %>"/>
                 <input type="hidden" name="Loai" class="Loai"  value="<%=Item.Loai %>"/>
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <a href="javascript:;" class="btn btn-primary btn-lg saveBtn">Lưu thay đổi</a>
-                        <%if(Item.ID!=0){ %>
+                        <%if(Item.Id!=0){ %>
                             <a href="javascript:;" class="btn btn-danger btn-lg xoaBtn">Xóa</a>
                         <%} %>
                         <br/><br/>

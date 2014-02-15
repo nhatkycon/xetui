@@ -31,7 +31,7 @@
               <div class="form-group">
                 <label for="Ten" class="col-sm-2 control-label">Tên</label>
                 <div class="col-sm-10">
-                    <input type="hidden" name="Id"  value="<%=User.ID %>"/>
+                    <input type="hidden" name="Id"  value="<%=User.Id %>"/>
                   <input type="text" class="form-control" id="Ten" value="<%=User.Ten %>" name="Ten" placeholder="Tên">
                 </div>
               </div>
