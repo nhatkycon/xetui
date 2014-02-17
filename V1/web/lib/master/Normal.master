@@ -1,0 +1,1 @@
+﻿<%@ Master ViewStateMode="Disabled" Language="C#" AutoEventWireup="true" CodeFile="Normal.master.cs" Inherits="lib_master_Normal" %>

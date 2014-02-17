@@ -1,0 +1,38 @@
+﻿.pm-item {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.pm-item .pm-item-user {
+    float: left;
+    width: 50px;
+}
+.pm-item .pm-item-avatar {
+    width: 50px;
+    height: 50px;
+    border: 0px;
+}
+.pm-item .pm-item-body {
+    padding-left: 60px;
+    font: 14px/1.4 sans-serif;
+}
+.pm-item .pm-item-text {
+    
+}
+.pm-item .pm-item-date {
+    color: gray;
+    font: 11px/14px sans-serif;
+    margin-top: 10px;
+}
+.pm-item-own {
+    
+}
+.pm-item-own .pm-item-user {
+    float: right;
+}
+.pm-item-own .pm-item-body {
+    padding-right: 60px;
+    text-align: right;
+}
+.PmPost-Buttons {
+    overflow: hidden;
+}

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{081057F3-0D4E-4173-8D9F-2EA8CD9CD0C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>docsoft.entities</RootNamespace>
+    <AssemblyName>docsoft.entities</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\..\web\lib\dll\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\web\lib\dll\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Album.cs" />
+    <Compile Include="Anh.cs" />
+    <Compile Include="BinhLuan.cs" />
+    <Compile Include="Blog.cs" />
+    <Compile Include="CacheManager.cs" />
+    <Compile Include="Adv.cs" />
+    <Compile Include="Promoted.cs" />
+    <Compile Include="Nhom.cs" />
+    <Compile Include="NhomThanhVien.cs" />
+    <Compile Include="SearchManager.cs" />
+    <Compile Include="Thich.cs" />
+    <Compile Include="PmRoom.cs" />
+    <Compile Include="PM.cs" />
+    <Compile Include="Obj.cs" />
+    <Compile Include="ObjMember.cs" />
+    <Compile Include="Xe.cs" />
+    <Compile Include="SystemMessage.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="DanhmucDonvi.cs" />
+    <Compile Include="LoaiDanhmucDonvi.cs" />
+    <Compile Include="Relation.cs" />
+    <Compile Include="Tin.cs" />
+    <Compile Include="CoQuan.cs" />
+    <Compile Include="CoQuanFunction.cs" />
+    <Compile Include="DanhMuc.cs" />
+    <Compile Include="Function.cs" />
+    <Compile Include="LoaiDanhMuc.cs" />
+    <Compile Include="LoaiLog.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Member.cs" />
+    <Compile Include="MemberRole.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RoleFunction.cs" />
+    <Compile Include="Userfunction.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\linh\linh.csproj">
+      <Project>{AA37610E-2E32-44A7-918B-FA11F8DB8028}</Project>
+      <Name>linh</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="redisEntity\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
