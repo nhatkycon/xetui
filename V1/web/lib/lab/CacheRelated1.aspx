@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CacheRelated1.aspx.cs" Inherits="lib_lab_CacheRelated1" %>

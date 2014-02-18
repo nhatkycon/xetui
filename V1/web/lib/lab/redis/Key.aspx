@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Key.aspx.cs" Inherits="lib_lab_redis_Key" %>

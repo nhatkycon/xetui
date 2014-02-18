@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RedisBlog.aspx.cs" Inherits="lib_lab_RedisBlog" %>
