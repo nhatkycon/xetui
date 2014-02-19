@@ -12,7 +12,7 @@
     <a href="<%=Item.Url %>" class="blogNhom-item-title">
         <%=Item.Ten %>
     </a>
-    <a href="<%=Item.GetNguoiTao().Url %>" class="blogNhom-item-user"><%=Item.GetNguoiTao().Ten %></a>
+    <a href="<%=Item.NguoiTaoMember.Url %>" class="blogNhom-item-user"><%=Item.NguoiTaoMember.Ten %></a>
     <span class="blogNhom-item-date" title="<%=Item.NgayTao.ToString("hh:mm dd/MM/yyyy") %>">
         <%=Lib.TimeDiff(Item.NgayTao) %>
     </span>        

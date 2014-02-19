@@ -12,7 +12,7 @@ public partial class lib_ui_account_profile : System.Web.UI.UserControl
 {
     public Member Item { get; set; }
     public List<Xe> Xes { get; set; }
-    public Pager<Blog> Pager { get; set; }
+    public List<Blog> List { get; set; }
     public List<Nhom> Nhoms { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -22,8 +22,8 @@ public partial class lib_ui_account_profile : System.Web.UI.UserControl
             profileAbout.Item = Item;
             profileAbout.Xes = Xes;
 
-            if (Pager == null) return;
-            rpt.DataSource = Pager.List;
+            if (List == null) return;
+            rpt.DataSource = List;
             rpt.DataBind();    
         
     }

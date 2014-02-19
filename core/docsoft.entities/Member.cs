@@ -65,6 +65,7 @@ namespace docsoft.entities
             BlogIds=new List<long>();
             XeIds=new List<long>();
             XeYeuThichIds = new List<long>();
+            NhomIds=new List<int>();
             NguoiYeuThichUnames=new List<string>();
             Fans=new List<string>();
         }
@@ -85,11 +86,18 @@ namespace docsoft.entities
         }
 
         public List<Int64> XeIds { get; set; }
-        public List<Xe> GetXe ()
+        public List<Xe> GetXe(IRedisClient _redisClient)
         {
-            return new List<Xe>();
+            var xeRedis = new XeRedis(_redisClient);
+            return XeIds.Select(id => xeRedis.GetById(Convert.ToInt64(id))).ToList();
         }
 
+        public List<Int32> NhomIds { get; set; }
+        public List<Nhom> GetNhom(IRedisClient _redisClient)
+        {
+            var nhomRedis = new NhomRedis(_redisClient);
+            return NhomIds.Select(id => nhomRedis.GetById(Convert.ToInt32(id))).ToList();
+        }
         public List<Int64> XeYeuThichIds { get; set; } 
         public List<Xe> XeYeuThich()
         {
@@ -356,7 +364,7 @@ namespace docsoft.entities
                 obj[7] = new SqlParameter("MEM_Password", DBNull.Value);                
             }
 
-            if (Updated.NgayTao > DateTime.MinValue)
+            if (Updated.NgayTao.Year != 0001)
             {
                 obj[8] = new SqlParameter("MEM_NgayTao", Updated.NgayTao);
             }
@@ -364,7 +372,7 @@ namespace docsoft.entities
             {
                 obj[8] = new SqlParameter("MEM_NgayTao", DBNull.Value);
             }
-            if (Updated.NgayCapNhat > DateTime.MinValue)
+            if (Updated.NgayCapNhat.Year != 0001)
             {
                 obj[9] = new SqlParameter("MEM_NgayCapNhat", Updated.NgayCapNhat);
             }
@@ -379,7 +387,7 @@ namespace docsoft.entities
             obj[13] = new SqlParameter("MEM_Active", Updated.Active);
             obj[14] = new SqlParameter("MEM_Khoa", Updated.Khoa);
             obj[15] = new SqlParameter("MEM_XacNhan", Updated.XacNhan);
-            if (Updated.NgayXacNhan > DateTime.Now)
+            if (Updated.NgayXacNhan.Year != 0001)
             {
                 obj[16] = new SqlParameter("MEM_NgayXacNhan", Updated.NgayXacNhan);
             }
@@ -399,7 +407,7 @@ namespace docsoft.entities
             obj[25] = new SqlParameter("MEM_Phone", Updated.Phone);
             obj[26] = new SqlParameter("MEM_Tinh", Updated.Tinh);
             obj[27] = new SqlParameter("MEM_FbId", Updated.FbId);
-            if (Updated.NgayChungThuc > DateTime.MinValue)
+            if (Updated.NgayChungThuc.Year != 0001)
             {
                 obj[28] = new SqlParameter("MEM_NgayChungThuc", Updated.NgayChungThuc);
             }
@@ -408,7 +416,7 @@ namespace docsoft.entities
                 obj[28] = new SqlParameter("MEM_NgayChungThuc", DBNull.Value);
             }
             obj[29] = new SqlParameter("MEM_Vcard", Updated.Vcard);
-            if (Updated.NgaySinh > DateTime.MinValue)
+            if (Updated.NgaySinh.Year != 0001)
             {
                 obj[30] = new SqlParameter("MEM_NgaySinh", Updated.NgaySinh);
             }
@@ -416,7 +424,7 @@ namespace docsoft.entities
             {
                 obj[30] = new SqlParameter("MEM_NgaySinh", DBNull.Value);
             }
-            if (Updated.LastLoggedIn > DateTime.MinValue)
+            if (Updated.LastLoggedIn.Year != 0001)
             {
                 obj[31] = new SqlParameter("MEM_LastLoggedIn", Updated.LastLoggedIn);
             }

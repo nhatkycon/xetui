@@ -12,10 +12,20 @@ public partial class lib_lab_redis_Key : System.Web.UI.Page
     {
         using (var redisClient = new RedisClient("localhost"))
         {
-            var dm = redisClient.As<DanhMuc>();
-            foreach (var _key in dm.GetAllKeys())
+            var k = Request["k"];
+            if(!string.IsNullOrEmpty(k))
             {
-                Response.Write(string.Format("{0}<br/>", _key));
+                var obj = redisClient.Get(k);
+                if(obj != null)
+                {
+                    string result = System.Text.Encoding.UTF8.GetString(obj);
+                    Response.Write(result);
+                }
+                return;
+            }
+            foreach (var _key in redisClient.GetAllKeys())
+            {
+                Response.Write(string.Format(@"<a href=""?k={0}"">{0}</a><br/>", _key));
             }
         }
     }

@@ -5,7 +5,7 @@
 
 <div class="binhLuan-item">
     <div class="binhLuan-item-user">
-        <%=Blog.GetNguoiTao().Vcard%>
+        <%=Blog.NguoiTaoMember.Vcard%>
     </div>
     <div class="binhLuan-item-body">
         <h3 class="blog-view-title">

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using ServiceStack.Redis;
 using docsoft;
 using docsoft.entities;
@@ -93,12 +89,27 @@ public partial class lib_ajax_blog_Default : BasedPage
                         item.NgayTao = DateTime.Now;
                         var insert = BlogDal.Insert(item);
                         item.Id = insert.Id;
+                        item.NguoiThich.Insert(0, item.NguoiTao);
                         nguoiTao = memberRedis.GetByUsername(item.NguoiTao);
                         switch (item.Loai)
                         {
                             case 1:
+                                if(member!= null)
+                                {
+                                    member.TotalBlog += 1;
+                                    member.BlogIds.Insert(0, item.Id);
+                                    memberRedis.Save(member);
+                                    MemberDal.Update(member);
+                                }
                                 break;
                             case 2:
+                                if (xe != null)
+                                {
+                                    xe.BlogIds.Insert(0, item.Id);
+                                    xe.TotalBlog += 1;
+                                    xeRedis.Save(xe);
+                                    XeDal.Update(xe);
+                                }
                                 CacheHelper.Remove(string.Format(XeDal.CacheItemKey,item.Id));
                                 systemMessageDal.Insert(new systemMessage()
                                 {
@@ -130,6 +141,16 @@ public partial class lib_ajax_blog_Default : BasedPage
                             case 3:
                             case 4:
                             case 5:
+                                nhom.TotalBlog += 1;
+                                if(item.Loai==3)
+                                {
+                                    nhom.BlogIds.Insert(0, item.Id);
+                                }
+                                else
+                                {
+                                    nhom.ForumBlogIds.Insert(0, item.Id);
+                                }
+                                nhomRedis.Save(nhom);
                                 if (nhom.NhomMo)
                                 {
                                     item.Publish = true;
@@ -160,6 +181,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                     ,
                                     ThuTu = 0
                                 });
+                                NhomDal.Update(nhom);
                                 BlogDal.Update(item);
                                 break;
                         }

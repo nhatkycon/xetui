@@ -43,17 +43,12 @@ namespace docsoft.entities
             NguoiThich=new List<string>();
             AnhList=new List<Guid>();
             BinhLuanIds=new List<long>();
+            NguoiTaoMember=new Member();
         }
         #endregion
         #region Customs properties
 
-        public Member GetNguoiTao()
-        {
-            var pooledClientManager = new PooledRedisClientManager("localhost");
-            var client = pooledClientManager.GetClient();
-            var memberRedis = new MemberRedis(client);
-            return memberRedis.GetByUsername(NguoiTao);
-        }
+        public Member NguoiTaoMember { get; set; }        
         public Member Profile(IRedisClient client)
         {
             var memberRedis = new MemberRedis(client);
@@ -806,11 +801,22 @@ namespace docsoft.entities
                 item = BlogDal.SelectById(id);
                 _redisClient.Set(key, item);
             }
+            var memberRedis = new MemberRedis(_redisClient);
+            item.NguoiTaoMember = memberRedis.GetByUsername(item.NguoiTao);
+            return item;
+        }
+        public Blog GetByRowId(Guid rowid)
+        {
+            var idKey = string.Format(ItemKey, rowid);
+            var id = _redisClient.Get<Int64>(idKey);
+            if (id == 0) return new Blog();
+            var item = GetById(id);
             return item;
         }
         public void Save(Blog item)
         {
             var key = string.Format(ItemKey, item.Id);
+            _redisClient.Set(string.Format(ItemKey, item.RowId), item.Id);
             _redisClient.Set(key, item);
             
         }

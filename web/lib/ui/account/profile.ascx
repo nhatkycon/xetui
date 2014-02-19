@@ -16,11 +16,12 @@
                 <a href="<%=Item.Url %>/blogs/">
                     Blog
                 </a>
-                <%if(Pager!=null && Pager.Total > 0){ %>
-                <span class="text-muted"><%=Pager.Total %> bài</span>
+                <%if(List!=null && List.Count > 0){ %>
+                <span class="text-muted"><%=List.Count %> bài</span>
                 <%} %>
             </div>
-            <%if(Pager.Total > 0){ %>
+            <%if (List.Any())
+              { %>
             <asp:Repeater runat="server" ID="rpt">
                 <ItemTemplate>
                     <temp:ForProfile ID="forProfile1" runat="server" Item='<%# Container.DataItem %>'/>

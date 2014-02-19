@@ -999,6 +999,11 @@ namespace docsoft.entities
             var item = GetById(id);
             return item;
         }
+        public void Save(Xe item)
+        {
+            var key = string.Format(ItemKey, item.Id);
+            _redisClient.Set(key, item);
+        }
         public IRedisList GetAll()
         {
             var key = string.Format(ListKey, "all");

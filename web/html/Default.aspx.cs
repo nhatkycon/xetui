@@ -23,7 +23,7 @@ public partial class html_Default : System.Web.UI.Page
             }
 
             var memberRedis = new MemberRedis(client);
-            var promotedUsers = memberRedis.GetXacNhanItems(0, 9);
+            var promotedUsers = memberRedis.GetXacNhanItems(0, 7);
             //UserHomeList.List = MemberDal.SelectPromoted(con, 8, 61);
             UserHomeList.List = promotedUsers;
 

@@ -21,9 +21,9 @@
     </td>
     <td class="hidden-xs">
         <a href="/lib/mod/Users/Default.aspx?username=<%=Item.NguoiTao %>">
-            <%=Item.GetNguoiTao().Ten %>
+            <%=Item.NguoiTaoMember.Ten %>
         </a>
-        <a href="<%=Item.GetNguoiTao().Url %>" class="btn btn-default btn-xs">
+        <a href="<%=Item.NguoiTaoMember.Url %>" class="btn btn-default btn-xs">
             <i class="glyphicon glyphicon-link"></i>
         </a>
     </td>

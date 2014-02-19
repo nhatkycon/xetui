@@ -235,3 +235,12 @@
     text-decoration: none;
     display: block;
 }
+.loader
+{
+	width:16px;
+	height:16px;
+    display: none;
+    float: left;
+	background-image:url(i/load.gif);
+	background-repeat:no-repeat;
+}

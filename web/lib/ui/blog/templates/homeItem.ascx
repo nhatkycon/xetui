@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="homeItem.ascx.cs" Inherits="lib_ui_blog_templates_homeItem" %>
 <%@ Import Namespace="linh.common" %>
 <div class="blog-item car-blog-item">
-    <a href="<%=Item.GetNguoiTaoUrl() %>" class="blog-item-user">
-        <img src="/lib/up/users/<%=Item.GetNguoiTao().Anh %>?w=50"                
+    <a href="<%=Item.NguoiTaoMember.Url %>" class="blog-item-user">
+        <img src="/lib/up/users/<%=Item.NguoiTaoMember.Anh %>?w=50"                
             class=""
             />
     </a>

@@ -89,6 +89,7 @@ var autoFn = {
             });
         }
         , msg: function (tit, txt, fn, time) {
+            var modal = $('#AlertModal');
             var body = $('#AlertModal').find('.modal-body');
             var title = $('#AlertModal').find('.modal-title');
             body.html('');
@@ -101,6 +102,16 @@ var autoFn = {
             setTimeout(function () {
                 $('#AlertModal').modal('hide');
             }, time);
+            if(typeof (fn) == "function") {
+                fn(modal);
+            }
+        }
+        , loader:function (title, show) {
+            if (show) {
+                autoFn.utils.msg(title, '<span class="loader"></span>');
+            } else {
+                $('#AlertModal').modal('hide');
+            }
         }
     }
     , url: {
@@ -868,11 +879,13 @@ var autoFn = {
                         data.push({ name: 'Anh', value: anh });
                     }
                 }
+                autoFn.utils.loader('Lưu', true);
                 $.ajax({
                     url: autoFn.url.blog
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       autoFn.utils.loader('Lưu', false);
                        if (rs == '0') { // E-mail or username is not avaiable
                            alertErr.fadeIn();
                            alertErr.html('Nhập tên cho chuẩn nhé');

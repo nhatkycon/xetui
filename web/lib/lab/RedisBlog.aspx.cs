@@ -12,35 +12,71 @@ public partial class lib_lab_RedisBlog : BasedPage
     protected void Page_Load(object sender, EventArgs e)
     {
         var startDate = DateTime.Now;
+        var endDate = DateTime.Now;
         var redis = pooledClientManager.GetClient();
         redis.FlushAll();
         redis.FlushDb();
         using(var con = DAL.con())
         {
-            InitBlog(con);
-            InitMember(con);
-            InitXe(con);
-            InitBinhLuan(con);
-            InitObj(con);
+
             InitDanhMuc(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("DanhMuc: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+
             InitLoaiDanhMuc(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("LoaiDanhMuc: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+
+            InitMember(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("Member: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+            
+            InitXe(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("Xe: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+
+            InitObj(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("Obj: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+
+            InitBlog(con, redis);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("Blog: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+
+            InitBinhLuan(con);
+            endDate = DateTime.Now;
+            Response.Write(string.Format("BinhLuan: {0}<br/>", (endDate - startDate).TotalMilliseconds));
+            
+            
+            
+            
         }
         
-        var endDate = DateTime.Now;
+        endDate = DateTime.Now;
         Response.Write(string.Format("{0}<br/>", (endDate - startDate).TotalMilliseconds));
         Response.Write(string.Format("{0}<br/>", redis.DbSize));
     }
-    public void InitBlog(SqlConnection con)
+    public void InitBlog(SqlConnection con, IRedisClient redis)
     {
         const string itemKey = "urn:blog:{0}";
         const string itemList = "urn:blog:list:{0}";
-        var redis = pooledClientManager.GetClient();
+
+        var blogRedis = new BlogRedis(redis);
+        var memberRedis = new MemberRedis(redis);
+        var nhomRedis = new NhomRedis(redis);
+        var xeRedis = new XeRedis(redis);
+        var member = new Member();
+        var xe = new Xe();
+        var nhom = new Nhom();
+        var nguoiTao = new Member();
+
         //STEP:1
         //var blog = BlogDal.SelectAll().FirstOrDefault();
         //redis.Set(string.Format(itemKey,blog.Id), blog);
 
         //STEP:2
         var list = BlogDal.SelectAll();
+
         var all = redis.Lists[string.Format(itemList, "all")];
         var approved = redis.Lists[string.Format(itemList, "approved")];
         var unApproved = redis.Lists[string.Format(itemList, "unApproved")];
@@ -54,32 +90,56 @@ public partial class lib_lab_RedisBlog : BasedPage
             var thich = ThichDal.SelectByPidLoai(item.RowId, 3);
             foreach (var thich1 in thich)
             {
-                item.NguoiThich.Add(thich1.Username);
+                item.NguoiThich.Insert(0, thich1.Username);
             }
             var anhs = AnhDal.SelectByPId(DAL.con(), item.RowId.ToString(), 100);
             foreach (var anh in anhs)
             {
-                item.AnhList.Add(anh.Id);
+                item.AnhList.Insert(0, anh.Id);
             }
 
-            var binhLuanList = BinhLuanDal.PagerByPRowId(con, null, false, item.RowId.ToString(), 1000).List;
+            var binhLuanList = BinhLuanDal.PagerByPRowId(con, "a", false, item.RowId.ToString(), 1000).List;
             foreach (var binhLuan in binhLuanList)
             {
-                item.BinhLuanIds.Add(binhLuan.Id);
+                item.BinhLuanIds.Insert(0, binhLuan.Id);
             }
             
             switch (item.Loai)
             {
                 case 1:
+                    member = memberRedis.GetByRowId(item.PID_ID);
                     topHanhTrinh.Push(item.Id.ToString(CultureInfo.InvariantCulture));
+                    if (member != null)
+                    {
+                        item.Url = string.Format("{0}/blogs/{1}/", member.Url, item.Id);
+                        item.UrlEdit = string.Format("{0}/blogs/edit/{1}/", member.Url, item.Id);
+                    }
                     break;
                 case 2:
+                    xe = xeRedis.GetByRowId(item.PID_ID);
+                    if (xe != null)
+                    {
+                        item.Url = string.Format("{0}blogs/{1}/", xe.XeUrl, item.Id);
+                        item.UrlEdit = string.Format("{0}blogs/edit/{1}/", xe.XeUrl, item.Id);
+                    }
                     topNhatKy.Push(item.Id.ToString());
                     break;
                 case 3:
+                    nhom = nhomRedis.GetByRowId(item.PID_ID);
+                    if (nhom != null)
+                    {
+                        item.Url = string.Format("{0}blogs/{1}/", nhom.Url, item.Id);
+                        item.UrlEdit = string.Format("{0}blogs/edit/{1}/", nhom.Url, item.Id);
+                    }
                     topNhomBlog.Push(item.Id.ToString());
                     break;
                 case 4:
+                    nhom = nhomRedis.GetByRowId(item.PID_ID);
+                    if (nhom != null)
+                    {
+                        item.Url = string.Format("{0}forum/{1}/", nhom.Url, item.Id);
+                        item.UrlEdit = string.Format("{0}blogs/edit/{1}/", nhom.Url, item.Id);
+                    }
                     topNhomForum.Push(item.Id.ToString());
                     break;
             }
@@ -109,42 +169,42 @@ public partial class lib_lab_RedisBlog : BasedPage
 
         foreach (var item in list)
         {
-            var listBlog = BlogDal.PagerByPRowId(null, false, null, item.RowId.ToString(), item.Username).List;
+            var listBlog = BlogDal.PagerByPRowId(string.Empty, false, null, item.RowId.ToString(), item.Username).List;
             foreach (var blog in listBlog)
             {
-                item.BlogIds.Add(blog.Id);
+                item.BlogIds.Insert(0, blog.Id);
             }
 
             var listXe = XeDal.SelectDuyetByNguoiTao(con, item.Username, 1000, null);
             foreach (var xe in listXe)
             {
-                item.XeIds.Add(xe.Id);
+                item.XeIds.Insert(0, xe.Id);
             }
 
             var xeYeuThichList = XeDal.PagerXeYeuThichByUsername(con, string.Empty, false, null, item.Username, null).List;
             foreach (var xe in xeYeuThichList)
             {
-                item.XeYeuThichIds.Add(xe.Id);
+                item.XeYeuThichIds.Insert(0, xe.Id);
             }
 
             var fans = MemberDal.PagerFanByRowId(string.Empty, true, null, item.RowId.ToString(), null).List;
             foreach (var mem in fans)
             {
-                item.Fans.Add(mem.Username);
+                item.Fans.Insert(0, mem.Username);
             }
 
             var key = string.Format(itemKey, item.Id);
             redis.Set(key, item);
             redis.Set(string.Format(itemKey, item.Username), item.Id);
             redis.Set(string.Format(itemKey, item.RowId), item.Id);
-            all.Add(item.Id.ToString());
+            all.Push(item.Id.ToString());
             if(item.XacNhan)
             {
-                xacNhan.Add(item.Id.ToString());
+                xacNhan.Push(item.Id.ToString());
             }
             else
             {
-                chuaXacNhan.Add(item.Id.ToString());
+                chuaXacNhan.Push(item.Id.ToString());
             }
         }
     }
@@ -163,37 +223,37 @@ public partial class lib_lab_RedisBlog : BasedPage
             var anhs = AnhDal.SelectByPId(DAL.con(), item.RowId.ToString(), 100);
             foreach (var anh in anhs)
             {
-                item.AnhIds.Add(anh.Id);
+                item.AnhIds.Insert(0, anh.Id);
             }
 
-            var binhLuanList = BinhLuanDal.PagerByPRowId(DAL.con(), null, false, item.RowId.ToString(), 1000).List;
+            var binhLuanList = BinhLuanDal.PagerByPRowId(con, string.Empty, false, item.RowId.ToString(), 1000).List;
             foreach (var binhLuan in binhLuanList)
             {
-                item.BinhLuanIds.Add(binhLuan.Id);
+                item.BinhLuanIds.Insert(0, binhLuan.Id);
             }
 
             var fans = MemberDal.PagerFanByRowId(string.Empty, true, null, item.RowId.ToString(), null).List;
             foreach (var mem in fans)
             {
-                item.Fans.Add(mem.Username);
+                item.Fans.Insert(0, mem.Username);
             }
 
-            var listBlog = BlogDal.PagerByPRowId(null, false, null, item.RowId.ToString(), null).List;
+            var listBlog = BlogDal.PagerByPRowId(con, string.Empty, false, null, item.RowId.ToString(), null, 100).List;
             foreach (var blog in listBlog)
             {
-                item.BlogIds.Add(blog.Id);
+                item.BlogIds.Insert(0, blog.Id);
             }
             var key = string.Format(itemKey, item.Id);
             redis.Set(key, item);
             redis.Set(string.Format(itemKey, item.RowId), item.Id);
-            all.Add(item.Id.ToString());
+            all.Push(item.Id.ToString());
             if (item.Duyet)
             {
-                duyet.Add(item.Id.ToString());
+                duyet.Push(item.Id.ToString());
             }
             else
             {
-                chuaDuyet.Add(item.Id.ToString());
+                chuaDuyet.Push(item.Id.ToString());
             }
         }
     }
@@ -237,7 +297,7 @@ public partial class lib_lab_RedisBlog : BasedPage
                 item.BlogIds.Add(blog.Id);
                 if (!blog.Publish)
                 {
-                    item.BlogUnApprovedIds.Add(blog.Id);
+                    item.BlogUnApprovedIds.Insert(0, blog.Id);
                 }
             }
 
@@ -249,17 +309,17 @@ public partial class lib_lab_RedisBlog : BasedPage
                 item.ForumBlogIds.Add(blog.Id);
                 if(!blog.Publish)
                 {
-                    item.ForumBlogUnApprovedIds.Add(blog.Id);
+                    item.ForumBlogUnApprovedIds.Insert(0, blog.Id);
                 }
             }
 
             var listThanhVien = NhomThanhVienDal.SelectByNhomId(con, item.Id.ToString(), true.ToString());
             foreach (var mem in listThanhVien)
             {
-                item.MemberIds.Add(mem.Username);
+                item.MemberIds.Insert(0, mem.Username);
                 if(mem.Admin)
                 {
-                    item.AdminIds.Add(mem.Username);
+                    item.AdminIds.Insert(0, mem.Username);
                 }
             }
             var listThanhVienUnApproved = NhomThanhVienDal.SelectByNhomId(con, item.Id.ToString(),
@@ -324,7 +384,7 @@ public partial class lib_lab_RedisBlog : BasedPage
             var danhMucList = DanhMucDal.SelectByLDMID(con, item.Id.ToString());
             foreach (var danhMuc in danhMucList)
             {
-                item.DanhMucIds.Add(danhMuc.ID);
+                item.DanhMucIds.Insert(0, danhMuc.ID);
             }
             var key = string.Format(itemKey, item.Id);
             redis.Set(key, item);

@@ -589,6 +589,11 @@ namespace docsoft.entities
         {
             _redisClient = client;
         }
+        public void Save(Nhom item)
+        {
+            var key = string.Format(ItemKey, item.Id);
+            _redisClient.Set(key, item);
+        }
         public Nhom GetById(int id)
         {
             var key = string.Format(ItemKey, id);

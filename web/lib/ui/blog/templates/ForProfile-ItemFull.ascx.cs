@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using docsoft;
 using docsoft.entities;
 
 public partial class lib_ui_blog_templates_ForProfile_ItemFull : System.Web.UI.UserControl
@@ -11,7 +7,7 @@ public partial class lib_ui_blog_templates_ForProfile_ItemFull : System.Web.UI.U
     public Blog Item { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-        likeBtn.Liked = Item.Liked;
+        likeBtn.Liked = Item.IsLiked(Security.Username);
         likeBtn.RowId = Item.RowId;
     }
 }

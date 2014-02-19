@@ -3,8 +3,8 @@
 <%@ Import Namespace="docsoft" %>
 <%@ Import Namespace="linh.common" %>
 <div class="blog-view">
-    <a title="/<%=Blog.GetNguoiTao().Ten %>" href="/users/<%=Blog.NguoiTao %>/" class="blog-view-user">
-        <img src="/lib/up/users/<%=Blog.GetNguoiTao().Anh %>"/>
+    <a title="/<%=Blog.NguoiTaoMember.Ten %>" href="/users/<%=Blog.NguoiTao %>/" class="blog-view-user">
+        <img src="/lib/up/users/<%=Blog.NguoiTaoMember.Anh %>"/>
     </a>
     <div class="blog-view-content">
         <h3 class="blog-view-title">

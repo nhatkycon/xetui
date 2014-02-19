@@ -30,7 +30,9 @@ namespace docsoft.entities
         #endregion
         #region Contructor
         public BinhLuan()
-        { }
+        {
+            Member=new Member();
+        }
         #endregion
         #region Customs properties
         public Member Member { get; set; }

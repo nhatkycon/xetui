@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ServiceStack.Redis;
 using docsoft;
 using docsoft.entities;
 using linh.common;
@@ -13,6 +14,9 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        var pooledClientManager = new PooledRedisClientManager("localhost");
+        var client = pooledClientManager.GetClient();
+
         var txt = Request["txt"];
         var noiDung = Request["NoiDung"];
         var PRowId = Request["PRowId"];
@@ -29,7 +33,7 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                 {
                     var item = idNull ? new BinhLuan() : BinhLuanDal.SelectById(Convert.ToInt64(Id));
                     txt = Lib.RemoveUnwantedTags(txt);
-                    txt = Lib.Rutgon(txt, 4000);
+                    txt = Lib.Rutgon(txt, 1000);
                     item.NoiDung = txt;
                     
                     if(idNull)
@@ -47,6 +51,7 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                         item.Url = cUrl;
                         item.RowId = Guid.NewGuid();
                         item = BinhLuanDal.Insert(item);
+
                         ObjMemberDal.Insert(new ObjMember()
                                                 {
                                                     PRowId = item.P_RowId

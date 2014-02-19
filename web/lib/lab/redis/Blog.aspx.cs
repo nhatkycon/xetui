@@ -12,12 +12,15 @@ public partial class lib_lab_redis_Blog : BasedPage
         var client = pooledClientManager.GetClient();
         var blog = new BlogRedis(client);
         var binhLuanRedis = new BinhLuanRedis(client);
+        var memberRedis = new MemberRedis(client);
+        var js = new JavaScriptSerializer();
+
         var startDate = DateTime.Now;
         var id = Request["id"];
         if (string.IsNullOrEmpty(id)) id = "29";
-        var item = blog.GetById(Convert.ToInt64(id));
-        var js = new JavaScriptSerializer();
+        var item = memberRedis.GetByRowId(new Guid("7788fd2f-850d-4eac-95c3-a8f4ac59335f"));
         rendertext(js.Serialize(item));
+        MemberDal.Update(item);
 
         //Response.Write("<h1>Blog</h1>");
         //foreach (var i in blog.GetAll().GetRange(0,10))

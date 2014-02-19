@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using docsoft;
+using ServiceStack.Redis;
 using docsoft.entities;
-using linh.core.dal;
 
 public partial class html_Profile : System.Web.UI.Page
 {
@@ -14,16 +9,14 @@ public partial class html_Profile : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         var u = Request["u"];
-        using(var con = DAL.con())
-        {
-            var user = MemberDal.SelectAllByUserName(con, u, Security.Username);
-            Item = user;
-            profile.Item = user;
-            profile.Xes = XeDal.SelectDuyetByNguoiTao(con, u, 20, null);
-            profile.Nhoms = NhomDal.SelectByUser(con, u, 20, true);
-            var pagerBlog = BlogDal.PagerByPRowIdFull(con, string.Empty, false, null, user.RowId.ToString(),
-                                                      Security.Username);
-            profile.Pager = pagerBlog;
-        }
+        var pooledClientManager = new PooledRedisClientManager("localhost");
+        var client = pooledClientManager.GetClient();
+        var memberRedis = new MemberRedis(client);
+        var user = memberRedis.GetByUsername(u);
+        Item = user;
+        profile.Item = user;
+        profile.Xes = user.GetXe(client);
+        profile.Nhoms = user.GetNhom(client);
+        profile.List = user.GetBlogs(client);
     }
 }

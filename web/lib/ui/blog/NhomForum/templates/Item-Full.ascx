@@ -3,8 +3,8 @@
 <%@ Import Namespace="linh.common" %>
     <hr class="hr comment-hr"/>
 <div class="blog-view">
-    <a title="/<%=Item.GetNguoiTao().Ten %>" href="/users/<%=Item.NguoiTao %>/" class="blog-view-user">
-        <img src="/lib/up/users/<%=Item.GetNguoiTao().Anh %>"/>
+    <a title="/<%=Item.NguoiTaoMember.Ten %>" href="/users/<%=Item.NguoiTao %>/" class="blog-view-user">
+        <img src="/lib/up/users/<%=Item.NguoiTaoMember.Anh %>"/>
     </a>
     <div class="blog-view-content">
         <a href="<%=Item.Url %>" class="blog-view-title">
