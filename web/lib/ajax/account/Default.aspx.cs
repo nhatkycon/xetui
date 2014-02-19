@@ -61,7 +61,7 @@ public partial class lib_ajax_account_Default : BasedPage
                 {
                     var RowId = new Guid(rowId);
                     var obj = ObjDal.SelectByAlias(Alias);
-                    if(obj.ID == Guid.Empty)
+                    if(obj.Id == Guid.Empty)
                     {
                         rendertext("1");
                     }
@@ -87,7 +87,7 @@ public partial class lib_ajax_account_Default : BasedPage
                 {
                     var RowId = new Guid(rowId);
                     var obj = ObjDal.SelectByAlias(Alias);
-                    if (obj.ID == Guid.Empty)
+                    if (obj.Id == Guid.Empty)
                     {
                         obj = ObjDal.SelectByRowId(RowId);
                         obj.Alias = Alias;

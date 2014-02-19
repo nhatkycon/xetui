@@ -90,7 +90,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                     ,
                                     HeThong = false
                                     ,
-                                    ID = Guid.NewGuid()
+                                    Id = Guid.NewGuid()
                                     ,
                                     PRowId = item.PID_ID
                                     ,
@@ -124,7 +124,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                                     ,
                                     HeThong = false
                                     ,
-                                    ID = Guid.NewGuid()
+                                    Id = Guid.NewGuid()
                                     ,
                                     PRowId = item.PID_ID
                                     ,
@@ -161,7 +161,7 @@ public partial class lib_ajax_blog_Default : BasedPage
                         });
                         var obj = ObjDal.Insert(new Obj()
                         {
-                            ID = Guid.NewGuid()
+                            Id = Guid.NewGuid()
                             ,
                             Kieu = typeof(Blog).FullName
                             ,

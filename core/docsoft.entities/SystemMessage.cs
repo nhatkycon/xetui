@@ -15,7 +15,7 @@ namespace docsoft.entities
     public class systemMessage : BaseEntity
     {
         #region Properties
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
         public String Ten { get; set; }
         public String NoiDung { get; set; }
         public Int32 ThuTu { get; set; }
@@ -62,7 +62,7 @@ namespace docsoft.entities
         {
             var Item = new systemMessage();
             var obj = new SqlParameter[12];
-            obj[0] = new SqlParameter("SM_ID", item.ID);
+            obj[0] = new SqlParameter("SM_ID", item.Id);
             obj[1] = new SqlParameter("SM_Ten", item.Ten);
             obj[2] = new SqlParameter("SM_NoiDung", item.NoiDung);
             obj[3] = new SqlParameter("SM_ThuTu", item.ThuTu);
@@ -96,7 +96,7 @@ namespace docsoft.entities
         {
             var Item = new systemMessage();
             var obj = new SqlParameter[12];
-            obj[0] = new SqlParameter("SM_ID", item.ID);
+            obj[0] = new SqlParameter("SM_ID", item.Id);
             obj[1] = new SqlParameter("SM_Ten", item.Ten);
             obj[2] = new SqlParameter("SM_NoiDung", item.NoiDung);
             obj[3] = new SqlParameter("SM_ThuTu", item.ThuTu);
@@ -177,7 +177,7 @@ namespace docsoft.entities
             var Item = new systemMessage();
             if (rd.FieldExists("SM_ID"))
             {
-                Item.ID = (Guid)(rd["SM_ID"]);
+                Item.Id = (Guid)(rd["SM_ID"]);
             }
             if (rd.FieldExists("SM_Ten"))
             {

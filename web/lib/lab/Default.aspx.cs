@@ -15,7 +15,7 @@ public partial class lib_lab_Default : System.Web.UI.Page
         {
             ObjDal.Insert(new Obj()
                               {
-                                  ID = Guid.NewGuid()
+                                  Id = Guid.NewGuid()
                                   ,
                                   Kieu = typeof (Member).FullName
                                   ,
@@ -36,7 +36,7 @@ public partial class lib_lab_Default : System.Web.UI.Page
         {
             ObjDal.Insert(new Obj()
             {
-                ID = Guid.NewGuid()
+                Id = Guid.NewGuid()
                 ,
                 Kieu = typeof(Xe).FullName
                 ,
@@ -56,7 +56,7 @@ public partial class lib_lab_Default : System.Web.UI.Page
         {
             ObjDal.Insert(new Obj()
             {
-                ID = Guid.NewGuid()
+                Id = Guid.NewGuid()
                 ,
                 Kieu = typeof(Blog).FullName
                 ,
@@ -76,7 +76,7 @@ public partial class lib_lab_Default : System.Web.UI.Page
         {
             ObjDal.Insert(new Obj()
             {
-                ID = Guid.NewGuid()
+                Id = Guid.NewGuid()
                 ,
                 Kieu = typeof(Nhom).FullName
                 ,

@@ -9,6 +9,7 @@ var admFn = {
         admFn.userFn.init();
         admFn.blogAdmFn.init();
         admFn.AdvFn.init();
+        admFn.binhLuanAdmFn.init();
     }
     , headerFn: function () {
         var pnl = $('.ModuleHeader');
@@ -67,6 +68,7 @@ var admFn = {
         , user: '/lib/ajax/user/Default.aspx'
         , blog: '/lib/ajax/blog/Default.aspx'
         , adv: '/lib/ajax/adv/Default.aspx'
+        , binhluan: '/lib/ajax/binhLuan/Default.aspx'
     }
     , promoteFn: {
         init: function () {
@@ -329,6 +331,70 @@ var admFn = {
                     , data: data
                    , success: function (rs) {
                        document.location.href = rs + '/lib/mod/Blog/';
+                   }
+                });
+            });
+        }
+    }
+    , binhLuanAdmFn: {
+        init: function () {
+            admFn.binhLuanAdmFn.add();
+        }
+        , add: function () {
+            var pnl = $('.binhLuan-add-pnl');
+            if ($(pnl).length < 1) return;
+            var btn = pnl.find('.saveBtn');
+            var xoaBtn = pnl.find('.xoaBtn');
+            var noiDung = pnl.find('.NoiDung');
+
+            var alertErr = pnl.find('.alert-danger');
+            var alertOk = pnl.find('.alert-success');
+
+
+            admFn.utils.editor(noiDung);
+            btn.click(function () {
+                alertErr.hide();
+                alertOk.hide();
+                var val = noiDung.val();
+                if (val == '') {
+                    alertErr.show();
+                    alertErr.html('Nhập nội dung bạn ơi');
+                    return;
+                }
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'saveAdm' });
+
+                $.ajax({
+                    url: admFn.url.binhluan
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       if (rs == '0') {
+                           alertErr.fadeIn();
+                           alertErr.html('Nhập tên cho chuẩn nhé');
+                       } else {
+                           alertOk.fadeIn();
+                           alertOk.html('Lưu thành công');
+                           setTimeout(function () {
+                               //document.location.href = '/lib/mod/binhLuan/';
+                           }, 1000);
+                       }
+                   }
+                });
+            });
+
+            xoaBtn.click(function () {
+                var con = confirm('Bạn có thực sự muốn xóa?');
+                if (!con) return;
+
+                var data = pnl.find(':input').serializeArray();
+                data.push({ name: 'subAct', value: 'removeAdm' });
+                $.ajax({
+                    url: admFn.url.binhluan
+                    , type: 'POST'
+                    , data: data
+                   , success: function (rs) {
+                       document.location.href = rs + '/lib/mod/binhLuan/';
                    }
                 });
             });

@@ -102,6 +102,13 @@ var autoFn = {
                 $('#AlertModal').modal('hide');
             }, time);
         }
+        , loader:function (title, show) {
+            if (show) {
+                autoFn.utils.msg(title, '<span class="loader"></span>');
+            } else {
+                $('#AlertModal').modal('hide');
+            }
+        }
     }
     , url: {
         login: '/lib/ajax/login/default.aspx'
@@ -868,11 +875,13 @@ var autoFn = {
                         data.push({ name: 'Anh', value: anh });
                     }
                 }
+                autoFn.utils.loader('Lưu', true);
                 $.ajax({
                     url: autoFn.url.blog
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       autoFn.utils.loader('Lưu', false);
                        if (rs == '0') { // E-mail or username is not avaiable
                            alertErr.fadeIn();
                            alertErr.html('Nhập tên cho chuẩn nhé');

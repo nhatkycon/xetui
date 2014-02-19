@@ -135,7 +135,7 @@ public partial class lib_ajax_login_Default : BasedPage
                     user = MemberDal.Insert(user);
                     var obj = ObjDal.Insert(new Obj()
                     {
-                        ID = Guid.NewGuid()
+                        Id = Guid.NewGuid()
                         ,
                         Kieu = typeof(Member).FullName
                         ,

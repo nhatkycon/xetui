@@ -151,11 +151,54 @@ namespace docsoft.entities
             }
             return List;
         }
-        public static Pager<BinhLuan> pagerNormal(string url, bool rewrite, string sort)
+        public static Pager<BinhLuan> PagerNormal(SqlConnection con, string url, bool rewrite, string sort
+           , int size
+           , string q, string username, string tuNgay, string denNgay
+           )
         {
-            SqlParameter[] obj = new SqlParameter[1];
-            obj[0] = new SqlParameter("Sort", sort);
-            Pager<BinhLuan> pg = new Pager<BinhLuan>("sp_tblBinhLuan_Pager_Normal_linhnx", "q", 20, 10, rewrite, url, obj);
+            var obj = new SqlParameter[8];
+            if (!string.IsNullOrEmpty(sort))
+            {
+                obj[0] = new SqlParameter("Sort", sort);
+            }
+            else
+            {
+                obj[0] = new SqlParameter("Sort", DBNull.Value);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                obj[2] = new SqlParameter("q", q);
+            }
+            else
+            {
+                obj[2] = new SqlParameter("q", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(username))
+            {
+                obj[3] = new SqlParameter("Username", username);
+            }
+            else
+            {
+                obj[3] = new SqlParameter("Username", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(tuNgay))
+            {
+                obj[5] = new SqlParameter("TuNgay", tuNgay);
+            }
+            else
+            {
+                obj[5] = new SqlParameter("TuNgay", DBNull.Value);
+            }
+            if (!string.IsNullOrEmpty(denNgay))
+            {
+                obj[6] = new SqlParameter("DenNgay", denNgay);
+            }
+            else
+            {
+                obj[6] = new SqlParameter("DenNgay", DBNull.Value);
+            }
+            var pg = new Pager<BinhLuan>(con, "sp_tblBinhLuan_Pager_Normal_linhnx", "page", size, 10, rewrite, url, obj);
             return pg;
         }
         #endregion

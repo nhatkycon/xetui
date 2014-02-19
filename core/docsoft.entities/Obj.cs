@@ -12,7 +12,7 @@ namespace docsoft.entities
     public class Obj : BaseEntity
     {
         #region Properties
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
         public Guid RowId { get; set; }
         public String Username { get; set; }
         public String Ten { get; set; }
@@ -55,7 +55,7 @@ namespace docsoft.entities
         {
             var Item = new Obj();
             var obj = new SqlParameter[7];
-            obj[0] = new SqlParameter("OB_ID", item.ID);
+            obj[0] = new SqlParameter("OB_ID", item.Id);
             obj[1] = new SqlParameter("OB_RowId", item.RowId);
             obj[2] = new SqlParameter("OB_Username", item.Username);
             obj[3] = new SqlParameter("OB_Ten", item.Ten);
@@ -84,7 +84,7 @@ namespace docsoft.entities
         {
             var Item = new Obj();
             var obj = new SqlParameter[8];
-            obj[0] = new SqlParameter("OB_ID", item.ID);
+            obj[0] = new SqlParameter("OB_ID", item.Id);
             obj[1] = new SqlParameter("OB_RowId", item.RowId);
             obj[2] = new SqlParameter("OB_Username", item.Username);
             obj[3] = new SqlParameter("OB_Ten", item.Ten);
@@ -160,7 +160,7 @@ namespace docsoft.entities
             var Item = new Obj();
             if (rd.FieldExists("OB_ID"))
             {
-                Item.ID = (Guid)(rd["OB_ID"]);
+                Item.Id = (Guid)(rd["OB_ID"]);
             }
             if (rd.FieldExists("OB_RowId"))
             {

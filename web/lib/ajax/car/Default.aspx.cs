@@ -184,7 +184,7 @@ public partial class lib_ajax_car_Default : BasedPage
                             });
                             var obj = ObjDal.Insert(new Obj()
                             {
-                                ID = Guid.NewGuid()
+                                Id = Guid.NewGuid()
                                 ,
                                 Kieu = typeof(Xe).FullName
                                 ,

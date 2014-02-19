@@ -90,7 +90,7 @@ public partial class lib_ajax_nhom_Default : BasedPage
                         });
                         var obj = ObjDal.Insert(new Obj()
                         {
-                            ID = Guid.NewGuid()
+                            Id = Guid.NewGuid()
                             ,
                             Kieu = typeof(Nhom).FullName
                             ,
