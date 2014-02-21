@@ -49,6 +49,7 @@ public partial class lib_ajax_account_Default : BasedPage
                         var anhNew = string.Format("{0}{1}", user.Id, img.Ext);
                         img.Save(dic + anhNew);
                         MemberDal.UpdateAnh(Security.Username,anhNew);
+                        MemberDal.UpdateVcard(DAL.con(), user.Username);
                         rendertext(anhNew);
                     }
                 }

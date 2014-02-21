@@ -59,6 +59,13 @@ public partial class lib_ajax_blog_Default : BasedPage
                         case 4:
                         case 5:
                             item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
+                            if(idNull)
+                            {
+                                if(item.Nhom.NhomMo || item.Nhom.Joined || item.Nhom.IsAdmin)
+                                {
+                                    item.Publish = true;
+                                }
+                            }
                             break;
                     }
                     item.MoTa = Lib.Rutgon(Lib.NoHtml(item.NoiDung), 400);
@@ -77,7 +84,9 @@ public partial class lib_ajax_blog_Default : BasedPage
                     {
                         item.NguoiTao = Security.Username;
                         item.NgayTao = DateTime.Now;
-                        item = BlogDal.Insert(item);
+                        item.MemberNguoiTao = MemberDal.SelectByUser(item.NguoiTao);
+                        var newItem = BlogDal.Insert(item);
+                        item.Id = newItem.Id;
                         switch (item.Loai)
                         {
                             case 1:
@@ -114,10 +123,6 @@ public partial class lib_ajax_blog_Default : BasedPage
                             case 3:
                             case 4:
                             case 5:
-                                if (item.Nhom.NhomMo)
-                                {
-                                    item.Publish = true;
-                                }
                                 systemMessageDal.Insert(new systemMessage()
                                 {
                                     NoiDung = string.Format("<strong>{0}</strong> viết bài mới", item.MemberNguoiTao.Ten)
@@ -144,7 +149,6 @@ public partial class lib_ajax_blog_Default : BasedPage
                                     ,
                                     ThuTu = 0
                                 });
-                                BlogDal.Update(item);
                                 break;
                         }
                         ObjMemberDal.Insert(new ObjMember()
@@ -178,20 +182,18 @@ public partial class lib_ajax_blog_Default : BasedPage
                     }
                     else
                     {
-                        item = BlogDal.Update(item);
+                        var newItem = BlogDal.Update(item);
+                        item.Id = newItem.Id;
                         switch (item.Loai)
                         {
                             case 1:
-                                item.Profile = MemberDal.SelectByRowId(item.PID_ID);
                                 break;
                             case 2:
-                                item.Xe = XeDal.SelectByRowId(item.PID_ID);
                                 CacheHelper.Remove(string.Format(XeDal.CacheItemKey, item.Id));
                                 break;
                             case 3:
                             case 4:
                             case 5:
-                                item.Nhom = NhomDal.SelectByRowId(DAL.con(), item.PID_ID, Security.Username);
                                 if (item.Nhom.IsAdmin)
                                 {
                                     item.Publish = true;

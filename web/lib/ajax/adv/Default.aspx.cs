@@ -88,6 +88,7 @@ public partial class lib_ajax_adv_Default : BasedPage
                     {
                         item = AdvDal.Update(item);
                     }
+                    CacheHelper.RemoveByPattern(AdvDal.CacheKey);
                     rendertext(item.Url);
                 }
                 rendertext("0");

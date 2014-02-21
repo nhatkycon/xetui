@@ -15,6 +15,7 @@ public partial class lib_ajax_login_Default : BasedPage
     public void SendMailSingle(string email, string title, string body)
     {
         omail.Send(email, "Xetui.vn", title, body, "gigawebhome@gmail.com", "Xetui.vn", "25111987");
+        omail.SesSend(email, "Xetui.vn", title, body, "xetui.vn@gmail.com", "Xetui.vn");
     }
     const string uAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; vi; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3";
     void SaveAvatar(int id, string fbid, string dic)

@@ -692,7 +692,7 @@ namespace docsoft.entities
             }
             else
             {
-                obj[3] = new SqlParameter("publish", username);
+                obj[3] = new SqlParameter("publish", publish);
             }
             obj[4] = new SqlParameter("loai", loai);
             var pg = new Pager<Blog>(con, "sp_tblBlog_Pager_PagerByPRowIdLoaiFull_linhnx", "q", size, 10, rewrite, url, obj);

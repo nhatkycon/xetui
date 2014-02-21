@@ -30,8 +30,8 @@ public partial class html_Default : System.Web.UI.Page
             var carBlogs = BlogDal.SelectTopBlogXe(con, 10, Security.Username, null);
             nhatKyXeTop.List = carBlogs;
 
-            var topCars = XeDal.HomeTop;
-            var newstpCars = XeDal.HomeNewest;
+            var topCars = XeDal.HomeTop.Take(10);
+            var newstpCars = XeDal.HomeNewest.Take(10);
 
 
 

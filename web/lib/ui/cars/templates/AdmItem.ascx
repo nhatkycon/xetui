@@ -8,7 +8,7 @@
     </td>
     <td class="hidden-xs">
         <a href="/lib/mod/Cars/Add.aspx?ID=<%=Item.Id %>">
-            <img style="width: 80px; height: 45px;" src="/lib/up/car/<%=Item.Anh %>" 
+            <img style="width: 80px; height: 45px;" src="/lib/up/car/<%=Item.Anh %>?w=80" 
                 class="img-responsive"/>
         </a>
     </td>

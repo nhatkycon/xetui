@@ -104,7 +104,7 @@ var autoFn = {
         }
         , loader:function (title, show) {
             if (show) {
-                autoFn.utils.msg(title, '<span class="loader"></span>');
+                autoFn.utils.msg(title, 'Đang lưu');
             } else {
                 $('#AlertModal').modal('hide');
             }
@@ -1342,7 +1342,7 @@ var autoFn = {
                 var img = pitem.find('img:visible');
                 if ($(img).length < 1) return;
                 var src = img.attr('src');
-                var str = '<img src="' + src + '"/>';
+                var str = '<img style="width:480px;" src="' + src + '?w=480"/>';
                 CKEDITOR.instances.NoiDung.insertHtml(str);
                 //CKEDITOR.instances.GioiThieu.setData(str);
                 

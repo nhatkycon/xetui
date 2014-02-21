@@ -12,6 +12,7 @@
             <uc1:List runat="server" ID="List" />            
         </div>
         <div class="col-md-4">
+            <div data-loai="1410" data-keywords="" class="adv-home-300 adv-box"></div>
         </div>
     </div>
 </asp:Content>

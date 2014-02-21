@@ -32,7 +32,7 @@ namespace linh.common
         //        var diffDate = DateTime.Now - date.AddDays(-280);
         //        int monthDiff = System.Data.Linq.SqlClient.SqlMethods.DateDiffMonth(date.AddDays(-280), DateTime.Now);
         //    }
-            
+
         //}
         public static string NoHtml(string input)
         {
@@ -74,7 +74,7 @@ namespace linh.common
         {
             var dt = DateTime.Now;
             var timespan = dt - date;
-            if(timespan.TotalSeconds  < 10)
+            if (timespan.TotalSeconds < 10)
             {
                 return "vừa xong";
             }
@@ -180,7 +180,7 @@ namespace linh.common
             }
 
             var years = dt.Year - dob.Year;
-            return years*12 + months;
+            return years * 12 + months;
 
         }
 
@@ -196,7 +196,7 @@ namespace linh.common
             }
             return string.Empty;
         }
-        
+
         public static string Bodau(string str)
         {
             if (string.IsNullOrEmpty(str)) return str;
@@ -244,7 +244,7 @@ namespace linh.common
 
             }
             Regex reg = new Regex(@"[^A-Za-z0-9]");
-            str = reg.Replace(str, " ").Trim().Replace(" ","-").Replace("-----", "-").Replace("----", "-").Replace("---", "-").Replace("--", "-");
+            str = reg.Replace(str, " ").Trim().Replace(" ", "-").Replace("-----", "-").Replace("----", "-").Replace("---", "-").Replace("--", "-");
             return str;
 
         }
@@ -271,7 +271,7 @@ namespace linh.common
             }
             return string.Empty;
         }
-       
+
         public static string Rutgon(string input
             , int Dai)
         {
@@ -328,7 +328,7 @@ namespace linh.common
             if (obj == null)
             {
                 CacheDependency dep = new CacheDependency(HostingEnvironment.MapPath("~/Web.config"));
-              
+
                 c.Insert("app-" + key, ConfigurationManager.AppSettings[key].ToString(), dep);
                 return ConfigurationManager.AppSettings[key].ToString();
             }
@@ -408,62 +408,62 @@ namespace linh.common
             wrq.Credentials = CredentialCache.DefaultCredentials;
             wrq.Method = "GET";
             wrq.UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.1; vi; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3";
-             if (link.IndexOf("zing.vn") != -1)
+            if (link.IndexOf("zing.vn") != -1)
             {
                 wrq.Referer = "http://mp3.zing.vn";
             }
-             try
-             {
-                 using (HttpWebResponse wrp = (HttpWebResponse)wrq.GetResponse())
-                 {
-                     XmlDocument doc = new XmlDocument();
-                     doc.Load(wrp.GetResponseStream());
-                     XmlNodeList _l = doc.SelectNodes("//Item");
-                     if (List != null)
-                     {
-                         foreach (XmlNode n in _l)
-                         {
-                             thoitiet item = new thoitiet();
-                             if (n.SelectSingleNode("//AdImg") != null)
-                             {
-                                 item.AdImg = n.SelectSingleNode("AdImg").InnerText;
-                             }
-                             if (n.SelectSingleNode("//AdImg1") != null)
-                             {
-                                 item.AdImg1 = n.SelectSingleNode("AdImg1").InnerText;
-                             }
-                             if (n.SelectSingleNode("//AdImg2") != null)
-                             {
-                                 item.AdImg2 = n.SelectSingleNode("AdImg2").InnerText;
-                             }
-                             if (n.SelectSingleNode("//AdImg3") != null)
-                             {
-                                 item.AdImg3 = n.SelectSingleNode("AdImg3").InnerText;
-                             }
-                             if (n.SelectSingleNode("//AdImg4") != null)
-                             {
-                                 item.AdImg4 = n.SelectSingleNode("AdImg4").InnerText;
-                             }
-                             if (n.SelectSingleNode("//AdImg5") != null)
-                             {
-                                 item.AdImg5 = n.SelectSingleNode("AdImg5").InnerText;
-                             }
-                             if (n.SelectSingleNode("//Weather") != null)
-                             {
-                                 item.Weather = n.SelectSingleNode("Weather").InnerText;
-                             }
-                             List.Add(item);
-                         }
-                     }
-                 }
-             }
-             catch (WebException ex)
-             {
-                 thoitiet _obj2 = new thoitiet();
-                 _obj2.Weather = string.Empty;
-             }
+            try
+            {
+                using (HttpWebResponse wrp = (HttpWebResponse)wrq.GetResponse())
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(wrp.GetResponseStream());
+                    XmlNodeList _l = doc.SelectNodes("//Item");
+                    if (List != null)
+                    {
+                        foreach (XmlNode n in _l)
+                        {
+                            thoitiet item = new thoitiet();
+                            if (n.SelectSingleNode("//AdImg") != null)
+                            {
+                                item.AdImg = n.SelectSingleNode("AdImg").InnerText;
+                            }
+                            if (n.SelectSingleNode("//AdImg1") != null)
+                            {
+                                item.AdImg1 = n.SelectSingleNode("AdImg1").InnerText;
+                            }
+                            if (n.SelectSingleNode("//AdImg2") != null)
+                            {
+                                item.AdImg2 = n.SelectSingleNode("AdImg2").InnerText;
+                            }
+                            if (n.SelectSingleNode("//AdImg3") != null)
+                            {
+                                item.AdImg3 = n.SelectSingleNode("AdImg3").InnerText;
+                            }
+                            if (n.SelectSingleNode("//AdImg4") != null)
+                            {
+                                item.AdImg4 = n.SelectSingleNode("AdImg4").InnerText;
+                            }
+                            if (n.SelectSingleNode("//AdImg5") != null)
+                            {
+                                item.AdImg5 = n.SelectSingleNode("AdImg5").InnerText;
+                            }
+                            if (n.SelectSingleNode("//Weather") != null)
+                            {
+                                item.Weather = n.SelectSingleNode("Weather").InnerText;
+                            }
+                            List.Add(item);
+                        }
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                thoitiet _obj2 = new thoitiet();
+                _obj2.Weather = string.Empty;
+            }
             #endregion
-            return  List;
+            return List;
         }
         public static List<linkrss> GetLinkFromRss(string link)
         {
@@ -732,8 +732,8 @@ namespace linh.common
         public string AdImg4 { get; set; }
         public string AdImg5 { get; set; }
         public string Weather { get; set; }
-        public thoitiet (){ }
-        public thoitiet(string adimg,string adimg1,string adimg2,string adimg3,string adimg4,string adimg5,string weather)
+        public thoitiet() { }
+        public thoitiet(string adimg, string adimg1, string adimg2, string adimg3, string adimg4, string adimg5, string weather)
         {
             adimg = AdImg;
             adimg1 = AdImg1;
@@ -750,7 +750,7 @@ namespace linh.common
         public string Mota { get; set; }
         public string Url { get; set; }
         public linkrss() { }
-        public linkrss(string ten, string mota, string url) 
+        public linkrss(string ten, string mota, string url)
         {
             Ten = ten;
             Mota = mota;
@@ -759,8 +759,8 @@ namespace linh.common
     }
     public class omail
     {
-        
-        public static void SendthongBao(string email,string tieude,string noidung)
+
+        public static void SendthongBao(string email, string tieude, string noidung)
         {
             string _email = Lib.app("Obanbe.Email.ThongBao.Uid");
             string _pwd = Lib.app("Obanbe.Email.ThongBao.Pwd");
@@ -778,8 +778,8 @@ namespace linh.common
             }
             catch (Exception ex)
             {
-                
-            }            
+
+            }
         }
         public static void SendLoiMoi(string email, string tieude, string noidung)
         {
@@ -801,42 +801,41 @@ namespace linh.common
             }
             catch (Exception ex)
             {
-            }            
-            
+            }
+
         }
 
-        public static void SesSend(string email, string title, string body,string fromEmail)
+        public static void SesSend(string toEmail, string toTen, string subject, string body, string fromEmail, string fromName)
         {
-            // Supply your SMTP credentials below. Note that your SMTP credentials are different from your AWS credentials.
-            const String smtpUsername = "AKIAIEAJNYOXYX5CNIRA";  // Replace with your SMTP username. 
-            const String smtpPassword = "Ahw5/ubW5SoAcTs0tdRtn/AMLtt4UzDnaxo8vp0gDnY3";  // Replace with your SMTP password.
+            var fromAddress = new MailAddress(fromEmail, fromName);
+            var toAddress = new MailAddress(toEmail, toTen);
 
-            // Amazon SES SMTP host name. This example uses the us-east-1 region.
-            const String host = "email-smtp.eu-west-1.amazonaws.com";
-
-            // Port we will connect to on the Amazon SES SMTP endpoint. We are choosing port 587 because we will use
-            // STARTTLS to encrypt the connection.
-            const int port = 587;
-
-            // Create an SMTP client with the specified host name and port.
-            using (var client = new System.Net.Mail.SmtpClient(host, port))
+            var smtp = new SmtpClient
             {
-                // Create a network credential with your SMTP user name and password.
-                client.Credentials = new System.Net.NetworkCredential(smtpUsername, smtpPassword);
+                Host = "email-smtp.eu-west-1.amazonaws.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential("AKIAINTSEWVCFL5UA2MQ", "AuwQb9Mbo72AaPuJMGi0ZBw7ozgxGPtwUei60NuueMWB"),
+                Timeout = 20000
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body,
+                BodyEncoding = System.Text.Encoding.UTF8,
+                SubjectEncoding = System.Text.Encoding.UTF8,
+                IsBodyHtml = true
 
-                // Use SSL when accessing Amazon SES. The SMTP session will begin on an unencrypted connection, and then 
-                // the client will issue a STARTTLS command to upgrade to an encrypted connection using SSL.
-                client.EnableSsl = true;
-
-                // Send the email. 
-                client.Send(fromEmail, email, title, body);
-
+            })
+            {
                 try
                 {
+                    smtp.Send(message);
                 }
-                catch (Exception ex)
+                catch (SmtpException ex)
                 {
-                    //Console.WriteLine("Error message: " + ex.Message);
+
                 }
             }
 

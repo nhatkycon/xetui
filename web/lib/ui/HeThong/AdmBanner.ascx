@@ -64,7 +64,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nhóm<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/lib/mod/Cars/Default.aspx">
+                            <a href="/lib/mod/Nhom/Default.aspx?Duyet=false">
                                 Chưa duyệt
                             </a>
                         </li>
@@ -151,6 +151,16 @@
                         <li>
                             <a href="/lib/mod/Blog/Default.aspx">
                                 Top nhật ký
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bình luận<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/lib/mod/BinhLuan/Default.aspx">
+                                Mới
                             </a>
                         </li>
                     </ul>
