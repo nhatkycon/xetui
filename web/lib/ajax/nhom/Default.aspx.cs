@@ -1,12 +1,19 @@
 ﻿using System;
 using docsoft;
 using docsoft.entities;
+using linh.common;
 using linh.controls;
 using linh.core;
 using linh.core.dal;
 
 public partial class lib_ajax_nhom_Default : BasedPage
 {
+    public delegate void SendEmailDelegate(string email, string title, string body);
+    public void SendMailSingle(string email, string title, string body)
+    {
+        omail.Send(email, "Xetui.vn", title, body, "gigawebhome@gmail.com", "Xetui.vn", "25111987");
+        omail.SesSend(email, "Xetui.vn", title, body, "xetui.vn@gmail.com", "Xetui.vn");
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         var ten = Request["Ten"];
@@ -104,6 +111,12 @@ public partial class lib_ajax_nhom_Default : BasedPage
                             ,
                             Username = Security.Username
                         });
+                        var dele = new SendEmailDelegate(SendMailSingle);
+                        var dateStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                        dele.BeginInvoke("xetui.vn@gmail.com"
+                                         , string.Format("NhomMoi:{0}", dateStr)
+                                         , string.Format(@"Tên:{0}<br/>Địa chỉ:{1}", item.Ten, item.Url)
+                                         , null, null);
                     }
                     else
                     {

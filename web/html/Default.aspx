@@ -16,11 +16,13 @@
             <cars:LeftMenu runat="server" ID="LeftMenu" />
         </div>
         <promoted:Home ID="promotedHome" runat="server"/>
-        <div class="x-col x10">
+        <hr class="hr comment-hr visible-xs visible-sm"/>
+        <div class="x-col x10 x-userList">
             <uc1:HomeList runat="server" ID="UserHomeList" />            
         </div>
         <div class="x-col x10 home-blogs-box">
             <div class="row">
+                <hr class="hr comment-hr visible-xs visible-sm"/>
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12 col-sm-6 col-xs-12">

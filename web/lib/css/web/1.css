@@ -1100,6 +1100,15 @@ h3.profile-info-header {
         width: 50%;
         margin-top: 0px;
     }
+    .x-col-quangCao-300 {
+        
+    }
+    .x-userList .user-home-item {
+        width: 25%;
+     }
+    .adv-home-300 .adv-item-box {
+        
+    }
 }
 @media (min-width: 520px) {
     .x-col {
@@ -1119,33 +1128,44 @@ h3.profile-info-header {
         width: 25%;
         margin-top: 0px;
     }
+    .adv-home-300 .adv-item-box {
+        width: 50%;
+        float: left;
+    }
 }
 @media (min-width: 768px) {
 
     .cars-home-group {
-        margin-left: -1%;
-        margin-right: -2%;        
     }
     .x-col.x1 {
-        width: 14%;
+        width: 58%;
+        clear: both;
     }
     .x-col.x1 a {
-        width: 100%;
+        width: 25%;
     }
     .x-col.x2 {
-        width: 28%;
+        width: 58%;
+        clear: both;
     }
     .x-col.x2 a
     {
-        width: 100%;
+        width: 50%;
     }
     .x-col.x4 {
-        width: 56%;
-        margin-left: 1%;
+        width: 58%;
     }
     .cars-home-3rd-list a:nth-child(3n + 3) {
-        margin-top: -1px;
     }
+    .x-col-quangCao-300 {
+        padding-left: 58%;
+        margin-left: 1px;
+    }
+    .adv-home-300 .adv-item-box {
+        width: auto;
+        float: none;
+    }
+    
 }
 @media (min-width: 992px) 
 {
@@ -1163,13 +1183,15 @@ h3.profile-info-header {
         width: 12.5%;
     }
     .x-col.x1 {
-        width: 12.5%;
+        width: 56%;
+        clear: none;
     }
     .x-col.x2 {
-        width: 25%;
+        width: 56%;
+        clear: none;
     }
     .x-col.x4 {
-        width: 50%;
+        width: 56%;
         margin-left: 0px;
     }
     .container {
@@ -1194,7 +1216,14 @@ h3.profile-info-header {
      .x-col.x10 {
         width: 87.5%;
     }
-    
+     
+    .x-userList .user-home-item {
+        width: 100px;
+     }
+    .adv-home-300 .adv-item-box {
+        width: auto;
+        float: none;
+    }
 }
 @media (min-width: 1200px) {
     .x-col.left-menu-list {
@@ -1208,6 +1237,14 @@ h3.profile-info-header {
     }
     .navbar>.container .navbar-brand {
         margin-left: 0px;
+    }
+    .x-col-quangCao-300 {
+        padding-left: 67%;
+        margin-left: 16px;        
+    }
+    .adv-home-300 .adv-item-box {
+        width: auto;
+        float: none;
     }
     
 }

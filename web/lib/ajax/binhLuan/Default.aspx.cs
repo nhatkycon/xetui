@@ -12,6 +12,12 @@ using linh.core;
 
 public partial class lib_ajax_binhLuan_Default : BasedPage
 {
+    public delegate void SendEmailDelegate(string email, string title, string body);
+    public void SendMailSingle(string email, string title, string body)
+    {
+        omail.Send(email, "Xetui.vn", title, body, "gigawebhome@gmail.com", "Xetui.vn", "25111987");
+        omail.SesSend(email, "Xetui.vn", title, body, "xetui.vn@gmail.com", "Xetui.vn");
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         var pooledClientManager = new PooledRedisClientManager("localhost");
@@ -108,6 +114,12 @@ public partial class lib_ajax_binhLuan_Default : BasedPage
                                                         , Username = Security.Username
                                                         , ThuTu =  0                                                        
                                                     });
+                        var dele = new SendEmailDelegate(SendMailSingle);
+                        var dateStr = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                        dele.BeginInvoke("xetui.vn@gmail.com"
+                                         , string.Format("BinhLuanMoi:{0}", dateStr)
+                                         , string.Format(@"Tên:{0}<br/>Địa chỉ:{1}", item.NoiDung, item.Url)
+                                         , null, null);
 
                         
                     }

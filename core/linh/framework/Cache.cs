@@ -22,15 +22,7 @@ namespace linh.core
         /// </summary>
         static CacheHelper()
         {
-            HttpContext current = HttpContext.Current;
-            if (current != null)
-            {
-                _cache = current.Cache;
-            }
-            else
-            {
-                _cache = HttpRuntime.Cache;
-            }
+            _cache = HttpRuntime.Cache;
         }
 
         /// <summary>

@@ -18,3 +18,6 @@
         </ItemTemplate>
     </asp:Repeater>
 </div>
+<div class="x-col-quangCao-300">
+    <div data-loai="1030" data-keywords="" class="adv-home-300 adv-box"></div>
+</div>
