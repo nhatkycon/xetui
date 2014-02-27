@@ -22,7 +22,7 @@ public partial class lib_ajax_upload_Default : BasedPage
         var h = Request["h"];
         var Key = Request["key"];
         var Id = Request["Id"];
-        var dic = Server.MapPath("~/lib/up/crop/");
+        var dic = Server.MapPath("~/lib/up/car/");
         var newDic = Server.MapPath("~/lib/up/car/");
         var DM_PID = Request["DM_PID"];
         var logged = Security.IsAuthenticated();

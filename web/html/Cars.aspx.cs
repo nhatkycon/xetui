@@ -17,10 +17,10 @@ public partial class html_Cars : System.Web.UI.Page
             if (item == null) return;
 
             var allModel = DanhMucDal.SelectByLdmMaFromCache("HANGXE");
-            var filterModel = (from p in allModel
-                               where p.PID == item.ID
-                               select p).OrderBy(m => m.ThuTu).ToList();
-            ListAll.List = filterModel;
+            //var filterModel = (from p in allModel
+            //                   where p.PID == item.ID
+            //                   select p).OrderBy(m => m.ThuTu).ToList();
+            ListAll.List = allModel;
         }
     }
 }

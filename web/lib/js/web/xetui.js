@@ -745,12 +745,41 @@ var autoFn = {
             var HANG_ID = pnl.find('.HANG_ID');
             var MODEL_ID = pnl.find('.MODEL_ID');
             var NoiDung = pnl.find('.NoiDung');
-
+            var LoaiXe = pnl.find('.Loai');
+            var hangXeDdl = pnl.find('.hangXeDdl');
             var btn = pnl.find('.saveBtn');
             var xoaBtn = pnl.find('.xoaBtn');
 
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
+
+            LoaiXe.bind('click', function () {
+                var id = $(this).val();
+                if(id=='') {
+                    hangXeDdl.hide();
+                    return;
+                }
+                var data = [];
+                data.push({ name: 'subAct', value: 'GetModelByHangXe' });
+                data.push({ name: 'DM_PID', value: id });
+                HANG_ID.find('option').remove();
+                HANG_ID.html('<option>...</option>');
+                $.ajax({
+                    url: autoFn.url.car
+                    , type: 'POST'
+                    , data: data
+                    , dataType: 'SCRIPT'
+                   , success: function (rs) {
+                       HANG_ID.find('option').remove();
+                       var models = JSON.parse(rs);
+                       HANG_ID.find('option').remove();
+                       $.each(models, function (i, item) {
+                           var modelItem = $('#model-item').tmpl(item).appendTo(HANG_ID);
+                       });
+                       hangXeDdl.show();
+                   }
+                });
+            });
 
             //GetModelByHangXe
             HANG_ID.bind('click', function () {
@@ -777,6 +806,7 @@ var autoFn = {
             });
 
             btn.click(function () {
+                
                 var data = pnl.find('.car-add-form').find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'save' });
                 var anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
@@ -790,6 +820,7 @@ var autoFn = {
                         data.push({ name: 'Anh', value: anh });
                     }
                 }
+                autoFn.utils.loader('Đang lưu', true);
                 $.ajax({
                     url: autoFn.url.car
                     , type: 'POST'
@@ -799,6 +830,7 @@ var autoFn = {
                            alertErr.fadeIn();
                            alertErr.html('Nhập tên cho chuẩn nhé');
                        } else {
+                           autoFn.utils.loader('Đang lưu', false);
                            alertOk.fadeIn();
                            alertOk.html('Lưu thành công');
                            if (admMode) {
@@ -875,7 +907,7 @@ var autoFn = {
                         data.push({ name: 'Anh', value: anh });
                     }
                 }
-                autoFn.utils.loader('Lưu', true);
+                autoFn.utils.loader('Đang lưu', true);
                 $.ajax({
                     url: autoFn.url.blog
                     , type: 'POST'
@@ -1431,11 +1463,13 @@ var autoFn = {
                 data.push({ name: 'subAct', value: 'save' });
                 data.push({ name: 'cUrl', value: url });
                 btn.hide();
+                autoFn.utils.loader('Đang lưu', true);
                 $.ajax({
                     url: autoFn.url.binhLuan
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       autoFn.utils.loader('Đang lưu', false);
                        btn.show();
                        txt.val('');
                        var newItem = $(rs).prependTo(binhLuanItems);
@@ -1445,6 +1479,7 @@ var autoFn = {
                        }, 1000);
                    }
                    , error: function () {
+                       autoFn.utils.loader('Đang lưu', false);
                        btn.show();
                        alertErr.show();
                        alertErr.html('Lỗi gì đó, thử lại sau bạn nhé');

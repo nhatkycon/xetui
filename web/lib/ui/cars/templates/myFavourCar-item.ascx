@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="myCarLiked-item.ascx.cs" Inherits="lib_ui_cars_templates_myCarLiked_item" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="myFavourCar-item.ascx.cs" Inherits="lib_ui_cars_templates_myFavourCar_item" %>
 <div class="carcard carcard-big">
     <div class="carcard-pic">
         <a href="<%=Item.XeUrl %>">

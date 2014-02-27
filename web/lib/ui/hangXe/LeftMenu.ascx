@@ -17,8 +17,21 @@
         </a>
     </div>
     <div  class="nav-list-more-box">
-        <div  class="collapse" id="nav-list-more" >
-            <asp:Repeater runat="server" ID="rpt">
+        <div class="collapse" id="nav-list-more" >
+            <a class="nav-item" href="/cars/">
+                <strong>
+                Ôtô                    
+                </strong>
+            </a>
+            <asp:Repeater runat="server" ID="otoRpt">
+                <ItemTemplate>
+                    <uc1:LeftMenuItem runat="server" ID="LeftMenuItem" Item='<%# Container.DataItem %>'/>
+                </ItemTemplate>
+            </asp:Repeater>
+            <a class="nav-item nav-item-divider" href="/cars/">
+                <strong>Xe máy</strong>
+            </a>
+            <asp:Repeater runat="server" ID="xeMayRpt">
                 <ItemTemplate>
                     <uc1:LeftMenuItem runat="server" ID="LeftMenuItem" Item='<%# Container.DataItem %>'/>
                 </ItemTemplate>

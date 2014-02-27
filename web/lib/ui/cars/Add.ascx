@@ -3,9 +3,38 @@
 <%@ Register Src="~/lib/ui/HeThong/NamSanXuat.ascx" TagPrefix="HeThong" TagName="NamSanXuat" %>
 <%@ Register src="~/lib/ui/HeThong/UploaderV1.ascx" tagPrefix="HeThong" tagName="UploaderV1" %>
 <div class="padding-20 car-add-pnl">
+    
+    <div class="h3-subtitle">
+        <a href="/my-cars/">
+            Xe của tôi
+        </a> 
+        &nbsp; &gt;
+        <a href="javascript:;">
+            <%if(string.IsNullOrEmpty(Id))
+            { %>
+            Thêm xe
+             <% }else{ %>
+            Chỉnh sửa xe
+            <%} %>
+        </a>    
+    </div>
+<hr class="hr comment-hr"/>
+
     <form class="form-horizontal car-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
         <input type="hidden" name="AdminKey" class="AdminKey"  value="<%=IsAdmin %>"/>
+        <%if(string.IsNullOrEmpty(Id))
+          { %>
+        <div class="form-group">
+            <label for="Loai" class="col-sm-2 col-md-2 control-label">Loại</label>
+            <div class="col-sm-4 col-md-4">
+                <HeThong:DanhMucListByLdmMa ClientIDMode="Static" ID="Loai" runat="server" ControlId="Loai" 
+                    ControlName="Loai"/>
+            </div>
+        </div>
+        <% } %>
+        <div class="hangXeDdl">
+            
         <div class="form-group">
             <label for="HANG_ID" class="col-sm-2 col-md-2 control-label">Hãng</label>
             <div class="col-sm-4 col-md-4">
@@ -189,7 +218,10 @@
                 <p class="alert alert-success" style="display: none;"></p>
             </div>
         </div>
+        </div>
+
     </form> 
+    <br/>
     <HeThong:UploaderV1 runat="server" ID="UploaderV1" />
 </div>
 <script id="model-item" type="text/x-jquery-tmpl"> 
@@ -199,9 +231,33 @@
     <script>
         $(function () {
             var carAddPnl = $('.car-add-pnl');
+            
+            
+
             carAddPnl.find('.HANG_ID').val('<%=Item.HANG_ID %>');
             var MODEL_ID = carAddPnl.find('.MODEL_ID');
+            var HANG_ID = carAddPnl.find('.HANG_ID');
+            
             var data = [];
+            data.push({ name: 'subAct', value: 'GetModelByHangXe' });
+            data.push({ name: 'DM_PID', value: '<%=Item.Loai %>' });
+            $.ajax({
+                url: autoFn.url.car
+                , type: 'POST'
+                , data: data
+                , dataType: 'SCRIPT'
+                , success: function (rs) {
+                    MODEL_ID.find('option').remove();
+                    var models = JSON.parse(rs);
+                    MODEL_ID.find('option').remove();
+                    $.each(models, function (i, item) {
+                        var modelItem = $('#model-item').tmpl(item).prependTo(HANG_ID);
+                    });
+                    HANG_ID.val('<%=Item.HANG_ID %>');
+                }
+            });
+
+            data = [];
             data.push({ name: 'subAct', value: 'GetModelByHangXe' });
             data.push({ name: 'DM_PID', value: '<%=Item.HANG_ID %>' });
             MODEL_ID.find('option').remove();
@@ -232,6 +288,7 @@
             carAddPnl.find('.KIEUDANDONG_ID').val('<%=Item.KIEUDANDONG_ID %>');
             carAddPnl.find('.NHIENLIEU_ID').val('<%=Item.NHIENLIEU_ID %>');
             carAddPnl.find('.THANHPHO_ID').val('<%=Item.THANHPHO_ID %>');
+            carAddPnl.find('.hangXeDdl').show();
         });
         
     </script>

@@ -20,6 +20,7 @@ namespace docsoft.entities
     {
         #region Properties
         public Int64 Id { get; set; }
+        public Guid Loai { get; set; }
         public Guid HANG_ID { get; set; }
         public Guid MODEL_ID { get; set; }
         public String SubModel { get; set; }
@@ -141,7 +142,7 @@ namespace docsoft.entities
         public static Xe Insert(Xe Inserted)
         {
             var item = new Xe();
-            var obj = new SqlParameter[35];
+            var obj = new SqlParameter[36];
             obj[0] = new SqlParameter("X_HANG_ID", Inserted.HANG_ID);
             obj[1] = new SqlParameter("X_MODEL_ID", Inserted.MODEL_ID);
             obj[2] = new SqlParameter("X_SubModel", Inserted.SubModel);
@@ -199,6 +200,7 @@ namespace docsoft.entities
             obj[32] = new SqlParameter("X_Duyet", Inserted.Duyet);
             obj[33] = new SqlParameter("X_NguoiDuyet", Inserted.NguoiDuyet);
             obj[34] = new SqlParameter("X_GioiThieu", Inserted.GioiThieu);
+            obj[35] = new SqlParameter("X_Loai", Inserted.Loai);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Insert_InsertNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -213,7 +215,7 @@ namespace docsoft.entities
         public static Xe Update(Xe Updated)
         {
             Xe item = new Xe();
-            var obj = new SqlParameter[36];
+            var obj = new SqlParameter[37];
             obj[0] = new SqlParameter("X_ID", Updated.Id);
             obj[1] = new SqlParameter("X_HANG_ID", Updated.HANG_ID);
             obj[2] = new SqlParameter("X_MODEL_ID", Updated.MODEL_ID);
@@ -273,6 +275,7 @@ namespace docsoft.entities
             obj[33] = new SqlParameter("X_NguoiDuyet", Updated.NguoiDuyet);
             obj[34] = new SqlParameter("X_Anh", Updated.Anh);
             obj[35] = new SqlParameter("X_GioiThieu", Updated.GioiThieu);
+            obj[36] = new SqlParameter("X_Loai", Updated.Loai);
             using (IDataReader rd = SqlHelper.ExecuteReader(DAL.con(), CommandType.StoredProcedure, "sp_tblXe_Update_UpdateNormal_linhnx", obj))
             {
                 while (rd.Read())
@@ -429,6 +432,10 @@ namespace docsoft.entities
             if (rd.FieldExists("X_ID"))
             {
                 Item.Id = (Int64)(rd["X_ID"]);
+            }
+            if (rd.FieldExists("X_Loai"))
+            {
+                Item.Loai = (Guid)(rd["X_Loai"]);
             }
             if (rd.FieldExists("X_HANG_ID"))
             {

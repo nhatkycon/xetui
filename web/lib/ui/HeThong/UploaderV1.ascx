@@ -33,8 +33,8 @@
             </label>
         </div>    
         <div class="anh-img-box img-thumbnail">
-            <img src="/lib/up/crop/${Thumbnail_url}" class="anh-img img-responsive"/>
-            <img src="/lib/up/crop/${Thumbnail_url}" data-id="${Id}" data-key="${Thumbnail_url}" class="anh-fix img-responsive"/>
+            <img src="/lib/up/car/${Thumbnail_url}" class="anh-img img-responsive"/>
+            <img src="/lib/up/car/${Thumbnail_url}" data-id="${Id}" data-key="${Thumbnail_url}" class="anh-fix img-responsive"/>
         </div>
         <input name="key" value="${Thumbnail_url}" type="hidden"/>
         <input name="Id" class="Id" value="${Id}" type="hidden"/>

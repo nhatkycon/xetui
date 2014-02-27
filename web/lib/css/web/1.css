@@ -1080,6 +1080,9 @@ h3.profile-info-header {
         -ms-transition: all 0.15s ease-in-out;
         transition: all 0.15s ease-in-out;
     }
+    .nav-item-divider {
+        margin-top: 20px;
+    }
     .profile-box {
         height: auto;
     }

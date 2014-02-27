@@ -45,6 +45,7 @@ public partial class lib_ajax_car_Default : BasedPage
         var NHIENLIEU_ID = Request["NHIENLIEU_ID"];
         var THANHPHO_ID = Request["THANHPHO_ID"];
         var Anh = Request["Anh"];
+        var Loai = Request["Loai"];
         var Duyet = Request["Duyet"];
 
         switch (subAct)
@@ -54,10 +55,22 @@ public partial class lib_ajax_car_Default : BasedPage
                 if(DM_PID!= null)
                 {
                     var allModel = DanhMucDal.SelectByLdmMaFromCache("HANGXE");
-                    var filterModel = (from p in allModel
-                                       where p.PID == new Guid(DM_PID)
-                                       select p).OrderByDescending(m => m.ThuTu).ToList();
-                    rendertext(js.Serialize(filterModel));
+                    var dm = DanhMucDal.SelectById(new Guid(DM_PID));
+                    if(dm.PID==Guid.Empty)
+                    {
+                        var filterModel = (from p in allModel
+                                           where p.PID == new Guid(DM_PID)
+                                           select p).OrderByDescending(m => m.GiaTri).ToList();
+                        rendertext(js.Serialize(filterModel));
+                    }
+                    else
+                    {
+                        var filterModel = (from p in allModel
+                                           where p.PID == new Guid(DM_PID)
+                                           select p).OrderByDescending(m => m.ThuTu).ToList();
+                        rendertext(js.Serialize(filterModel));    
+                    }
+                    
                 }
                 break;
             #endregion
@@ -104,6 +117,10 @@ public partial class lib_ajax_car_Default : BasedPage
                     }
                     car.GioiThieu = GioiThieu;
                     car.Gia = Convert.ToInt32(Gia);
+                    if (!string.IsNullOrEmpty(Loai))
+                    {
+                        car.Loai = new Guid(Loai);
+                    }
                     if(!string.IsNullOrEmpty(HANG_ID))
                     {
                         car.HANG_ID = new Guid(HANG_ID);

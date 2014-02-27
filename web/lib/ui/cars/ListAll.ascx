@@ -4,7 +4,7 @@
 <div class="padding-20">
     <div class="h3-subtitle">
         <a href="/cars/">
-            Xe
+            Ôtô
         </a> 
     </div>
     <hr class="hr comment-hr"/>

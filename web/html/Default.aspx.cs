@@ -44,10 +44,19 @@ public partial class html_Default : System.Web.UI.Page
             promotedHome.HomeSMall = XeDal.PromotedHomeSmall.Take(4).ToList();
 
             var hangXeList = DanhMucDal.SelectByLDMMa(con, "HANGXE");
-            var hangList = (from p in hangXeList
-                            where p.PID == Guid.Empty
+            if (hangXeList == null || !hangXeList.Any()) return;
+            var xeMayDm = hangXeList.FirstOrDefault(x => x.Ma != null && x.Ma.Contains("Xe-may"));
+            var otoDm = hangXeList.FirstOrDefault(x => x.Ma != null && x.Ma.Contains("Oto"));
+            var xeMayList = (from p in hangXeList
+                             where p.PID == xeMayDm.ID
                             select p).OrderBy(m => m.ThuTu).ToList();
-            LeftMenu.List = hangList;
+
+            var otoList = (from p in hangXeList
+                           where p.PID == otoDm.ID && !string.IsNullOrEmpty(p.GiaTri)
+                             select p).OrderBy(m => m.ThuTu).ToList();
+
+            LeftMenu.XeMay = xeMayList;
+            LeftMenu.Oto = otoList;
 
         }
     }
