@@ -2,7 +2,7 @@
 <div class="carcard carcard-big">
     <div class="carcard-pic">
         <a href="<%=Item.XeUrl %>">
-            <img src="/lib/up/car/<%=Item.Anh %>" alt=""/>
+            <img src="/lib/up/car/<%=Item.Anh %>?w=240" alt=""/>
         </a>
     </div>
     <div class="carcard-meta">

@@ -2,24 +2,29 @@
 <%@ Register src="~/lib/ui/HeThong/DanhMucListByLdmMa.ascx" tagPrefix="HeThong" tagName="DanhMucListByLdmMa" %>
 <%@ Register Src="~/lib/ui/HeThong/NamSanXuat.ascx" TagPrefix="HeThong" TagName="NamSanXuat" %>
 <%@ Register src="~/lib/ui/HeThong/UploaderV1.ascx" tagPrefix="HeThong" tagName="UploaderV1" %>
+<%@ Register Src="~/lib/ui/HeThong/UploaderV2.ascx" TagPrefix="HeThong" TagName="UploaderV2" %>
+
 <div class="padding-20 car-add-pnl">
-    
+    <%if(!IsAdmin)
+      {%>
     <div class="h3-subtitle">
         <a href="/my-cars/">
             Xe của tôi
         </a> 
         &nbsp; &gt;
         <a href="javascript:;">
-            <%if(string.IsNullOrEmpty(Id))
-            { %>
+            <% if (string.IsNullOrEmpty(Id))
+               { %>
             Thêm xe
-             <% }else{ %>
+             <% }
+               else
+               { %>
             Chỉnh sửa xe
-            <%} %>
+            <% } %>
         </a>    
     </div>
-<hr class="hr comment-hr"/>
-
+    <hr class="hr comment-hr"/>        
+    <% } %>
     <form class="form-horizontal car-add-form" role="form">
         <input type="hidden" name="Id"  value="<%=Item.Id %>"/>
         <input type="hidden" name="AdminKey" class="AdminKey"  value="<%=IsAdmin %>"/>
@@ -34,7 +39,6 @@
         </div>
         <% } %>
         <div class="hangXeDdl">
-            
         <div class="form-group">
             <label for="HANG_ID" class="col-sm-2 col-md-2 control-label">Hãng</label>
             <div class="col-sm-4 col-md-4">
@@ -222,7 +226,19 @@
 
     </form> 
     <br/>
-    <HeThong:UploaderV1 runat="server" ID="UploaderV1" />
+    <%--<HeThong:UploaderV1 runat="server" ID="UploaderV1" />--%>
+    <HeThong:UploaderV2 runat="server" ID="UploaderV1" />
+    <% if (string.IsNullOrEmpty(Id))
+            { %>
+        <div class="alert alert-info">
+            <p>
+            Sự đóng góp của bạn được <strong>cộng đồng</strong> ghi nhận nếu chiếc xe bạn đưa lên đầy đủ tên, thông tin và hình ảnh<br/>                   
+            </p>
+            <p>
+            Để mang đến sự tin tưởng cho mọi thành viên trong cộng đồng, chúng tôi sẽ xóa tất cả những chiếc xe đưa lên với mục đích spam                
+            </p>
+        </div>
+        <% } %>
 </div>
 <script id="model-item" type="text/x-jquery-tmpl"> 
     <option value="${ID}">${Ten}</option> 

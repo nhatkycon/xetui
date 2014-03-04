@@ -21,7 +21,7 @@ public partial class html_car_view : System.Web.UI.Page
             {
                 Item = logged
                            ? XeDal.SelectByIdUsername(con, Convert.ToInt32(Id), Security.Username)
-                           : XeDal.SelectById(con, Convert.ToInt64(Id));
+                           : XeDal.SelectByIdUsername(con, Convert.ToInt32(Id), Security.Username);
 
                 
                 Item.Anhs = AnhDal.SelectByPId(con, Item.RowId.ToString(), 20);

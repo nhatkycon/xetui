@@ -11,6 +11,7 @@ using linh.core.dal;
 public partial class html_Profile_blog_view : System.Web.UI.Page
 {
     public Member Item { get; set; }
+    public Blog BlogItem { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         var Id = Request["ID"];
@@ -21,7 +22,7 @@ public partial class html_Profile_blog_view : System.Web.UI.Page
             if (!idNull)
             {
                 var blog = BlogDal.SelectById(con, Convert.ToInt64(Id), Security.Username);
-
+                BlogItem = blog;
                 Item = MemberDal.SelectByRowId(con, blog.PID_ID , Security.Username);
                 blog.Anhs = AnhDal.SelectByPId(con, blog.RowId.ToString(), 20);
                 blog.Profile = Item;

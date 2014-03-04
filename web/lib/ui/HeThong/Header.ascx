@@ -13,6 +13,8 @@
         var logged = <%=Security.IsAuthenticated().ToString().ToLower()%>;
         var admMode = false;
         var hideWelcome = <%=Security.IsAuthenticated().ToString().ToLower()%>;
+        var iOs = /(iPhone|iPad|iPod)/.test(navigator.userAgent);
+        
         var admKey = '';
         FB.init({
             appId: '372490826229164',

@@ -17,6 +17,7 @@ var autoFn = {
         autoFn.pmFn.init();
         autoFn.likeFn.init();
         autoFn.XuLyAnhFn.init();
+        autoFn.XuLyAnhV2Fn.init();
         autoFn.blogFn.init();
         autoFn.nhomFn.init();
         autoFn.apdaptiveImage();
@@ -28,7 +29,7 @@ var autoFn = {
                 if (!hideWelcome) {
                     $('#welComeModal').modal('show');
                 }
-            }, 1000);
+            }, 20000);
         }
     }
     , trackUi: function () {
@@ -282,11 +283,13 @@ var autoFn = {
             data.push({ name: 'subAct', value: 'login' });
             var alertMsg = pnl.find('.alert-danger');
             alertMsg.hide();
+            autoFn.utils.loader('Đang lưu dữ liệu', true);
             $.ajax({
                 url: autoFn.url.login
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       autoFn.utils.loader('Đang lưu dữ liệu', false);
                        if (rs == '0') { // Wrong password, username, e-mail
                            alertMsg.fadeIn();
                            alertMsg.html('Tài khoản sai');
@@ -380,11 +383,13 @@ var autoFn = {
                     , username: username
                     , subAct: 'signupFb'
                 };
+                autoFn.utils.loader('Đang lưu dữ liệu', true);
                 $.ajax({
                     url: autoFn.url.login
                     , data: data
                     , type: 'POST'
                     , success: function (rs) {
+                        autoFn.utils.loader('Đang lưu dữ liệu', false);
                         if (rs == '2') { // E-mail or username is not avaiable
                             alertMsg.fadeIn();
                             alertMsg.html('E-mail: <strong>' + email + '</strong> đã dùng bởi tài xế khác');
@@ -418,11 +423,13 @@ var autoFn = {
 
                 var data = step1.find(':input').serializeArray();
                 data.push({ name: 'subAct', value: 'signup' });
+                autoFn.utils.loader('Đang lưu dữ liệu', true);
                 $.ajax({
                     url: autoFn.url.login
                     , type: 'POST'
                     , data: data
                    , success: function (rs) {
+                       autoFn.utils.loader('Đang lưu dữ liệu', false);
                        if (rs == '2') { // E-mail or username is not avaiable
                            alertMsg.fadeIn();
                            alertMsg.html('E-mail đã dùng bởi tài xế khác');
@@ -437,6 +444,7 @@ var autoFn = {
                        }
                    }
                    , error: function () {
+                       autoFn.utils.loader('Đang lưu dữ liệu', false);
                        alertMsg.fadeIn();
                        alertMsg.html('Có lỗi, vui lòng thử lại sau nhé');
                    }
@@ -590,7 +598,11 @@ var autoFn = {
                         el.hide();
                     }
                     else {
-                        el.html(dt);
+                        el.html(dt);                        
+                    }
+                    if(iOs) {
+                        el.find('.adv-item-box').find('embed').hide();
+                        el.find('.adv-item-box').find('a.no-flash').show();
                     }
                 }
                 , error:function () {
@@ -710,7 +722,9 @@ var autoFn = {
             var btn = pnl.find('.saveBtn');
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
-
+            var moTa = pnl.find('#MoTa');
+            autoFn.utils.editor(moTa);
+            
             btn.click(function () {
                 alertErr.hide();
                 alertOk.hide();
@@ -753,7 +767,7 @@ var autoFn = {
             var alertErr = pnl.find('.alert-danger');
             var alertOk = pnl.find('.alert-success');
 
-            LoaiXe.bind('click', function () {
+            LoaiXe.bind('change', function () {
                 var id = $(this).val();
                 if(id=='') {
                     hangXeDdl.hide();
@@ -782,7 +796,7 @@ var autoFn = {
             });
 
             //GetModelByHangXe
-            HANG_ID.bind('click', function () {
+            HANG_ID.bind('change', function () {
                 var id = $(this).val();
                 var data = [];
                 data.push({ name: 'subAct', value: 'GetModelByHangXe' });
@@ -819,6 +833,12 @@ var autoFn = {
                         anh = $("input:radio[name ='AnhBia']:checked").attr('data-src');
                         data.push({ name: 'Anh', value: anh });
                     }
+                }
+                var ten = pnl.find('#Ten').val();
+                var noiDungVal = pnl.find('#NoiDung').val();
+                if (ten == '' || noiDungVal=='') {
+                    autoFn.utils.msg('Thông báo', 'Bạn cần nhập tên xe, giới thiệu vài dòng về xe nhé', null, 1000);
+                    return;
                 }
                 autoFn.utils.loader('Đang lưu', true);
                 $.ajax({
@@ -1427,6 +1447,155 @@ var autoFn = {
             el.find('.h').val(Math.round(c.h));
             var data = autoFn.url.upload + '?' + el.find(':input').serialize();
             el.find('.anh-fix').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
+        }
+    }
+    , XuLyAnhV2Fn: {
+        init: function name() {
+            var jcrop_api;
+            autoFn.XuLyAnhV2Fn.XuLyAnh();
+        }
+        , XuLyAnh: function () {
+            var pnl = $('.uploaderBox');
+            if ($(pnl).length < 1) return;
+            var viewLarge = pnl.find('.view-large');
+            var rowId = pnl.attr('data-id');
+
+            $('#fileupload').fileupload({
+                url: autoFn.url.upload,
+                dataType: 'json',
+                dropZone: viewLarge,
+                formData: {
+                    'subAct': 'upload'
+                    , 'Id': rowId
+                },
+                done: function (e, data) {
+                    $('#progress').hide();
+                    $.each(data.result.files, function (index, file) {
+                        var anhItem = $('#anh-item').tmpl(file).prependTo(viewLarge);
+                        var editBtn = anhItem.find('.editBtn');
+                        var windowWidth = $(window).width();
+                        if (windowWidth > 1024) {
+                            editBtn.show();
+                        } else {
+                            editBtn.hide();
+                            var anhImg = anhItem.find('.anh-img');
+                            var url = autoFn.url.upload + '?subAct=GetImageMobile&Key=' + anhImg.attr('data-key') + '&w=240&h=135';
+                            anhImg.show();
+                            anhImg.addClass('img-responsive');
+                            anhImg.attr('src', url);
+                        }
+                    });
+                },
+                progressall: function (e, data) {
+                    $('#progress').show();
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress').find('.progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                }
+            });
+            
+            $(viewLarge).on('click', '.editBtn', function () {
+                var item = $(this);
+                var mainImg = item.parent().parent().parent().parent().find('.anh-img');
+                var id = item.attr('data-id');
+                var src = item.attr('data-src');
+                var modal = $('#cropImageModal');
+                var img = modal.find('img');
+                var key = modal.find('.key');
+                var Id = modal.find('.Id');
+                Id.val(id);
+                key.val(src);
+                img.attr('src', '/lib/up/car/' + src);
+
+                var btn = modal.find('.btnApply');
+                modal.modal('show');
+                modal.find('.modal-dialog').css({ width: '1020px' });
+                setTimeout(function () {
+                    jcrop_api = $.Jcrop('#cropImageModal-img', {
+                        onSelect: function (c) {
+                            modal.find('.x').val(Math.round(c.x));
+                            modal.find('.y').val(Math.round(c.y));
+                            modal.find('.x1').val(c.x2);
+                            modal.find('.y1').val(c.y2);
+                            modal.find('.w').val(Math.round(c.w));
+                            modal.find('.h').val(Math.round(c.h));
+                            //                                var data = autoFn.url.upload + '?' + modal.find(':input').serialize();
+                            //                                modal.find('img').attr('src', data + '&subAct=GetImage&ref=' + Math.random());
+                        },
+                        keySupport: false,
+                        bgColor: 'black',
+                        bgOpacity: .4,
+                        //minSize: [480, 270],
+                        setSelect: [0, 0, 960, 540],
+                        aspectRatio: 16 / 9
+                    });
+                }, 500);
+
+                btn.unbind('click').click(function () {
+                    var data = autoFn.url.upload + '?' + modal.find(':input').serialize() + '&subAct=GetImage&ref=' + Math.random();
+                    modal.find('img').attr('src', data);
+                    console.log(data);
+                    jcrop_api.destroy();
+                    mainImg.attr('src', '');
+                    setTimeout(function () {
+                        var newSrc = '/lib/up/car/' + src + '?w=240&ref=' + Math.random();
+                        mainImg.attr('src', newSrc);
+                        mainImg.load(function () {
+                            //console.log('loading');
+                        });
+                        $('#cropImageModal-img').css({ height: 'auto' });
+                        modal.modal('hide');
+                    }, 100);
+                });
+            });
+
+            pnl.on('click', '.setBiaBtn', function () {
+                var item = $(this);
+                var pitem = item.parent().parent().parent().parent().parent().parent();
+                pitem.parent().find('.item-anh-uploadPreview-anhBia').removeClass('item-anh-uploadPreview-anhBia');
+                pitem.addClass('item-anh-uploadPreview-anhBia');
+                var id = item.attr('data-id');
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'SetAnhChinh' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.upload
+                , type: 'POST'
+                , data: data1
+                , success: function (rs) {
+                }
+                });
+            });
+
+            pnl.on('click', '.removeBtn', function () {
+                var item = $(this);
+                var id = item.attr('data-id');
+                var con = confirm('Xóa bỏ ảnh?');
+                if (!con) return;
+                var data1 = [];
+                data1.push({ name: 'subAct', value: 'RemoveImage' });
+                data1.push({ name: 'Id', value: id });
+                $.ajax({
+                    url: autoFn.url.upload
+                , type: 'POST'
+                , data: data1
+                , success: function (rs) {
+                    item.parent().parent().parent().parent().remove();
+                }
+                });
+            });
+            
+            pnl.on('click', '.insert', function () {
+                var item = $(this);
+                var pitem = item.parent().parent().parent().parent();
+                var img = pitem.find('img:visible');
+                if ($(img).length < 1) return;
+                var src = img.attr('data-key');
+                var str = '<p></p><img style="width:480px;" src="/lib/up/car/' + src + '?w=480"/><p></p>';
+                CKEDITOR.instances.NoiDung.insertHtml(str);
+            });
         }
     }
     , binhLuanFn: {

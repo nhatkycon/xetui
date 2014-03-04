@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="view-car-slider.ascx.cs" Inherits="lib_ui_cars_view_car_slider" %>
 <% var i = 0; %>
 <div class="car-view-images">
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <div id="carousel-example-generic" class="carousel slide">
       <!-- Indicators -->
       <ol class="carousel-indicators">
         <% foreach (var item in Item.Anhs)
@@ -36,15 +36,24 @@
 </div>
 
 <script>
-    $('.carousel-inner').swipe({
-        //Generic swipe handler for all directions
-        swipeLeft: function (event, direction, distance, duration, fingerCount) {
-            $(this).parent().carousel('prev');
-        },
-        swipeRight: function () {
-            $(this).parent().carousel('next');
-        },
-        //Default is 75px, set to 0 for demo so any distance triggers swipe
-        threshold: 0
+    //$('.carousel-inner').swipe({
+    //    //Generic swipe handler for all directions
+    //    swipeLeft: function (event, direction, distance, duration, fingerCount) {
+    //        $(this).parent().carousel('prev');
+    //    },
+    //    swipeRight: function () {
+    //        $(this).parent().carousel('next');
+    //    },
+    //    //Default is 75px, set to 0 for demo so any distance triggers swipe
+    //    threshold: 0
+    //});
+    
+    $('#carousel-example-generic').bind('slide', function (e) {
+        console.log($(e.relatedTarget));
+        setTimeout(function () {
+            var next_h = $(e.relatedTarget).outerHeight();
+            $('.carousel').css('height', next_h);
+            console.log(next_h);
+        }, 10);
     });
 </script>

@@ -19,9 +19,9 @@ public partial class html_CarByModelXe : System.Web.UI.Page
         var ten = Request["Ten"];
         using (var con = DAL.con())
         {
-            var item = DanhMucDal.SelectByTen(con, ten);
+            var item = allModel.FirstOrDefault(x => x.Ma == ten);
             if (item == null) return;
-            item.Hang = DanhMucDal.SelectById(con, item.PID);
+            item.Hang = allModel.FirstOrDefault(x => x.PID == item.PID); 
             Item = item;
 
             var pager = XeDal.PagerByHang(con, url, false, null, 50, null, null, item.ID.ToString(), Security.Username);

@@ -1104,7 +1104,7 @@ h3.profile-info-header {
         
     }
     .x-userList .user-home-item {
-        width: 25%;
+        width: 50%;
      }
     .adv-home-300 .adv-item-box {
         
@@ -1132,6 +1132,9 @@ h3.profile-info-header {
         width: 50%;
         float: left;
     }
+    .x-userList .user-home-item {
+        width: 30%;
+     }
 }
 @media (min-width: 768px) {
 
@@ -1501,4 +1504,24 @@ h3.profile-info-header {
 .adv-home-100.adv-box img 
 {
     max-width: 100%;    
+}
+.no-flash {
+    display: none;
+}
+.fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe[style] {
+  width: 100% !important;
+}
+.item-anh-uploadPreview {
+    
+}
+.item-anh-uploadPreview-anhBia .anh-img-box {
+    background-color: orange;
+}
+.uploaderBox .anh-img-box img{
+    width: 180px;
+    height: 101px;
+    background-image: url(i/load.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #F2F2F2;
 }

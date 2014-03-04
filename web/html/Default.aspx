@@ -41,7 +41,7 @@
                             <cars:homeSmallList Title="Top xe" runat="server" ID="topCarsList"/>                            
                         </div>
                         <hr class="hr comment-hr visible-lg visible-md visible-xs hidden-sm"/>
-                        <div data-loai="1030" data-keywords="" class="adv-home-300 adv-box"></div>
+                        <%--<div data-loai="1030" data-keywords="" class="adv-home-300 adv-box"></div>--%>
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <cars:homeSmallList Title="Xe mới" runat="server" ID="newestCarsList"/>
                         </div>

@@ -13,12 +13,13 @@ public partial class html_CarByHangXe : System.Web.UI.Page
         var ten = Request["Ten"];
         using (var con = DAL.con())
         {
-            
-            var item = DanhMucDal.SelectByTen(con, ten);
+
+            var allModel = DanhMucDal.SelectByLdmMaFromCache("HANGXE");
+
+            var item = allModel.FirstOrDefault(x => x.Ma == ten);
             if(item==null) return;
             Item = item;
 
-            var allModel = DanhMucDal.SelectByLdmMaFromCache("HANGXE");
             var filterModel = (from p in allModel
                                where p.PID == item.ID
                                select p).OrderBy(m => m.ThuTu).ToList();

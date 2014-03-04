@@ -30,7 +30,9 @@
             <cars:promotedCars ID="promotedCars" runat="server" />
             <hethong:navtop ID="navbar_top1" runat="server" />
             <hethong:login ID="login" runat="server"/>
-            <div class="main-content"><asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder></div>
+            <div class="main-content">
+                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>                
+            </div>
             <hethong:footer ID="footer" runat="server"/>
         </div>
     </div> 

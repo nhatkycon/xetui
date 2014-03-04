@@ -1,5 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Add.ascx.cs" Inherits="lib_ui_blog_Add" %>
 <%@ Register TagPrefix="HeThong" TagName="UploaderV1" Src="~/lib/ui/HeThong/UploaderV1.ascx" %>
+<%@ Register Src="~/lib/ui/HeThong/UploaderV2.ascx" TagPrefix="HeThong" TagName="UploaderV2" %>
+
 <div class="padding-20 blog-add-pnl">
     <div class="h3-subtitle">
     <% switch (Item.Loai)
@@ -89,7 +91,8 @@
             </div>
         </div>
     </form> 
-    <HeThong:UploaderV1 runat="server" ID="UploaderV1" />
+    <%--<HeThong:UploaderV1 runat="server" ID="UploaderV1" />--%>
+    <HeThong:UploaderV2 runat="server" ID="UploaderV1" />
 </div>
 <script id="model-item" type="text/x-jquery-tmpl"> 
     <option value="${ID}">${Ten}</option> 
@@ -97,7 +100,13 @@
 <%if(!string.IsNullOrEmpty(Id)){ %>
     <script>
         $(function () {
-            
         });
+        
     </script>
 <%} %>
+<script>
+    $(function () {
+        $('.hangXeDdl').show();
+    });
+
+    </script>

@@ -958,7 +958,7 @@ namespace docsoft.entities
                 var obj = CacheHelper.Get(key);
                 if (obj == null)
                 {
-                    var list = SelectTopCar(DAL.con(), 20, null);
+                    var list = SelectNewestCar(DAL.con(), 20, null);
                     var listKey = new List<string>();
                     list.ForEach(x =>
                     {

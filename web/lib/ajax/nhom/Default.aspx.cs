@@ -190,7 +190,8 @@ public partial class lib_ajax_nhom_Default : BasedPage
                             nhomTv.Approved = true;
                             nhomTv.ApprovedDate = DateTime.Now;
                             NhomThanhVienDal.Update(nhomTv);
-
+                            nhom.TotalMember += 1;
+                            NhomDal.Update(nhom);
                             ObjMemberDal.Insert(new ObjMember()
                             {
                                 PRowId = nhom.RowId
