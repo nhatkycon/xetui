@@ -493,6 +493,7 @@ namespace docsoft.entities
             {
                 mem.Ten = (String)(rd["MEM_Ten"]);
             }
+            mem.Username = Item.NguoiTao;
             Item.Member = mem;
             return Item;
         }

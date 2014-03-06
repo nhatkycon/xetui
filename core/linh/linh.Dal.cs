@@ -2597,10 +2597,12 @@ namespace linh.core.dal
     }
     public class DAL
     {
+        public static string ConnectStr = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
         public static SqlConnection con()
         {
-            SqlConnection _con = new SqlConnection(ConfigurationManager.ConnectionStrings["con"].ConnectionString);
-            return _con;
+            var con = new SqlConnection(ConnectStr);
+            con.Open();
+            return con;
         }
 
         public static SqlConnection conforum()
